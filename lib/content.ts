@@ -5,10 +5,10 @@
  */
 
 export const nav = [
-  { label: "Solutions", href: "#expertise" },
-  { label: "Notre méthode", href: "#methode" },
-  { label: "Cas clients", href: "#cas-clients" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Solutions", href: "/#expertise" },
+  { label: "Notre méthode", href: "/#methode" },
+  { label: "Cas clients", href: "/#cas-clients" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export const cta = {
@@ -53,26 +53,46 @@ export const partner = {
   text: "De l’audit à la mise en production, nous vous accompagnons à chaque étape pour garantir un déploiement réussi et des résultats durables.",
 };
 
-/** Études de cas. Chiffres fournis par Robin, jamais inventés. */
+/**
+ * Études de cas. Chiffres et faits fournis par Robin, jamais inventés.
+ * Chaque étude a sa page : /cas-clients/[slug]. `videoUrl` accepte YouTube, Vimeo ou un fichier .mp4 ;
+ * vide = emplacement « vidéo à venir ».
+ */
+export type CaseStudy = {
+  slug: string;
+  client: string;
+  sector: string;
+  summary: string;
+  result: { value: string; unit: string; label: string };
+  videoUrl: string;
+  need: string;
+  built: { title: string; text: string }[];
+  outcomes: string[];
+};
+
 export const caseStudies = {
   pill: "Cas clients",
   title: "Ce qu’on a construit, et ce que ça a changé.",
-  text: "Des systèmes déployés chez de vraies entreprises, avec un résultat mesuré.",
+  text: "Des systèmes déployés chez de vraies entreprises, avec un résultat mesuré. Cliquez pour voir les détails.",
+  cta: "Voir l’étude de cas",
+  back: "Tous les cas clients",
+  videoPending: "La vidéo de ce cas client arrive bientôt.",
   items: [
     {
+      slug: "harmonie-yacht",
       client: "Harmonie Yacht",
       sector: "Location de yachts",
-      summary: "Un tableau de bord de pilotage et un agent WhatsApp qui répond à toutes les demandes entrantes, à toute heure.",
-      built: ["Tableau de bord de pilotage", "Agent WhatsApp pour toutes les demandes"],
+      summary: "Un tableau de bord de pilotage et un agent WhatsApp qui répond à toutes les demandes.",
       result: { value: "3 h", unit: "par jour", label: "gagnées sur le traitement des demandes" },
-      /** Illustration de l’agent, à faire valider : pas un échange réel. */
-      demo: {
-        client: "Bonjour, le bateau est-il disponible le 12 juillet pour 6 personnes ?",
-        agent: "Bonjour ! Oui, il est disponible le 12 juillet. Je vous envoie le tarif et je vous bloque le créneau ?",
-        status: "Demande traitée · rendez-vous proposé",
-      },
+      videoUrl: "",
+      need: "Les demandes clients arrivaient en continu sur WhatsApp et le suivi de l’activité prenait un temps que l’équipe ne pouvait plus consacrer aux clients eux-mêmes.",
+      built: [
+        { title: "Agent WhatsApp", text: "Un agent qui répond à toutes les demandes entrantes, à toute heure, avec le ton de l’entreprise." },
+        { title: "Tableau de bord de pilotage", text: "Une vue unique pour suivre l’activité et prendre les décisions sans ressaisie." },
+      ],
+      outcomes: ["3 heures gagnées chaque jour sur le traitement des demandes", "Des réponses immédiates aux clients, y compris hors horaires", "Un pilotage de l’activité lisible en un coup d’œil"],
     },
-  ],
+  ] satisfies CaseStudy[],
 };
 
 export const testimonials = {
