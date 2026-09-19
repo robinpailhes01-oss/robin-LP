@@ -4,7 +4,7 @@ import { ContactProvider } from "@/components/contact/ContactContext";
 import { ContactPanel } from "@/components/contact/ContactPanel";
 import { Hero } from "@/components/sections/Hero";
 import { Partner } from "@/components/sections/Partner";
-import { Expertise, Faq, FinalCta, Logos, Method, Testimonials } from "@/components/sections/Sections";
+import { CaseStudies, Expertise, Faq, FinalCta, Logos, Method, Testimonials } from "@/components/sections/Sections";
 
 export default function Page() {
   return (
@@ -15,6 +15,7 @@ export default function Page() {
         <Logos />
         <Expertise />
         <Partner />
+        <CaseStudies />
         <Testimonials />
         <Method />
         <Faq />

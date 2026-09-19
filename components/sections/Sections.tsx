@@ -3,7 +3,7 @@ import { Pill } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { ScaleIn, ScrollLine } from "@/components/ui/ScrollLine";
 import { OpenContactButton } from "@/components/contact/OpenContactButton";
-import { expertise, faq, finalCta, logos, method, testimonials } from "@/lib/content";
+import { caseStudies, expertise, faq, finalCta, logos, method, testimonials } from "@/lib/content";
 
 function Wrap({ id, children, className = "" }: { id?: string; children: React.ReactNode; className?: string }) {
   return (
@@ -94,13 +94,75 @@ export function Expertise() {
   );
 }
 
+export function CaseStudies() {
+  return (
+    <Wrap id="cas-clients">
+      <Reveal>
+        <div className="grid md:grid-cols-12 gap-8 items-end">
+          <div className="md:col-span-7">
+            <Pill>{caseStudies.pill}</Pill>
+            <h2 className="t-h2 mt-5">{caseStudies.title}</h2>
+          </div>
+          <p className="t-body md:col-span-5 max-w-[420px]">{caseStudies.text}</p>
+        </div>
+      </Reveal>
+      <div className="mt-12 flex flex-col gap-6">
+        {caseStudies.items.map((c) => (
+          <Reveal key={c.client}>
+            <article className="rounded-[22px] bg-card border border-line overflow-hidden grid lg:grid-cols-12">
+              <div className="lg:col-span-7 p-7 md:p-10 flex flex-col">
+                <p className="t-kicker text-muted">{c.sector}</p>
+                <h3 className="mt-3 text-[28px] md:text-[34px] font-bold tracking-[-0.03em] leading-[1.1]">{c.client}</h3>
+                <p className="t-body mt-4 max-w-[520px]">{c.summary}</p>
+                <ul className="mt-6 flex flex-wrap gap-2">
+                  {c.built.map((b) => (
+                    <li key={b} className="inline-flex items-center gap-2 rounded-full bg-white border border-line px-3.5 h-9 text-[13px] font-semibold">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden className="text-violet">
+                        <path d="M2 6.5l2.6 2.5L10 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8 md:mt-auto pt-8 border-t border-line flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-4">
+                  <p className="text-[52px] md:text-[64px] font-bold tracking-[-0.04em] leading-none text-violet whitespace-nowrap">
+                    {c.result.value}
+                    <span className="text-[20px] md:text-[24px] font-semibold tracking-[-0.02em] text-navy ml-2">{c.result.unit}</span>
+                  </p>
+                  <p className="text-[14px] leading-[1.4] text-body pb-1.5 max-w-[220px]">{c.result.label}</p>
+                </div>
+              </div>
+              <div className="lg:col-span-5 bg-[linear-gradient(160deg,#eeebff_0%,#f5f3ff_100%)] p-7 md:p-10 flex items-center">
+                <div className="w-full max-w-[380px] mx-auto rounded-[20px] bg-white border border-line p-4 flex flex-col gap-3 shadow-[0_24px_60px_-40px_rgba(70,54,240,0.45)]" aria-label="Exemple d’échange traité par l’agent">
+                  <div className="flex items-center gap-2 pb-3 border-b border-line">
+                    <span className="size-7 rounded-full bg-violet text-white inline-flex items-center justify-center text-[11px] font-bold" aria-hidden>
+                      HY
+                    </span>
+                    <p className="text-[13px] font-semibold">Agent WhatsApp · {c.client}</p>
+                  </div>
+                  <p className="self-start max-w-[88%] rounded-[16px] rounded-bl-[6px] bg-card border border-line px-4 py-2.5 text-[14px] leading-[1.4]">{c.demo.client}</p>
+                  <p className="self-end max-w-[88%] rounded-[16px] rounded-br-[6px] bg-navy text-white px-4 py-2.5 text-[14px] leading-[1.4]">{c.demo.agent}</p>
+                  <p className="flex items-center gap-2 text-[12px] font-medium text-violet pl-1">
+                    <span className="size-1.5 rounded-full bg-violet" aria-hidden />
+                    {c.demo.status}
+                  </p>
+                </div>
+              </div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </Wrap>
+  );
+}
+
 /* Témoignages : emplacements tant que de vrais retours clients ne sont pas fournis. */
 export function Testimonials() {
   const items = testimonials.items.length
     ? testimonials.items
     : Array.from({ length: 3 }, (_, i) => ({ quote: "", name: `Client ${i + 1}`, role: "" }));
   return (
-    <Wrap id="cas-clients">
+    <Wrap id="temoignages">
       <Reveal>
         <p className="text-center t-kicker text-muted">{testimonials.kicker}</p>
         <h2 className="t-h2 text-center mt-4">{testimonials.title}</h2>

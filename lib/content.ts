@@ -53,6 +53,28 @@ export const partner = {
   text: "De l’audit à la mise en production, nous vous accompagnons à chaque étape pour garantir un déploiement réussi et des résultats durables.",
 };
 
+/** Études de cas. Chiffres fournis par Robin, jamais inventés. */
+export const caseStudies = {
+  pill: "Cas clients",
+  title: "Ce qu’on a construit, et ce que ça a changé.",
+  text: "Des systèmes déployés chez de vraies entreprises, avec un résultat mesuré.",
+  items: [
+    {
+      client: "Harmonie Yacht",
+      sector: "Location de yachts",
+      summary: "Un tableau de bord de pilotage et un agent WhatsApp qui répond à toutes les demandes entrantes, à toute heure.",
+      built: ["Tableau de bord de pilotage", "Agent WhatsApp pour toutes les demandes"],
+      result: { value: "3 h", unit: "par jour", label: "gagnées sur le traitement des demandes" },
+      /** Illustration de l’agent, à faire valider : pas un échange réel. */
+      demo: {
+        client: "Bonjour, le bateau est-il disponible le 12 juillet pour 6 personnes ?",
+        agent: "Bonjour ! Oui, il est disponible le 12 juillet. Je vous envoie le tarif et je vous bloque le créneau ?",
+        status: "Demande traitée · rendez-vous proposé",
+      },
+    },
+  ],
+};
+
 export const testimonials = {
   kicker: "Témoignages",
   title: "Ils en parlent mieux que nous.",
