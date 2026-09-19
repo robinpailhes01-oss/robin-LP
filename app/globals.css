@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette relevée sur la maquette du 19/09 */
+  --color-violet: #4636f0;
+  --color-violet-dark: #3626d6;
+  --color-violet-tint: #eeebff;
+  --color-navy: #12102b;
+  --color-body: #4b4f63;
+  --color-muted: #7a7e92;
+  --color-line: #e9ebf3;
+  --color-card: #f7f8fc;
+  --color-page: #ffffff;
+  --color-band: #14162a;
+  --color-band-2: #1f1b49;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ease-luma: cubic-bezier(0.22, 1, 0.36, 1);
+  --container-luma: 74rem;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-navy);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection { background: var(--color-violet); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--color-violet);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Échelle typographique de la maquette */
+.t-h1 {
+  font-size: clamp(2.5rem, 1.4rem + 4.2vw, 4.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 750;
+  text-wrap: balance;
+}
+.t-h2 {
+  font-size: clamp(2rem, 1.3rem + 2.6vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+.t-h3 {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+.t-lead {
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--color-body);
+  text-wrap: pretty;
+}
+.t-body {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-body);
+}
+.t-kicker {
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-violet);
+}
+
+/* Indicateur de saisie */
+@keyframes luma-dot {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-2px); }
+}
+.typing-dot { animation: luma-dot 1.2s infinite var(--ease-luma); }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  .typing-dot { animation: none; opacity: 0.6; }
+}
+
+/* FAQ : accordéon natif */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .faq-icon { transform: rotate(45deg); }
+.faq-icon { transition: transform 240ms var(--ease-luma); }
