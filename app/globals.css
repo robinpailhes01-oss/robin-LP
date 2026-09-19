@@ -15,6 +15,7 @@
   --color-band-2: #1f1b49;
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: var(--font-hand), "Segoe Script", cursive;
   --ease-luma: cubic-bezier(0.22, 1, 0.36, 1);
   --container-luma: 74rem;
 }

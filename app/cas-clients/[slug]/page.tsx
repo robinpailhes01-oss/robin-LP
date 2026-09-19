@@ -47,12 +47,13 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                 <h1 className="t-h1 mt-5">{c.client}</h1>
                 <p className="t-lead mt-6 max-w-[560px]">{c.summary}</p>
               </div>
-              <div className="md:col-span-4 md:text-right">
-                <p className="text-[56px] md:text-[72px] font-bold tracking-[-0.04em] leading-none text-violet whitespace-nowrap">
-                  {c.result.value}
-                  <span className="text-[20px] md:text-[24px] font-semibold tracking-[-0.02em] text-navy ml-2">{c.result.unit}</span>
-                </p>
-                <p className="text-[14px] text-body mt-2">{c.result.label}</p>
+              <div className="md:col-span-4 flex md:justify-end gap-8">
+                {c.stats.map((st) => (
+                  <div key={st.label}>
+                    <p className="text-[56px] md:text-[64px] font-bold tracking-[-0.04em] leading-none text-violet whitespace-nowrap">{st.value}</p>
+                    <p className="text-[14px] text-body mt-2 max-w-[200px]">{st.label}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

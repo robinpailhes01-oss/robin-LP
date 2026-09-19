@@ -1,11 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Arrow } from "@/components/ui/Button";
 import { Pill } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { ScaleIn, ScrollLine } from "@/components/ui/ScrollLine";
 import { OpenContactButton } from "@/components/contact/OpenContactButton";
-import { caseStudies, expertise, faq, finalCta, logos, method, testimonials } from "@/lib/content";
+import { expertise, faq, finalCta, logos, method, testimonials } from "@/lib/content";
 
 function Wrap({ id, children, className = "" }: { id?: string; children: React.ReactNode; className?: string }) {
   return (
@@ -88,49 +86,6 @@ export function Expertise() {
               </span>
               <h3 className="t-h3 mt-6">{c.title}</h3>
               <p className="t-body mt-2 text-[15px]">{c.text}</p>
-            </li>
-          </Reveal>
-        ))}
-      </ul>
-    </Wrap>
-  );
-}
-
-export function CaseStudies() {
-  return (
-    <Wrap id="cas-clients">
-      <Reveal>
-        <div className="grid md:grid-cols-12 gap-8 items-end">
-          <div className="md:col-span-7">
-            <Pill>{caseStudies.pill}</Pill>
-            <h2 className="t-h2 mt-5">{caseStudies.title}</h2>
-          </div>
-          <p className="t-body md:col-span-5 max-w-[420px]">{caseStudies.text}</p>
-        </div>
-      </Reveal>
-      <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {caseStudies.items.map((c, i) => (
-          <Reveal key={c.slug} delay={i * 0.06}>
-            <li className="h-full">
-              <Link
-                href={`/cas-clients/${c.slug}`}
-                className="group h-full flex flex-col rounded-2xl bg-card border border-line p-6 md:p-7 transition-[transform,box-shadow,border-color] duration-300 ease-[var(--ease-luma)] hover:-translate-y-1 hover:border-violet/25 hover:shadow-[0_24px_40px_-30px_rgba(18,16,43,0.35)]"
-              >
-                <p className="t-kicker text-muted">{c.sector}</p>
-                <h3 className="mt-3 text-[24px] font-bold tracking-[-0.03em] leading-[1.1]">{c.client}</h3>
-                <p className="t-body mt-3 text-[15px] flex-1">{c.summary}</p>
-                <p className="mt-6 text-[36px] font-bold tracking-[-0.04em] leading-none text-violet whitespace-nowrap">
-                  {c.result.value}
-                  <span className="text-[15px] font-semibold tracking-[-0.01em] text-navy ml-1.5">{c.result.unit}</span>
-                </p>
-                <p className="text-[13px] text-body mt-1">{c.result.label}</p>
-                <span className="mt-6 inline-flex items-center gap-2 text-[14px] font-semibold text-violet">
-                  {caseStudies.cta}
-                  <span className="transition-transform duration-300 ease-[var(--ease-luma)] group-hover:translate-x-1">
-                    <Arrow />
-                  </span>
-                </span>
-              </Link>
             </li>
           </Reveal>
         ))}

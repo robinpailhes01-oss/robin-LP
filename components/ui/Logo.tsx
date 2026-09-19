@@ -12,7 +12,7 @@ export function Logo({ className = "", light = false }: { className?: string; li
 export function Pill({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full px-3 h-7 text-[11px] font-semibold uppercase tracking-[0.14em] ${
+      className={`inline-flex w-fit self-start items-center gap-2 rounded-full px-3 h-7 text-[11px] font-semibold uppercase tracking-[0.14em] ${
         dark ? "bg-white/10 text-white" : "bg-violet-tint text-violet"
       }`}
     >

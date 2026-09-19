@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
+import localFont from "next/font/local";
+
+const hand = localFont({ src: "../public/fonts/Caveat-SemiBold.woff2", variable: "--font-hand", display: "swap", weight: "600" });
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +19,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={GeistSans.variable}>
+    <html lang="fr" className={`${GeistSans.variable} ${hand.variable}`}>
       <body>{children}</body>
     </html>
   );

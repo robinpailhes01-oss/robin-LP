@@ -61,9 +61,17 @@ export const partner = {
 export type CaseStudy = {
   slug: string;
   client: string;
+  /** Initiales affichées dans le badge et l’avatar de l’agent. */
+  initials: string;
   sector: string;
+  headline: string;
+  description: string;
   summary: string;
-  result: { value: string; unit: string; label: string };
+  /** Un à trois chiffres réels. Le bandeau s’adapte au nombre fourni. */
+  stats: { value: string; label: string }[];
+  /** Ce que l’agent sait faire, affiché en bulles flottantes autour du téléphone. */
+  chips: string[];
+  greeting: string;
   videoUrl: string;
   need: string;
   built: { title: string; text: string }[];
@@ -71,19 +79,25 @@ export type CaseStudy = {
 };
 
 export const caseStudies = {
-  pill: "Cas clients",
-  title: "Ce qu’on a construit, et ce que ça a changé.",
-  text: "Des systèmes déployés chez de vraies entreprises, avec un résultat mesuré. Cliquez pour voir les détails.",
-  cta: "Voir l’étude de cas",
+  pill: "Étude de cas",
+  cta: "Voir l’étude de cas complète",
+  ctaShort: "Voir l’étude de cas",
   back: "Tous les cas clients",
+  annotation: "Des résultats concrets.",
   videoPending: "La vidéo de ce cas client arrive bientôt.",
   items: [
     {
       slug: "harmonie-yacht",
       client: "Harmonie Yacht",
+      initials: "HY",
       sector: "Location de yachts",
+      headline: "Comment Harmonie Yacht a gagné un temps précieux avec Luma.",
+      description:
+        "Harmonie Yacht recevait ses demandes en continu sur WhatsApp. En déployant un agent IA qui y répond et un tableau de bord de pilotage, l’équipe a gagné trois heures par jour.",
       summary: "Un tableau de bord de pilotage et un agent WhatsApp qui répond à toutes les demandes.",
-      result: { value: "3 h", unit: "par jour", label: "gagnées sur le traitement des demandes" },
+      stats: [{ value: "3 h", label: "gagnées par jour sur les demandes" }],
+      chips: ["Demande de disponibilité", "Envoi du tarif", "Prendre un rendez-vous"],
+      greeting: "Bonjour ! Je suis l’assistant Harmonie Yacht. Comment puis-je vous aider ?",
       videoUrl: "",
       need: "Les demandes clients arrivaient en continu sur WhatsApp et le suivi de l’activité prenait un temps que l’équipe ne pouvait plus consacrer aux clients eux-mêmes.",
       built: [
