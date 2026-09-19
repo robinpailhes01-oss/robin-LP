@@ -5,6 +5,7 @@ import { ContactPanel } from "@/components/contact/ContactPanel";
 import { Hero } from "@/components/sections/Hero";
 import { Partner } from "@/components/sections/Partner";
 import { CaseStudies } from "@/components/sections/CaseStudies";
+import { Connect } from "@/components/sections/Connect";
 import { Expertise, Faq, FinalCta, Logos, Method, Testimonials } from "@/components/sections/Sections";
 
 export default function Page() {
@@ -14,6 +15,7 @@ export default function Page() {
       <main>
         <Hero />
         <Logos />
+        <Connect />
         <Expertise />
         <Partner />
         <CaseStudies />

@@ -33,6 +33,14 @@ export const logos = {
   items: [] as { name: string; src: string }[],
 };
 
+/** Section « connecté à vos outils » : la mascotte au centre, les outils qui se relient au scroll. */
+export const connect = {
+  title: "Un agent connecté aux outils que vous utilisez déjà.",
+  annotation: "Il se connecte à vos outils",
+  notification: { title: "Nouveau message client !", text: "Bonjour, j’aimerais un devis…", time: "Maintenant" },
+  tools: ["Notion", "WhatsApp", "HubSpot", "Google Calendar", "Airbnb", "Gmail", "Stripe"] as const,
+};
+
 export const expertise = {
   pill: "Notre expertise",
   titleA: "Un agent IA qui",
