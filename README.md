@@ -23,6 +23,10 @@ Copier `.env.example` en `.env.local`.
 
 ## Périmètre actuel
 
-- Hero « conversation live » et section Problème : finis et animés.
-- Les neuf autres sections : copy en place, sans animation, à finir.
-- Formulaire conversationnel et route API : fonctionnels, destination à brancher.
+Page de vente reproduite d’après la maquette du 19/09 : hero, logos, expertise, bandeau partenaire, témoignages, méthode, FAQ, CTA final.
+
+À fournir pour finir la page :
+- les logos clients (`logos.items` dans `lib/content.ts`, fichiers dans `public/logos/`) ;
+- les témoignages réels (`testimonials.items`) ;
+- la vidéo de 2 minutes du hero ;
+- les images du hero et du bandeau en haute résolution (celles en place sont découpées dans la maquette).

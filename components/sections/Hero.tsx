@@ -1,131 +1,95 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
-import { Button, ButtonLink } from "@/components/ui/Button";
-import { Action, Card, ClientBubble, LumaBubble, Tag, Timestamp, Treated, Typing } from "@/components/ui/Conversation";
-import { cta, hero, heroConversation as c } from "@/lib/content";
-import { useMounted } from "@/lib/useMounted";
-
-/**
- * Étapes de la séquence (BRIEF.md, section 01) :
- * 1 client · 2 Luma écrit · 3 Luma répond · 4 seconde demande · 5 Qualifié
- * 6 rendez-vous créé · 7 Traité par Luma · 8 la carte s’efface · 9 le titre se pose
- */
-const TIMELINE_MS = [400, 1300, 1900, 3000, 3700, 4300, 5000, 6300, 6900];
-const FINAL = TIMELINE_MS.length;
-const MOBILE_FACTOR = 0.72;
+import Image from "next/image";
+import { motion, useReducedMotion } from "motion/react";
+import { Arrow, Button, ButtonLink, PlayIcon } from "@/components/ui/Button";
+import { useContact } from "@/components/contact/ContactContext";
+import { cta, hero } from "@/lib/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
-  const mounted = useMounted();
-  const reduced = useReducedMotion() === true && mounted;
-  const [step, setStep] = useState(0);
-  const [run, setRun] = useState(0);
-
-  useEffect(() => {
-    if (!mounted) return;
-    if (reduced) {
-      setStep(FINAL);
-      return;
-    }
-    setStep(0);
-    const factor = window.matchMedia("(max-width: 767px)").matches ? MOBILE_FACTOR : 1;
-    const ids = TIMELINE_MS.map((ms, i) => setTimeout(() => setStep(i + 1), ms * factor));
-    return () => ids.forEach(clearTimeout);
-  }, [run, reduced, mounted]);
-
-  const showCard = reduced || step < 8;
-  const showTitle = reduced || step >= FINAL;
-  const replay = () => setRun((r) => r + 1);
+  const reduced = useReducedMotion();
+  const { openContact } = useContact();
+  const item = (i: number) => ({
+    initial: reduced ? false : { opacity: 0, y: 18 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.7, delay: 0.1 + i * 0.08, ease },
+  });
 
   return (
-    <section className="relative min-h-svh flex flex-col items-center justify-center px-6 pt-24 pb-16 md:pt-28">
-      <p className="sr-only">
-        Un client écrit à {c.time} : {c.client1} Luma répond : {c.luma1} Le client précise : {c.client2} La demande est
-        qualifiée, un rendez-vous est créé, {c.action}. {c.treated}.
-      </p>
-
-      <div className="w-full flex flex-col items-center justify-center min-h-[440px] md:min-h-[520px]">
-        <AnimatePresence mode="wait" initial={false}>
-          {showTitle && (
-            <motion.div
-              key="title"
-              className="flex flex-col items-center text-center max-w-[880px]"
-              initial={reduced ? false : { opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease }}
-            >
-              <h1 className="t-hero">{hero.title}</h1>
-              <motion.p
-                className="t-sub mt-6 max-w-[640px]"
-                initial={reduced ? false : { opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.25, ease }}
+    <section className="relative overflow-hidden bg-[linear-gradient(180deg,#fcfdfe_0%,#f6f8fd_100%)]">
+      <div className="mx-auto max-w-luma px-6 pt-28 md:pt-40 grid md:grid-cols-12 md:gap-x-8 md:items-end">
+        <div className="md:col-span-6 md:row-start-1 relative z-10">
+          <motion.p {...item(0)} className="t-kicker mb-6">
+            {hero.kicker}
+          </motion.p>
+          <motion.h1 {...item(1)} className="t-h1">
+            {hero.titleA}
+            <br />
+            {hero.titleB}{" "}
+            <span className="relative inline-block text-violet">
+              {hero.titleC}
+              <svg
+                className="absolute left-0 right-0 -bottom-2 md:-bottom-3 w-full h-3 text-violet"
+                viewBox="0 0 220 12"
+                fill="none"
+                preserveAspectRatio="none"
+                aria-hidden
               >
-                {hero.subtitle}
-              </motion.p>
-              <motion.div
-                className="hidden md:flex flex-wrap justify-center gap-3 mt-10"
-                initial={reduced ? false : { opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.45, ease }}
-              >
-                <ButtonLink href="#cas-usage">{cta.discover}</ButtonLink>
-                <Button variant="ghost" onClick={replay}>
-                  {cta.demo}
-                </Button>
-              </motion.div>
-            </motion.div>
-          )}
+                <path d="M3 8.5C50 3 110 2 217 5.5" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+              </svg>
+            </span>
+          </motion.h1>
+          <motion.p {...item(2)} className="t-lead mt-7 max-w-[440px]">
+            {hero.text}
+          </motion.p>
+        </div>
 
-          {showCard && !showTitle && (
-            <motion.div
-              key={`conv-${run}`}
-              className="w-full flex justify-center"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, transition: { duration: 0.6, ease } }}
-              transition={{ duration: 0.6, ease }}
-              aria-hidden
-            >
-              <Conversation step={step} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div
+          className="md:col-start-7 md:col-span-6 md:row-start-1 md:row-span-2 self-end -mx-6 md:mx-0 mt-4 md:mt-0"
+          initial={reduced ? false : { opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.25, ease }}
+        >
+          <Image
+            src="/images/hero-luma.png"
+            alt="Le fondateur de Luma et l’agent IA Luma, bras croisés, côte à côte"
+            width={516}
+            height={424}
+            priority
+            sizes="(max-width: 767px) 100vw, 560px"
+            className="w-full max-w-[560px] h-auto ml-auto block [mask-image:linear-gradient(90deg,transparent_0%,black_22%),linear-gradient(180deg,transparent_0%,black_12%)] [mask-composite:intersect] [-webkit-mask-composite:source-in]"
+          />
+        </motion.div>
 
-        {reduced && (
-          <div className="mt-12 w-full flex justify-center" aria-hidden>
-            <Conversation step={FINAL} />
-          </div>
-        )}
-      </div>
+        <div className="md:col-span-6 md:row-start-2 relative z-10 pb-10 md:pb-24 mt-2 md:mt-0">
+          <motion.div {...item(3)} className="mt-6 md:mt-9 flex flex-col sm:flex-row gap-3">
+            <Button onClick={openContact}>
+              {cta.primary}
+              <Arrow />
+            </Button>
+            <ButtonLink href="#methode" variant="light" className="pl-2.5">
+              <PlayIcon />
+              <span className="flex flex-col items-start leading-none sm:leading-tight">
+                <span>{cta.video}</span>
+                <span className="text-[11px] font-medium text-muted">{cta.videoDuration}</span>
+              </span>
+            </ButtonLink>
+          </motion.div>
 
-      {/* Mobile : les CTA sont visibles dès le départ, sous la scène. */}
-      <div className="md:hidden flex flex-col items-stretch gap-3 mt-6 w-full max-w-[420px]">
-        <ButtonLink href="#cas-usage">{cta.discover}</ButtonLink>
-        <Button variant="ghost" onClick={replay}>
-          {cta.demo}
-        </Button>
+          <motion.ul {...item(4)} className="mt-8 flex flex-wrap gap-x-5 gap-y-2">
+            {hero.trust.map((t) => (
+              <li key={t} className="flex items-center gap-1.5 text-[12px] font-medium text-body">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden className="text-violet">
+                  <path d="M2 6.5l2.6 2.5L10 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {t}
+              </li>
+            ))}
+          </motion.ul>
+        </div>
       </div>
     </section>
-  );
-}
-
-function Conversation({ step }: { step: number }) {
-  return (
-    <Card>
-      <AnimatePresence initial={false}>
-        {step >= 1 && <Timestamp key="ts">{c.time}</Timestamp>}
-        {step >= 1 && <ClientBubble key="c1">{c.client1}</ClientBubble>}
-        {step === 2 && <Typing key="typing" />}
-        {step >= 3 && <LumaBubble key="l1">{c.luma1}</LumaBubble>}
-        {step >= 4 && <ClientBubble key="c2">{c.client2}</ClientBubble>}
-        {step >= 5 && <Tag key="tag">{c.qualified}</Tag>}
-        {step >= 6 && <Action key="action">{c.action}</Action>}
-        {step >= 7 && <Treated key="treated">{c.treated}</Treated>}
-      </AnimatePresence>
-    </Card>
   );
 }

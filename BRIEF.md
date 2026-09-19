@@ -1,5 +1,7 @@
 # BRIEF — Site Luma
 
+> **Mise à jour du 19 septembre 2026.** Robin a fourni une maquette complète (hero photo + mascotte robot, accent violet `#4636F0`, cartes d’expertise, bandeau sombre, témoignages) et demandé de la reproduire à l’identique. Cette maquette remplace la direction artistique décrite ci-dessous (hero conversation, palette `#315CFF`, sans robot). Les tokens actuels sont dans `app/globals.css`, la copy dans `lib/content.ts`. Le reste de ce brief est conservé pour mémoire.
+
 Brief de cadrage issu de l'entretien du 17 septembre 2026.
 Source de vérité pour le positionnement, la copy et la DA : `LUMA-BRAND-UX-INSTRUCTIONS.md`. Ce brief ne le remplace pas, il fixe ce que le fichier laissait ouvert.
 

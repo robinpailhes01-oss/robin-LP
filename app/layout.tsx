@@ -5,11 +5,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Luma",
   description:
-    "Luma construit des infrastructures IA sur mesure qui prennent en charge les tâches qui monopolisent votre entreprise.",
+    "Des agents IA sur-mesure pour automatiser vos processus et libérer du temps pour la croissance.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f7f4",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
 };

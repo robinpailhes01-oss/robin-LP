@@ -114,7 +114,7 @@ export function ContactPanel() {
             type="button"
             aria-label="Fermer"
             onClick={closeContact}
-            className="fixed inset-0 z-40 bg-ink/30 backdrop-blur-[2px]"
+            className="fixed inset-0 z-40 bg-navy/30 backdrop-blur-[2px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -124,20 +124,20 @@ export function ContactPanel() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="contact-title"
-            className="fixed inset-y-0 right-0 z-50 w-full sm:w-[440px] bg-surface flex flex-col border-l border-surface-alt"
+            className="fixed inset-y-0 right-0 z-50 w-full sm:w-[440px] bg-white flex flex-col border-l border-line"
             initial={reduced ? { opacity: 0 } : { x: "100%" }}
             animate={reduced ? { opacity: 1 } : { x: 0 }}
             exit={reduced ? { opacity: 0 } : { x: "100%" }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <header className="flex items-center justify-between px-5 sm:px-6 h-16 border-b border-surface-alt">
+            <header className="flex items-center justify-between px-5 sm:px-6 h-16 border-b border-line">
               <h2 id="contact-title" className="text-[15px] font-medium">
                 {cta.primary}
               </h2>
               <button
                 type="button"
                 onClick={closeContact}
-                className="size-10 -mr-2 inline-flex items-center justify-center rounded-full hover:bg-surface-alt"
+                className="size-10 -mr-2 inline-flex items-center justify-center rounded-full hover:bg-card"
                 aria-label="Fermer le panneau"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -155,7 +155,7 @@ export function ContactPanel() {
               </Card>
             </div>
 
-            <form onSubmit={onSubmit} className="p-4 sm:p-5 border-t border-surface-alt flex gap-2">
+            <form onSubmit={onSubmit} className="p-4 sm:p-5 border-t border-line flex gap-2">
               <label htmlFor="contact-input" className="sr-only">
                 Votre réponse
               </label>
@@ -168,12 +168,12 @@ export function ContactPanel() {
                 onChange={(e) => setValue(e.target.value)}
                 placeholder={placeholder}
                 disabled={status === "done" || status === "sending"}
-                className="flex-1 h-12 rounded-full bg-white/70 border border-surface-alt px-5 text-[15px] placeholder:text-muted disabled:opacity-60"
+                className="flex-1 h-12 rounded-full bg-card border border-line px-5 text-[15px] placeholder:text-muted disabled:opacity-60"
               />
               <button
                 type="submit"
                 disabled={status === "done" || status === "sending" || !value.trim()}
-                className="size-12 shrink-0 rounded-full bg-accent text-white inline-flex items-center justify-center disabled:opacity-40 transition-opacity"
+                className="size-12 shrink-0 rounded-full bg-violet text-white inline-flex items-center justify-center disabled:opacity-40 transition-opacity"
                 aria-label="Envoyer"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
