@@ -3,7 +3,8 @@ import { Footer } from "@/components/Footer";
 import { ContactProvider } from "@/components/contact/ContactContext";
 import { ContactPanel } from "@/components/contact/ContactPanel";
 import { Hero } from "@/components/sections/Hero";
-import { Expertise, Faq, FinalCta, Logos, Method, Partner, Testimonials } from "@/components/sections/Sections";
+import { Partner } from "@/components/sections/Partner";
+import { Expertise, Faq, FinalCta, Logos, Method, Testimonials } from "@/components/sections/Sections";
 
 export default function Page() {
   return (

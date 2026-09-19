@@ -54,7 +54,7 @@ body {
   font-size: clamp(2.5rem, 1.4rem + 4.2vw, 4.25rem);
   line-height: 1.04;
   letter-spacing: -0.035em;
-  font-weight: 700;
+  font-weight: 750;
   text-wrap: balance;
 }
 .t-h2 {

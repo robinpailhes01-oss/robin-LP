@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { Arrow, ButtonLink } from "@/components/ui/Button";
 import { Pill } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
+import { ScaleIn, ScrollLine } from "@/components/ui/ScrollLine";
 import { OpenContactButton } from "@/components/contact/OpenContactButton";
-import { cta, expertise, faq, finalCta, logos, method, partner, testimonials } from "@/lib/content";
+import { expertise, faq, finalCta, logos, method, testimonials } from "@/lib/content";
 
 function Wrap({ id, children, className = "" }: { id?: string; children: React.ReactNode; className?: string }) {
   return (
@@ -78,7 +78,7 @@ export function Expertise() {
       <ul className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {expertise.cards.map((c, i) => (
           <Reveal key={c.title} delay={i * 0.06}>
-            <li className="h-full rounded-2xl bg-card border border-line p-6 md:p-7">
+            <li className="h-full rounded-2xl bg-card border border-line p-6 md:p-7 transition-[transform,box-shadow,border-color] duration-300 ease-[var(--ease-luma)] hover:-translate-y-1 hover:border-violet/25 hover:shadow-[0_24px_40px_-30px_rgba(18,16,43,0.35)]">
               <span className="inline-flex size-11 items-center justify-center rounded-xl bg-white border border-line text-violet shadow-[0_6px_16px_-10px_rgba(70,54,240,0.5)]">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
                   {icons[c.icon]}
@@ -91,37 +91,6 @@ export function Expertise() {
         ))}
       </ul>
     </Wrap>
-  );
-}
-
-export function Partner() {
-  return (
-    <section className="py-6 md:py-10">
-      <div className="mx-auto max-w-luma px-6">
-        <Reveal>
-          <div className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(100deg,#14162a_0%,#1a1836_55%,#221c55_100%)] text-white px-7 py-10 md:px-12 md:py-14 min-h-[260px]">
-            <div className="relative z-10 max-w-[520px]">
-              <Pill dark>{partner.pill}</Pill>
-              <h2 className="t-h2 mt-5 text-[clamp(1.75rem,1.2rem+2vw,2.5rem)]">{partner.title}</h2>
-              <p className="mt-4 text-[15px] leading-[1.55] text-white/75 max-w-[440px]">{partner.text}</p>
-              <ButtonLink href="#methode" variant="white" className="mt-7 h-11 text-[14px]">
-                {cta.method}
-                <Arrow />
-              </ButtonLink>
-            </div>
-            <Image
-              src="/images/robot-band.png"
-              alt=""
-              aria-hidden
-              width={331}
-              height={221}
-              sizes="(max-width: 767px) 60vw, 420px"
-              className="pointer-events-none select-none absolute right-0 bottom-0 h-full w-auto max-w-none object-cover object-right [mask-image:linear-gradient(90deg,transparent_0%,black_35%)] hidden sm:block"
-            />
-          </div>
-        </Reveal>
-      </div>
-    </section>
   );
 }
 
@@ -139,7 +108,7 @@ export function Testimonials() {
       <ul className="mt-12 grid md:grid-cols-3 gap-4">
         {items.map((t, i) => (
           <Reveal key={t.name} delay={i * 0.06}>
-            <li className="h-full rounded-2xl bg-card border border-line p-7 flex flex-col">
+            <li className="h-full rounded-2xl bg-card border border-line p-7 flex flex-col transition-[transform,box-shadow] duration-300 ease-[var(--ease-luma)] hover:-translate-y-1 hover:shadow-[0_24px_40px_-30px_rgba(18,16,43,0.35)]">
               <div className="flex gap-1 text-violet" aria-hidden>
                 {Array.from({ length: 5 }).map((_, k) => (
                   <svg key={k} width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
@@ -183,10 +152,11 @@ export function Method() {
           <p className="t-body md:col-span-5 max-w-[420px]">{method.text}</p>
         </div>
       </Reveal>
-      <ol className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <ScrollLine>
+      <ol className="mt-16 lg:mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {method.steps.map((s, i) => (
           <Reveal key={s.name} delay={i * 0.06}>
-            <li className="h-full rounded-2xl bg-white border border-line p-6 md:p-7">
+            <li className="h-full rounded-2xl bg-white border border-line p-6 md:p-7 transition-[transform,box-shadow] duration-300 ease-[var(--ease-luma)] hover:-translate-y-1 hover:shadow-[0_24px_40px_-30px_rgba(18,16,43,0.35)]">
               <span className="inline-flex size-9 items-center justify-center rounded-full bg-violet text-white text-[13px] font-bold tabular-nums">
                 {i + 1}
               </span>
@@ -196,6 +166,7 @@ export function Method() {
           </Reveal>
         ))}
       </ol>
+      </ScrollLine>
     </Wrap>
   );
 }
@@ -232,7 +203,7 @@ export function FinalCta() {
   return (
     <section className="py-10 md:py-16">
       <div className="mx-auto max-w-luma px-6">
-        <Reveal>
+        <ScaleIn>
           <div className="rounded-[22px] bg-violet text-white px-7 py-12 md:px-12 md:py-16 text-center relative overflow-hidden">
             <span aria-hidden className="absolute -top-24 -right-24 size-72 rounded-full bg-white/10 blur-2xl" />
             <h2 className="t-h2 relative">{finalCta.title}</h2>
@@ -241,7 +212,7 @@ export function FinalCta() {
               <OpenContactButton variant="white" />
             </div>
           </div>
-        </Reveal>
+        </ScaleIn>
       </div>
     </section>
   );
