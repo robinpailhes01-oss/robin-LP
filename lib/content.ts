@@ -5,10 +5,12 @@
  */
 
 export const nav = [
-  { label: "Solutions", href: "#expertise" },
-  { label: "Notre méthode", href: "#methode" },
-  { label: "Cas clients", href: "#cas-clients" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Solutions", href: "/solutions" },
+  { label: "Agent WhatsApp", href: "/agent-whatsapp" },
+  { label: "Cas clients", href: "/cas-clients" },
+  { label: "À propos", href: "/a-propos" },
+  { label: "Ressources", href: "/ressources" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 export const cta = {
@@ -35,15 +37,41 @@ export const logos = {
 
 export const expertise = {
   pill: "Notre expertise",
-  titleA: "Un agent IA qui",
-  titleB: "s’adapte",
-  titleC: "à vos besoins.",
-  text: "Nous concevons, déployons et pilotons des agents IA qui s’intègrent à vos outils pour automatiser vos tâches et améliorer vos performances.",
+  titleA: "Concrètement, que peut faire",
+  titleB: "un agent IA ?",
+  titleC: "",
+  text: "Vos outils restent les mêmes. Luma les connecte pour prendre en charge les tâches qui vous interrompent chaque jour.",
   cards: [
-    { icon: "bolt", title: "Automatiser", text: "Vos tâches répétitives en toute fiabilité." },
-    { icon: "users", title: "Optimiser", text: "Vos processus et gagner en efficacité." },
-    { icon: "chart", title: "Piloter", text: "Des résultats concrets et mesurables." },
-    { icon: "clock", title: "Libérer", text: "Du temps pour ce qui crée de la valeur." },
+    {
+      icon: "users",
+      title: "Demandes clients",
+      text: "Répond, qualifie et oriente vos demandes avec vos mots.",
+    },
+    {
+      icon: "bolt",
+      title: "Création de devis",
+      text: "Prépare vos devis à partir des informations recueillies.",
+    },
+    {
+      icon: "chart",
+      title: "Mise à jour du CRM",
+      text: "Centralise les contacts, les échanges et les prochaines étapes.",
+    },
+    {
+      icon: "clock",
+      title: "Relances automatiques",
+      text: "Reprend le fil au bon moment pour ne pas oublier une opportunité.",
+    },
+    {
+      icon: "clock",
+      title: "Prise de rendez-vous",
+      text: "Consulte votre agenda et propose les créneaux disponibles.",
+    },
+    {
+      icon: "chart",
+      title: "Reporting & suivi",
+      text: "Vous donne une vue claire sur vos demandes et votre activité.",
+    },
   ] as const,
 };
 
@@ -65,10 +93,22 @@ export const method = {
   title: "Un déploiement en quatre étapes.",
   text: "Une méthode simple, éprouvée sur le terrain, pour passer de l’idée à un agent en production sans immobiliser vos équipes.",
   steps: [
-    { name: "Audit", text: "On cartographie vos process et on identifie ce qui vous coûte le plus de temps." },
-    { name: "Conception", text: "On dessine l’agent, ses règles, son ton et ses connexions à vos outils." },
-    { name: "Déploiement", text: "On met en production progressivement, avec vos équipes, sans rupture." },
-    { name: "Pilotage", text: "On suit les résultats et on fait évoluer l’agent au rythme de votre activité." },
+    {
+      name: "Audit",
+      text: "On cartographie vos process et on identifie ce qui vous coûte le plus de temps.",
+    },
+    {
+      name: "Conception",
+      text: "On dessine l’agent, ses règles, son ton et ses connexions à vos outils.",
+    },
+    {
+      name: "Déploiement",
+      text: "On met en production progressivement, avec vos équipes, sans rupture.",
+    },
+    {
+      name: "Pilotage",
+      text: "On suit les résultats et on fait évoluer l’agent au rythme de votre activité.",
+    },
   ],
 };
 
@@ -76,12 +116,30 @@ export const faq = {
   kicker: "FAQ",
   title: "Les questions qu’on nous pose souvent.",
   items: [
-    { q: "Est-ce qu’un agent IA remplace mon équipe ?", a: "Non. Il prend en charge ce qui est répétitif pour que votre équipe se concentre sur ce qui demande vraiment quelqu’un." },
-    { q: "Est-ce que l’agent parle comme nous ?", a: "Oui. Le ton, le vocabulaire et les réponses sont construits à partir de votre façon de parler à vos clients." },
-    { q: "Peut-il être connecté à nos outils ?", a: "C’est le principe. L’agent se branche sur les outils que vous utilisez déjà plutôt que d’en ajouter un." },
-    { q: "Peut-on commencer par un seul process ?", a: "Oui, et c’est souvent la meilleure façon de démarrer. On étend ensuite à ce qui a du sens." },
-    { q: "Combien de temps faut-il pour mettre l’agent en place ?", a: "Cela dépend du périmètre. On vous donne une estimation précise après l’audit." },
-    { q: "Comment sont gérées les données ?", a: "Vos données restent les vôtres. On détaille avec vous où elles transitent et ce qui est conservé." },
+    {
+      q: "Est-ce qu’un agent IA remplace mon équipe ?",
+      a: "Non. Il prend en charge ce qui est répétitif pour que votre équipe se concentre sur ce qui demande vraiment quelqu’un.",
+    },
+    {
+      q: "Est-ce que l’agent parle comme nous ?",
+      a: "Oui. Le ton, le vocabulaire et les réponses sont construits à partir de votre façon de parler à vos clients.",
+    },
+    {
+      q: "Peut-il être connecté à nos outils ?",
+      a: "C’est le principe. L’agent se branche sur les outils que vous utilisez déjà plutôt que d’en ajouter un.",
+    },
+    {
+      q: "Peut-on commencer par un seul process ?",
+      a: "Oui, et c’est souvent la meilleure façon de démarrer. On étend ensuite à ce qui a du sens.",
+    },
+    {
+      q: "Combien de temps faut-il pour mettre l’agent en place ?",
+      a: "Cela dépend du périmètre. On vous donne une estimation précise après l’audit.",
+    },
+    {
+      q: "Comment sont gérées les données ?",
+      a: "Vos données restent les vôtres. On détaille avec vous où elles transitent et ce qui est conservé.",
+    },
   ],
 };
 
@@ -91,9 +149,22 @@ export const finalCta = {
 };
 
 export const contactQuestions = [
-  { key: "sector", text: "Bonjour. Pour préparer votre audit, dans quel secteur est votre entreprise ?", placeholder: "Par exemple : hôtellerie, cabinet, services…" },
-  { key: "pain", text: "Et quelles tâches vous prennent le plus de temps au quotidien ?", placeholder: "Demandes clients, devis, relances…" },
-  { key: "contact", text: "Merci. Sur quel email ou numéro peut-on vous répondre ?", placeholder: "Email ou téléphone" },
+  {
+    key: "sector",
+    text: "Bonjour. Pour préparer votre audit, dans quel secteur est votre entreprise ?",
+    placeholder: "Par exemple : hôtellerie, cabinet, services…",
+  },
+  {
+    key: "pain",
+    text: "Et quelles tâches vous prennent le plus de temps au quotidien ?",
+    placeholder: "Demandes clients, devis, relances…",
+  },
+  {
+    key: "contact",
+    text: "Merci. Sur quel email ou numéro peut-on vous répondre ?",
+    placeholder: "Email ou téléphone",
+  },
 ] as const;
 
-export const contactDone = "Reçu. On revient vers vous sous 24 h pour planifier l’audit.";
+export const contactDone =
+  "Reçu. On revient vers vous sous 24 h pour planifier l’audit.";
