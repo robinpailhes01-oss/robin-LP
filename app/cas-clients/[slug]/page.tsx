@@ -6,6 +6,7 @@ import { BackLink } from "@/components/sections/WhatsAppTeaser";
 import { Arrow } from "@/components/ui/Button";
 import { CaseVideo } from "@/components/ui/CaseVideo";
 import { CaseVisual } from "@/components/ui/CaseVisual";
+import { ClientMark, caseVars } from "@/components/ui/ClientMark";
 import { Reveal } from "@/components/ui/Reveal";
 import { ToolIcon } from "@/components/ui/ToolIcons";
 import { caseStudies, casesIndex, finalCta } from "@/lib/content";
@@ -34,8 +35,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
   return (
     <>
       {/* En-tête sombre */}
-      <section className="relative overflow-hidden bg-[linear-gradient(100deg,#0f1124_0%,#171533_50%,#1f1a4e_100%)] text-white pt-28 md:pt-36 pb-14 md:pb-20">
-        <span aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_70%_at_85%_40%,rgba(99,80,255,0.4),transparent_70%)]" />
+      <section style={caseVars(c)} className="relative overflow-hidden bg-[linear-gradient(100deg,#0f1124_0%,#171533_50%,#1f1a4e_100%)] text-white pt-28 md:pt-36 pb-14 md:pb-20">
+        <span aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_70%_at_85%_40%,color-mix(in_srgb,var(--case-accent)_40%,transparent),transparent_70%)]" />
         <div className="relative mx-auto max-w-luma px-6">
           <div className="text-white/60 [&_a]:text-white/60 [&_a:hover]:text-white">
             <BackLink href="/cas-clients" label={caseStudies.back} />
@@ -43,9 +44,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           <div className="mt-8 grid lg:grid-cols-12 gap-10 items-end">
             <div className="lg:col-span-7">
               <div className="flex items-center gap-3">
-                <span className="inline-flex size-12 items-center justify-center rounded-xl bg-white text-navy text-[15px] font-bold" aria-hidden>
-                  {c.initials}
-                </span>
+                <ClientMark c={c} size="lg" />
                 <div>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/60">Cas client</p>
                   <p className="text-[14px] font-medium text-white/85">{c.sector}</p>
@@ -56,7 +55,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
               <ul className="mt-9 flex flex-wrap gap-3">
                 {c.stats.map((st) => (
                   <li key={st.label} className="rounded-2xl bg-white/[0.06] border border-white/12 backdrop-blur px-5 py-4 min-w-[180px]">
-                    <p className="text-[40px] md:text-[48px] font-bold tracking-[-0.04em] leading-none text-[#9d8dff] whitespace-nowrap">{st.value}</p>
+                    <p className="text-[40px] md:text-[48px] font-bold tracking-[-0.04em] leading-none text-[var(--case-accent)] whitespace-nowrap">{st.value}</p>
                     <p className="text-[13px] text-white/70 mt-2 max-w-[200px]">{st.label}</p>
                   </li>
                 ))}
@@ -146,10 +145,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
             <span className="inline-flex size-9 items-center justify-center rounded-full bg-violet text-white text-[13px] font-bold tabular-nums">3</span>
             <h2 className="t-h2 text-[clamp(1.5rem,1.2rem+1.2vw,2rem)] mt-5">Le résultat</h2>
           </Reveal>
-          <div className="mt-8 grid lg:grid-cols-12 gap-4">
+          <div className="mt-8 grid lg:grid-cols-12 gap-4" style={caseVars(c)}>
             {c.stats.map((st) => (
               <Reveal key={st.label} className="lg:col-span-4">
-                <div className="h-full rounded-[22px] bg-violet text-white p-8 relative overflow-hidden">
+                <div className="h-full rounded-[22px] bg-[var(--case-ink)] text-white p-8 relative overflow-hidden">
                   <span aria-hidden className="absolute -top-16 -right-16 size-48 rounded-full bg-white/10 blur-2xl" />
                   <p className="relative text-[64px] md:text-[72px] font-bold tracking-[-0.04em] leading-none whitespace-nowrap">{st.value}</p>
                   <p className="relative text-[15px] text-white/85 mt-3">{st.label}</p>
@@ -160,7 +159,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
               <ul className="h-full grid sm:grid-cols-3 gap-4">
                 {c.outcomes.map((o) => (
                   <li key={o} className="rounded-2xl bg-card border border-line p-6 flex flex-col gap-3">
-                    <svg width="18" height="18" viewBox="0 0 12 12" fill="none" aria-hidden className="text-violet">
+                    <svg width="18" height="18" viewBox="0 0 12 12" fill="none" aria-hidden className="text-[var(--case-ink)]">
                       <path d="M2 6.5l2.6 2.5L10 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <p className="text-[15px] font-medium leading-[1.45]">{o}</p>

@@ -141,6 +141,11 @@ export type CaseStudy = {
   visual: "chat" | "form" | "calendar";
   /** Initiales affichées dans le badge et l’avatar de l’agent. */
   initials: string;
+  /** Logo du client (fond transparent), affiché sur tuile blanche. */
+  logo?: string;
+  /** Couleur de marque : `accent` sur fond sombre, `accentInk` sur fond clair. Violet Luma par défaut. */
+  accent?: string;
+  accentInk?: string;
   sector: string;
   headline: string;
   description: string;
@@ -171,6 +176,9 @@ export const caseStudies = {
       client: "Harmonie Yacht",
       visual: "chat",
       initials: "HY",
+      logo: "/logos/harmonie-yacht.png",
+      accent: "#d8b56b",
+      accentInk: "#9d7733",
       sector: "Location de yachts",
       headline: "Comment Harmonie Yacht a gagné un temps précieux avec Luma.",
       description:
@@ -189,21 +197,24 @@ export const caseStudies = {
       outcomes: ["3 heures gagnées chaque jour sur le traitement des demandes", "Des réponses immédiates aux clients, y compris hors horaires", "Un pilotage de l’activité lisible en un coup d’œil"],
     },
     {
-      slug: "energy-concept",
-      client: "Energy Concept",
+      slug: "energies-concept",
+      client: "Énergies Concept",
       visual: "form",
       initials: "EC",
+      logo: "/logos/energies-concept.png",
+      accent: "#95d05a",
+      accentInk: "#5f9a2f",
       sector: "Énergie",
-      headline: "Comment Energy Concept a numérisé ses bons de commande et gagné 3 à 4 heures par jour.",
+      headline: "Comment Énergies Concept a numérisé ses bons de commande et gagné 3 à 4 heures par jour.",
       description:
-        "Chez Energy Concept, une vingtaine de commerciaux remplissaient leurs bons de commande à la main. Erreurs, temps perdu, et parfois des contrats non signés parce que non valides. On a tout numérisé : l’équipe gagne 3 à 4 heures par jour et les dirigeants se concentrent sur l’essentiel.",
+        "Chez Énergies Concept, une vingtaine de commerciaux remplissaient leurs bons de commande à la main. Erreurs, temps perdu, et parfois des contrats non signés parce que non valides. On a tout numérisé : l’équipe gagne 3 à 4 heures par jour et les dirigeants se concentrent sur l’essentiel.",
       summary: "Un outil qui numérise les bons de commande de vingt commerciaux et du secrétariat, sans erreur ni ressaisie.",
       stats: [
         { value: "3 à 4 h", label: "gagnées par jour par l’équipe" },
         { value: "20", label: "commerciaux équipés, plus le secrétariat" },
       ],
       chips: ["100 % numérique", "Champs vérifiés", "Prêt à signer"],
-      greeting: "Bon de commande · Energy Concept",
+      greeting: "Bon de commande · Énergies Concept",
       videoUrl: "",
       tools: [],
       need: "Les bons de commande étaient remplis à la main sur le terrain. Certains étaient incomplets ou mal remplis : l’équipe perdait du temps à les corriger, le secrétariat à les ressaisir, et des contrats restaient non signés parce qu’ils n’étaient pas valides.",
