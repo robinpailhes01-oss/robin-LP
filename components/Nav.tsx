@@ -16,6 +16,8 @@ export function Nav() {
   const { openContact } = useContact();
   const pathname = usePathname();
   const isActive = (href: string) => !href.startsWith("/#") && (pathname === href || pathname.startsWith(href + "/"));
+  // Pages dont l’en-tête est sombre : la barre passe en blanc tant qu’on n’a pas scrollé.
+  const onDark = /^\/cas-clients\/.+/.test(pathname) && !scrolled && !menu;
 
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 16));
 
@@ -42,7 +44,7 @@ export function Nav() {
       >
         <div className="mx-auto max-w-luma px-6 h-[76px] flex items-center justify-between gap-6">
           <Link href="/" aria-label="Luma, accueil" className="text-[26px]">
-            <Logo />
+            <Logo light={onDark} />
           </Link>
 
           <nav aria-label="Navigation principale" className="hidden md:flex items-center gap-8">
@@ -51,7 +53,9 @@ export function Nav() {
                 key={l.href}
                 href={l.href}
                 aria-current={isActive(l.href) ? "page" : undefined}
-                className={`text-[14px] font-medium transition-colors ${isActive(l.href) ? "text-violet" : "text-navy/80 hover:text-navy"}`}
+                className={`text-[14px] font-medium transition-colors ${
+                  onDark ? (isActive(l.href) ? "text-white" : "text-white/70 hover:text-white") : isActive(l.href) ? "text-violet" : "text-navy/80 hover:text-navy"
+                }`}
               >
                 {l.label}
               </Link>
@@ -65,7 +69,7 @@ export function Nav() {
             </Button>
             <button
               type="button"
-              className="md:hidden size-11 -mr-2 inline-flex items-center justify-center rounded-full text-navy"
+              className={`md:hidden size-11 -mr-2 inline-flex items-center justify-center rounded-full ${onDark ? "text-white" : "text-navy"}`}
               aria-expanded={menu}
               aria-controls="mobile-menu"
               aria-label={menu ? "Fermer le menu" : "Ouvrir le menu"}

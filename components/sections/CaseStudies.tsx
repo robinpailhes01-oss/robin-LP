@@ -20,7 +20,8 @@ export function CaseStudies() {
   );
 }
 
-function CaseBand({ c }: { c: CaseStudy }) {
+export function CaseBand({ c, headingLevel = "h2" }: { c: CaseStudy; headingLevel?: "h2" | "h3" }) {
+  const Heading = headingLevel;
   return (
     <article className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(100deg,#13152a_0%,#191736_55%,#1f1a4e_100%)] text-white">
       <span aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_80%_at_80%_60%,rgba(99,80,255,0.35),transparent_70%)]" />
@@ -28,7 +29,7 @@ function CaseBand({ c }: { c: CaseStudy }) {
       <div className="relative grid lg:grid-cols-12 gap-8">
         <div className="lg:col-span-7 px-7 pt-9 pb-8 md:px-12 md:pt-12 md:pb-10 flex flex-col">
           <Pill dark>{caseStudies.pill}</Pill>
-          <h2 className="mt-5 text-[clamp(1.75rem,1.2rem+2vw,2.5rem)] font-bold tracking-[-0.03em] leading-[1.1] max-w-[520px]">{c.headline}</h2>
+          <Heading className="mt-5 text-[clamp(1.75rem,1.2rem+2vw,2.5rem)] font-bold tracking-[-0.03em] leading-[1.1] max-w-[520px]">{c.headline}</Heading>
           <p className="mt-4 text-[15px] md:text-[16px] leading-[1.55] text-white/75 max-w-[480px]">{c.description}</p>
 
           <div className="mt-7 flex items-center gap-3">
@@ -71,35 +72,48 @@ function CaseBand({ c }: { c: CaseStudy }) {
   );
 }
 
-/** Carte compacte d’un cas client, utilisée sur la page /cas-clients. */
+/** Carte d’un cas client : visuel de conversation en tête, contenu, résultat. Utilisée sur /cas-clients. */
 export function CaseCard({ c }: { c: CaseStudy }) {
   return (
     <Link
       href={`/cas-clients/${c.slug}`}
-      className="group h-full flex flex-col rounded-2xl bg-card border border-line p-6 md:p-7 transition-[transform,box-shadow,border-color] duration-300 ease-[var(--ease-luma)] hover:-translate-y-1 hover:border-violet/25 hover:shadow-[0_24px_40px_-30px_rgba(18,16,43,0.35)]"
+      className="group h-full flex flex-col overflow-hidden rounded-[22px] bg-white border border-line transition-[transform,box-shadow,border-color] duration-300 ease-[var(--ease-luma)] hover:-translate-y-1 hover:border-violet/30 hover:shadow-[0_30px_60px_-36px_rgba(18,16,43,0.4)]"
     >
-      <div className="flex items-center justify-between">
-        <p className="t-kicker text-muted">{c.sector}</p>
-        <span className="inline-flex size-9 items-center justify-center rounded-lg bg-navy text-white text-[12px] font-bold" aria-hidden>
-          {c.initials}
-        </span>
+      <div className="relative h-[190px] bg-[linear-gradient(100deg,#13152a_0%,#191736_55%,#1f1a4e_100%)] overflow-hidden">
+        <span aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_90%_at_85%_80%,rgba(99,80,255,0.45),transparent_70%)]" />
+        <div className="absolute left-5 right-5 top-5 flex items-center justify-between">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 h-7 text-[11px] font-semibold uppercase tracking-[0.12em] text-white">
+            {c.sector}
+          </span>
+          <span className="inline-flex size-9 items-center justify-center rounded-lg bg-white text-navy text-[12px] font-bold" aria-hidden>
+            {c.initials}
+          </span>
+        </div>
+        <div className="absolute left-5 right-5 bottom-5 flex flex-col gap-2 transition-transform duration-500 ease-[var(--ease-luma)] group-hover:-translate-y-1" aria-hidden>
+          <span className="self-start max-w-[85%] rounded-[14px] rounded-bl-[4px] bg-white text-navy px-3 py-2 text-[12px] leading-[1.35] shadow-lg">{c.greeting}</span>
+          <span className="self-end inline-flex items-center gap-1.5 rounded-full bg-violet text-white px-2.5 h-6 text-[11px] font-medium">
+            <span className="size-1.5 rounded-full bg-white" />
+            {c.chips[0]}
+          </span>
+        </div>
       </div>
-      <h3 className="mt-3 text-[24px] font-bold tracking-[-0.03em] leading-[1.1]">{c.client}</h3>
-      <p className="t-body mt-3 text-[15px] flex-1">{c.summary}</p>
-      <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-        {c.stats.map((st) => (
-          <div key={st.label}>
-            <p className="text-[32px] font-bold tracking-[-0.04em] leading-none text-violet whitespace-nowrap">{st.value}</p>
-            <p className="text-[12px] text-body mt-1">{st.label}</p>
+      <div className="flex-1 flex flex-col p-6 md:p-7">
+        <h3 className="text-[24px] font-bold tracking-[-0.03em] leading-[1.1]">{c.client}</h3>
+        <p className="t-body mt-3 text-[15px] flex-1">{c.summary}</p>
+        <div className="mt-6 pt-5 border-t border-line flex items-end justify-between gap-4">
+          <div className="flex gap-6">
+            {c.stats.slice(0, 2).map((st) => (
+              <div key={st.label}>
+                <p className="text-[30px] font-bold tracking-[-0.04em] leading-none text-violet whitespace-nowrap">{st.value}</p>
+                <p className="text-[12px] text-body mt-1 max-w-[140px]">{st.label}</p>
+              </div>
+            ))}
           </div>
-        ))}
+          <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-card border border-line text-navy transition-[background-color,color,transform] duration-300 ease-[var(--ease-luma)] group-hover:bg-violet group-hover:text-white group-hover:translate-x-1">
+            <Arrow />
+          </span>
+        </div>
       </div>
-      <span className="mt-6 inline-flex items-center gap-2 text-[14px] font-semibold text-violet">
-        {caseStudies.ctaShort}
-        <span className="transition-transform duration-300 ease-[var(--ease-luma)] group-hover:translate-x-1">
-          <Arrow />
-        </span>
-      </span>
     </Link>
   );
 }

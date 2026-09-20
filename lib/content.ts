@@ -84,6 +84,15 @@ export const casesIndex = {
   pill: "Cas clients",
   title: "Ce qu’on a construit, et ce que ça a changé.",
   text: "Chaque cas détaille le besoin, ce qu’on a mis en place et le résultat mesuré. La liste s’allonge au fil des projets.",
+  featured: "À la une",
+  all: "Tous les cas",
+  pillars: [
+    { title: "Le besoin", text: "D’où part l’entreprise, ce qui lui prend du temps, ce qu’elle attend." },
+    { title: "Ce qu’on a construit", text: "Les outils et les automatisations mis en place, et comment ils se branchent." },
+    { title: "Le résultat", text: "Ce qui a changé, mesuré. Jamais un chiffre inventé." },
+  ],
+  nextCase: "Cas suivant",
+  prevCase: "Cas précédent",
 };
 
 /** Page /methode. */
@@ -140,6 +149,8 @@ export type CaseStudy = {
   chips: string[];
   greeting: string;
   videoUrl: string;
+  /** Outils réellement connectés dans ce cas (noms des icônes de ToolIcons). */
+  tools: string[];
   need: string;
   built: { title: string; text: string }[];
   outcomes: string[];
@@ -166,6 +177,7 @@ export const caseStudies = {
       chips: ["Demande de disponibilité", "Envoi du tarif", "Prendre un rendez-vous"],
       greeting: "Bonjour ! Je suis l’assistant Harmonie Yacht. Comment puis-je vous aider ?",
       videoUrl: "",
+      tools: ["WhatsApp"],
       need: "Les demandes clients arrivaient en continu sur WhatsApp et le suivi de l’activité prenait un temps que l’équipe ne pouvait plus consacrer aux clients eux-mêmes.",
       built: [
         { title: "Agent WhatsApp", text: "Un agent qui répond à toutes les demandes entrantes, à toute heure, avec le ton de l’entreprise." },
