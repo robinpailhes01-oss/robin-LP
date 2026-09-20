@@ -137,6 +137,8 @@ export const partner = {
 export type CaseStudy = {
   slug: string;
   client: string;
+  /** Visuel du cas : téléphone avec l’agent (chat) ou document numérique (form). */
+  visual: "chat" | "form";
   /** Initiales affichées dans le badge et l’avatar de l’agent. */
   initials: string;
   sector: string;
@@ -167,6 +169,7 @@ export const caseStudies = {
     {
       slug: "harmonie-yacht",
       client: "Harmonie Yacht",
+      visual: "chat",
       initials: "HY",
       sector: "Location de yachts",
       headline: "Comment Harmonie Yacht a gagné un temps précieux avec Luma.",
@@ -184,6 +187,31 @@ export const caseStudies = {
         { title: "Tableau de bord de pilotage", text: "Une vue unique pour suivre l’activité et prendre les décisions sans ressaisie." },
       ],
       outcomes: ["3 heures gagnées chaque jour sur le traitement des demandes", "Des réponses immédiates aux clients, y compris hors horaires", "Un pilotage de l’activité lisible en un coup d’œil"],
+    },
+    {
+      slug: "energy-concept",
+      client: "Energy Concept",
+      visual: "form",
+      initials: "EC",
+      sector: "Énergie",
+      headline: "Comment Energy Concept a numérisé ses bons de commande et gagné 3 à 4 heures par jour.",
+      description:
+        "Chez Energy Concept, une vingtaine de commerciaux remplissaient leurs bons de commande à la main. Erreurs, temps perdu, et parfois des contrats non signés parce que non valides. On a tout numérisé : l’équipe gagne 3 à 4 heures par jour et les dirigeants se concentrent sur l’essentiel.",
+      summary: "Un outil qui numérise les bons de commande de vingt commerciaux et du secrétariat, sans erreur ni ressaisie.",
+      stats: [
+        { value: "3 à 4 h", label: "gagnées par jour par l’équipe" },
+        { value: "20", label: "commerciaux équipés, plus le secrétariat" },
+      ],
+      chips: ["100 % numérique", "Champs vérifiés", "Prêt à signer"],
+      greeting: "Bon de commande · Energy Concept",
+      videoUrl: "",
+      tools: [],
+      need: "Les bons de commande étaient remplis à la main sur le terrain. Certains étaient incomplets ou mal remplis : l’équipe perdait du temps à les corriger, le secrétariat à les ressaisir, et des contrats restaient non signés parce qu’ils n’étaient pas valides.",
+      built: [
+        { title: "Bon de commande numérique", text: "Un formulaire guidé, utilisable sur le terrain, qui vérifie les champs et n’accepte pas un bon incomplet." },
+        { title: "Circuit sans papier", text: "Le bon part du commercial au secrétariat sans ressaisie, et les dirigeants voient l’ensemble sans contrôler chaque document." },
+      ],
+      outcomes: ["3 à 4 heures gagnées chaque jour pour l’équipe", "Des bons de commande complets et valides, donc des contrats qui se signent", "Les dirigeants libérés de la vérification et de la ressaisie"],
     },
   ] satisfies CaseStudy[],
 };

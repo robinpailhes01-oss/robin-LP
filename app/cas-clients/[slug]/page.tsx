@@ -5,7 +5,7 @@ import { OpenContactButton } from "@/components/contact/OpenContactButton";
 import { BackLink } from "@/components/sections/WhatsAppTeaser";
 import { Arrow } from "@/components/ui/Button";
 import { CaseVideo } from "@/components/ui/CaseVideo";
-import { PhoneMock } from "@/components/ui/PhoneMock";
+import { CaseVisual } from "@/components/ui/CaseVisual";
 import { Reveal } from "@/components/ui/Reveal";
 import { ToolIcon } from "@/components/ui/ToolIcons";
 import { caseStudies, casesIndex, finalCta } from "@/lib/content";
@@ -68,7 +68,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
               </ul>
             </div>
             <div className="hidden lg:block lg:col-span-5 relative min-h-[440px]">
-              <PhoneMock initials={c.initials} name={c.client} greeting={c.greeting} chips={c.chips} />
+              <CaseVisual c={c} />
             </div>
           </div>
         </div>

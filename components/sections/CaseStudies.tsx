@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Arrow, ButtonLink } from "@/components/ui/Button";
 import { Pill } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
-import { PhoneMock } from "@/components/ui/PhoneMock";
+import { CaseVisual } from "@/components/ui/CaseVisual";
 import { caseStudies, type CaseStudy } from "@/lib/content";
 
 /** Bandeau sombre par étude de cas, d’après la maquette : titre, chiffres, téléphone avec l’agent WhatsApp. */
@@ -54,7 +54,7 @@ export function CaseBand({ c, headingLevel = "h2" }: { c: CaseStudy; headingLeve
         </div>
 
         <div className="hidden lg:block lg:col-span-5 relative min-h-[420px]">
-          <PhoneMock initials={c.initials} name={c.client} greeting={c.greeting} chips={c.chips} />
+          <CaseVisual c={c} />
           <p
             className="absolute right-6 bottom-8 text-[26px] leading-[1.05] text-[#b9adff] rotate-[-6deg] whitespace-nowrap"
             style={{ fontFamily: "var(--font-hand)" }}
@@ -89,13 +89,27 @@ export function CaseCard({ c }: { c: CaseStudy }) {
             {c.initials}
           </span>
         </div>
-        <div className="absolute left-5 right-5 bottom-5 flex flex-col gap-2 transition-transform duration-500 ease-[var(--ease-luma)] group-hover:-translate-y-1" aria-hidden>
-          <span className="self-start max-w-[85%] rounded-[14px] rounded-bl-[4px] bg-white text-navy px-3 py-2 text-[12px] leading-[1.35] shadow-lg">{c.greeting}</span>
-          <span className="self-end inline-flex items-center gap-1.5 rounded-full bg-violet text-white px-2.5 h-6 text-[11px] font-medium">
-            <span className="size-1.5 rounded-full bg-white" />
-            {c.chips[0]}
-          </span>
-        </div>
+        {c.visual === "chat" ? (
+          <div className="absolute left-5 right-5 bottom-5 flex flex-col gap-2 transition-transform duration-500 ease-[var(--ease-luma)] group-hover:-translate-y-1" aria-hidden>
+            <span className="self-start max-w-[85%] rounded-[14px] rounded-bl-[4px] bg-white text-navy px-3 py-2 text-[12px] leading-[1.35] shadow-lg">{c.greeting}</span>
+            <span className="self-end inline-flex items-center gap-1.5 rounded-full bg-violet text-white px-2.5 h-6 text-[11px] font-medium">
+              <span className="size-1.5 rounded-full bg-white" />
+              {c.chips[0]}
+            </span>
+          </div>
+        ) : (
+          <div className="absolute left-5 right-5 bottom-5 rounded-xl bg-white text-navy p-3 shadow-lg transition-transform duration-500 ease-[var(--ease-luma)] group-hover:-translate-y-1" aria-hidden>
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-semibold">{c.greeting}</p>
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#e6f7ee] text-[#1d8a4e] px-2 h-5 text-[10px] font-semibold">Valide</span>
+            </div>
+            <div className="mt-2 grid grid-cols-3 gap-1.5">
+              {["Client", "Montant", "Signature"].map((f) => (
+                <span key={f} className="rounded-md border border-line px-2 py-1 text-[9px] uppercase tracking-[0.1em] text-muted">{f}</span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       <div className="flex-1 flex flex-col p-6 md:p-7">
         <h3 className="text-[24px] font-bold tracking-[-0.03em] leading-[1.1]">{c.client}</h3>
