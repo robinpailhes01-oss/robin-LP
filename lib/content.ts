@@ -6,8 +6,9 @@
 
 export const nav = [
   { label: "Solutions", href: "/#expertise" },
-  { label: "Notre méthode", href: "/#methode" },
-  { label: "Cas clients", href: "/#cas-clients" },
+  { label: "Agent WhatsApp", href: "/agent-whatsapp" },
+  { label: "Cas clients", href: "/cas-clients" },
+  { label: "Notre méthode", href: "/methode" },
   { label: "FAQ", href: "/#faq" },
 ];
 
@@ -19,11 +20,13 @@ export const cta = {
 };
 
 export const hero = {
-  kicker: "Des agents IA pour les entreprises",
-  titleA: "Moins de tâches.",
-  titleB: "Plus",
-  titleC: "d’impact.",
-  text: "Automatisez vos processus avec des agents IA sur-mesure et libérez du temps pour ce qui compte vraiment : la croissance.",
+  kicker: "Automatisations et outils IA pour les PME",
+  /** Lignes du titre ; `accent` est le mot mis en violet et souligné à la main. */
+  lines: [
+    { text: "Vos outils IA,", accent: "outils IA" },
+    { text: "pour votre entreprise." },
+  ],
+  text: "On crée pour vous des automatisations et des outils IA qui vous font gagner du temps et économiser de l’argent. Pas besoin de connaître l’IA : on vous montre concrètement ce qu’elle peut faire chez vous.",
   trust: ["Réponse sous 24h", "Sans engagement", "100% sur-mesure"],
 };
 
@@ -31,6 +34,62 @@ export const logos = {
   kicker: "Ils nous font déjà confiance",
   /** À remplir avec les vrais logos clients (nom + fichier SVG dans public/logos). Vide = emplacements neutres. */
   items: [] as { name: string; src: string }[],
+};
+
+/** Agent WhatsApp : spécialité Luma. Aperçu sur l’accueil, page complète sur /agent-whatsapp. */
+export const whatsapp = {
+  pill: "Notre spécialité",
+  guarantee: "Satisfait ou remboursé",
+  teaser: {
+    title: "Un agent qui répond à vos clients sur WhatsApp. Jour et nuit.",
+    text: "Questions, disponibilités, devis, rendez-vous : vos clients écrivent, l’agent répond immédiatement avec vos mots, et ne vous dérange que quand il le faut.",
+    points: ["Répond en quelques secondes, 24h/24", "Qualifie et prend les rendez-vous", "Vous gardez la main à tout moment"],
+    cta: "Découvrir l’agent WhatsApp",
+  },
+  page: {
+    title: "Un agent qui répond à vos clients sur WhatsApp. Jour et nuit.",
+    text: "Vos clients vous écrivent sur WhatsApp : une question, une disponibilité, un devis, un rendez-vous. L’agent Luma leur répond tout de suite, avec votre ton et vos règles, et vous transmet seulement ce qui demande vraiment votre attention.",
+    videoKicker: "Vidéo",
+    videoTitle: "Comment l’agent WhatsApp m’a libéré trois heures par jour",
+    videoText: "Robin, fondateur de Luma, raconte ce que l’agent a changé dans sa propre entreprise, Harmonie Yacht.",
+    videoUrl: "",
+    doTitle: "Concrètement, il fait quoi ?",
+    doItems: [
+      { title: "Répondre aux questions", text: "Horaires, tarifs, conditions, accès : les questions qui reviennent chaque jour trouvent une réponse immédiate." },
+      { title: "Donner vos disponibilités", text: "Il consulte votre agenda ou votre planning et répond avec les créneaux réellement libres." },
+      { title: "Envoyer un tarif ou un devis", text: "Il pose les bonnes questions, puis envoie le tarif ou prépare le devis selon vos règles." },
+      { title: "Prendre le rendez-vous", text: "Le client choisit, le créneau se bloque, la confirmation part. Sans aller-retour." },
+      { title: "Relancer sans oublier", text: "Un devis sans réponse, une demande en attente : la relance part au bon moment." },
+      { title: "Passer la main quand il faut", text: "Dès qu’une demande sort du cadre, il vous prévient et vous reprenez la conversation." },
+    ],
+    howTitle: "Comment ça se passe",
+    howSteps: [
+      { name: "On apprend votre activité", text: "Vos réponses habituelles, votre ton, vos règles, ce que l’agent peut dire et ne pas dire." },
+      { name: "On le branche", text: "À votre numéro WhatsApp et à vos outils : agenda, CRM, devis, paiements." },
+      { name: "Il répond, vous gardez la main", text: "Vous voyez toutes les conversations et pouvez en reprendre une à tout moment." },
+    ],
+    guaranteeTitle: "Satisfait ou remboursé",
+    guaranteeText: "Si l’agent ne vous convient pas, on vous rembourse. Les conditions précises sont posées avec vous lors de l’audit, avant tout engagement.",
+    faq: [
+      { q: "Mes clients sauront-ils qu’ils parlent à un agent ?", a: "C’est vous qui décidez de la présentation. Dans tous les cas, il répond avec votre ton et passe la main dès que nécessaire." },
+      { q: "Et s’il ne sait pas répondre ?", a: "Il le dit simplement, prévient un humain et n’invente jamais de réponse." },
+      { q: "Faut-il changer de numéro WhatsApp ?", a: "Non. L’agent se branche sur votre numéro professionnel existant." },
+      { q: "Combien de temps pour le mettre en place ?", a: "Cela dépend de votre activité. On vous donne un calendrier précis après l’audit." },
+    ],
+  },
+};
+
+/** Page /cas-clients : liste de tous les cas. */
+export const casesIndex = {
+  pill: "Cas clients",
+  title: "Ce qu’on a construit, et ce que ça a changé.",
+  text: "Chaque cas détaille le besoin, ce qu’on a mis en place et le résultat mesuré. La liste s’allonge au fil des projets.",
+};
+
+/** Page /methode. */
+export const methodPage = {
+  title: "Notre méthode",
+  text: "On commence par comprendre votre entreprise, pas par vous vendre un outil. Voici comment on travaille, de l’audit au pilotage.",
 };
 
 /** Section « connecté à vos outils » : la mascotte au centre, les outils qui se relient au scroll. */

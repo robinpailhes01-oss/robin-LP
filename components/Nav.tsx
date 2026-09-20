@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
 import { Arrow, Button } from "@/components/ui/Button";
@@ -13,8 +14,12 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const { openContact } = useContact();
+  const pathname = usePathname();
+  const isActive = (href: string) => !href.startsWith("/#") && (pathname === href || pathname.startsWith(href + "/"));
 
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 16));
+
+  useEffect(() => setMenu(false), [pathname]);
 
   useEffect(() => {
     if (!menu) return;
@@ -42,7 +47,12 @@ export function Nav() {
 
           <nav aria-label="Navigation principale" className="hidden md:flex items-center gap-8">
             {nav.map((l) => (
-              <Link key={l.href} href={l.href} className="text-[14px] font-medium text-navy/80 hover:text-navy transition-colors">
+              <Link
+                key={l.href}
+                href={l.href}
+                aria-current={isActive(l.href) ? "page" : undefined}
+                className={`text-[14px] font-medium transition-colors ${isActive(l.href) ? "text-violet" : "text-navy/80 hover:text-navy"}`}
+              >
                 {l.label}
               </Link>
             ))}

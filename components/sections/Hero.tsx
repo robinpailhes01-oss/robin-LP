@@ -42,37 +42,40 @@ export function Hero() {
           <motion.p {...item(0)} className="t-kicker mb-6">
             {hero.kicker}
           </motion.p>
-          <h1 className="t-h1" aria-label={`${hero.titleA} ${hero.titleB} ${hero.titleC}`}>
-            <span className="block overflow-hidden pb-1">
-              <motion.span {...line(0)} className="block" aria-hidden>
-                {hero.titleA}
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden pb-4 -mb-3">
-              <motion.span {...line(1)} className="block" aria-hidden>
-                {hero.titleB}{" "}
-                <span className="relative inline-block text-violet">
-                  {hero.titleC}
-                  <svg
-                    className="absolute left-0 right-0 -bottom-1.5 md:-bottom-2.5 w-full h-3 text-violet"
-                    viewBox="0 0 220 12"
-                    fill="none"
-                    preserveAspectRatio="none"
-                    aria-hidden
-                  >
-                    <motion.path
-                      d="M3 8.5C50 3 110 2 217 5.5"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      initial={reduced ? false : { pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 1 }}
-                      transition={{ duration: 0.8, delay: 1.05, ease }}
-                    />
-                  </svg>
+          <h1 className="t-h1" aria-label={hero.lines.map((l) => l.text).join(" ")}>
+            {hero.lines.map((l, i) => {
+              const [before, after] = l.accent ? l.text.split(l.accent) : [l.text, undefined];
+              return (
+                <span key={l.text} className={`block overflow-hidden ${i === hero.lines.length - 1 ? "pb-4 -mb-3" : "pb-1"}`}>
+                  <motion.span {...line(i)} className="block" aria-hidden>
+                    {before}
+                    {l.accent && (
+                      <span className="relative inline-block text-violet">
+                        {l.accent}
+                        <svg
+                          className="absolute left-0 right-0 -bottom-1.5 md:-bottom-2.5 w-full h-3 text-violet"
+                          viewBox="0 0 220 12"
+                          fill="none"
+                          preserveAspectRatio="none"
+                          aria-hidden
+                        >
+                          <motion.path
+                            d="M3 8.5C50 3 110 2 217 5.5"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                            strokeLinecap="round"
+                            initial={reduced ? false : { pathLength: 0, opacity: 0 }}
+                            animate={{ pathLength: 1, opacity: 1 }}
+                            transition={{ duration: 0.8, delay: 1.05, ease }}
+                          />
+                        </svg>
+                      </span>
+                    )}
+                    {after}
+                  </motion.span>
                 </span>
-              </motion.span>
-            </span>
+              );
+            })}
           </h1>
           <motion.p {...item(3)} className="t-lead mt-7 max-w-[440px]">
             {hero.text}

@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
-import { ContactProvider } from "@/components/contact/ContactContext";
-import { ContactPanel } from "@/components/contact/ContactPanel";
 import { OpenContactButton } from "@/components/contact/OpenContactButton";
+import { BackLink } from "@/components/sections/WhatsAppTeaser";
 import { CaseVideo } from "@/components/ui/CaseVideo";
 import { Pill } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
@@ -30,17 +26,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
   if (!c) notFound();
 
   return (
-    <ContactProvider>
-      <Nav />
-      <main>
+    <>
         <section className="bg-[linear-gradient(180deg,#fcfdfe_0%,#f5f7fd_100%)] pt-28 md:pt-36 pb-12 md:pb-16">
           <div className="mx-auto max-w-luma px-6">
-            <Link href="/#cas-clients" className="inline-flex items-center gap-2 text-[14px] font-medium text-muted hover:text-navy transition-colors">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M13 8H3M7.5 3.5L3 8l4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              {caseStudies.back}
-            </Link>
+            <BackLink href="/cas-clients" label={caseStudies.back} />
             <div className="mt-8 grid md:grid-cols-12 gap-8 items-end">
               <div className="md:col-span-8">
                 <Pill>{c.sector}</Pill>
@@ -120,9 +109,6 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
             </Reveal>
           </div>
         </section>
-      </main>
-      <Footer />
-      <ContactPanel />
-    </ContactProvider>
+    </>
   );
 }

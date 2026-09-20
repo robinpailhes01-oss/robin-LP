@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Arrow, ButtonLink } from "@/components/ui/Button";
 import { Pill } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
+import { PhoneMock } from "@/components/ui/PhoneMock";
 import { caseStudies, type CaseStudy } from "@/lib/content";
 
 /** Bandeau sombre par étude de cas, d’après la maquette : titre, chiffres, téléphone avec l’agent WhatsApp. */
@@ -52,7 +53,7 @@ function CaseBand({ c }: { c: CaseStudy }) {
         </div>
 
         <div className="hidden lg:block lg:col-span-5 relative min-h-[420px]">
-          <Phone c={c} />
+          <PhoneMock initials={c.initials} name={c.client} greeting={c.greeting} chips={c.chips} />
           <p
             className="absolute right-6 bottom-8 text-[26px] leading-[1.05] text-[#b9adff] rotate-[-6deg] whitespace-nowrap"
             style={{ fontFamily: "var(--font-hand)" }}
@@ -70,49 +71,35 @@ function CaseBand({ c }: { c: CaseStudy }) {
   );
 }
 
-function Phone({ c }: { c: CaseStudy }) {
+/** Carte compacte d’un cas client, utilisée sur la page /cas-clients. */
+export function CaseCard({ c }: { c: CaseStudy }) {
   return (
-    <div className="absolute left-8 top-10 bottom-[-70px] w-[250px]" aria-label={`Exemple de l’agent WhatsApp de ${c.client}`}>
-      {/* Coque */}
-      <div className="absolute inset-0 rounded-[38px] bg-[#0b0c17] border border-white/15 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)] rotate-[4deg] origin-bottom">
-        <div className="absolute inset-[6px] rounded-[32px] bg-[#f4f4f7] overflow-hidden">
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 h-6 w-24 rounded-full bg-[#0b0c17]" aria-hidden />
-          <div className="pt-12 px-3 flex flex-col gap-2 text-navy">
-            <div className="flex items-center gap-2 pb-2 border-b border-line">
-              <span className="size-7 rounded-full bg-navy text-white inline-flex items-center justify-center text-[10px] font-bold" aria-hidden>
-                {c.initials}
-              </span>
-              <p className="text-[11px] font-semibold">{c.client}</p>
-            </div>
-            <div className="self-start max-w-[92%] rounded-[14px] rounded-bl-[4px] bg-white border border-line px-3 py-2 text-[11px] leading-[1.35]">{c.greeting}</div>
-          </div>
-        </div>
+    <Link
+      href={`/cas-clients/${c.slug}`}
+      className="group h-full flex flex-col rounded-2xl bg-card border border-line p-6 md:p-7 transition-[transform,box-shadow,border-color] duration-300 ease-[var(--ease-luma)] hover:-translate-y-1 hover:border-violet/25 hover:shadow-[0_24px_40px_-30px_rgba(18,16,43,0.35)]"
+    >
+      <div className="flex items-center justify-between">
+        <p className="t-kicker text-muted">{c.sector}</p>
+        <span className="inline-flex size-9 items-center justify-center rounded-lg bg-navy text-white text-[12px] font-bold" aria-hidden>
+          {c.initials}
+        </span>
       </div>
-      {/* Badge client */}
-      <span className="absolute -top-4 -right-5 inline-flex size-11 items-center justify-center rounded-xl bg-navy text-white text-[13px] font-bold border border-white/20 shadow-lg rotate-[4deg]" aria-hidden>
-        {c.initials}
-      </span>
-      {/* Bulles flottantes */}
-      <ul className="absolute left-[172px] top-[232px] flex flex-col gap-2.5" aria-label="Ce que l’agent prend en charge">
-        {c.chips.map((chip, i) => (
-          <li
-            key={chip}
-            className="rounded-[10px] bg-white text-navy text-[12px] font-medium px-3 py-2 whitespace-nowrap shadow-[0_16px_30px_-16px_rgba(0,0,0,0.6)]"
-            style={{ transform: `translateX(${i * 10}px)` }}
-          >
-            {chip}
-          </li>
+      <h3 className="mt-3 text-[24px] font-bold tracking-[-0.03em] leading-[1.1]">{c.client}</h3>
+      <p className="t-body mt-3 text-[15px] flex-1">{c.summary}</p>
+      <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+        {c.stats.map((st) => (
+          <div key={st.label}>
+            <p className="text-[32px] font-bold tracking-[-0.04em] leading-none text-violet whitespace-nowrap">{st.value}</p>
+            <p className="text-[12px] text-body mt-1">{st.label}</p>
+          </div>
         ))}
-      </ul>
-    </div>
-  );
-}
-
-export function CaseCardLink({ c }: { c: CaseStudy }) {
-  return (
-    <Link href={`/cas-clients/${c.slug}`} className="text-violet font-semibold text-[14px] inline-flex items-center gap-2">
-      {caseStudies.ctaShort}
-      <Arrow />
+      </div>
+      <span className="mt-6 inline-flex items-center gap-2 text-[14px] font-semibold text-violet">
+        {caseStudies.ctaShort}
+        <span className="transition-transform duration-300 ease-[var(--ease-luma)] group-hover:translate-x-1">
+          <Arrow />
+        </span>
+      </span>
     </Link>
   );
 }

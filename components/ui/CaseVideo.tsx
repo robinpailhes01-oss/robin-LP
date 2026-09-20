@@ -11,7 +11,7 @@ function embedUrl(url: string): { kind: "iframe" | "video"; src: string } | null
 }
 
 /** Vidéo de l’étude de cas : YouTube, Vimeo ou fichier. Sans URL, un emplacement sobre « vidéo à venir ». */
-export function CaseVideo({ url, title }: { url: string; title: string }) {
+export function CaseVideo({ url, title, pending = caseStudies.videoPending }: { url: string; title: string; pending?: string }) {
   const e = embedUrl(url);
   return (
     <div className="relative aspect-video w-full overflow-hidden rounded-[22px] bg-[linear-gradient(100deg,#13152a_0%,#191736_55%,#1f1a4e_100%)] border border-line">
@@ -34,7 +34,7 @@ export function CaseVideo({ url, title }: { url: string; title: string }) {
               <path d="M2.5 1.5v7l6-3.5-6-3.5z" />
             </svg>
           </span>
-          <p className="relative text-[14px] text-white/75">{caseStudies.videoPending}</p>
+          <p className="relative text-[14px] text-white/75">{pending}</p>
         </div>
       )}
     </div>
