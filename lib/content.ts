@@ -138,7 +138,7 @@ export type CaseStudy = {
   slug: string;
   client: string;
   /** Visuel du cas : téléphone avec l’agent (chat) ou document numérique (form). */
-  visual: "chat" | "form";
+  visual: "chat" | "form" | "calendar";
   /** Initiales affichées dans le badge et l’avatar de l’agent. */
   initials: string;
   sector: string;
@@ -212,6 +212,29 @@ export const caseStudies = {
         { title: "Circuit sans papier", text: "Le bon part du commercial au secrétariat sans ressaisie, et les dirigeants voient l’ensemble sans contrôler chaque document." },
       ],
       outcomes: ["3 à 4 heures gagnées chaque jour pour l’équipe", "Des bons de commande complets et valides, donc des contrats qui se signent", "Les dirigeants libérés de la vérification et de la ressaisie"],
+    },
+    {
+      slug: "barber-saint-anne",
+      client: "Barber Saint-Anne",
+      visual: "calendar",
+      initials: "BS",
+      sector: "Coiffure et barbier",
+      headline: "Comment un salon de barbier a repris la main sur ses réservations.",
+      description:
+        "Le salon voulait prendre ses réservations en ligne sans dépendre d’une grande plateforme. On lui a construit son propre outil : réservation en ligne, calendrier du salon, emails automatiques de confirmation et de rappel. Le même service qu’une plateforme, pour moins cher, et un outil qui lui appartient.",
+      summary: "Un outil de réservation en ligne avec calendrier du salon et emails automatiques, moins cher que les grandes plateformes.",
+      stats: [{ value: "24h/24", label: "réservations prises, même salon fermé" }],
+      chips: ["Réservation en ligne", "Rappel par email", "Agenda du salon"],
+      greeting: "Agenda · Barber Saint-Anne",
+      videoUrl: "",
+      tools: [],
+      need: "Prendre les réservations en ligne, tenir le calendrier du salon et limiter les oublis de rendez-vous, sans passer par une plateforme dont le coût pèse sur une petite structure.",
+      built: [
+        { title: "Réservation en ligne", text: "Le client choisit sa prestation, son barbier et son créneau depuis son téléphone, en moins d’une minute." },
+        { title: "Calendrier du salon", text: "La vue de l’équipe, les créneaux disponibles, les blocages : le planning se tient tout seul." },
+        { title: "Emails automatiques", text: "Confirmation immédiate, rappel avant le rendez-vous. Moins d’oublis, moins de créneaux perdus." },
+      ],
+      outcomes: ["Des réservations prises à toute heure, même salon fermé", "Moins de rendez-vous oubliés grâce aux rappels automatiques", "Un outil qui appartient au salon, moins cher que les plateformes du marché"],
     },
   ] satisfies CaseStudy[],
 };

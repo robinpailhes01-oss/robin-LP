@@ -97,6 +97,21 @@ export function CaseCard({ c }: { c: CaseStudy }) {
               {c.chips[0]}
             </span>
           </div>
+        ) : c.visual === "calendar" ? (
+          <div className="absolute left-5 right-5 bottom-5 rounded-xl bg-white text-navy p-3 shadow-lg transition-transform duration-500 ease-[var(--ease-luma)] group-hover:-translate-y-1" aria-hidden>
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-semibold">{c.greeting}</p>
+              <span className="text-[10px] text-muted">Samedi</span>
+            </div>
+            <div className="mt-2 flex flex-col gap-1">
+              {[["09:00", "Coupe + barbe", false], ["11:15", "Réservé à l’instant", true]].map(([t, l, n]) => (
+                <div key={String(t)} className={`flex items-center gap-2 rounded-md border px-2 py-1 text-[10px] ${n ? "border-violet bg-violet-tint" : "border-line bg-card"}`}>
+                  <span className="text-muted tabular-nums">{t}</span>
+                  <span className="font-medium">{l}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         ) : (
           <div className="absolute left-5 right-5 bottom-5 rounded-xl bg-white text-navy p-3 shadow-lg transition-transform duration-500 ease-[var(--ease-luma)] group-hover:-translate-y-1" aria-hidden>
             <div className="flex items-center justify-between">
