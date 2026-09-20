@@ -1,20 +1,31 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { nav } from "@/lib/content";
-
 export function Footer() {
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto max-w-luma px-6 py-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <Logo className="text-[22px]" />
-        <nav aria-label="Pied de page" className="flex flex-wrap gap-x-6 gap-y-2">
+    <footer className="site-footer">
+      <div className="container footer-grid">
+        <div>
+          <Link href="/" className="brand-link" aria-label="Luma, accueil">
+            <Logo />
+          </Link>
+          <p>
+            Des agents IA pour les entreprises
+            <br />
+            d’aujourd’hui et de demain.
+          </p>
+        </div>
+        <nav aria-label="Pied de page">
           {nav.map((l) => (
-            <Link key={l.href} href={l.href} className="text-[14px] text-muted hover:text-navy transition-colors">
+            <Link key={l.href} href={l.href}>
               {l.label}
             </Link>
           ))}
         </nav>
-        <p className="text-[13px] text-muted">© 2026 Luma</p>
+      </div>
+      <div className="container footer-bottom">
+        <span>© {new Date().getFullYear()} Luma</span>
+        <span>Moins de tâches. Plus d’impact.</span>
       </div>
     </footer>
   );

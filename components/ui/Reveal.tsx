@@ -1,20 +1,51 @@
 "use client";
-
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
-
-/** Apparition douce à l’entrée dans l’écran. Statique si l’utilisateur a réduit les animations. */
-export function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
-  const reduced = useReducedMotion();
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+export function Reveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !window.IntersectionObserver) return;
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          el.dataset.reveal = "visible";
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.08 },
+    );
+    if (el.getBoundingClientRect().top > window.innerHeight)
+      el.dataset.reveal = "pending";
+    observer.observe(el);
+    const show = () => {
+      if (media.matches) {
+        el.dataset.reveal = "visible";
+        observer.disconnect();
+      }
+    };
+    media.addEventListener("change", show);
+    return () => {
+      observer.disconnect();
+      media.removeEventListener("change", show);
+    };
+  }, []);
   return (
-    <motion.div
-      className={className}
-      initial={reduced ? false : { opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+    <div
+      ref={ref}
+      className={`reveal ${className}`}
+      style={{ "--reveal-delay": `${delay}s` } as CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
