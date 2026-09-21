@@ -88,10 +88,10 @@ export function Connect() {
         <Image
           src="/images/mascotte.png"
           alt="La mascotte Luma, reliée à vos outils"
-          width={262}
-          height={208}
+          width={480}
+          height={330}
           sizes="(max-width: 767px) 45vw, 260px"
-          className="w-full h-auto [mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_78%)]"
+          className="w-full h-auto [mask-image:radial-gradient(ellipse_at_center,black_62%,transparent_82%)]"
         />
       </div>
 

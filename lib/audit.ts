@@ -13,9 +13,19 @@ export type Question = {
 
 export const audit = {
   pill: "Mini-audit gratuit",
-  title: "Vous ne voyez peut-être qu’une partie de ce que l’IA ferait chez vous.",
-  text: "Cinq questions, deux minutes. On vous montre gratuitement ce qui pourrait tourner sans vous dans votre entreprise. Sans engagement, sans jargon.",
-  start: "Commencer le mini-audit",
+  /** Voix de la mascotte dans le panneau conversationnel. */
+  agent: {
+    name: "Luma",
+    role: "Votre assistant pour le mini-audit",
+    hello: "Bonjour ! Je suis Luma. En cinq questions, je repère ce qui pourrait fonctionner sans vous dans votre entreprise. C’est gratuit et ça prend deux minutes.",
+    beforeLeads: "Merci ! Voici ce que je regarderais en premier chez vous.",
+    askContact: "Pour recevoir votre analyse complète, faite à la main par Robin, laissez-moi un email ou un numéro. Il revient vers vous sous 24 h.",
+    done: "C’est noté, merci ! Robin vous recontacte sous 24 h avec votre analyse. À très vite.",
+    error: "L’envoi n’a pas abouti. Vous pouvez réessayer en renvoyant votre email ou votre numéro.",
+  },
+  title: "Vous voyez de l’IA partout. Mais concrètement, chez vous ?",
+  text: "Luma, notre assistant, vous pose cinq questions simples et vous montre gratuitement ce qui pourrait tourner sans vous dans votre entreprise. Robin vous rappelle ensuite avec une analyse complète. Sans engagement, sans jargon.",
+  start: "Lancer le mini-audit avec Luma",
   next: "Suivant",
   back: "Retour",
   see: "Voir mes premières pistes",

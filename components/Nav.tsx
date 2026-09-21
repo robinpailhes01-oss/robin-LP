@@ -63,13 +63,14 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button onClick={openContact} className="hidden sm:inline-flex h-11 px-5 text-[14px]">
-              {cta.primary}
+            <Button onClick={openContact} className="h-11 px-4 sm:px-5 text-[14px]">
+              <span className="hidden sm:inline">{cta.primary}</span>
+              <span className="sm:hidden">Audit gratuit</span>
               <Arrow />
             </Button>
             <button
               type="button"
-              className={`md:hidden size-11 -mr-2 inline-flex items-center justify-center rounded-full ${onDark ? "text-white" : "text-navy"}`}
+              className={`md:hidden size-11 inline-flex items-center justify-center rounded-full border ${onDark ? "text-white border-white/30" : "text-navy border-line bg-white"}`}
               aria-expanded={menu}
               aria-controls="mobile-menu"
               aria-label={menu ? "Fermer le menu" : "Ouvrir le menu"}
