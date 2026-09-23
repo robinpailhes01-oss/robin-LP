@@ -19,8 +19,8 @@ export const audit = {
     role: "Votre assistant pour le mini-audit",
     hello: "Bonjour ! Je suis Luma. En quelques questions, je repère ce qui pourrait fonctionner sans vous dans votre entreprise. C’est gratuit et ça prend deux minutes.",
     /** Dernière question, en texte libre. La réponse affine les pistes et arrive à Robin telle quelle. */
-    freeQuestion: "Dernière question, et c’est la plus utile : selon vous, de quoi avez-vous le plus besoin en ce moment ? Ou quelle tâche vous prend le plus de temps ?",
-    freePlaceholder: "Écrivez librement, une phrase suffit",
+    freeQuestion: "Dernière question, et c’est la plus utile : quelle automatisation vous ferait gagner le plus de temps ou d’efficacité ? Si vous avez déjà une idée en tête, même floue, dites-la-moi.",
+    freePlaceholder: "Une idée, même floue… ou « je ne sais pas encore »",
     beforeLeads: "Merci, c’est très clair. Voici ce que je regarderais en premier chez vous.",
     askContact: "Pour recevoir votre analyse complète, faite à la main par Robin, laissez-moi un email ou un numéro. Il revient vers vous sous 24 h.",
     done: "C’est noté, merci ! Robin vous recontacte sous 24 h avec votre analyse. À très vite.",
