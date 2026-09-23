@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     const answers: Record<string, string[]> = {};
     if (raw && typeof raw === "object") {
       for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
-        if (Array.isArray(v)) answers[k.slice(0, 40)] = v.map(clean).filter(Boolean).slice(0, 12);
+        if (Array.isArray(v)) answers[k.slice(0, 40)] = v.map((x) => (typeof x === "string" ? x.trim().slice(0, 1000) : "")).filter(Boolean).slice(0, 12);
       }
     }
     payload = { kind, contact, answers };

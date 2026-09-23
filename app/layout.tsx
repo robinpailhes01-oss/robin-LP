@@ -5,6 +5,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { ContactProvider } from "@/components/contact/ContactContext";
 import { ContactPanel } from "@/components/contact/ContactPanel";
+import { AuditNudge } from "@/components/contact/AuditNudge";
 import "./globals.css";
 
 const hand = localFont({ src: "../public/fonts/Caveat-SemiBold.woff2", variable: "--font-hand", display: "swap", weight: "600" });
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main>{children}</main>
           <Footer />
           <ContactPanel />
+          <AuditNudge />
         </ContactProvider>
       </body>
     </html>

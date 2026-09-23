@@ -17,8 +17,11 @@ export const audit = {
   agent: {
     name: "Luma",
     role: "Votre assistant pour le mini-audit",
-    hello: "Bonjour ! Je suis Luma. En cinq questions, je repère ce qui pourrait fonctionner sans vous dans votre entreprise. C’est gratuit et ça prend deux minutes.",
-    beforeLeads: "Merci ! Voici ce que je regarderais en premier chez vous.",
+    hello: "Bonjour ! Je suis Luma. En quelques questions, je repère ce qui pourrait fonctionner sans vous dans votre entreprise. C’est gratuit et ça prend deux minutes.",
+    /** Dernière question, en texte libre. La réponse affine les pistes et arrive à Robin telle quelle. */
+    freeQuestion: "Dernière question, et c’est la plus utile : selon vous, de quoi avez-vous le plus besoin en ce moment ? Ou quelle tâche vous prend le plus de temps ?",
+    freePlaceholder: "Écrivez librement, une phrase suffit",
+    beforeLeads: "Merci, c’est très clair. Voici ce que je regarderais en premier chez vous.",
     askContact: "Pour recevoir votre analyse complète, faite à la main par Robin, laissez-moi un email ou un numéro. Il revient vers vous sous 24 h.",
     done: "C’est noté, merci ! Robin vous recontacte sous 24 h avec votre analyse. À très vite.",
     error: "L’envoi n’a pas abouti. Vous pouvez réessayer en renvoyant votre email ou votre numéro.",
@@ -66,7 +69,16 @@ export const audit = {
   ] satisfies Question[],
 };
 
-export type Answers = Partial<Record<Question["key"], string[]>>;
+export type Answers = Partial<Record<Question["key"] | "need", string[]>>;
+
+/** Pop-up d’invitation, quelques secondes après l’arrivée sur le site. */
+export const nudge = {
+  delaySeconds: 5,
+  title: "Bonjour, je suis Luma !",
+  text: "Envie de voir ce que l’IA pourrait automatiser dans votre entreprise ? Un mini-audit gratuit, deux minutes, sans engagement.",
+  cta: "Lancer le mini-audit",
+  dismiss: "Plus tard",
+};
 
 const LEADS: Record<string, { title: string; text: string }> = {
   "Demandes clients": { title: "Un agent qui répond à vos demandes", text: "Il répond 24/7 sur vos canaux, qualifie la demande et ne vous transmet que ce qui mérite votre attention." },
@@ -80,8 +92,20 @@ const LEADS: Record<string, { title: string; text: string }> = {
 
 const DEFAULT_LEADS = [LEADS["Demandes clients"], LEADS["Relances"], LEADS["Suivi CRM"]];
 
+const KEYWORDS: Array<[RegExp, keyof typeof LEADS]> = [
+  [/devis/i, "Devis"],
+  [/relanc/i, "Relances"],
+  [/rendez|rdv|agenda|créneau|creneau|réserv|reserv/i, "Rendez-vous"],
+  [/factur|admin|paiement|compta/i, "Facturation et admin"],
+  [/crm|fiche|suivi client/i, "Suivi CRM"],
+  [/report|tableau|chiffre|pilot/i, "Reporting"],
+  [/demande|message|répond|repond|question|client|whatsapp|mail|téléphone|telephone/i, "Demandes clients"],
+];
+
 export function leadsFor(answers: Answers): { title: string; text: string }[] {
-  const pains = answers.pains ?? [];
+  const need = (answers.need ?? []).join(" ");
+  const fromNeed = KEYWORDS.filter(([re]) => re.test(need)).map(([, k]) => k);
+  const pains = [...fromNeed, ...(answers.pains ?? [])].filter((p, i, a) => a.indexOf(p) === i);
   const picked = pains.map((p) => LEADS[p]).filter(Boolean).slice(0, 3);
   if (picked.length >= 2) return picked;
   return [...picked, ...DEFAULT_LEADS.filter((d) => !picked.includes(d))].slice(0, 3);

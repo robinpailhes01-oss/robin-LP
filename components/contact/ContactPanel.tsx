@@ -28,7 +28,7 @@ export function ContactPanel() {
   const [answers, setAnswers] = useState<Answers>({});
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<string[]>([]);
-  const [phase, setPhase] = useState<"questions" | "contact">("questions");
+  const [phase, setPhase] = useState<"questions" | "free" | "contact">("questions");
   const [typing, setTyping] = useState(false);
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -97,7 +97,25 @@ export function ContactPanel() {
     if (step + 1 < audit.questions.length) {
       setStep(step + 1);
       await say(audit.questions[step + 1].title, 700);
+    } else if (q.key !== "tools" || phase === "free") {
+      await finish(next);
     } else {
+      setPhase("free");
+      await say(audit.agent.freeQuestion, 800);
+      inputRef.current?.focus();
+    }
+  }
+
+  async function submitFree(text: string) {
+    setMessages((m) => [...m, { id: nid(), from: "client", text }]);
+    setValue("");
+    const next = { ...answers, need: [text] };
+    setAnswers(next);
+    await finish(next);
+  }
+
+  async function finish(next: Answers) {
+    {
       await say(audit.agent.beforeLeads, 700);
       setTyping(true);
       setTimeout(() => {
@@ -150,13 +168,17 @@ export function ContactPanel() {
       if (text) void submitContact(text);
       return;
     }
+    if (phase === "free") {
+      if (text) void submitFree(text);
+      return;
+    }
     // Réponse libre à une question
     if (text) void answer([text]);
     else if (q.multiple && picked.length) void answer(picked);
   }
 
-  const canSend = phase === "contact" ? value.trim().length > 0 : value.trim().length > 0 || (q.multiple && picked.length > 0);
-  const placeholder = phase === "contact" ? audit.leadPlaceholder : q.multiple ? "Ou écrivez votre réponse…" : "Ou écrivez votre réponse…";
+  const canSend = phase === "questions" ? value.trim().length > 0 || (q.multiple && picked.length > 0) : value.trim().length > 0;
+  const placeholder = phase === "contact" ? audit.leadPlaceholder : phase === "free" ? audit.agent.freePlaceholder : "Ou écrivez votre réponse…";
   const showChips = phase === "questions" && !typing && status === "idle";
 
   return (
