@@ -108,3 +108,39 @@ details > summary { list-style: none; cursor: pointer; }
 details > summary::-webkit-details-marker { display: none; }
 details[open] .faq-icon { transform: rotate(45deg); }
 .faq-icon { transition: transform 240ms var(--ease-luma); }
+
+/* Composants adaptés de 21st.dev */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes border-beam-spin {
+  from { --angle: 0deg; }
+  to { --angle: 360deg; }
+}
+.border-beam { animation: border-beam-spin 10s linear infinite; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee var(--marquee-duration, 32s) linear infinite; }
+.marquee-reverse { animation-direction: reverse; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+@keyframes shimmer-slide {
+  to { transform: translate(calc(100cqw - 100%), 0); }
+}
+@keyframes spin-around {
+  0% { transform: translateZ(0) rotate(0); }
+  15%, 35% { transform: translateZ(0) rotate(90deg); }
+  65%, 85% { transform: translateZ(0) rotate(270deg); }
+  100% { transform: translateZ(0) rotate(360deg); }
+}
+.shimmer-slide { animation: shimmer-slide var(--speed, 3s) ease-in-out infinite alternate; }
+.spin-around { animation: spin-around calc(var(--speed, 3s) * 2) infinite linear; }
+
+@media (prefers-reduced-motion: reduce) {
+  .border-beam, .marquee-track, .shimmer-slide, .spin-around { animation: none; }
+}

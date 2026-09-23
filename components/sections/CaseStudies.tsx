@@ -4,6 +4,7 @@ import { Pill } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { CaseVisual } from "@/components/ui/CaseVisual";
 import { ClientMark, caseVars } from "@/components/ui/ClientMark";
+import { StatValue } from "@/components/ui/CountUp";
 import { caseStudies, type CaseStudy } from "@/lib/content";
 
 /** Bandeau sombre par étude de cas, d’après la maquette : titre, chiffres, téléphone avec l’agent WhatsApp. */
@@ -48,7 +49,7 @@ export function CaseBand({ c, headingLevel = "h2" }: { c: CaseStudy; headingLeve
           <ul className="mt-9 md:mt-auto md:pt-10 flex flex-col sm:flex-row sm:divide-x divide-white/15 gap-4 sm:gap-0">
             {c.stats.map((st) => (
               <li key={st.label} className="sm:px-8 first:pl-0 flex sm:flex-col items-baseline sm:items-start gap-3 sm:gap-1">
-                <span className="text-[36px] md:text-[40px] font-bold tracking-[-0.04em] leading-none text-[var(--case-accent)] whitespace-nowrap">{st.value}</span>
+                <StatValue value={st.value} className="text-[36px] md:text-[40px] font-bold tracking-[-0.04em] leading-none text-[var(--case-accent)]" />
                 <span className="text-[13px] text-white/65 leading-[1.3]">{st.label}</span>
               </li>
             ))}
@@ -134,7 +135,7 @@ export function CaseCard({ c }: { c: CaseStudy }) {
           <div className="flex gap-6">
             {c.stats.slice(0, 2).map((st) => (
               <div key={st.label}>
-                <p className="text-[30px] font-bold tracking-[-0.04em] leading-none text-[var(--case-ink)] whitespace-nowrap">{st.value}</p>
+                <p className="text-[30px] font-bold tracking-[-0.04em] leading-none text-[var(--case-ink)]"><StatValue value={st.value} /></p>
                 <p className="text-[12px] text-body mt-1 max-w-[140px]">{st.label}</p>
               </div>
             ))}

@@ -32,8 +32,12 @@ export const hero = {
 
 export const logos = {
   kicker: "Ils nous font déjà confiance",
-  /** À remplir avec les vrais logos clients (nom + fichier SVG dans public/logos). Vide = emplacements neutres. */
-  items: [] as { name: string; src: string }[],
+  /** Logos des clients réels. Sans fichier, le nom est affiché en texte. Le défilement s’active à partir de cinq. */
+  items: [
+    { name: "Harmonie Yacht", src: "/logos/harmonie-yacht.png" },
+    { name: "Énergies Concept", src: "/logos/energies-concept.png" },
+    { name: "Barber Saint-Anne", src: "" },
+  ] as { name: string; src: string }[],
 };
 
 /** Agent WhatsApp : spécialité Luma. Aperçu sur l’accueil, page complète sur /agent-whatsapp. */

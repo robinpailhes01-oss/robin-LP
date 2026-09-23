@@ -7,6 +7,9 @@ import { Arrow } from "@/components/ui/Button";
 import { CaseVideo } from "@/components/ui/CaseVideo";
 import { CaseVisual } from "@/components/ui/CaseVisual";
 import { ClientMark, caseVars } from "@/components/ui/ClientMark";
+import { StatValue } from "@/components/ui/CountUp";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { BorderBeam } from "@/components/ui/BorderBeam";
 import { Reveal } from "@/components/ui/Reveal";
 import { ToolIcon } from "@/components/ui/ToolIcons";
 import { caseStudies, casesIndex, finalCta } from "@/lib/content";
@@ -55,7 +58,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
               <ul className="mt-9 flex flex-wrap gap-3">
                 {c.stats.map((st) => (
                   <li key={st.label} className="rounded-2xl bg-white/[0.06] border border-white/12 backdrop-blur px-5 py-4 min-w-[180px]">
-                    <p className="text-[40px] md:text-[48px] font-bold tracking-[-0.04em] leading-none text-[var(--case-accent)] whitespace-nowrap">{st.value}</p>
+                    <p className="text-[40px] md:text-[48px] font-bold tracking-[-0.04em] leading-none text-[var(--case-accent)]"><StatValue value={st.value} /></p>
                     <p className="text-[13px] text-white/70 mt-2 max-w-[200px]">{st.label}</p>
                   </li>
                 ))}
@@ -126,10 +129,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                 <h2 className="t-h2 text-[clamp(1.5rem,1.2rem+1.2vw,2rem)] mt-5">Ce qu’on a construit</h2>
                 <ul className="mt-6 grid sm:grid-cols-2 gap-4">
                   {c.built.map((b) => (
-                    <li key={b.title} className="rounded-2xl bg-white border border-line p-6 transition-[transform,box-shadow] duration-300 ease-[var(--ease-luma)] hover:-translate-y-1 hover:shadow-[0_24px_40px_-30px_rgba(18,16,43,0.35)]">
+                    <SpotlightCard as="li" key={b.title} className="rounded-2xl bg-white border border-line p-6 transition-[transform,box-shadow] duration-300 ease-[var(--ease-luma)] hover:-translate-y-1 hover:shadow-[0_24px_40px_-30px_rgba(18,16,43,0.35)]">
                       <h3 className="t-h3">{b.title}</h3>
                       <p className="t-body mt-2 text-[15px]">{b.text}</p>
-                    </li>
+                    </SpotlightCard>
                   ))}
                 </ul>
               </Reveal>
@@ -150,7 +153,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
               <Reveal key={st.label} className="lg:col-span-4">
                 <div className="h-full rounded-[22px] bg-[var(--case-ink)] text-white p-8 relative overflow-hidden">
                   <span aria-hidden className="absolute -top-16 -right-16 size-48 rounded-full bg-white/10 blur-2xl" />
-                  <p className="relative text-[64px] md:text-[72px] font-bold tracking-[-0.04em] leading-none whitespace-nowrap">{st.value}</p>
+                  <p className="relative text-[64px] md:text-[72px] font-bold tracking-[-0.04em] leading-none"><StatValue value={st.value} /></p>
                   <p className="relative text-[15px] text-white/85 mt-3">{st.label}</p>
                 </div>
               </Reveal>
@@ -204,6 +207,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           <Reveal>
             <div className="rounded-[22px] bg-navy text-white px-7 py-12 md:px-12 md:py-16 text-center relative overflow-hidden">
               <span aria-hidden className="absolute -top-24 -right-24 size-72 rounded-full bg-violet/50 blur-3xl" />
+              <BorderBeam duration={10} />
               <h2 className="t-h2 relative">{finalCta.title}</h2>
               <p className="relative mt-4 text-[16px] leading-[1.55] text-white/75 max-w-[520px] mx-auto">{finalCta.text}</p>
               <div className="relative mt-8">

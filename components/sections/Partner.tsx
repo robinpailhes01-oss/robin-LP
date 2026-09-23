@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { Arrow, ButtonLink } from "@/components/ui/Button";
 import { Pill } from "@/components/ui/Logo";
+import { BorderBeam } from "@/components/ui/BorderBeam";
 import { useMedia } from "@/lib/useMedia";
 import { cta, partner } from "@/lib/content";
 
@@ -37,6 +38,7 @@ export function Partner() {
 
   const content = (
     <>
+      <BorderBeam duration={12} />
       <div className="relative z-10 max-w-[540px]">
         <motion.div style={pinned ? { y: t1, opacity: o1 } : undefined}>
           <Pill dark>{partner.pill}</Pill>

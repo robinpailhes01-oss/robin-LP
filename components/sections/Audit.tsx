@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Arrow, Button } from "@/components/ui/Button";
 import { Pill } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
+import { BorderBeam } from "@/components/ui/BorderBeam";
 import { useContact } from "@/components/contact/ContactContext";
 import { audit } from "@/lib/audit";
 
@@ -16,6 +17,7 @@ export function Audit() {
         <Reveal>
           <div className="relative overflow-hidden rounded-[22px] bg-card border border-line grid lg:grid-cols-12 items-center">
             <span aria-hidden className="pointer-events-none absolute -top-32 -right-32 size-96 rounded-full bg-[radial-gradient(circle,rgba(70,54,240,0.16),transparent_65%)]" />
+            <BorderBeam duration={14} />
             <div className="relative lg:col-span-7 p-7 md:p-12">
               <Pill>{audit.pill}</Pill>
               <h2 className="t-h2 mt-5 max-w-[560px]">{audit.title}</h2>

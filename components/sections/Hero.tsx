@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { Arrow, Button, ButtonLink, PlayIcon } from "@/components/ui/Button";
+import { Arrow, ButtonLink, PlayIcon } from "@/components/ui/Button";
+import { ShimmerButton } from "@/components/ui/ShimmerButton";
 import { useContact } from "@/components/contact/ContactContext";
 import { cta, hero } from "@/lib/content";
 
@@ -103,10 +104,10 @@ export function Hero() {
 
         <motion.div style={{ opacity: textOpacity }} className="md:col-span-6 md:row-start-2 relative z-10 pb-10 md:pb-20 mt-2 md:mt-0">
           <motion.div {...item(4)} className="mt-6 md:mt-9 flex flex-col sm:flex-row gap-3">
-            <Button onClick={openContact}>
+            <ShimmerButton onClick={openContact}>
               {cta.primary}
               <Arrow />
-            </Button>
+            </ShimmerButton>
             <ButtonLink href="#methode" variant="light" className="pl-2.5">
               <PlayIcon />
               <span className="flex flex-col items-start leading-none sm:leading-tight">
