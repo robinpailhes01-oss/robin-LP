@@ -66,6 +66,59 @@ export const whatsapp = {
       { title: "Relancer sans oublier", text: "Un devis sans réponse, une demande en attente : la relance part au bon moment." },
       { title: "Passer la main quand il faut", text: "Dès qu’une demande sort du cadre, il vous prévient et vous reprenez la conversation." },
     ],
+    examplesPill: "Exemples",
+    examplesTitle: "À quoi ça ressemble, concrètement.",
+    examplesText: "Quatre situations du quotidien, telles que l’agent les traite. Les échanges sont des exemples types, avec le ton et les règles de votre entreprise.",
+    /** Conversations types : `from` client ou agent, `action` = ce qui se passe dans vos outils à la fin. */
+    examples: [
+      {
+        title: "Une disponibilité",
+        sector: "Location de bateaux",
+        time: "22:47",
+        messages: [
+          { from: "client", text: "Bonsoir, vous avez encore une disponibilité samedi pour 6 personnes ?" },
+          { from: "agent", text: "Bonsoir ! Oui, il reste un créneau samedi à 10h30 sur le bateau 8 places. Je vous le bloque ?" },
+          { from: "client", text: "Oui parfait." },
+          { from: "agent", text: "C’est réservé. Vous recevez la confirmation par email dans une minute. À samedi !" },
+        ],
+        action: "Créneau bloqué dans l’agenda · confirmation envoyée",
+      },
+      {
+        title: "Un devis",
+        sector: "Artisan",
+        time: "09:12",
+        messages: [
+          { from: "client", text: "Bonjour, combien pour repeindre un salon de 25 m² ?" },
+          { from: "agent", text: "Bonjour ! Pour vous répondre précisément : murs seuls ou murs et plafond ? Et la peinture est-elle à fournir ?" },
+          { from: "client", text: "Murs et plafond, peinture fournie par vous." },
+          { from: "agent", text: "Merci. Je vous prépare un devis pour 25 m², murs et plafond, peinture incluse. Vous le recevez d’ici ce soir." },
+        ],
+        action: "Demande qualifiée · devis créé et transmis à l’équipe",
+      },
+      {
+        title: "Un rendez-vous",
+        sector: "Salon de coiffure",
+        time: "18:30",
+        messages: [
+          { from: "client", text: "Je peux avoir un rdv coupe + barbe jeudi ?" },
+          { from: "agent", text: "Bien sûr. Jeudi il reste 11h15 et 16h45. Lequel vous convient ?" },
+          { from: "client", text: "16h45" },
+          { from: "agent", text: "Noté pour jeudi 16h45, coupe + barbe. Je vous envoie un rappel la veille." },
+        ],
+        action: "Rendez-vous créé · rappel programmé",
+      },
+      {
+        title: "Une demande hors cadre",
+        sector: "Cabinet",
+        time: "14:05",
+        messages: [
+          { from: "client", text: "J’ai un litige avec mon propriétaire, vous pouvez me dire ce que je dois faire ?" },
+          { from: "agent", text: "Je comprends. C’est une question qui demande l’avis de quelqu’un du cabinet, je ne vais pas y répondre à sa place. Je transmets votre message et on vous rappelle aujourd’hui." },
+          { from: "client", text: "Merci." },
+        ],
+        action: "Demande transmise · rappel humain planifié",
+      },
+    ] as { title: string; sector: string; time: string; messages: { from: "client" | "agent"; text: string }[]; action: string }[],
     howTitle: "Comment ça se passe",
     howSteps: [
       { name: "On apprend votre activité", text: "Vos réponses habituelles, votre ton, vos règles, ce que l’agent peut dire et ne pas dire." },

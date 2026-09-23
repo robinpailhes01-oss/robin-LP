@@ -11,6 +11,7 @@ import { FaqList } from "@/components/ui/FaqList";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Marquee } from "@/components/ui/Marquee";
 import { BorderBeam } from "@/components/ui/BorderBeam";
+import { ConversationCard } from "@/components/ui/ConversationCard";
 import { whatsapp } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -69,6 +70,29 @@ export default function AgentWhatsAppPage() {
           <Reveal className="lg:col-span-8" delay={0.08}>
             <CaseVideo url={p.videoUrl} title={p.videoTitle} pending="La vidéo arrive bientôt." />
           </Reveal>
+        </div>
+      </section>
+
+      <section className="py-14 md:py-20">
+        <div className="mx-auto max-w-luma px-6">
+          <Reveal>
+            <div className="grid md:grid-cols-12 gap-8 items-end">
+              <div className="md:col-span-7">
+                <Pill>{p.examplesPill}</Pill>
+                <h2 className="t-h2 mt-5">{p.examplesTitle}</h2>
+              </div>
+              <p className="t-body md:col-span-5 max-w-[420px]">{p.examplesText}</p>
+            </div>
+          </Reveal>
+          <ul className="mt-10 grid sm:grid-cols-2 gap-4">
+            {p.examples.map((ex, i) => (
+              <Reveal key={ex.title} delay={i * 0.06}>
+                <li className="h-full">
+                  <ConversationCard {...ex} />
+                </li>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </section>
 
