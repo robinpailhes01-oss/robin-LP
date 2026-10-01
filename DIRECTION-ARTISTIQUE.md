@@ -4,6 +4,7 @@ Ce document remplace l’ancienne identité (bleu électrique, violet `#4636F0`,
 
 ## Identité
 
+- Positionnement : j’aide les PME à améliorer et simplifier leur relation client grâce à des outils IA personnalisés.
 - Personnelle, lumineuse, épurée, crédible.
 - Robin Pailhes est le visage et l’expertise. Luma est la marque de l’offre. Une seule identité.
 - Voix : « je » pour le parcours et l’approche de Robin, « Luma » pour l’offre, « vous » pour les besoins du client.
@@ -33,7 +34,7 @@ Les couleurs d’outils (vert WhatsApp, logos Gmail ou HubSpot) n’apparaissent
 - Titres : Inter Tight, 800, compacts, approche légèrement serrée (−0,03 à −0,04 em). Classes `.t-display`, `.t-h1`, `.t-h2`, `.t-h3`.
 - Texte : Inter, 400 à 600, interligne 1,55 à 1,6. Classes `.t-lead`, `.t-body`, `.t-kicker`.
 - Pas de césure, pas de mot coupé sur mobile. Les tailles sont fluides (`clamp`).
-- Un seul accent graphique par page au plus : le surlignage bleu poudré `.u-accent` sur « utiles » dans le hero.
+- Un seul accent graphique par page au plus : le surlignage bleu poudré `.u-accent` sur « plus simple » dans le hero.
 
 ## Photos
 

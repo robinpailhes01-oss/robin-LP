@@ -22,7 +22,7 @@ function Check({ className = "" }: { className?: string }) {
 /* 1. Hero : signature, promesse, photo réelle. */
 export function Hero() {
   const photo = founder.photos.portrait;
-  const [first, ...rest] = hero.title.split(" utiles ");
+  const at = hero.title.indexOf(hero.accent);
   return (
     <section className="bg-white pt-28 sm:pt-32 lg:pt-40 pb-4 md:pb-8">
       <div className="mx-auto max-w-luma px-5 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-14 lg:gap-10 items-center">
@@ -33,9 +33,11 @@ export function Hero() {
               {founder.signature}
             </p>
             <h1 className="t-display mt-7 max-w-[13em]">
-              {rest.length ? (
+              {at >= 0 ? (
                 <>
-                  {first} <span className="u-accent">utiles</span> {rest.join(" utiles ")}
+                  {hero.title.slice(0, at)}
+                  <span className="u-accent">{hero.accent}</span>
+                  {hero.title.slice(at + hero.accent.length)}
                 </>
               ) : (
                 hero.title

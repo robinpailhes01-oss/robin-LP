@@ -61,7 +61,7 @@ export type Answers = Partial<Record<Question["key"] | "need", string[]>>;
 export const nudge = {
   delaySeconds: 5,
   title: "Bonjour, je suis Robin.",
-  text: "Vous vous demandez ce que l’IA pourrait faire dans votre entreprise ? Répondez à quelques questions, je reviens vers vous sous 24 h.",
+  text: "Vous vous demandez ce que l’IA pourrait simplifier dans votre relation client ? Répondez à quelques questions, je reviens vers vous sous 24 h.",
   cta: "Préparer notre échange",
   dismiss: "Plus tard",
 };

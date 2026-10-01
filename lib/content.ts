@@ -5,9 +5,9 @@
  */
 
 export const site = {
-  title: "Luma · Agents IA et automatisations, par Robin Pailhes",
+  title: "Luma · Des outils IA pour simplifier votre relation client, par Robin Pailhes",
   description:
-    "Robin Pailhes, fondateur de Luma, accompagne les entreprises pour automatiser leurs tâches répétitives, mieux traiter leurs demandes clients et connecter leurs outils.",
+    "Robin Pailhes, fondateur de Luma, aide les PME à améliorer et simplifier leur relation client grâce à des outils IA personnalisés.",
 };
 
 export const founder = {
@@ -38,16 +38,18 @@ export const cta = {
 };
 
 export const hero = {
-  title: "Des agents IA utiles à votre entreprise.",
-  text: "Je vous accompagne pour automatiser vos tâches répétitives, mieux traiter vos demandes clients et connecter vos outils.",
+  title: "Une relation client plus simple, grâce à l’IA.",
+  /** Mot ou groupe surligné dans le titre (un seul accent par page). */
+  accent: "plus simple",
+  text: "J’aide les PME à améliorer et simplifier leur relation client avec des outils IA personnalisés : des réponses plus rapides, des demandes bien suivies et des outils qui travaillent ensemble.",
   note: "Un seul interlocuteur, de la première discussion au suivi.",
 };
 
 /** Section « Besoins » : situations concrètes du dirigeant, chacune reliée à un usage précis. */
 export const needs = {
-  kicker: "Solutions",
-  title: "Vous reconnaissez une de ces situations ?",
-  text: "L’IA n’est pas utile partout. Voici les cas où elle vous fait vraiment gagner du temps, avec ce que Luma met en place pour chacun.",
+  kicker: "Relation client",
+  title: "Là où votre relation client se complique.",
+  text: "L’IA n’est pas utile partout. Voici les moments où elle simplifie vraiment le contact avec vos clients, avec l’outil que Luma construit pour chacun.",
   labelNeed: "Votre situation",
   labelUse: "Ce que Luma met en place",
   items: [
@@ -57,23 +59,23 @@ export const needs = {
       use: "Un agent qui répond aux questions courantes à partir de vos informations, et vous transmet tout ce qui demande votre avis.",
     },
     {
-      title: "Les informations dispersées",
-      need: "Ce qu’il faut savoir sur un client ou un dossier est éparpillé entre emails, fichiers et messages.",
-      use: "Un outil qui rassemble les demandes et les données au même endroit, retrouvables en quelques secondes.",
+      title: "L’historique client dispersé",
+      need: "Ce qu’un client vous a dit ou demandé est éparpillé entre emails, messages et fichiers.",
+      use: "Un outil qui rassemble les échanges et les demandes de chaque client au même endroit, retrouvables en quelques secondes.",
     },
     {
-      title: "Les tâches répétitives",
-      need: "Ressaisies, copier-coller, documents remplis à la main puis corrigés.",
-      use: "Des automatisations qui remplissent, vérifient et transmettent les documents, avec des contrôles avant envoi.",
+      title: "Les devis et les rendez‑vous",
+      need: "Préparer un devis, caler un rendez‑vous, envoyer une confirmation : des allers‑retours qui prennent du temps et retardent le client.",
+      use: "Des outils qui préparent les devis, proposent les créneaux libres et envoient les confirmations, selon vos règles et sous votre contrôle.",
     },
     {
-      title: "Le suivi commercial",
-      need: "Des devis restent sans réponse, des relances sont oubliées, l’historique d’un client se perd.",
+      title: "Les relances",
+      need: "Des devis restent sans réponse, des relances sont oubliées, un client attend sans nouvelles.",
       use: "Un suivi qui programme les relances au bon moment et garde la trace de chaque échange.",
     },
     {
       title: "Les outils qui ne se parlent pas",
-      need: "Vous faites vous-même le lien entre votre messagerie, votre agenda, vos tableurs et votre CRM.",
+      need: "Vous faites vous-même le lien entre la messagerie où vos clients écrivent, votre agenda, vos tableurs et votre CRM.",
       use: "Des connexions entre ces outils, pour qu’une information saisie une fois arrive partout où elle sert.",
     },
   ],
@@ -123,12 +125,12 @@ export const about = {
   title: "Je suis Robin Pailhes, fondateur de Luma.",
   paragraphs: [
     "Je suis entrepreneur. Dans ma propre entreprise, Harmonie Yacht, j’ai mis en place un agent WhatsApp et un tableau de bord de pilotage. Le traitement des demandes nous prend aujourd’hui trois heures de moins par jour.",
-    "Luma est née de cette expérience. J’y conçois des agents IA et des automatisations pour des entreprises qui veulent gagner du temps sans changer leur façon de travailler.",
+    "Luma est née de cette expérience. J’y conçois des outils IA personnalisés pour aider les PME à améliorer et simplifier leur relation client, sans changer leur façon de travailler.",
     "Je suis votre interlocuteur du premier échange au suivi. Je prends le temps de comprendre votre activité avant de proposer quoi que ce soit.",
   ],
   points: [
     { title: "Un seul interlocuteur", text: "Vous parlez à la personne qui conçoit et met en place." },
-    { title: "Sur mesure", text: "Construit à partir de vos outils et de vos règles." },
+    { title: "Personnalisé", text: "Chaque outil part de vos clients, de vos outils et de vos règles." },
     { title: "Vous gardez la main", text: "Vous validez ce qui part, et pouvez reprendre à tout moment." },
   ],
 };
