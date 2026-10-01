@@ -55,7 +55,7 @@ export default function AgentWhatsAppPage() {
               <Kicker>Usages</Kicker>
               <h2 className="t-h2 mt-5">{p.doTitle}</h2>
             </div>
-            <p className="t-body lg:col-span-5 max-w-[30rem]">{p.doText}</p>
+            {p.doText && <p className="t-body lg:col-span-5 max-w-[30rem]">{p.doText}</p>}
           </div>
         </Reveal>
         <ul className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">

@@ -9,7 +9,7 @@ export function Footer() {
         <div className="md:col-span-5">
           <Logo light />
           <p className="mt-4 text-[15px] leading-[1.6] text-white/75 max-w-[340px]">
-            Des outils IA personnalisés pour simplifier la relation client des PME. Une offre conçue et portée par {founder.name}.
+            Des outils IA personnalisés pour la relation client des PME.
           </p>
         </div>
         <nav aria-label="Pied de page" className="md:col-span-7 md:justify-self-end">

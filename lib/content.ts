@@ -41,7 +41,7 @@ export const hero = {
   title: "Une relation client plus simple, grâce à l’IA.",
   /** Mot ou groupe surligné dans le titre (un seul accent par page). */
   accent: "plus simple",
-  text: "J’aide les PME à améliorer et simplifier leur relation client avec des outils IA personnalisés : des réponses plus rapides, des demandes bien suivies et des outils qui travaillent ensemble.",
+  text: "J’aide les PME à améliorer et simplifier leur relation client avec des outils IA personnalisés.",
   note: "Un seul interlocuteur, de la première discussion au suivi.",
 };
 
@@ -56,27 +56,27 @@ export const needs = {
     {
       title: "Les demandes clients",
       need: "Les mêmes questions reviennent chaque jour, sur WhatsApp, par email ou au téléphone, souvent quand vous êtes occupé ailleurs.",
-      use: "Un agent qui répond aux questions courantes à partir de vos informations, et vous transmet tout ce qui demande votre avis.",
+      use: "Un agent répond aux questions courantes et vous transmet le reste.",
     },
     {
-      title: "L’historique client dispersé",
+      title: "L’historique client",
       need: "Ce qu’un client vous a dit ou demandé est éparpillé entre emails, messages et fichiers.",
-      use: "Un outil qui rassemble les échanges et les demandes de chaque client au même endroit, retrouvables en quelques secondes.",
+      use: "Tous les échanges d’un client, réunis au même endroit.",
     },
     {
       title: "Les devis et les rendez‑vous",
       need: "Préparer un devis, caler un rendez‑vous, envoyer une confirmation : des allers‑retours qui prennent du temps et retardent le client.",
-      use: "Des outils qui préparent les devis, proposent les créneaux libres et envoient les confirmations, selon vos règles et sous votre contrôle.",
+      use: "Devis préparés, créneaux proposés, confirmations envoyées. Vous validez.",
     },
     {
       title: "Les relances",
       need: "Des devis restent sans réponse, des relances sont oubliées, un client attend sans nouvelles.",
-      use: "Un suivi qui programme les relances au bon moment et garde la trace de chaque échange.",
+      use: "Des relances programmées au bon moment.",
     },
     {
-      title: "Les outils qui ne se parlent pas",
+      title: "Vos outils",
       need: "Vous faites vous-même le lien entre la messagerie où vos clients écrivent, votre agenda, vos tableurs et votre CRM.",
-      use: "Des connexions entre ces outils, pour qu’une information saisie une fois arrive partout où elle sert.",
+      use: "Messagerie, agenda et CRM reliés entre eux.",
     },
   ],
 };
@@ -84,14 +84,14 @@ export const needs = {
 /** Section « Démonstration » : un exemple de fonctionnement, présenté comme tel. */
 export const demo = {
   kicker: "Exemple de fonctionnement",
-  title: "Ce qui se passe quand un client vous écrit.",
-  text: "Voici, étape par étape, comment un agent traite une demande. L’exemple est illustratif : chaque agent est construit avec vos informations, vos règles et vos outils.",
+  title: "Quand un client vous écrit.",
+  text: "",
   label: "Exemple illustratif",
   steps: [
     { title: "Le client écrit", text: "Sur WhatsApp, par email ou depuis votre site, à n’importe quelle heure." },
-    { title: "L’agent rassemble les informations", text: "Il répond à ce qu’il sait, pose les questions utiles et s’arrête là où vos règles le prévoient." },
+    { title: "L’agent rassemble l’essentiel", text: "Il répond à ce qu’il sait, pose les questions utiles et s’arrête là où vos règles le prévoient." },
     { title: "La demande est enregistrée", text: "Elle arrive complète dans votre outil de suivi : CRM, tableur ou agenda." },
-    { title: "Vous êtes prévenu et vous validez", text: "Vous recevez un résumé. Rien de sensible ne part sans votre accord." },
+    { title: "Vous validez", text: "Vous recevez un résumé. Rien de sensible ne part sans votre accord." },
   ],
   conversation: {
     title: "Demande de devis",
@@ -124,13 +124,12 @@ export const about = {
   kicker: "À propos",
   title: "Je suis Robin Pailhes, fondateur de Luma.",
   paragraphs: [
-    "Je suis entrepreneur. Dans ma propre entreprise, Harmonie Yacht, j’ai mis en place un agent WhatsApp et un tableau de bord de pilotage. Le traitement des demandes nous prend aujourd’hui trois heures de moins par jour.",
-    "Luma est née de cette expérience. J’y conçois des outils IA personnalisés pour aider les PME à améliorer et simplifier leur relation client, sans changer leur façon de travailler.",
-    "Je suis votre interlocuteur du premier échange au suivi. Je prends le temps de comprendre votre activité avant de proposer quoi que ce soit.",
+    "Entrepreneur, j’ai d’abord mis en place un agent WhatsApp dans ma propre entreprise, Harmonie Yacht : trois heures gagnées chaque jour.",
+    "Avec Luma, je fais la même chose pour d’autres PME. Je suis votre seul interlocuteur, du premier échange au suivi.",
   ],
   points: [
     { title: "Un seul interlocuteur", text: "Vous parlez à la personne qui conçoit et met en place." },
-    { title: "Personnalisé", text: "Chaque outil part de vos clients, de vos outils et de vos règles." },
+    { title: "Outils personnalisés", text: "Chaque outil part de vos clients, de vos outils et de vos règles." },
     { title: "Vous gardez la main", text: "Vous validez ce qui part, et pouvez reprendre à tout moment." },
   ],
 };
@@ -139,18 +138,18 @@ export const about = {
 export const method = {
   kicker: "Accompagnement",
   title: "Comment je vous accompagne.",
-  text: "Une démarche simple, en quatre temps. Vous savez à chaque étape ce qui est fait, et rien n’est mis en service sans avoir été testé avec vous.",
+  text: "",
   steps: [
-    { name: "Compréhension", text: "On échange sur votre activité, vos outils et ce qui vous prend du temps. On choisit ensemble par où commencer." },
-    { name: "Conception", text: "Je vous propose une solution précise : ce que l’outil fait, ce qu’il ne fait pas, à quoi il se connecte. Vous validez avant toute mise en place." },
-    { name: "Mise en place et tests", text: "Je construis, je teste sur vos cas réels, et on corrige ensemble avant la mise en service." },
-    { name: "Suivi et ajustements", text: "Après le lancement, je suis les résultats avec vous et j’ajuste ce qui doit l’être." },
+    { name: "Compréhension", text: "Votre activité, vos clients, vos outils." },
+    { name: "Conception", text: "Une solution précise, validée par vous." },
+    { name: "Mise en place", text: "Testée sur vos cas réels avant le lancement." },
+    { name: "Suivi", text: "J’ajuste selon les résultats." },
   ],
 };
 
 export const methodPage = {
   title: "Ma méthode",
-  text: "Avant de parler d’outil, je cherche à comprendre votre entreprise. Voici comment se déroule un accompagnement, de la première discussion au suivi.",
+  text: "Comprendre votre entreprise d’abord, l’outil ensuite.",
   principlesTitle: "Ce à quoi je tiens",
   principles: [
     { title: "Commencer petit", text: "Un premier usage bien choisi, qui fonctionne, plutôt qu’un grand projet qui s’éternise." },
@@ -165,25 +164,25 @@ export const whatsapp = {
   page: {
     kicker: "Agent WhatsApp",
     title: "Un agent qui répond à vos clients sur WhatsApp.",
-    text: "Vos clients vous écrivent sur WhatsApp pour une question, une disponibilité, un devis ou un rendez‑vous. L’agent Luma leur répond avec vos informations et votre ton, et vous transmet ce qui demande votre attention.",
+    text: "L’agent Luma répond à vos clients avec vos informations et votre ton, et vous transmet ce qui demande votre attention.",
     note: "Fonctionne avec votre numéro WhatsApp professionnel actuel.",
     videoKicker: "Vidéo",
     videoTitle: "Comment l’agent WhatsApp m’a libéré trois heures par jour",
     videoText: "Ce que l’agent a changé dans ma propre entreprise, Harmonie Yacht.",
     videoUrl: "",
     doTitle: "Ce qu’il prend en charge",
-    doText: "Vous choisissez ce que l’agent fait et ce qu’il vous laisse. Voici les usages les plus courants.",
+    doText: "",
     doItems: [
-      { title: "Répondre aux questions", text: "Horaires, tarifs, conditions, accès : les questions qui reviennent chaque jour." },
-      { title: "Donner vos disponibilités", text: "Il consulte votre agenda ou votre planning et propose les créneaux réellement libres." },
-      { title: "Préparer un devis", text: "Il pose les bonnes questions et prépare la demande selon vos règles. Vous validez avant l’envoi." },
-      { title: "Prendre un rendez-vous", text: "Le client choisit un créneau, il est bloqué dans votre agenda et la confirmation part." },
-      { title: "Relancer au bon moment", text: "Un devis sans réponse ou une demande en attente : la relance est programmée." },
-      { title: "Passer la main", text: "Dès qu’une demande sort du cadre, il vous prévient et vous reprenez la conversation." },
+      { title: "Répondre aux questions", text: "Horaires, tarifs, conditions, accès." },
+      { title: "Donner vos disponibilités", text: "Les créneaux réellement libres." },
+      { title: "Préparer un devis", text: "Vous validez avant l’envoi." },
+      { title: "Prendre un rendez‑vous", text: "Bloqué dans votre agenda, confirmé." },
+      { title: "Relancer", text: "Au bon moment, avec vos mots." },
+      { title: "Passer la main", text: "Dès qu’une demande sort du cadre." },
     ],
     examplesKicker: "Exemples",
     examplesTitle: "À quoi ressemblent les échanges.",
-    examplesText: "Quatre situations types. Ce sont des exemples illustratifs, pas des conversations de clients : chaque agent reprend le ton et les règles de votre entreprise.",
+    examplesText: "Exemples illustratifs, pas des conversations de clients.",
     examples: [
       {
         title: "Une disponibilité",
@@ -235,12 +234,12 @@ export const whatsapp = {
     ] as { title: string; sector: string; time: string; messages: { from: "client" | "agent"; text: string }[]; action: string }[],
     howTitle: "Comment se passe la mise en place",
     howSteps: [
-      { name: "J’apprends votre activité", text: "Vos réponses habituelles, votre ton, vos règles, ce que l’agent peut dire et ce qu’il doit vous laisser." },
-      { name: "Je le connecte", text: "À votre numéro WhatsApp et, si besoin, à vos outils : agenda, CRM, devis." },
-      { name: "On teste, puis il répond", text: "On vérifie ensemble sur des cas réels. Vous voyez toutes les conversations et pouvez en reprendre une à tout moment." },
+      { name: "J’apprends votre activité", text: "Vos réponses, votre ton, vos règles." },
+      { name: "Je le connecte", text: "À votre numéro WhatsApp et à vos outils." },
+      { name: "On teste, puis il répond", text: "Vous voyez tout et reprenez la main à tout moment." },
     ],
     guaranteeTitle: "Satisfait ou remboursé",
-    guaranteeText: "Si l’agent ne vous convient pas, vous êtes remboursé. Les conditions précises sont fixées avec vous lors de notre premier échange, avant tout engagement.",
+    guaranteeText: "Si l’agent ne vous convient pas, vous êtes remboursé. Conditions fixées ensemble avant tout engagement.",
     faqTitle: "Vos questions sur l’agent",
     faq: [
       { q: "Mes clients sauront-ils qu’ils parlent à un agent ?", a: "C’est vous qui décidez de la façon dont il se présente. Dans tous les cas, il répond avec votre ton et passe la main dès que nécessaire." },
@@ -255,7 +254,7 @@ export const whatsapp = {
 export const casesIndex = {
   kicker: "Réalisations",
   title: "Des projets menés avec de vraies entreprises.",
-  text: "Chaque réalisation détaille le point de départ, ce qui a été mis en place et ce qui a changé. Les résultats sont ceux constatés par les entreprises.",
+  text: "Le point de départ, la solution, le résultat constaté.",
   read: "Lire la réalisation",
   nextCase: "Réalisation suivante",
   prevCase: "Réalisation précédente",
@@ -290,7 +289,7 @@ export type CaseStudy = {
 
 export const caseStudies = {
   kicker: "Réalisations",
-  title: "Ce que j’ai mis en place, et ce que ça a changé.",
+  title: "Des résultats concrets.",
   all: "Voir toutes les réalisations",
   items: [
     {
@@ -361,20 +360,18 @@ export const caseStudies = {
 
 export const faq = {
   kicker: "Questions fréquentes",
-  title: "Les questions qu’on me pose souvent.",
+  title: "Vos questions.",
   items: [
-    { q: "Est-ce qu’un agent IA remplace mon équipe ?", a: "Non. Il prend en charge ce qui est répétitif pour que votre équipe se concentre sur ce qui demande vraiment quelqu’un." },
-    { q: "Faut-il s’y connaître en IA ?", a: "Non. Vous connaissez votre entreprise, c’est ce qui compte. Je vous explique simplement ce que l’outil fait et comment l’utiliser." },
-    { q: "L’IA peut-elle se tromper ?", a: "Oui, c’est possible. C’est pour cela que chaque outil est préparé avec vos informations, testé sur vos cas réels, et que ses limites sont fixées : ce qui est sensible vous est transmis." },
-    { q: "Peut-il être connecté à nos outils ?", a: "C’est le principe. Je pars des outils que vous utilisez déjà plutôt que de vous en ajouter un." },
-    { q: "Peut-on commencer par un seul usage ?", a: "Oui, et c’est souvent la meilleure façon de démarrer. On étend ensuite à ce qui a du sens." },
-    { q: "Comment sont gérées les données ?", a: "Vos données restent les vôtres. Je vous détaille où elles transitent et ce qui est conservé, avant la mise en place." },
+    { q: "Est-ce qu’un agent IA remplace mon équipe ?", a: "Non. Il prend le répétitif, votre équipe garde ce qui demande quelqu’un." },
+    { q: "Faut-il s’y connaître en IA ?", a: "Non. Vous connaissez vos clients, c’est ce qui compte. Je m’occupe du reste." },
+    { q: "L’IA peut-elle se tromper ?", a: "Oui. Chaque outil est donc testé sur vos cas réels, avec des limites claires : ce qui est sensible vous est transmis." },
+    { q: "Comment sont gérées les données ?", a: "Elles restent les vôtres. Je vous montre où elles passent avant la mise en place." },
   ],
 };
 
 export const contact = {
   kicker: "Contact",
   title: "Parlons de votre projet.",
-  text: "Répondez à quelques questions sur votre activité et ce qui vous prend du temps. Je lis chaque réponse et je reviens vers vous sous 24 h pour en discuter.",
+  text: "Quelques questions rapides, et je reviens vers vous sous 24 h.",
   note: "Gratuit et sans engagement.",
 };

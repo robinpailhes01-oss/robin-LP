@@ -15,14 +15,14 @@ export const audit = {
   /** Voix de Robin : questions préparées à l’avance, réponses lues par lui. */
   agent: {
     name: "Préparer notre échange",
-    role: "Robin Pailhes · réponse sous 24 h",
+    role: "Robin Pailhes · réponse sous 24 h",
     hello: "Bonjour, je suis Robin. Avant d’échanger, j’ai quelques questions rapides sur votre entreprise. Deux minutes suffisent, et je lis chaque réponse.",
     /** Dernière question, en texte libre. La réponse arrive à Robin telle quelle. */
     freeQuestion: "Dernière question, et c’est la plus utile : quelle automatisation vous ferait gagner le plus de temps ou d’efficacité ? Si vous avez déjà une idée en tête, même floue, écrivez‑la.",
     freePlaceholder: "Une idée, même floue… ou « je ne sais pas encore »",
     beforeLeads: "Merci, c’est très clair. D’après vos réponses, voici les pistes que je regarderais en premier.",
-    askContact: "Laissez-moi un email ou un numéro : je reviens vers vous sous 24 h pour en parler, avec des exemples adaptés à votre activité.",
-    done: "C’est noté, merci. Je reviens vers vous sous 24 h. À très vite.",
+    askContact: "Laissez-moi un email ou un numéro : je reviens vers vous sous 24 h pour en parler, avec des exemples adaptés à votre activité.",
+    done: "C’est noté, merci. Je reviens vers vous sous 24 h. À très vite.",
     error: "L’envoi n’a pas abouti. Vous pouvez réessayer en renvoyant votre email ou votre numéro.",
   },
   resultKicker: "Premières pistes d’après vos réponses",
@@ -61,7 +61,7 @@ export type Answers = Partial<Record<Question["key"] | "need", string[]>>;
 export const nudge = {
   delaySeconds: 5,
   title: "Bonjour, je suis Robin.",
-  text: "Vous vous demandez ce que l’IA pourrait simplifier dans votre relation client ? Répondez à quelques questions, je reviens vers vous sous 24 h.",
+  text: "Vous vous demandez ce que l’IA pourrait simplifier dans votre relation client ? Répondez à quelques questions, je reviens vers vous sous 24 h.",
   cta: "Préparer notre échange",
   dismiss: "Plus tard",
 };

@@ -8,7 +8,6 @@ import { FaqList } from "@/components/ui/FaqList";
 import { ExampleTag, Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
-import { ToolIcon } from "@/components/ui/ToolIcons";
 import { about, caseStudies, casesIndex, contact, cta, demo, faq, founder, hero, method, needs, type CaseStudy } from "@/lib/content";
 
 function Check({ className = "" }: { className?: string }) {
@@ -43,7 +42,7 @@ export function Hero() {
                 hero.title
               )}
             </h1>
-            <p className="t-lead mt-7 max-w-[34rem]">{hero.text}</p>
+            <p className="t-lead mt-7 max-w-[30rem]">{hero.text}</p>
             <div className="mt-10 flex flex-col sm:flex-row gap-3">
               <OpenContactButton />
               <a
@@ -54,10 +53,6 @@ export function Hero() {
                 <ArrowDown />
               </a>
             </div>
-            <p className="mt-8 flex items-center gap-2 text-[14px] text-muted">
-              <Check className="text-night" />
-              {hero.note}
-            </p>
           </div>
         </div>
         <div className="lg:col-span-5 hero-in [animation-delay:80ms]">
@@ -74,9 +69,6 @@ export function Hero() {
               className="relative w-full h-auto aspect-[4/5] object-cover rounded-[28px]"
             />
             </div>
-            <figcaption className="mt-8 text-[13px] text-muted">
-              {founder.name}, fondateur de Luma
-            </figcaption>
           </figure>
         </div>
       </div>
@@ -89,37 +81,19 @@ export function Needs() {
   return (
     <Section id="besoins">
       <Reveal>
-        <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 items-end">
-          <div className="lg:col-span-7">
-            <Kicker>{needs.kicker}</Kicker>
-            <h2 className="t-h2 mt-5 max-w-[16ch]">{needs.title}</h2>
-          </div>
-          <p className="t-body lg:col-span-5 max-w-[30rem]">{needs.text}</p>
-        </div>
+        <Kicker>{needs.kicker}</Kicker>
+        <h2 className="t-h2 mt-5 max-w-[16ch]">{needs.title}</h2>
       </Reveal>
       <div className="mt-14 md:mt-16">
-        <div className="hidden md:grid grid-cols-12 gap-8 pb-4 t-kicker">
-          <span className="col-span-4">{needs.labelNeed}</span>
-          <span className="col-start-6 col-span-7">{needs.labelUse}</span>
-        </div>
         <ol className="border-t border-line">
           {needs.items.map((n, i) => (
             <li key={n.title} className="border-b border-line">
-              <Reveal className="grid md:grid-cols-12 gap-3 md:gap-8 py-8 md:py-10">
-                <div className="md:col-span-4">
-                  <p className="font-display text-[14px] font-semibold text-slate tabular-nums">{String(i + 1).padStart(2, "0")}</p>
-                  <h3 className="t-h3 mt-2 text-[22px]">{n.title}</h3>
-                  <p className="t-body mt-3 text-[15px]">{n.need}</p>
-                </div>
-                <div className="md:col-start-6 md:col-span-7 flex gap-4 md:pt-7">
-                  <span aria-hidden className="mt-1.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-mist text-night">
-                    <Arrow className="size-3.5" />
-                  </span>
-                  <p className="text-[17px] md:text-[19px] leading-[1.5] font-medium text-night">
-                    <span className="sr-only">{needs.labelUse} : </span>
-                    {n.use}
-                  </p>
-                </div>
+              <Reveal className="grid md:grid-cols-12 gap-2 md:gap-8 items-baseline py-7 md:py-8">
+                <h3 className="md:col-span-5 t-h3 text-[22px] md:text-[24px] flex items-baseline gap-4">
+                  <span className="font-display text-[14px] font-semibold text-slate tabular-nums" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
+                  {n.title}
+                </h3>
+                <p className="md:col-start-7 md:col-span-6 pl-[34px] md:pl-0 text-[16px] md:text-[18px] leading-[1.5] text-ink">{n.use}</p>
               </Reveal>
             </li>
           ))}
@@ -137,22 +111,19 @@ export function Demo() {
         <div className="max-w-[44rem]">
           <Kicker>{demo.kicker}</Kicker>
           <h2 className="t-h2 mt-5">{demo.title}</h2>
-          <p className="t-body mt-5 max-w-[36rem]">{demo.text}</p>
+          {demo.text && <p className="t-body mt-5 max-w-[36rem]">{demo.text}</p>}
         </div>
       </Reveal>
       <div className="mt-14 md:mt-16 grid lg:grid-cols-12 gap-12 lg:gap-10 items-start">
-        <ol className="lg:col-span-5 relative flex flex-col gap-8">
-          <span aria-hidden className="absolute left-[19px] top-10 bottom-10 w-px bg-powder" />
+        <ol className="lg:col-span-5 relative flex flex-col gap-7">
+          <span aria-hidden className="absolute left-[19px] top-6 bottom-6 w-px bg-powder" />
           {demo.steps.map((s, i) => (
             <li key={s.title}>
-              <Reveal delay={i * 0.05} className="relative flex gap-5">
+              <Reveal delay={i * 0.05} className="relative flex items-center gap-5">
                 <span className="relative inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-white border border-powder font-display text-[15px] font-bold text-night tabular-nums">
                   {i + 1}
                 </span>
-                <div className="pt-1.5">
-                  <h3 className="t-h3 text-[18px]">{s.title}</h3>
-                  <p className="t-body mt-1.5 text-[15px]">{s.text}</p>
-                </div>
+                <h3 className="t-h3 text-[18px]">{s.title}</h3>
               </Reveal>
             </li>
           ))}
@@ -165,18 +136,7 @@ export function Demo() {
             <ConversationCard {...demo.conversation} />
             <RecordCard />
           </div>
-          <div className="mt-8 flex flex-col xl:flex-row xl:items-center justify-between gap-5">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-[13px] text-muted whitespace-nowrap">Se connecte par exemple à</span>
-              <ul className="flex items-center gap-2" aria-label="Exemples d’outils">
-                {["WhatsApp", "Gmail", "Google Calendar", "Notion", "HubSpot"].map((t) => (
-                  <li key={t} title={t} className="inline-flex size-9 items-center justify-center rounded-full bg-white border border-line">
-                    <ToolIcon name={t} size={20} />
-                    <span className="sr-only">{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="mt-8">
             <TextLink href="/agent-whatsapp" className="whitespace-nowrap">{demo.link}</TextLink>
           </div>
         </Reveal>
@@ -243,11 +203,10 @@ export function About() {
             </div>
           </Reveal>
           <Reveal delay={0.06}>
-            <ul className="mt-10 grid sm:grid-cols-3 gap-6 sm:gap-8">
+            <ul className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8">
               {about.points.map((pt) => (
                 <li key={pt.title} className="border-t-2 border-night pt-4">
                   <p className="font-display text-[17px] font-bold text-night">{pt.title}</p>
-                  <p className="mt-1.5 text-[14px] leading-[1.55] text-ink">{pt.text}</p>
                 </li>
               ))}
             </ul>
@@ -263,13 +222,8 @@ export function Method({ withLink = true, tone = "mist" as "mist" | "white" }: {
   return (
     <Section id="accompagnement" tone={tone}>
       <Reveal>
-        <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 items-end">
-          <div className="lg:col-span-7">
-            <Kicker>{method.kicker}</Kicker>
-            <h2 className="t-h2 mt-5">{method.title}</h2>
-          </div>
-          <p className="t-body lg:col-span-5 max-w-[30rem]">{method.text}</p>
-        </div>
+        <Kicker>{method.kicker}</Kicker>
+        <h2 className="t-h2 mt-5">{method.title}</h2>
       </Reveal>
       <ol className="mt-14 md:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
         {method.steps.map((s, i) => (
@@ -297,7 +251,7 @@ export function Method({ withLink = true, tone = "mist" as "mist" | "white" }: {
 }
 
 /* 6. Réalisations : uniquement des cas réels, avec leurs vrais logos. */
-export function CaseList({ items = caseStudies.items }: { items?: CaseStudy[] }) {
+export function CaseList({ items = caseStudies.items, compact = false }: { items?: CaseStudy[]; compact?: boolean }) {
   return (
     <ul className="border-t border-line">
       {items.map((c) => (
@@ -313,8 +267,8 @@ export function CaseList({ items = caseStudies.items }: { items?: CaseStudy[] })
                 <p className="text-[14px] text-muted">{c.sector}</p>
               </div>
             </div>
-            <p className="md:col-span-5 text-[17px] leading-[1.5] text-ink">{c.summary}</p>
-            <div className="md:col-span-3 flex items-end justify-between gap-4">
+            {!compact && <p className="md:col-span-5 text-[17px] leading-[1.5] text-ink">{c.summary}</p>}
+            <div className={`${compact ? "md:col-start-9 md:col-span-4" : "md:col-span-3"} flex items-end justify-between gap-4`}>
               {c.stats[0] && (
                 <p>
                   <span className="block font-display text-[30px] font-extrabold tracking-[-0.02em] leading-none text-night whitespace-nowrap">{c.stats[0].value}</span>
@@ -348,7 +302,7 @@ export function Cases() {
         </div>
       </Reveal>
       <Reveal className="mt-12 md:mt-14">
-        <CaseList />
+        <CaseList compact />
       </Reveal>
     </Section>
   );
