@@ -1,5 +1,5 @@
 /**
- * Mini-audit gratuit : 5 questions à choix rapides, puis des pistes d’automatisation
+ * Questions avant l’échange : 5 questions à choix rapides, puis des pistes d’automatisation
  * déduites des réponses (règles simples, aucun chiffre inventé), et une demande d’analyse complète.
  */
 
@@ -12,36 +12,22 @@ export type Question = {
 };
 
 export const audit = {
-  pill: "Mini-audit gratuit",
-  /** Voix de la mascotte dans le panneau conversationnel. */
+  /** Voix de Robin : questions préparées à l’avance, réponses lues par lui. */
   agent: {
-    name: "Luma",
-    role: "Votre assistant pour le mini-audit",
-    hello: "Bonjour ! Je suis Luma. En quelques questions, je repère ce qui pourrait fonctionner sans vous dans votre entreprise. C’est gratuit et ça prend deux minutes.",
-    /** Dernière question, en texte libre. La réponse affine les pistes et arrive à Robin telle quelle. */
-    freeQuestion: "Dernière question, et c’est la plus utile : quelle automatisation vous ferait gagner le plus de temps ou d’efficacité ? Si vous avez déjà une idée en tête, même floue, dites-la-moi.",
+    name: "Préparer notre échange",
+    role: "Robin Pailhes · réponse sous 24 h",
+    hello: "Bonjour, je suis Robin. Avant d’échanger, j’ai quelques questions rapides sur votre entreprise. Deux minutes suffisent, et je lis chaque réponse.",
+    /** Dernière question, en texte libre. La réponse arrive à Robin telle quelle. */
+    freeQuestion: "Dernière question, et c’est la plus utile : quelle automatisation vous ferait gagner le plus de temps ou d’efficacité ? Si vous avez déjà une idée en tête, même floue, écrivez‑la.",
     freePlaceholder: "Une idée, même floue… ou « je ne sais pas encore »",
-    beforeLeads: "Merci, c’est très clair. Voici ce que je regarderais en premier chez vous.",
-    askContact: "Pour recevoir votre analyse complète, faite à la main par Robin, laissez-moi un email ou un numéro. Il revient vers vous sous 24 h.",
-    done: "C’est noté, merci ! Robin vous recontacte sous 24 h avec votre analyse. À très vite.",
+    beforeLeads: "Merci, c’est très clair. D’après vos réponses, voici les pistes que je regarderais en premier.",
+    askContact: "Laissez-moi un email ou un numéro : je reviens vers vous sous 24 h pour en parler, avec des exemples adaptés à votre activité.",
+    done: "C’est noté, merci. Je reviens vers vous sous 24 h. À très vite.",
     error: "L’envoi n’a pas abouti. Vous pouvez réessayer en renvoyant votre email ou votre numéro.",
   },
-  title: "Vous voyez de l’IA partout. Mais concrètement, chez vous ?",
-  text: "Luma, notre assistant, vous pose cinq questions simples et vous montre gratuitement ce qui pourrait tourner sans vous dans votre entreprise. Robin vous rappelle ensuite avec une analyse complète. Sans engagement, sans jargon.",
-  start: "Lancer le mini-audit avec Luma",
-  next: "Suivant",
-  back: "Retour",
-  see: "Voir mes premières pistes",
   resultKicker: "Premières pistes d’après vos réponses",
-  resultTitle: "Voici ce que Luma regarderait en premier chez vous.",
-  resultNote: "Ce sont des pistes générales. L’analyse complète est faite à la main par Robin, à partir de votre fonctionnement réel.",
-  leadTitle: "Recevez votre analyse complète, gratuitement.",
-  leadText: "Un email ou un numéro, et Robin vous envoie sous 24 h ce qu’il verrait chez vous, avec des exemples concrets.",
+  resultNote: "Pistes générales, déduites automatiquement de vos réponses. Je les affine avec vous lors de notre échange.",
   leadPlaceholder: "Email ou téléphone",
-  leadButton: "Recevoir mon analyse gratuite",
-  leadDone: "Reçu. Robin revient vers vous sous 24 h avec votre analyse.",
-  leadError: "L’envoi n’a pas abouti. Réessayez dans un instant.",
-  restart: "Refaire le mini-audit",
   questions: [
     { key: "sector", title: "Dans quel secteur est votre entreprise ?", options: ["Hôtellerie", "Restauration", "Services", "Commerce", "Cabinet", "Immobilier", "Autre"] },
     { key: "size", title: "Quelle est la taille de votre équipe ?", options: ["Je suis seul", "2 à 5", "6 à 20", "Plus de 20"] },
@@ -74,20 +60,20 @@ export type Answers = Partial<Record<Question["key"] | "need", string[]>>;
 /** Pop-up d’invitation, quelques secondes après l’arrivée sur le site. */
 export const nudge = {
   delaySeconds: 5,
-  title: "Bonjour, je suis Luma !",
-  text: "Envie de voir ce que l’IA pourrait automatiser dans votre entreprise ? Un mini-audit gratuit, deux minutes, sans engagement.",
-  cta: "Lancer le mini-audit",
+  title: "Bonjour, je suis Robin.",
+  text: "Vous vous demandez ce que l’IA pourrait faire dans votre entreprise ? Répondez à quelques questions, je reviens vers vous sous 24 h.",
+  cta: "Préparer notre échange",
   dismiss: "Plus tard",
 };
 
 const LEADS: Record<string, { title: string; text: string }> = {
-  "Demandes clients": { title: "Un agent qui répond à vos demandes", text: "Il répond 24/7 sur vos canaux, qualifie la demande et ne vous transmet que ce qui mérite votre attention." },
-  Devis: { title: "Des devis préparés automatiquement", text: "À partir de la demande, le devis est généré, envoyé, et suivi jusqu’à la réponse du client." },
-  Relances: { title: "Des relances qui partent toutes seules", text: "Devis sans réponse, demandes en attente : la relance part au bon moment, avec vos mots." },
-  "Rendez-vous": { title: "La prise de rendez-vous sans aller-retour", text: "Le client choisit un créneau, l’agenda se remplit, la confirmation part. Vous n’intervenez pas." },
-  "Facturation et admin": { title: "L’administratif qui se fait en arrière-plan", text: "Factures, paiements, saisie : ce qui se répète chaque semaine est pris en charge." },
-  "Suivi CRM": { title: "Un CRM toujours à jour", text: "Chaque échange met à jour la fiche client, sans ressaisie." },
-  Reporting: { title: "L’essentiel de votre activité chaque semaine", text: "Un tableau de bord qui vous envoie ce qu’il faut savoir, au lieu de le chercher." },
+  "Demandes clients": { title: "Un agent pour vos demandes courantes", text: "Il répond aux questions fréquentes sur vos canaux, rassemble les informations utiles et vous transmet ce qui demande votre avis." },
+  Devis: { title: "Des devis préparés à partir de la demande", text: "Les informations sont collectées et le devis est prérempli. Vous le vérifiez avant l’envoi." },
+  Relances: { title: "Des relances programmées", text: "Devis sans réponse, demandes en attente : la relance est préparée au bon moment, avec vos mots." },
+  "Rendez-vous": { title: "La prise de rendez-vous sans aller-retour", text: "Le client choisit un créneau libre, il est bloqué dans votre agenda et la confirmation part." },
+  "Facturation et admin": { title: "Moins de ressaisie administrative", text: "Factures, paiements, saisie : ce qui se répète chaque semaine est préparé, vous contrôlez." },
+  "Suivi CRM": { title: "Un CRM tenu à jour", text: "Chaque échange complète la fiche client, sans ressaisie." },
+  Reporting: { title: "L’essentiel de votre activité chaque semaine", text: "Un tableau de bord qui rassemble ce qu’il faut savoir, au lieu de le chercher." },
 };
 
 const DEFAULT_LEADS = [LEADS["Demandes clients"], LEADS["Relances"], LEADS["Suivi CRM"]];

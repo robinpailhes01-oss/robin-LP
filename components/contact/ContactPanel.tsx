@@ -5,10 +5,11 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useContact } from "./ContactContext";
 import { audit, contextLine, leadsFor, type Answers } from "@/lib/audit";
+import { founder } from "@/lib/content";
 
 /**
- * Mini-audit conversationnel : la mascotte pose cinq questions à réponses rapides,
- * donne les premières pistes, puis demande un email ou un numéro pour l’analyse complète.
+ * Panneau « Préparer notre échange » : cinq questions préparées par Robin, à réponses rapides,
+ * une question libre, des premières pistes, puis un email ou un numéro. Envoi vers /api/contact.
  */
 
 type Msg =
@@ -34,6 +35,7 @@ export function ContactPanel() {
   const [status, setStatus] = useState<Status>("idle");
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   const q = audit.questions[Math.min(step, audit.questions.length - 1)];
   const delay = (ms: number) => (reduced ? 0 : ms);
@@ -49,7 +51,7 @@ export function ContactPanel() {
     );
   }
 
-  // Ouverture : on repart de zéro et la mascotte se présente.
+  // Ouverture : on repart de zéro et Robin se présente.
   useEffect(() => {
     if (!open) return;
     setMessages([]);
@@ -75,11 +77,15 @@ export function ContactPanel() {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeContact();
     window.addEventListener("keydown", onKey);
+    const opener = document.activeElement as HTMLElement | null;
+    const f = setTimeout(() => closeRef.current?.focus(), 50);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", onKey);
+      clearTimeout(f);
       document.body.style.overflow = prev;
+      opener?.focus?.();
     };
   }, [open, closeContact]);
 
@@ -189,11 +195,11 @@ export function ContactPanel() {
             type="button"
             aria-label="Fermer"
             onClick={closeContact}
-            className="fixed inset-0 z-40 bg-navy/30 backdrop-blur-[2px]"
+            className="fixed inset-0 z-40 bg-night/35"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           />
           <motion.aside
             role="dialog"
@@ -203,22 +209,23 @@ export function ContactPanel() {
             initial={reduced ? { opacity: 0 } : { x: "100%" }}
             animate={reduced ? { opacity: 1 } : { x: 0 }}
             exit={reduced ? { opacity: 0 } : { x: "100%" }}
-            transition={{ duration: 0.5, ease }}
+            transition={{ duration: 0.35, ease }}
           >
-            <header className="flex items-center justify-between px-5 sm:px-6 h-16 border-b border-line">
+            <header className="flex items-center justify-between px-5 sm:px-6 h-[72px] border-b border-line">
               <div className="flex items-center gap-3">
-                <Avatar size={34} />
+                <Avatar size={40} />
                 <div>
-                  <h2 id="contact-title" className="text-[15px] font-semibold leading-tight">
+                  <h2 id="contact-title" className="font-display text-[16px] font-bold leading-tight text-night">
                     {audit.agent.name}
                   </h2>
-                  <p className="text-[12px] text-muted leading-tight">{audit.agent.role}</p>
+                  <p className="text-[13px] text-muted leading-tight mt-0.5">{audit.agent.role}</p>
                 </div>
               </div>
               <button
+                ref={closeRef}
                 type="button"
                 onClick={closeContact}
-                className="size-10 -mr-2 inline-flex items-center justify-center rounded-full hover:bg-card"
+                className="size-11 -mr-2 inline-flex items-center justify-center rounded-full text-night hover:bg-mist"
                 aria-label="Fermer le panneau"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -243,29 +250,29 @@ export function ContactPanel() {
                       initial={reduced ? false : { opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.45, ease }}
-                      className="max-w-[92%] rounded-[18px] rounded-bl-[6px] bg-card border border-line p-3.5 flex flex-col gap-2"
+                      className="max-w-[92%] rounded-[18px] rounded-bl-[6px] bg-mist p-3.5 flex flex-col gap-2"
                     >
                       <p className="t-kicker">{audit.resultKicker}</p>
                       <ol className="flex flex-col gap-2">
                         {m.leads.map((l, i) => (
                           <li key={l.title} className="flex gap-2.5 rounded-xl bg-white border border-line p-3">
-                            <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-violet text-white text-[11px] font-bold tabular-nums">{i + 1}</span>
+                            <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-night text-white text-[11px] font-bold tabular-nums">{i + 1}</span>
                             <div>
-                              <p className="text-[14px] font-semibold leading-tight">{l.title}</p>
-                              <p className="text-[13px] text-body mt-1 leading-[1.4]">{l.text}</p>
+                              <p className="text-[14px] font-semibold leading-tight text-night">{l.title}</p>
+                              <p className="text-[13px] text-ink mt-1 leading-[1.45]">{l.text}</p>
                             </div>
                           </li>
                         ))}
                       </ol>
-                      {m.context && <p className="text-[12px] text-body">{m.context}</p>}
-                      <p className="text-[11px] text-muted">{audit.resultNote}</p>
+                      {m.context && <p className="text-[13px] text-ink">{m.context}</p>}
+                      <p className="text-[12px] text-muted leading-[1.45]">{audit.resultNote}</p>
                     </motion.div>
                   </LumaRow>
                 ),
               )}
               {typing && (
                 <LumaRow>
-                  <div className="rounded-[18px] rounded-bl-[6px] bg-navy px-4 py-3 flex gap-1.5" aria-label="Luma écrit">
+                  <div className="rounded-[18px] rounded-bl-[6px] bg-night px-4 py-3 flex gap-1.5" role="status" aria-label="Message en cours">
                     <span className="typing-dot block size-1.5 rounded-full bg-white" />
                     <span className="typing-dot block size-1.5 rounded-full bg-white" />
                     <span className="typing-dot block size-1.5 rounded-full bg-white" />
@@ -275,10 +282,10 @@ export function ContactPanel() {
               {showChips && (
                 <motion.ul
                   key={`chips-${step}`}
-                  initial={reduced ? false : { opacity: 0, y: 8 }}
+                  initial={reduced ? false : { opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.1, ease }}
-                  className="flex flex-wrap gap-2 pl-11"
+                  transition={{ duration: 0.3, delay: 0.05, ease }}
+                  className="flex flex-wrap gap-2 pl-0 sm:pl-[42px]"
                   role={q.multiple ? "group" : "radiogroup"}
                   aria-label={q.title}
                 >
@@ -291,8 +298,8 @@ export function ContactPanel() {
                           role={q.multiple ? "checkbox" : "radio"}
                           aria-checked={on}
                           onClick={() => toggle(o)}
-                          className={`h-10 rounded-full px-3.5 text-[13px] font-medium border transition-[background-color,border-color,color,transform] duration-200 ease-[var(--ease-luma)] active:scale-[0.97] ${
-                            on ? "bg-violet border-violet text-white" : "bg-white border-line text-navy hover:border-violet/40"
+                          className={`min-h-11 rounded-full px-4 text-[14px] font-medium border transition-[background-color,border-color,color] duration-200 ease-[var(--ease-luma)] ${
+                            on ? "bg-night border-night text-white" : "bg-white border-powder text-night hover:border-night/50 hover:bg-paper"
                           }`}
                         >
                           {o}
@@ -306,7 +313,7 @@ export function ContactPanel() {
                         type="button"
                         onClick={() => picked.length && void answer(picked)}
                         disabled={picked.length === 0}
-                        className="h-10 rounded-full px-4 text-[13px] font-semibold bg-navy text-white disabled:opacity-30 transition-opacity"
+                        className="min-h-11 rounded-full px-5 text-[14px] font-semibold bg-night text-white hover:bg-night-hover disabled:opacity-30 transition-[opacity,background-color]"
                       >
                         {q.hint ? "Valider" : "Suivant"}
                       </button>
@@ -330,12 +337,12 @@ export function ContactPanel() {
                 onChange={(e) => setValue(e.target.value)}
                 placeholder={status === "done" ? "Merci, à très vite." : placeholder}
                 disabled={status === "done" || status === "sending" || typing}
-                className="flex-1 h-12 rounded-full bg-card border border-line px-5 text-[15px] placeholder:text-muted disabled:opacity-60"
+                className="flex-1 min-w-0 h-12 rounded-full bg-paper border border-powder px-5 text-[16px] text-night placeholder:text-muted focus:border-night focus:outline-none focus-visible:outline-2 focus-visible:outline-night disabled:opacity-60"
               />
               <button
                 type="submit"
                 disabled={status === "done" || status === "sending" || typing || !canSend}
-                className="size-12 shrink-0 rounded-full bg-violet text-white inline-flex items-center justify-center disabled:opacity-40 transition-opacity"
+                className="size-12 shrink-0 rounded-full bg-night text-white hover:bg-night-hover inline-flex items-center justify-center disabled:opacity-40 transition-[opacity,background-color]"
                 aria-label="Envoyer"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -352,8 +359,8 @@ export function ContactPanel() {
 
 export function Avatar({ size = 32 }: { size?: number }) {
   return (
-    <span className="inline-flex shrink-0 items-center justify-center rounded-full bg-white border border-line overflow-hidden" style={{ width: size, height: size }} aria-hidden>
-      <Image src="/images/mascotte-avatar.png" alt="" width={size * 2} height={size * 2} className="h-full w-full object-cover" />
+    <span className="inline-flex shrink-0 items-center justify-center rounded-full bg-mist overflow-hidden" style={{ width: size, height: size }} aria-hidden>
+      <Image src={founder.photos.avatar.src} alt="" width={96} height={96} className="h-full w-full object-cover" />
     </span>
   );
 }
@@ -373,11 +380,11 @@ function Bubble({ side, children }: { side: "luma" | "client"; children: React.R
     <motion.div
       initial={reduced ? false : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease }}
+      transition={{ duration: 0.3, ease }}
       className={
         side === "luma"
-          ? "max-w-[85%] rounded-[18px] rounded-bl-[6px] bg-navy text-white px-4 py-2.5 text-[15px] leading-[1.4]"
-          : "self-end max-w-[85%] rounded-[18px] rounded-br-[6px] bg-violet-tint text-navy px-4 py-2.5 text-[15px] leading-[1.4]"
+          ? "max-w-[85%] rounded-[18px] rounded-bl-[6px] bg-mist text-night px-4 py-2.5 text-[15px] leading-[1.45]"
+          : "self-end max-w-[85%] rounded-[18px] rounded-br-[6px] bg-night text-white px-4 py-2.5 text-[15px] leading-[1.45]"
       }
     >
       {children}

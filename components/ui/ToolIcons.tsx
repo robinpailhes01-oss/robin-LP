@@ -59,6 +59,6 @@ export function ToolIcon({ name, size = 30 }: { name: string; size?: number }) {
         </svg>
       );
     default:
-      return <span style={s} className="rounded-md bg-card" aria-hidden />;
+      return <span style={s} className="rounded-md bg-mist" aria-hidden />;
   }
 }
