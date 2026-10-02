@@ -29,3 +29,15 @@ $FF -i video-muette.mp4 -i audio/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b
 ```
 
 Si le texte de la voix off change, il faut régénérer la voix et mettre à jour les repères de `cues.js`. Le chemin de Chromium est défini dans `render.js`.
+
+## Signature standard de fin
+
+Toutes les vidéos et tous les réels Luma se terminent par la même signature, voir `signature-reference.jpg` :
+
+1. La photo de Robin dans un rond, avec « Robin Pailhes » et « Fondateur de Luma ».
+2. Le logotype Luma avec son étoile.
+3. « Des outils IA personnalisés pour la relation client des PME. »
+4. « Agence IA · Montpellier ».
+5. Le bouton « Échangeons sur votre projet ».
+
+Fond bleu très clair, texte bleu nuit. En vertical, la phrase passe sur deux lignes et le bloc reste au-dessus des sous-titres. La scène `s10` de `reel-harmonie-yacht/reel2.html` sert de modèle.

@@ -187,16 +187,20 @@
     </div>
   </div>
 
-  <!-- S10 · Appel à l’action -->
+  <!-- S10 · Signature standard Luma (référence : motion/signature-reference.jpg) -->
   <div class="scene" id="s10">
-    <div class="abs" style="left:70px; right:130px; top:330px; text-align:center">
-      <div class="display" id="s10h" style="font-size:84px"></div>
-      <div class="display" style="display:inline-flex; align-items:flex-start; margin-top:90px">
-        <span style="font-size:200px; display:flex" id="s10w"><span class="mask"><span>L</span></span><span class="mask"><span>u</span></span><span class="mask"><span>m</span></span><span class="mask"><span>a</span></span></span>
-        <svg id="s10s" width="58" height="58" viewBox="0 0 16 16" style="color:var(--slate); margin-left:6px; margin-top:18px"><path d="M8 0c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z" fill="currentColor"/></svg>
+    <div class="abs" style="left:0; right:100px; top:380px; display:flex; flex-direction:column; align-items:center; text-align:center">
+      <div id="s10f" style="display:flex; align-items:center; gap:22px; opacity:0">
+        <div style="width:112px; height:112px; border-radius:50%; overflow:hidden; background:#fff"><img src="../../public/images/robin-buste.jpg" style="width:100%; height:100%; object-fit:cover; object-position:50% 30%" /></div>
+        <div style="text-align:left"><div class="tight" style="font-weight:800; font-size:42px; letter-spacing:-0.02em">Robin Pailhes</div><div style="font-size:28px; color:var(--ink); margin-top:4px">Fondateur de Luma</div></div>
       </div>
-      <div class="kicker" id="s10k" style="justify-content:center; margin-top:30px; font-size:28px; opacity:0">Agence IA · Montpellier</div>
-      <div id="s10c" style="margin-top:56px; opacity:0"><span style="display:inline-flex; align-items:center; gap:14px; background:var(--night); color:#fff; font-weight:600; font-size:32px; padding:26px 44px; border-radius:99px">Parlons de votre projet</span></div>
+      <div class="display" style="display:flex; align-items:flex-start; margin-top:70px">
+        <span style="font-size:250px; display:flex" id="s10w"><span class="mask"><span>L</span></span><span class="mask"><span>u</span></span><span class="mask"><span>m</span></span><span class="mask"><span>a</span></span></span>
+        <svg id="s10s" width="70" height="70" viewBox="0 0 16 16" style="color:var(--slate); margin-left:8px; margin-top:22px"><path d="M8 0c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z" fill="currentColor"/></svg>
+      </div>
+      <p id="s10p" class="tight" style="font-weight:800; font-size:54px; letter-spacing:-0.02em; line-height:1.14; margin-top:44px; max-width:860px; opacity:0">Des outils IA personnalisés pour la relation client des PME.</p>
+      <div class="kicker" id="s10k" style="justify-content:center; margin-top:36px; font-size:26px; opacity:0">Agence IA · Montpellier</div>
+      <div id="s10c" style="margin-top:56px; opacity:0"><span style="display:inline-flex; align-items:center; gap:14px; background:var(--night); color:#fff; font-weight:600; font-size:32px; padding:26px 44px; border-radius:99px">Échangeons sur votre projet <svg width="28" height="28" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
     </div>
   </div>
 
@@ -227,7 +231,6 @@ words($("#s1h"), "Un seul outil pour toute la relation client.");
 words($("#s2h"), "D’où viennent vos clients.");
 words($("#s6h"), "Remplie par Léa.");
 words($("#s8h"), "Tout au même endroit.");
-words($("#s10h"), "Le même outil pour votre entreprise ?");
 
 const FAN = [["dash/dash-leads.png", -9, 120], ["dash/dash-accueil.png", 0, 370], ["dash/dash-marketing.png", 9, 620]];
 $("#fan").innerHTML = FAN.map(([src, r, x], i) => `<div class="phone" id="fan${i}" style="left:${x}px; top:${i === 1 ? 880 : 940}px; width:340px; height:660px; padding:10px; border-radius:44px; opacity:0"><div class="scr" style="border-radius:38px"><img src="${src}" /></div></div>`).join("");
@@ -396,11 +399,12 @@ function render(t) {
     rise($("#s9b"), t, T.R3 + .6);
   }
 
-  /* S10 */
+  /* S10 · signature */
   if (vis($("#s10"), t >= T.I1 - .3)) {
-    reveal($("#s10h"), t, T.I1, .06);
+    pop($("#s10f"), t, T.I1 - .1, 0, 20);
     $$("#s10w .mask > span").forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, T.I2 - .1 + i * .07, .9, E.expo))}%)`; });
     const ks = P(t, T.I2 + .1, .9, E.expo); st($("#s10s"), { o: P(t, T.I2 + .1, .25), s: ks, r: L(-160, 0, ks) });
+    rise($("#s10p"), t, T.I2 + .55);
     rise($("#s10k"), t, T.I3, 14);
     pop($("#s10c"), t, T.I3 + .9, 0, 20);
   }
