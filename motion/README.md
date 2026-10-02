@@ -41,3 +41,8 @@ Toutes les vidéos et tous les réels Luma se terminent par la même signature, 
 5. Le bouton « Échangeons sur votre projet ».
 
 Fond bleu très clair, texte bleu nuit. En vertical, la phrase passe sur deux lignes et le bloc reste au-dessus des sous-titres. La scène `s10` de `reel-harmonie-yacht/reel2.html` sert de modèle.
+
+## Autres formats
+
+- `reel-harmonie-yacht/` : réels Instagram sur le cas Harmonie Yacht, avec voix off.
+- `reel-presentation/` : la présentation v1 en réel Instagram 9:16, avec musique légère et effets sonores, sans voix off.
