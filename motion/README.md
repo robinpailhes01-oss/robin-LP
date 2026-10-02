@@ -45,4 +45,4 @@ Fond bleu très clair, texte bleu nuit. En vertical, la phrase passe sur deux li
 ## Autres formats
 
 - `reel-harmonie-yacht/` : réels Instagram sur le cas Harmonie Yacht, avec voix off.
-- `reel-presentation/` : la présentation v1 en réel Instagram 9:16, avec musique légère et effets sonores, sans voix off.
+- `reel-presentation/` : la présentation v1 en réel Instagram 9:16, avec voix off, musique légère et effets sonores.
