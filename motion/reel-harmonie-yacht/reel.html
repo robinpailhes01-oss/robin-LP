@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>Réel Harmonie Yacht</title>
+<link rel="stylesheet" href="../fonts/fonts.css" />
+<style>
+  :root { --white:#fff; --paper:#fcfcfa; --mist:#eaf2f8; --powder:#cadfed; --slate:#71879a; --night:#17263d; --ink:#3f4e62; --muted:#5b6b7e; --line:#dce6ee; --wa:#25d366; --wabg:#efeae2; --wamine:#d9fdd3; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fff; }
+  body { font-family: "Inter", sans-serif; color: var(--night); -webkit-font-smoothing: antialiased; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #fff; }
+  .abs { position: absolute; }
+  .scene, .bg { position: absolute; inset: 0; visibility: hidden; }
+  .display { font-family: "Inter Tight", sans-serif; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
+  .tight { font-family: "Inter Tight", sans-serif; }
+  .kicker { font-size: 24px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 16px; }
+  .kicker::before { content: ""; width: 40px; height: 2px; background: var(--slate); }
+  .kicker.c { justify-content: center; }
+  .mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .14em; margin-bottom: -.14em; }
+  .mask > span { display: inline-block; transform: translateY(110%); }
+  .card { position: absolute; background: #fff; border: 2px solid var(--line); border-radius: 30px; box-shadow: 0 40px 80px -46px rgba(23,38,61,.55); }
+  .tag { display: inline-flex; align-items: center; gap: 10px; border-radius: 99px; padding: 10px 18px; font-size: 21px; font-weight: 600; }
+  .tag.real { background: var(--night); color: #fff; }
+  .tag.rec { background: #fff; color: var(--night); border: 2px solid var(--powder); }
+  .tag i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+  .chip { display: inline-flex; align-items: center; gap: 12px; background: #fff; border: 2px solid var(--line); border-radius: 99px; padding: 16px 24px; font-family: "Inter Tight"; font-weight: 700; font-size: 30px; box-shadow: 0 24px 50px -36px rgba(23,38,61,.5); }
+  /* Téléphone */
+  #phone { position: absolute; left: 300px; top: 300px; width: 480px; height: 960px; border-radius: 64px; background: #0e1726; padding: 14px; box-shadow: 0 60px 120px -60px rgba(23,38,61,.7); }
+  #screen { position: relative; width: 100%; height: 100%; border-radius: 52px; overflow: hidden; background: var(--wabg); }
+  #wahead { position: absolute; left: 0; right: 0; top: 0; height: 150px; background: #fff; display: flex; align-items: flex-end; gap: 14px; padding: 0 22px 18px; border-bottom: 1px solid #e3e3e3; z-index: 2; }
+  #wahead .av { width: 58px; height: 58px; border-radius: 50%; background: #fff; border: 1px solid var(--line); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  #wahead .nm { font-weight: 600; font-size: 24px; }
+  #wahead .st { font-size: 17px; color: #667781; margin-top: 2px; }
+  #msgs { position: absolute; left: 0; right: 0; top: 150px; bottom: 96px; overflow: hidden; }
+  #list { position: absolute; left: 0; right: 0; top: 0; padding: 22px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .m { max-width: 82%; padding: 13px 16px 22px; border-radius: 20px; font-size: 21px; line-height: 1.38; position: relative; box-shadow: 0 1px 1px rgba(0,0,0,.08); opacity: 0; }
+  .m .h { position: absolute; right: 12px; bottom: 6px; font-size: 13px; color: #667781; }
+  .m.c { align-self: flex-start; background: #fff; border-top-left-radius: 6px; }
+  .m.a { align-self: flex-end; background: var(--wamine); border-top-right-radius: 6px; }
+  .m b { font-weight: 600; }
+  .typing { align-self: flex-end; background: var(--wamine); border-radius: 20px; border-top-right-radius: 6px; padding: 18px 20px; display: none; gap: 7px; }
+  .typing i { width: 10px; height: 10px; border-radius: 50%; background: #667781; display: block; }
+  #wainput { position: absolute; left: 14px; right: 14px; bottom: 16px; height: 66px; background: #fff; border-radius: 40px; display: flex; align-items: center; padding: 0 24px; color: #8696a0; font-size: 20px; }
+  #cap { position: absolute; left: 60px; right: 140px; top: 1330px; display: flex; justify-content: center; }
+  #cap span { display: inline-block; background: var(--night); color: #fff; font-family: "Inter Tight"; font-weight: 700; font-size: 44px; letter-spacing: -0.015em; line-height: 1.22; padding: 16px 28px; border-radius: 24px; text-align: center; max-width: 880px; box-shadow: 0 20px 40px -24px rgba(23,38,61,.6); }
+</style>
+<script src="cues.js"></script>
+</head>
+<body>
+<div id="stage">
+  <div class="bg" id="bgN1" style="background:var(--night)"></div>
+  <div class="bg" id="bgM1" style="background:var(--mist)"></div>
+  <div class="bg" id="bgN2" style="background:var(--night)"></div>
+  <div class="bg" id="bgM2" style="background:var(--mist)"></div>
+
+  <!-- R1 · Accroche -->
+  <div class="scene" id="r1">
+    <div class="abs" style="left:80px; right:140px; top:330px">
+      <span class="tag" id="r1t" style="background:#fff; color:var(--night); font-size:26px; padding:14px 22px; opacity:0">
+        <svg width="34" height="34" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#25D366"/><path d="M9.5 23.5l1.1-3.6A8 8 0 1 1 13.5 22.8L9.5 23.5z" fill="#fff"/><path d="M13 12.6c.2-.5.5-.5.8-.5h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.5.6c-.1.2-.2.3 0 .6.5.9 1.6 2 2.9 2.6.3.1.5.1.7-.1l.7-.8c.2-.3.4-.2.6-.1l1.8.9c.3.1.5.2.5.4 0 .3 0 1-.4 1.6-.4.6-1.5 1-2 1-.7 0-1.9-.2-3.7-1.4-2.3-1.6-3.5-3.9-3.6-4.1-.1-.2-.8-1.2-.8-2.3s.6-1.6.8-1.9z" fill="#25D366"/></svg>
+        Agent WhatsApp · Harmonie Yacht
+      </span>
+      <div class="display" style="font-size:420px; color:#fff; letter-spacing:-0.05em; margin-top:40px; line-height:.95"><span class="mask"><span id="r1n">3</span></span><span class="mask"><span>&nbsp;h</span></span></div>
+      <div class="display" style="font-size:96px; color:var(--powder); margin-top:20px"><span class="mask"><span id="r1l">gagnées par jour.</span></span></div>
+    </div>
+  </div>
+
+  <!-- R2 · Contexte, capture réelle du site -->
+  <div class="scene" id="r2">
+    <div class="abs" id="r2phone" style="left:240px; top:290px; width:600px; height:1010px; border-radius:72px; background:#0e1726; padding:16px; box-shadow:0 60px 120px -60px rgba(23,38,61,.7)">
+      <div style="width:100%; height:100%; border-radius:58px; overflow:hidden; position:relative"><img id="r2img" src="caps/site-hero.jpg" style="position:absolute; left:0; top:0; width:100%; transform-origin:50% 60%" /></div>
+    </div>
+    <span class="tag real abs" id="r2tag" style="left:260px; top:225px; opacity:0"><i style="background:var(--wa)"></i>Capture réelle · harmonie-yacht.fr</span>
+    <div class="chip abs" id="r2c1" style="left:60px; top:470px; opacity:0">Yacht avec skipper</div>
+    <div class="chip abs" id="r2c2" style="left:520px; top:690px; opacity:0">Port de Carnon</div>
+    <div class="chip abs" id="r2c3" style="left:90px; top:910px; opacity:0">Près de Montpellier</div>
+  </div>
+
+  <!-- R3 · Avant -->
+  <div class="scene" id="r3">
+    <div class="abs" style="left:80px; top:280px">
+      <div class="kicker">Avant</div>
+      <div class="display" id="r3h" style="font-size:92px; margin-top:24px; width:860px">De longs allers-retours.</div>
+    </div>
+    <div id="bubbles"></div>
+  </div>
+
+  <!-- R4 → R10 · Le téléphone et les outils -->
+  <div class="scene" id="rp">
+    <div class="abs" id="rpTop" style="left:80px; top:220px; width:860px; display:flex; justify-content:space-between; align-items:center; opacity:0">
+      <div class="kicker" id="rpk">Aujourd’hui</div>
+      <span class="tag rec"><i style="background:var(--slate)"></i>Conversation reconstituée</span>
+    </div>
+    <div id="phone">
+      <div id="screen">
+        <div id="wahead">
+          <div class="av"><img src="../../public/logos/harmonie-yacht.png" data-abs="logo" style="width:46px" /></div>
+          <div><div class="nm">Harmonie Yacht</div><div class="st" id="wast">en ligne</div></div>
+        </div>
+        <div id="msgs"><div id="list"></div></div>
+        <div id="wainput">Message</div>
+      </div>
+    </div>
+
+    <!-- Calendrier (reconstitution) -->
+    <div class="card" id="pCal" style="left:56px; top:380px; width:520px; padding:28px; opacity:0">
+      <div style="display:flex; align-items:center; gap:14px">
+        <svg width="44" height="44" viewBox="0 0 32 32"><rect x="4" y="5" width="24" height="23" rx="3" fill="#fff" stroke="#DADCE0" stroke-width="1.5"/><rect x="4" y="5" width="24" height="6" rx="3" fill="#4285F4"/><rect x="4" y="9" width="24" height="2" fill="#4285F4"/><text x="16" y="24" text-anchor="middle" font-size="11" font-weight="700" fill="#1A73E8" font-family="Inter, sans-serif">31</text></svg>
+        <div><div class="tight" style="font-weight:800; font-size:30px">Calendrier</div><div style="font-size:19px; color:var(--muted)">Samedi</div></div>
+      </div>
+      <div id="slots" style="margin-top:22px; display:flex; flex-direction:column; gap:12px"></div>
+    </div>
+
+    <!-- Météo (reconstitution) -->
+    <div class="card" id="pMet" style="left:500px; top:470px; width:440px; padding:28px; opacity:0">
+      <div style="display:flex; align-items:center; gap:14px">
+        <svg width="48" height="48" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#eaf2f8"/><circle cx="13" cy="13" r="4.5" fill="#F6B53D"/><path d="M13 5.5v2M13 18.5v2M5.5 13h2M7.7 7.7l1.4 1.4M18.3 7.7l-1.4 1.4" stroke="#F6B53D" stroke-width="1.6" stroke-linecap="round"/><path d="M11.5 24h11a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.4 1.5A3.3 3.3 0 0 0 11.5 24z" fill="#fff" stroke="#17263d" stroke-width="1.5"/></svg>
+        <div><div class="tight" style="font-weight:800; font-size:30px">Météo · Carnon</div><div style="font-size:19px; color:var(--muted)">Samedi, fin de journée</div></div>
+      </div>
+      <div style="display:flex; gap:12px; margin-top:22px">
+        <div style="flex:1; background:var(--mist); border-radius:18px; padding:16px"><div style="font-size:17px; color:var(--muted)">Vent</div><div class="tight" style="font-weight:800; font-size:30px; margin-top:4px">Faible</div></div>
+        <div style="flex:1; background:var(--mist); border-radius:18px; padding:16px"><div style="font-size:17px; color:var(--muted)">Mer</div><div class="tight" style="font-weight:800; font-size:30px; margin-top:4px">Calme</div></div>
+      </div>
+      <div id="metOk" style="margin-top:16px; display:flex; align-items:center; gap:10px; font-weight:600; font-size:21px; opacity:0"><span style="width:30px; height:30px; border-radius:50%; background:var(--night); display:inline-flex; align-items:center; justify-content:center"><svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.6 2.5L10 3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Idéal au coucher du soleil</div>
+    </div>
+
+    <!-- Tarifs du site (capture réelle) -->
+    <div class="abs" id="pSite" style="left:470px; top:330px; width:480px; opacity:0">
+      <span class="tag real" style="margin-bottom:14px"><i style="background:var(--wa)"></i>Capture réelle · tarifs</span>
+      <div style="margin-top:14px; border-radius:28px; overflow:hidden; border:2px solid var(--line); box-shadow:0 40px 80px -46px rgba(23,38,61,.6)"><img src="caps/site-tarifs.jpg" style="width:100%; display:block" /></div>
+    </div>
+
+    <!-- Qualification -->
+    <div id="qual"></div>
+    <!-- Options -->
+    <div id="opts"></div>
+
+    <!-- Réservation (capture réelle) -->
+    <div class="abs" id="pResa" style="left:40px; top:300px; width:500px; opacity:0">
+      <span class="tag real"><i style="background:var(--wa)"></i>Capture réelle · réservation</span>
+      <div style="margin-top:14px; border-radius:28px; overflow:hidden; border:2px solid #0f2a45; box-shadow:0 40px 80px -46px rgba(23,38,61,.6)"><img src="caps/site-resa.jpg" style="width:100%; display:block" /></div>
+    </div>
+
+    <!-- Tableau de bord (reconstitution) -->
+    <div class="card" id="pDash" style="left:70px; top:640px; width:880px; padding:32px 34px; opacity:0">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <div><div class="kicker" style="font-size:19px">Tableau de bord</div><div class="tight" style="font-weight:800; font-size:36px; margin-top:8px">Nouvelle réservation</div></div>
+        <span class="tag rec"><i style="background:var(--slate)"></i>Reconstitution</span>
+      </div>
+      <div id="dash" style="margin-top:22px; display:grid; grid-template-columns:1fr 1fr; gap:12px"></div>
+      <div id="dashOk" style="margin-top:20px; display:inline-flex; align-items:center; gap:12px; background:var(--night); color:#fff; border-radius:99px; padding:14px 24px; font-weight:600; font-size:22px; opacity:0"><svg width="18" height="18" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.6 2.5L10 3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Demande complète, prête à valider</div>
+    </div>
+  </div>
+
+  <!-- R11 · Résultat -->
+  <div class="scene" id="r11">
+    <div class="abs" style="left:80px; right:140px; top:360px">
+      <div class="kicker" style="color:var(--powder)" id="r11k">Résultat</div>
+      <div class="display" style="font-size:420px; color:#fff; letter-spacing:-0.05em; margin-top:30px; line-height:.95"><span class="mask"><span>3</span></span><span class="mask"><span>&nbsp;h</span></span></div>
+      <div class="display" style="font-size:84px; color:#fff; margin-top:10px"><span class="mask"><span id="r11a">gagnées chaque jour.</span></span></div>
+      <div class="tight" id="r11b" style="font-weight:700; font-size:46px; color:var(--powder); margin-top:30px; line-height:1.2; opacity:0">Sans perdre la qualité de la relation client.</div>
+    </div>
+  </div>
+
+  <!-- R12 · Appel à l’action -->
+  <div class="scene" id="r12">
+    <div class="abs" style="left:70px; right:130px; top:330px; text-align:center">
+      <div class="display" id="r12h" style="font-size:84px"></div>
+      <div class="display" style="display:inline-flex; align-items:flex-start; margin-top:90px">
+        <span style="font-size:200px; display:flex" id="r12w"><span class="mask"><span>L</span></span><span class="mask"><span>u</span></span><span class="mask"><span>m</span></span><span class="mask"><span>a</span></span></span>
+        <svg id="r12s" width="58" height="58" viewBox="0 0 16 16" style="color:var(--slate); margin-left:6px; margin-top:18px"><path d="M8 0c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z" fill="currentColor"/></svg>
+      </div>
+      <div class="kicker c" id="r12k" style="margin-top:30px; font-size:28px; opacity:0">Agence IA · Montpellier</div>
+      <div id="r12c" style="margin-top:56px; opacity:0"><span style="display:inline-flex; align-items:center; gap:14px; background:var(--night); color:#fff; font-weight:600; font-size:32px; padding:26px 44px; border-radius:99px">Parlons de votre projet</span></div>
+    </div>
+  </div>
+
+  <div id="cap"><span id="capt" style="opacity:0"></span></div>
+</div>
+
+<script>
+const { T, CAPTIONS, DURATION } = window.CUES;
+const $ = (s) => document.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const E = { out: (t) => 1 - Math.pow(1 - t, 4), expo: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)), io: (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2), back: (t) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); }, lin: (t) => t };
+const P = (t, s, d, e = E.out) => e(clamp((t - s) / d));
+const L = (a, b, k) => a + (b - a) * k;
+function st(el, { o, x = 0, y = 0, s = 1, r = 0 } = {}) { if (!el) return; if (o !== undefined) el.style.opacity = o; el.style.transform = `translate(${x}px, ${y}px) scale(${s}) rotate(${r}deg)`; }
+const pop = (el, t, s, r = 0, dist = 30) => { const k = P(t, s, .6, E.back); st(el, { o: clamp(P(t, s, .25)), y: L(dist, 0, k), s: L(.85, 1, k), r }); };
+const popOut = (el, t, s, e, r = 0, dist = 30) => { const k = P(t, s, .6, E.back), x = P(t, e, .35, E.io); st(el, { o: clamp(P(t, s, .25)) * (1 - x), y: L(dist, 0, k) - 30 * x, s: L(.85, 1, k) * L(1, .92, x), r }); };
+const vis = (el, on) => { el.style.visibility = on ? "visible" : "hidden"; return on; };
+function words(el, text) { el.innerHTML = text.split(" ").map((w) => `<span class="mask"><span>${w}</span></span>`).join(" "); }
+function reveal(el, t, s, stg = .07) { $$(".mask > span", el).forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, s + i * stg, .8, E.expo))}%)`; }); }
+
+/* Construction */
+$$("img").forEach((im) => { if (im.dataset.abs === "logo") im.src = "../../public/logos/harmonie-yacht.png"; });
+words($("#r3h"), "De longs allers-retours.");
+words($("#r12h"), "Le même agent pour votre entreprise ?");
+
+const BUB = [
+  { t: "Bonjour, c’est possible ce week-end ?", x: 80, y: 560, r: -2, at: T.S3 + .3 },
+  { t: "Vous êtes dispo quelle date ?", x: 470, y: 690, r: 2, at: T.S3a - .1 },
+  { t: "Il va y avoir du vent ?", x: 110, y: 820, r: -1.5, at: T.S3b - .1 },
+  { t: "C’est combien pour 6 ?", x: 460, y: 950, r: 2.5, at: T.S3c - .1 },
+  { t: "On peut ajouter du champagne ?", x: 90, y: 1080, r: -2, at: T.S3d - .1 },
+];
+$("#bubbles").innerHTML = BUB.map((b, i) => `<div class="abs" id="bb${i}" style="left:${b.x}px; top:${b.y}px; opacity:0; background:#fff; border-radius:26px; border-top-left-radius:8px; padding:20px 26px; font-size:30px; box-shadow:0 24px 50px -32px rgba(23,38,61,.45); max-width:520px">${b.t}<div style="font-size:16px; color:#667781; margin-top:6px; text-align:right">non lu</div></div>`).join("");
+
+const MSGS = [
+  { k: "c", h: "23:47", at: T.S4 + .5, t: "Bonsoir ! Vous avez une dispo samedi pour une sortie en mer ?" },
+  { k: "typing", at: T.S4b, end: T.S5b },
+  { k: "a", h: "23:47", at: T.S5b, t: "Bonsoir ! Samedi, il reste deux créneaux : <b>14 h – 17 h</b> et <b>18 h – 21 h</b>." },
+  { k: "a", h: "23:47", at: T.S6b, t: "Le créneau de 18 h est idéal : mer calme et coucher de soleil à bord." },
+  { k: "a", h: "23:48", at: T.S8 + .2, t: "Vous serez combien, et pour quelle occasion ?" },
+  { k: "c", h: "23:48", at: T.S8c - .1, t: "6 personnes, pour un anniversaire." },
+  { k: "a", h: "23:48", at: T.S9 + .2, t: "Je vous conseille la <b>sortie de 3 h avec capitaine</b> au coucher du soleil : <b>550 €</b>." },
+  { k: "a", h: "23:48", at: T.S9b + .1, t: "Pour l’anniversaire, on peut ajouter : plateau de tapas Una Mas, champagne Maison Perla, paddle." },
+  { k: "c", h: "23:49", at: T.S9e + .35, t: "Top, tapas et champagne !" },
+  { k: "a", h: "23:49", at: T.S10 + .1, t: "Parfait ! Voici le lien pour réserver et régler l’acompte en ligne." },
+];
+$("#list").innerHTML = MSGS.map((m, i) => m.k === "typing" ? `<div class="typing" id="ty${i}"><i></i><i></i><i></i></div>` : `<div class="m ${m.k}" id="m${i}">${m.t}<span class="h">${m.h}</span></div>`).join("");
+
+const SLOTS = [["9 h – 12 h", "Réservé", false], ["14 h – 17 h", "Libre", true], ["18 h – 21 h", "Libre", true]];
+$("#slots").innerHTML = SLOTS.map(([h, s, free], i) => `<div id="sl${i}" style="display:flex; justify-content:space-between; align-items:center; border-radius:18px; padding:16px 20px; ${free ? "background:#fff; border:2px solid var(--line);" : "background:#f1f3f5; color:#9aa5b1;"}"><span class="tight" style="font-weight:700; font-size:26px">${h}</span><span style="font-size:20px; font-weight:600">${s}</span></div>`).join("");
+
+const QUAL = [["6 personnes", 70, 560, T.S8b + .05, -2], ["Anniversaire", 610, 700, T.S8c + .05, 2], ["Samedi · 18 h", 90, 840, T.S8c + .45, -1.5]];
+$("#qual").innerHTML = QUAL.map(([t, x, y], i) => `<div class="chip abs" id="q${i}" style="left:${x}px; top:${y}px; opacity:0">${t}</div>`).join("");
+const OPTS = [["Plateau de tapas", "Una Mas", 560, 560, T.S9c - .05, 2], ["Champagne", "Maison Perla", 60, 720, T.S9d - .05, -2], ["Paddle", "à bord", 600, 880, T.S9e - .05, 1.5]];
+$("#opts").innerHTML = OPTS.map(([a, b, x, y], i) => `<div class="chip abs" id="o${i}" style="left:${x}px; top:${y}px; opacity:0; flex-direction:column; align-items:flex-start; gap:2px; border-radius:26px; padding:18px 26px"><span>+ ${a}</span><span style="font-family:Inter; font-weight:500; font-size:20px; color:var(--muted)">${b}</span></div>`).join("");
+
+const DASH = [["Date", "Samedi · 18 h – 21 h"], ["Formule", "Sortie 3 h avec capitaine"], ["Invités", "6 · anniversaire"], ["Options", "Tapas, champagne"], ["Acompte", "Réglé en ligne"], ["Canal", "WhatsApp"]];
+$("#dash").innerHTML = DASH.map(([a, b], i) => `<div id="d${i}" style="background:var(--mist); border-radius:18px; padding:16px 18px; opacity:0"><div style="font-size:17px; color:var(--muted)">${a}</div><div class="tight" style="font-weight:700; font-size:25px; margin-top:4px">${b}</div></div>`).join("");
+
+/* Rendu */
+function render(t) {
+  /* Fonds */
+  if (vis($("#bgN1"), t < T.S2 + .3)) $("#bgN1").style.clipPath = `circle(${L(140, 0, P(t, T.S2 - .45, .75, E.io))}% at 50% 40%)`;
+  const m1a = P(t, T.S3 - .5, .7, E.io), m1b = P(t, T.S4 - .5, .65, E.io);
+  if (vis($("#bgM1"), t >= T.S3 - .5 && t < T.S4 + .2)) $("#bgM1").style.clipPath = m1b > 0 ? `inset(0 0 ${L(0, 100, m1b)}% 0)` : `inset(${L(100, 0, m1a)}% 0 0 0)`;
+  const n2a = P(t, T.S11 - .55, .7, E.io), n2b = P(t, T.S12 - .5, .75, E.io);
+  if (vis($("#bgN2"), t >= T.S11 - .55 && t < T.S12 + .3)) $("#bgN2").style.clipPath = n2b > 0 ? `circle(${L(140, 0, n2b)}% at 50% 45%)` : `inset(0 ${L(100, 0, n2a)}% 0 0)`;
+  vis($("#bgM2"), t >= T.S12 - .55);
+
+  /* R1 */
+  if (vis($("#r1"), t < T.S2 + .1)) {
+    pop($("#r1t"), t, .15, 0, 20);
+    $$("#r1 .mask > span").forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, .3 + i * .12, .9, E.expo))}%)`; });
+    $("#r1n").textContent = String(Math.min(3, Math.floor(L(0, 3.99, P(t, .35, 1.1)))));
+    const o = P(t, T.S2 - .5, .45, E.io); $("#r1").style.opacity = 1 - o; $("#r1").style.transform = `scale(${L(1, .94, o)})`;
+  }
+
+  /* R2 */
+  if (vis($("#r2", ), t >= T.S2 - .5 && t < T.S3 + .2)) {
+    const k = P(t, T.S2 - .45, .9, E.expo);
+    st($("#r2phone"), { o: clamp(k * 1.6), y: L(140, 0, k), s: L(.92, 1, k) });
+    $("#r2img").style.transform = `scale(${L(1.0, 1.12, clamp((t - T.S2) / 5))})`;
+    pop($("#r2tag"), t, T.S2, 0, 16);
+    pop($("#r2c1"), t, T.S2b, -2); pop($("#r2c2"), t, T.S2c, 2); pop($("#r2c3"), t, T.S2d, -1.5);
+    const o = P(t, T.S3 - .55, .5, E.io); $("#r2").style.opacity = 1 - o;
+  }
+
+  /* R3 */
+  if (vis($("#r3"), t >= T.S3 - .4 && t < T.S4 + .2)) {
+    reveal($("#r3h"), t, T.S3 - .1, .07);
+    $$(".kicker", $("#r3")).forEach((k) => (k.style.opacity = P(t, T.S3 - .2, .5)));
+    BUB.forEach((b, i) => { const ex = P(t, T.S4 - .7 + i * .04, .5, E.io); const k = P(t, b.at, .6, E.back); st($("#bb" + i), { o: clamp(P(t, b.at, .25)) * (1 - ex), y: L(40, 0, k) + Math.sin(t * 1.2 + i) * 4 - 60 * ex, s: L(.85, 1, k), r: b.r }); });
+    const o = P(t, T.S4 - .6, .45, E.io); $("#r3").querySelector(".abs").style.opacity = 1 - o;
+  }
+
+  /* R4 → R10 */
+  if (vis($("#rp"), t >= T.S4 - .3 && t < T.S11 - .1)) {
+    st($("#rpTop"), { o: P(t, T.S4 - .1, .5), y: 0 });
+    const kp = P(t, T.S4 - .25, .9, E.expo);
+    /* Le téléphone se décale selon les panneaux */
+    let px = 0, ps = 1;
+    const side = (a, b, dx) => { const k1 = P(t, a - .3, .6, E.io), k2 = P(t, b - .3, .6, E.io); return dx * (k1 - k2); };
+    px += side(T.S5, T.S6, 150) + side(T.S6, T.S7, -150) + side(T.S7, T.S8, -170) + side(T.S10, T.S10b + .8, 170);
+    const dashK = P(t, T.S10b - .1, .7, E.io);
+    ps = L(1, .9, dashK);
+    st($("#phone"), { o: clamp(kp * 1.6), x: px, y: L(160, 0, kp) - 40 * dashK, s: L(.9, 1, kp) * ps });
+    $("#wast").textContent = (t >= T.S4b && t < T.S5b) ? "écrit…" : "en ligne";
+    /* Messages */
+    let shown = [];
+    MSGS.forEach((m, i) => {
+      if (m.k === "typing") { const el = $("#ty" + i), on = t >= m.at && t < m.end; el.style.display = on ? "flex" : "none"; if (on) { shown.push(el); $$("i", el).forEach((d, j) => (d.style.opacity = .35 + .65 * Math.max(0, Math.sin((t - m.at) * 7 - j * .9)))); } return; }
+      const el = $("#m" + i), on = t >= m.at - .02;
+      el.style.display = on ? "block" : "none";
+      if (on) { shown.push(el); const k = P(t, m.at, .45, E.expo); el.style.opacity = clamp(k * 1.4); el.style.transform = `translateY(${L(16, 0, k)}px) scale(${L(.97, 1, k)})`; el.style.transformOrigin = m.k === "a" ? "100% 100%" : "0% 100%"; }
+    });
+    const box = $("#msgs").clientHeight, list = $("#list");
+    const last = shown[shown.length - 1];
+    const need = last ? last.offsetTop + last.offsetHeight + 24 - box : 0;
+    list.style.transform = `translateY(${-Math.max(0, need)}px)`;
+    /* Panneaux */
+    popOut($("#pCal"), t, T.S5 + .05, T.S6 - .35, -2);
+    SLOTS.forEach((s, i) => { const el = $("#sl" + i); const hi = s[2] && t > T.S5b; el.style.borderColor = hi ? "#17263d" : ""; el.style.transform = `scale(${hi ? 1 + .03 * Math.sin(Math.PI * clamp((t - T.S5b - i * .15) / .4)) : 1})`; });
+    popOut($("#pMet"), t, T.S6 + .05, T.S7 - .35, 2);
+    $("#metOk").style.opacity = P(t, T.S6b + .3, .4);
+    popOut($("#pSite"), t, T.S7 - .05, T.S8 - .35, 2.5);
+    QUAL.forEach((q, i) => popOut($("#q" + i), t, q[3], T.S9 - .3, q[4]));
+    OPTS.forEach((o, i) => popOut($("#o" + i), t, o[4], T.S10 - .3, o[5]));
+    popOut($("#pResa"), t, T.S10 + .3, T.S10b - .2, -2);
+    const dk = P(t, T.S10b, .6, E.back);
+    st($("#pDash"), { o: clamp(P(t, T.S10b, .25)), y: L(60, 0, dk), s: L(.9, 1, dk) });
+    DASH.forEach((_, i) => { const k = P(t, T.S10b + .3 + i * .17, .4, E.back); st($("#d" + i), { o: clamp(P(t, T.S10b + .3 + i * .17, .2)), y: L(14, 0, k) }); });
+    st($("#dashOk"), { o: P(t, T.S10b + 1.5, .35), y: L(10, 0, P(t, T.S10b + 1.5, .5, E.back)) });
+    const o = P(t, T.S11 - .6, .45, E.io); $("#rp").style.opacity = 1 - o;
+  }
+
+  /* R11 */
+  if (vis($("#r11"), t >= T.S11 - .3 && t < T.S12 + .3)) {
+    st($("#r11k"), { o: P(t, T.S11 - .1, .5), y: 0 });
+    $$("#r11 .mask > span").forEach((sp, i) => { const s = i < 2 ? T.S11b - .2 + i * .12 : T.S11b + .4; sp.style.transform = `translateY(${L(110, 0, P(t, s, .9, E.expo))}%)`; });
+    st($("#r11b"), { o: P(t, T.S11c, .5), y: L(20, 0, P(t, T.S11c, .7, E.expo)) });
+  }
+
+  /* R12 */
+  if (vis($("#r12"), t >= T.S12 - .3)) {
+    reveal($("#r12h"), t, T.S12, .06);
+    $$("#r12w .mask > span").forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, T.S12b - .1 + i * .07, .9, E.expo))}%)`; });
+    const ks = P(t, T.S12b + .1, .9, E.expo); st($("#r12s"), { o: P(t, T.S12b + .1, .25), s: ks, r: L(-160, 0, ks) });
+    st($("#r12k"), { o: P(t, T.S12c, .5), y: L(14, 0, P(t, T.S12c, .7, E.expo)) });
+    pop($("#r12c"), t, T.S12c + .9, 0, 20);
+  }
+
+  /* Sous-titres incrustés */
+  const c = CAPTIONS.find(([a, b]) => t >= a - .05 && t < b + .25);
+  const capt = $("#capt");
+  if (c) { if (capt.textContent !== c[2]) capt.textContent = c[2]; const k = P(t, c[0] - .05, .25, E.expo); capt.style.opacity = clamp(k * 1.3); capt.style.transform = `translateY(${L(12, 0, k)}px) scale(${L(.96, 1, k)})`; }
+  else capt.style.opacity = 0;
+}
+
+window.__ready = (async () => {
+  await Promise.all(["400 20px Inter", "500 20px Inter", "600 20px Inter", '700 20px "Inter Tight"', '800 20px "Inter Tight"'].map((f) => document.fonts.load(f)));
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((i) => (i.complete ? 1 : new Promise((r) => (i.onload = i.onerror = r)))));
+  render(0);
+  return true;
+})();
+window.render = render; window.DURATION = DURATION;
+if (location.search.includes("play")) window.__ready.then(() => { const t0 = performance.now(); const loop = () => { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); }; loop(); });
+</script>
+</body>
+</html>
