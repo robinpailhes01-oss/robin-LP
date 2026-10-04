@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Luma — Vidéo de présentation 16:9</title>
+<style>
+@font-face { font-family: "Geist"; src: url("assets/geist.woff2") format("woff2"); font-weight: 100 900; }
+:root { --violet: #4636f0; --violet-lt: #8f84ff; --tint: #eeebff; --navy: #12102b; --body: #4b4f63; --muted: #7a7e92; --line: #e6e8f1; --page: #f7f8fc; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--page); }
+body { font-family: "Geist", system-ui, sans-serif; -webkit-font-smoothing: antialiased; color: var(--navy); font-feature-settings: "ss01"; }
+#stage { position: absolute; inset: 0; overflow: hidden; background: var(--page); }
+.layer { position: absolute; inset: 0; will-change: transform, opacity; }
+.abs { position: absolute; will-change: transform, opacity; }
+.mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.04em 0.06em; margin-bottom: -0.06em; }
+.mask > span { display: inline-block; will-change: transform; }
+.v { color: var(--violet); }
+.kicker { font-size: 22px; font-weight: 650; letter-spacing: 0.16em; text-transform: uppercase; color: var(--violet); }
+.h1 { font-size: 64px; font-weight: 760; letter-spacing: -0.04em; line-height: 1.08; }
+.h2 { font-size: 54px; font-weight: 740; letter-spacing: -0.035em; line-height: 1.1; }
+.card { background: #fff; border-radius: 36px; box-shadow: 0 40px 100px rgba(18,16,43,0.08), 0 0 0 1.5px rgba(18,16,43,0.04); }
+.ic { display: grid; place-items: center; border-radius: 50%; flex: none; }
+.ic svg { width: 56%; height: 56%; }
+.spark path { fill: var(--violet); }
+
+/* fond vivant */
+.blob { position: absolute; border-radius: 50%; filter: blur(80px); }
+#b1 { width: 900px; height: 900px; background: rgba(70,54,240,0.10); }
+#b2 { width: 760px; height: 760px; background: rgba(143,132,255,0.12); }
+#grain { position: absolute; inset: 0; width: 1920px; height: 1080px; opacity: 0.035; mix-blend-mode: multiply; pointer-events: none; }
+
+/* sous-titres */
+#sub { position: absolute; left: 0; right: 0; bottom: 46px; text-align: center; pointer-events: none; z-index: 50; }
+#sub span { display: inline-block; max-width: 1500px; padding: 12px 26px; border-radius: 16px; background: rgba(18,16,43,0.78); color: #fff;
+  font-size: 30px; font-weight: 500; letter-spacing: -0.005em; line-height: 1.3; }
+#mark { left: 72px; top: 54px; display: flex; align-items: baseline; gap: 2px; font-size: 34px; font-weight: 800; letter-spacing: -0.05em; z-index: 40; }
+#mark svg { width: 18px; height: 18px; transform: translateY(-14px); }
+
+/* 1 — la journée */
+#dKick { left: 200px; top: 128px; }
+.dTitle { left: 200px; top: 168px; white-space: nowrap; }
+#tl { left: 200px; top: 800px; width: 1520px; height: 3px; border-radius: 2px; background: #cfd2e0; transform-origin: 0 50%; }
+.hour { top: 822px; width: 80px; margin-left: -40px; text-align: center; font-size: 22px; font-weight: 550; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tick { top: 792px; width: 2px; height: 19px; background: #cfd2e0; margin-left: -1px; }
+.ess { top: 0; height: 0; border-radius: 28px; background: linear-gradient(180deg, #f1efff, #e4e0ff); overflow: hidden; transform-origin: 50% 100%; }
+.ess .in { position: absolute; left: 28px; top: 26px; right: 20px; display: flex; align-items: center; gap: 16px; }
+.ess .ic { width: 64px; height: 64px; background: var(--violet); }
+.ess b { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.ess small { display: block; font-size: 21px; color: var(--body); font-weight: 500; margin-top: 2px; white-space: nowrap; }
+.chip { left: 0; top: 0; height: 66px; padding: 0 22px 0 12px; border-radius: 20px; background: #fff; display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 14px 34px rgba(18,16,43,0.12), 0 0 0 1.5px rgba(18,16,43,0.05); font-size: 23px; font-weight: 650; white-space: nowrap; }
+.chip .ic { width: 44px; height: 44px; border-radius: 13px; }
+#taskBar { left: 200px; top: 0; height: 96px; border-radius: 24px; background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: center; gap: 18px;
+  font-size: 32px; font-weight: 700; letter-spacing: -0.01em; overflow: hidden; white-space: nowrap; }
+#flowStrip { left: 200px; top: 868px; height: 64px; width: 1520px; border-radius: 20px; background: var(--tint); display: flex; align-items: center; gap: 14px; padding: 0 22px;
+  font-size: 24px; font-weight: 650; color: var(--violet); overflow: hidden; }
+#flowStrip .ic { width: 40px; height: 40px; background: var(--violet); }
+.mini { position: absolute; top: 12px; height: 40px; padding: 0 14px; border-radius: 12px; background: #fff; color: var(--navy); font-size: 19px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 16px rgba(70,54,240,0.15); white-space: nowrap; }
+#spark0 { left: 960px; top: 370px; width: 0; height: 0; }
+#spark0 svg { position: absolute; left: -70px; top: -70px; width: 140px; height: 140px; filter: drop-shadow(0 0 30px rgba(143,132,255,0.9)); }
+#qTitle { left: 0; width: 1920px; top: 180px; text-align: center; font-size: 76px; font-weight: 780; letter-spacing: -0.045em; }
+
+/* 2 — qui nous sommes */
+#logoW { left: 0; width: 1920px; top: 300px; display: flex; justify-content: center; align-items: flex-start; font-size: 200px; font-weight: 820; letter-spacing: -0.06em; line-height: 1.1; white-space: nowrap; transform-origin: 50% 50%; }
+#logoW .sp { display: block; width: 70px; height: 70px; margin: 38px 0 0 8px; }
+#logoW .sp svg { display: block; width: 100%; height: 100%; }
+#cityPill { left: 50%; top: 610px; display: flex; align-items: center; gap: 12px; padding: 16px 30px 16px 22px; border-radius: 999px; background: var(--tint); color: var(--violet);
+  font-size: 30px; font-weight: 700; white-space: nowrap; }
+#cityPill svg { width: 32px; height: 32px; }
+#whoKick { left: 200px; top: 300px; }
+#whoText { left: 200px; top: 344px; width: 860px; }
+.reas { left: 200px; display: flex; align-items: center; gap: 16px; font-size: 28px; font-weight: 600; }
+.reas .ic { width: 50px; height: 50px; background: var(--violet); }
+.reas .ic svg { width: 60%; }
+#founder { left: 1180px; top: 230px; width: 540px; padding: 50px 40px 46px; text-align: center; }
+#founder .ph { position: relative; width: 300px; height: 300px; margin: 0 auto 30px; }
+#founder .ph img { width: 300px; height: 300px; border-radius: 50%; object-fit: cover; display: block; }
+#founder .ring { position: absolute; inset: -14px; border-radius: 50%; border: 3px solid transparent;
+  background: conic-gradient(from 0deg, var(--violet), var(--violet-lt), rgba(143,132,255,0), var(--violet)) border-box;
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+#founder b { display: block; font-size: 46px; font-weight: 760; letter-spacing: -0.03em; }
+#founder span { display: block; margin-top: 6px; font-size: 26px; color: var(--muted); font-weight: 550; }
+
+/* 3 — le tableau de délégation */
+#bKick { left: 140px; top: 120px; }
+#bTitle { left: 140px; top: 156px; white-space: nowrap; }
+.col { top: 280px; width: 580px; height: 650px; padding: 30px 26px; }
+#colL { left: 140px; } #colR { left: 1200px; }
+.colH { display: flex; align-items: center; gap: 16px; padding: 0 6px 22px; border-bottom: 1.5px solid var(--line); }
+.colH .ic { width: 60px; height: 60px; }
+.colH b { font-size: 28px; font-weight: 730; letter-spacing: -0.02em; display: block; }
+.colH small { font-size: 21px; color: var(--muted); font-weight: 550; display: flex; align-items: center; gap: 8px; }
+.colH small i { width: 11px; height: 11px; border-radius: 50%; background: #22c55e; }
+.slot { position: absolute; left: 26px; right: 26px; height: 92px; border-radius: 22px; border: 2px dashed #dfe2ee; }
+.row { left: 0; top: 0; width: 528px; height: 92px; border-radius: 22px; background: var(--page); display: flex; align-items: center; gap: 18px; padding: 0 22px 0 16px; z-index: 5; }
+.row .ic { width: 58px; height: 58px; border-radius: 17px; background: #fff; box-shadow: 0 0 0 1.5px rgba(18,16,43,0.06); }
+.row .ic svg path, .row .ic svg rect, .row .ic svg circle { stroke: var(--navy); }
+.row b { display: block; font-size: 25px; font-weight: 700; letter-spacing: -0.015em; }
+.row small { display: block; font-size: 19px; color: var(--muted); font-weight: 520; margin-top: 2px; }
+.row .ok { margin-left: auto; width: 40px; height: 40px; border-radius: 50%; background: var(--violet); display: grid; place-items: center; }
+.row .ok svg { width: 24px; height: 24px; }
+.freed { position: absolute; left: 26px; right: 26px; height: 92px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 21px; font-weight: 600; color: #9ea2b6; }
+.vig { left: 760px; top: 300px; width: 400px; }
+.vig .card { padding: 26px; border-radius: 30px; }
+.bub { padding: 16px 20px; border-radius: 22px; font-size: 21px; line-height: 1.3; max-width: 320px; }
+.bub.c { background: #eef0f6; border-bottom-left-radius: 8px; }
+.bub.l { background: var(--violet); color: #fff; border-bottom-right-radius: 8px; margin-left: auto; }
+.meta { font-size: 17px; color: var(--muted); font-weight: 600; }
+.cal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 14px; }
+.cal div { height: 44px; border-radius: 10px; background: #f1f2f8; }
+.cal .dh { height: auto; background: none; font-size: 16px; color: var(--muted); font-weight: 650; text-align: center; }
+.fld { display: flex; justify-content: space-between; gap: 14px; padding: 13px 0; border-bottom: 1.5px solid var(--line); font-size: 20px; }
+.fld span { color: var(--muted); font-weight: 550; } .fld b { font-weight: 650; white-space: nowrap; }
+.bar { height: 16px; border-radius: 8px; background: #eef0f6; overflow: hidden; margin: 8px 0 16px; }
+.bar i { display: block; height: 100%; border-radius: 8px; background: linear-gradient(90deg, #8f84ff, #4636f0); }
+.stampOk { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background: var(--tint); color: var(--violet); font-size: 19px; font-weight: 700; }
+
+/* 4 — sur mesure */
+#fTitle { left: 0; width: 1920px; top: 110px; text-align: center; white-space: nowrap; }
+#core { left: 960px; top: 590px; width: 0; height: 0; }
+#core .box { position: absolute; left: -150px; top: -110px; width: 300px; height: 220px; border-radius: 40px; background: var(--navy); color: #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
+#core .box svg { width: 58px; height: 58px; }
+#lumaRing { position: absolute; left: -235px; top: -195px; width: 470px; height: 390px; border-radius: 80px; border: 3px solid var(--violet); }
+#lumaTag { position: absolute; left: -70px; top: -224px; width: 140px; height: 52px; border-radius: 999px; background: var(--violet); color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 24px; font-weight: 750; }
+#lumaTag svg { width: 18px; height: 18px; }
+#fitSvg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+.sat { left: 0; top: 0; width: 0; height: 0; }
+.sat .in { position: absolute; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 14px; padding: 16px 24px 16px 16px; border-radius: 24px; background: #fff; white-space: nowrap;
+  box-shadow: 0 18px 44px rgba(18,16,43,0.08), 0 0 0 1.5px rgba(18,16,43,0.05); }
+.sat .ic { width: 54px; height: 54px; border-radius: 16px; background: var(--tint); }
+.sat b { display: block; font-size: 26px; font-weight: 720; letter-spacing: -0.015em; }
+.sat small { display: block; font-size: 18px; color: var(--muted); font-weight: 550; }
+#fitLine { left: 0; width: 1920px; top: 880px; text-align: center; font-size: 34px; font-weight: 650; letter-spacing: -0.02em; color: var(--body); }
+
+/* 5 — méthode */
+#mKick { left: 0; width: 1920px; top: 150px; text-align: center; }
+#mTitle { left: 0; width: 1920px; top: 192px; text-align: center; white-space: nowrap; }
+#flow { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+.step { left: 0; top: 0; width: 0; height: 0; }
+.step .dot { position: absolute; left: -62px; top: -62px; width: 124px; height: 124px; border-radius: 50%; background: #fff; border: 3px solid #d9dcea;
+  display: grid; place-items: center; font-size: 34px; font-weight: 760; color: #b2b5c8; font-variant-numeric: tabular-nums; }
+.step .txt { position: absolute; left: -190px; width: 380px; top: 96px; text-align: center; }
+.step b { display: block; font-size: 36px; font-weight: 740; letter-spacing: -0.025em; }
+.step small { display: block; margin-top: 10px; font-size: 23px; line-height: 1.35; color: var(--body); font-weight: 500; }
+
+/* 6 — fin */
+#endLogo { left: 0; width: 1920px; top: 250px; display: flex; justify-content: center; align-items: flex-start; font-size: 210px; font-weight: 820; letter-spacing: -0.06em; line-height: 1.1; white-space: nowrap; }
+#endLogo .mask { padding: 0; margin-right: -0.012em; }
+#endLogo .sp { display: block; width: 74px; height: 74px; margin: 40px 0 0 8px; }
+#endLogo .sp svg { display: block; width: 100%; height: 100%; }
+#endTag { left: 0; width: 1920px; top: 545px; text-align: center; font-size: 56px; font-weight: 720; letter-spacing: -0.035em; }
+#endCta { left: 50%; top: 690px; display: flex; align-items: center; gap: 18px; padding: 30px 50px; border-radius: 999px; background: var(--violet); color: #fff;
+  font-size: 36px; font-weight: 720; letter-spacing: -0.02em; white-space: nowrap; box-shadow: 0 30px 70px rgba(70,54,240,0.35); }
+#endCta svg { width: 34px; height: 34px; }
+#endSub { left: 0; width: 1920px; top: 820px; text-align: center; font-size: 26px; color: var(--muted); font-weight: 550; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="blob" id="b1"></div><div class="blob" id="b2"></div>
+
+  <!-- 1 + 7 : la journée -->
+  <div class="layer" id="Lday">
+    <div class="abs kicker" id="dKick"><span class="mask"><span>Votre quotidien</span></span></div>
+    <div id="dTitles"></div>
+    <div class="abs" id="tl"></div>
+    <div id="hours"></div>
+    <div id="esss"></div>
+    <div id="chips"></div>
+    <div class="abs" id="taskBar"><span>Tâches répétitives</span></div>
+    <div class="abs" id="flowStrip"></div>
+  </div>
+  <div class="layer" id="Lq">
+    <div class="abs" id="qTitle"><span class="mask"><span>Et si elles ne passaient plus par vous ?</span></span></div>
+  </div>
+  <div class="abs spark" id="spark0"><svg viewBox="0 0 100 100"><path d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg></div>
+
+  <!-- 2 : qui nous sommes -->
+  <div class="layer" id="Lwho">
+    <div class="abs" id="logoW"></div>
+    <div class="abs" id="cityPill"><svg viewBox="0 0 24 24" fill="#4636f0"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Agence IA · Montpellier</div>
+    <div class="abs kicker" id="whoKick"><span class="mask"><span>Notre métier</span></span></div>
+    <div class="abs h1" id="whoText"></div>
+    <div id="reas"></div>
+    <div class="abs card" id="founder"><div class="ph"><div class="ring"></div><img src="assets/portrait-fondateur.jpg" alt=""></div><b>Robin</b><span>Fondateur · Montpellier</span></div>
+  </div>
+
+  <!-- 3 : délégation -->
+  <div class="layer" id="Lboard">
+    <div class="abs kicker" id="bKick"><span class="mask"><span>Ce que Luma met en place</span></span></div>
+    <div class="abs h2" id="bTitle"><span class="mask"><span>Un assistant qui travaille <span class="v">pour vous.</span></span></span></div>
+    <div class="abs card col" id="colL"><div class="colH"><div class="ic" style="background:#eef0f6"></div><div><b>Aujourd'hui, c'est vous</b><small>Entre deux rendez-vous, le soir…</small></div></div></div>
+    <div class="abs card col" id="colR"><div class="colH"><div class="ic" style="background:var(--violet)"></div><div><b>Avec Luma, c'est votre assistant</b><small><i></i>Actif jour et nuit</small></div></div></div>
+    <div id="rows"></div>
+    <div id="vigs"></div>
+  </div>
+
+  <!-- 4 : sur mesure -->
+  <div class="layer" id="Lfit">
+    <div class="abs h2" id="fTitle"></div>
+    <svg id="fitSvg" viewBox="0 0 1920 1080"><g id="fitLines"></g></svg>
+    <div id="sats"></div>
+    <div class="abs" id="core"><div id="lumaRing"></div><div id="lumaTag"><svg viewBox="0 0 100 100"><path fill="#fff" d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg>Luma</div>
+      <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5M9 10h.01M15 10h.01M9 13.5h.01M15 13.5h.01"/></svg>Votre entreprise</div></div>
+    <div class="abs" id="fitLine"><span class="mask"><span>Luma s'adapte à votre fonctionnement. <span class="v">Pas l'inverse.</span></span></span></div>
+  </div>
+
+  <!-- 5 : méthode -->
+  <div class="layer" id="Lmethod">
+    <div class="abs kicker" id="mKick"><span class="mask"><span>Notre méthode</span></span></div>
+    <div class="abs h2" id="mTitle"><span class="mask"><span>On commence par comprendre. <span class="v">Pas par vendre un outil.</span></span></span></div>
+    <svg id="flow" viewBox="0 0 1920 1080"><line id="flowBase" x1="230" y1="600" x2="1690" y2="600" stroke="#dfe2ee" stroke-width="4" stroke-linecap="round"/>
+      <line id="flowLine" x1="230" y1="600" x2="230" y2="600" stroke="#4636f0" stroke-width="5" stroke-linecap="round"/><circle id="flowHead" cx="230" cy="600" r="12" fill="#4636f0"/></svg>
+    <div id="steps"></div>
+  </div>
+
+  <!-- 6 : fin -->
+  <div class="layer" id="Lend">
+    <div class="abs" id="endLogo"></div>
+    <div class="abs" id="endTag"><span class="mask"><span>Moins à gérer.</span></span> <span class="mask"><span class="v">Plus à construire.</span></span></div>
+    <div class="abs" id="endCta">Demander un audit gratuit<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="abs" id="endSub">Offert et sans engagement · Luma, agence IA à Montpellier</div>
+  </div>
+
+  <div class="abs" id="mark">Luma<svg viewBox="0 0 100 100"><path fill="#4636f0" d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg></div>
+  <div id="sub"><span id="subT"></span></div>
+  <canvas id="grain" width="480" height="270"></canvas>
+</div>
+
+<script src="cues.js"></script>
+<script>
+const CU = window.__CUES, SC = CU.scenes;
+const $ = (s) => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const E = {
+  out: (p) => 1 - Math.pow(1 - p, 4),                       // quart : doux et premium
+  outExpo: (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p)),
+  inOut: (p) => (p < 0.5 ? 8 * p ** 4 : 1 - Math.pow(-2 * p + 2, 4) / 2),
+  in: (p) => p * p * p,
+  back: (p) => { const c = 1.4; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); },
+};
+const L = (k) => CU.lines[k].at;
+const W = (k, i) => CU.lines[k].words[i][1];
+function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+const show = (el, on) => { el.style.display = on ? "" : "none"; };
+const tf = (el, x, y, s = 1, r = 0) => { el.style.transform = `translate(${x}px, ${y}px) scale(${s}) rotate(${r}deg)`; };
+const SPARK = '<svg viewBox="0 0 100 100"><path fill="#4636f0" d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg>';
+const SPARKW = SPARK.replace("#4636f0", "#fff");
+const CK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const LI = (d, c = "#fff", w = 2) => `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const P = {
+  chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/>',
+  cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  refresh: '<path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/>',
+  file: '<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+  chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  users: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/>',
+  team: '<circle cx="12" cy="7" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  rocket: '<path d="M4 20l4-1 9-9a4 4 0 0 0-6-6l-9 9-1 4M14 6l4 4"/>',
+  grow: '<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',
+  tool: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6Z"/>',
+  flow: '<circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 6h5a4 4 0 0 1 4 4v5"/>',
+  voice: '<path d="M4 12h3l4-5v10l-4-5M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/>',
+  data: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+  person: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  zero: '<path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM5.6 5.6l12.8 12.8"/>',
+  key: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/>',
+  pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/>',
+};
+// texte animé mot par mot dans un conteneur
+function words(el, html) {
+  const parts = html.split(/(<span class="v">.*?<\/span>)/).flatMap((seg) => seg.startsWith("<span") ? [seg] : seg.split(" ").filter(Boolean));
+  el.innerHTML = "";
+  return parts.map((w) => {
+    const m = document.createElement("span"); m.className = "mask";
+    const i = document.createElement("span"); i.innerHTML = w; m.appendChild(i);
+    el.appendChild(m); el.appendChild(document.createTextNode(" "));
+    return i;
+  });
+}
+const rise = (inner, t, a, d = 0.7) => { const p = E.outExpo(prog(t, a, a + d)); inner.style.transform = `translateY(${(1 - p) * 110}%)`; return p; };
+const riseOut = (inner, t, a, b, d = 0.7) => {
+  const p = E.outExpo(prog(t, a, a + d)), o = E.in(prog(t, b - 0.35, b));
+  inner.style.transform = `translateY(${(1 - p) * 110 - o * 110}%)`;
+};
+const sceneA = (t, k, fin = 0.7, fout = 0.6) => {
+  const [a, b] = SC[k];
+  return E.out(prog(t, a, a + fin)) * (1 - E.inOut(prog(t, b - fout, b)));
+};
+
+/* =================== CONSTRUCTION =================== */
+// --- journée
+const X0 = 200, X1 = 1720, BASE = 780, HMAX = 330;
+const hx = (h) => X0 + (h - 8) / 11 * (X1 - X0);
+const hoursEl = $("#hours");
+const hours = [];
+for (let h = 8; h <= 19; h++) {
+  const lab = document.createElement("div"); lab.className = "abs hour"; lab.textContent = `${h}h`; lab.style.left = hx(h) + "px"; hoursEl.appendChild(lab);
+  const tk = document.createElement("div"); tk.className = "abs tick"; tk.style.left = hx(h) + "px"; hoursEl.appendChild(tk);
+  hours.push([lab, tk]);
+}
+const ESS = [["Vos clients", "Les écouter, les servir", "users", 8, 12, ["l02", 1]], ["Votre équipe", "L'accompagner", "team", 12, 15, ["l02", 3]], ["Votre développement", "Faire grandir l'entreprise", "grow", 15, 19, ["l02", 5]]];
+const esss = ESS.map(([b, s, ic, h0, h1, w]) => {
+  const el = document.createElement("div"); el.className = "abs ess";
+  el.style.left = hx(h0) + 6 + "px"; el.style.width = hx(h1) - hx(h0) - 12 + "px";
+  el.innerHTML = `<div class="in"><div class="ic">${LI(P[ic])}</div><div><b>${b}</b><small>${s}</small></div></div>`;
+  $("#esss").appendChild(el); return { el, at: W(...w) };
+});
+const dTitles = [
+  [`Une entreprise qui <span class="v">tourne.</span>`, L("l01"), L("l03") - 0.1],
+  [`Les mêmes petites tâches, <span class="v">chaque jour.</span>`, L("l03"), L("l05") - 0.1],
+  ["Une à une, rien de compliqué.", L("l05"), W("l05", 6) - 0.1],
+  [`Bout à bout, elles prennent <span class="v">vos journées.</span>`, W("l05", 6), SC.day[1] + 0.2],
+].map(([h, a, b]) => {
+  const el = document.createElement("div"); el.className = "abs h1 dTitle"; $("#dTitles").appendChild(el);
+  return { ws: words(el, h), a, b, el };
+});
+const CHIPT = [
+  ["chat", "Question client", "#34c759"], ["refresh", "Relance devis", "#ff9f0a"], ["cal", "Rendez-vous", "#0a84ff"], ["file", "Mise à jour fichier", "#8e8e93"],
+];
+const RC = rng(5);
+const chipTimes = [];
+const g = (k, i) => W(k, i);
+[[0, g("l04", 0), g("l04", 4)], [1, g("l04", 4), g("l04", 7)], [2, g("l04", 7), g("l04", 11)], [3, g("l04", 11), g("l04", 15) + 0.6]].forEach(([ty, a, b]) => {
+  for (let k = 0; k < 4; k++) chipTimes.push([ty, a + (b - a) * (k / 4) * 0.9]);
+});
+for (let k = 0; k < 10; k++) chipTimes.push([k % 4, W("l05", 0) + 0.25 + k * 0.16]);
+const chips = chipTimes.map(([ty, at], i) => {
+  const [ic, txt, col] = CHIPT[ty];
+  const el = document.createElement("div"); el.className = "abs chip";
+  el.innerHTML = `<div class="ic" style="background:${col}">${LI(P[ic])}</div>${txt}`;
+  $("#chips").appendChild(el);
+  const lane = i % 4;
+  return { el, at, x: X0 + 20 + RC() * (X1 - X0 - 330), y: BASE - 90 - lane * 72 - RC() * 30, r: (RC() - 0.5) * 6, w: 0 };
+});
+const fs = $("#flowStrip");
+fs.innerHTML = `<div class="ic">${SPARKW.replace('viewBox', 'width="22" height="22" viewBox')}</div>Pris en charge par Luma`;
+const minis = ["Question client", "Relance devis", "Rendez-vous", "Fiche client", "Relance facture", "Rapport", "Question client", "Rendez-vous"].map((txt, i) => {
+  const m = document.createElement("div"); m.className = "mini"; m.innerHTML = `${LI(P.check, "#4636f0", 3).replace("<svg", '<svg width="18" height="18"')}${txt}`;
+  fs.appendChild(m); return m;
+});
+
+// --- qui
+$("#logoW").innerHTML = `<span class="mask"><span>Luma</span></span><span class="sp">${SPARK}</span>`;
+const whoWs = words($("#whoText"), "Confier à l'IA le <span class=\"v\">travail répétitif</span> de votre entreprise.");
+const REAS = [["zero", "Aucune compétence technique", W("l09", 5)], ["key", "Mise en place clé en main", W("l09", 13)], ["pin", "Un interlocuteur à Montpellier", W("l09", 13) + 0.35]];
+const reas = REAS.map(([ic, txt, at], i) => {
+  const el = document.createElement("div"); el.className = "abs reas"; el.style.top = 600 + i * 78 + "px";
+  el.innerHTML = `<div class="ic">${LI(P[ic])}</div>${txt}`; $("#reas").appendChild(el); return { el, at };
+});
+
+// --- tableau
+$("#colL .colH .ic").innerHTML = LI(P.person, "#12102b");
+$("#colR .colH .ic").innerHTML = SPARKW;
+const ROWS = [
+  ["chat", "Répondre aux clients", "Questions, demandes, disponibilités", "l11"],
+  ["cal", "Prendre les rendez-vous", "Directement dans votre agenda", "l12"],
+  ["refresh", "Relancer devis et factures", "Au bon moment, avec vos mots", "l13"],
+  ["file", "Ranger les informations", "Fiches clients, tableaux, dossiers", "l14"],
+  ["chart", "Faire le point", "Un résumé clair chaque semaine", "l15"],
+];
+const ROWY = (i) => 280 + 30 + 98 + i * 106;
+const rows = ROWS.map(([ic, b, s, k], i) => {
+  const slotL = document.createElement("div"); slotL.className = "slot"; slotL.style.top = ROWY(i) - 280 + "px"; $("#colL").appendChild(slotL);
+  const freed = document.createElement("div"); freed.className = "freed"; freed.style.top = ROWY(i) - 280 + "px"; freed.innerHTML = `${LI(P.check, "#9ea2b6", 2.5).replace("<svg", '<svg width="24" height="24"')}Plus besoin de s'en occuper`; $("#colL").appendChild(freed);
+  const slotR = document.createElement("div"); slotR.className = "slot"; slotR.style.top = ROWY(i) - 280 + "px"; $("#colR").appendChild(slotR);
+  const el = document.createElement("div"); el.className = "abs row";
+  el.innerHTML = `<div class="ic">${LI(P[ic], "#12102b")}</div><div><b>${b}</b><small>${s}</small></div><div class="ok">${CK}</div>`;
+  $("#rows").appendChild(el);
+  return { el, ok: el.querySelector(".ok"), freed, at: L(k) + 0.1, i };
+});
+const VIGS = [
+  `<div class="card"><div class="meta" style="text-align:center;margin-bottom:14px">Mardi · 22:04</div>
+    <div class="bub c" data-a="0">Bonsoir ! Vous êtes ouverts samedi ?</div>
+    <div class="bub l" data-a="1.1" style="margin-top:12px">Bonsoir ! Oui, de 9h à 18h. Je vous réserve un créneau ?</div>
+    <div style="margin-top:16px" data-a="1.8"><span class="stampOk">${LI(P.check, "#4636f0", 3).replace("<svg", '<svg width="18" height="18"')}Répondu pour vous</span></div></div>`,
+  `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:24px">Agenda</b><span class="meta">Cette semaine</span></div>
+    <div class="cal"><div class="dh">Lun</div><div class="dh">Mar</div><div class="dh">Mer</div><div class="dh">Jeu</div><div class="dh">Ven</div>
+    ${Array.from({ length: 15 }, (_, i) => `<div style="${[1, 7, 13].includes(i) ? "background:#e4e0ff" : ""}"></div>`).join("")}</div>
+    <div class="abs evt" data-a="0.6" style="left:0;top:0;width:66px;height:44px;border-radius:10px;background:#4636f0"></div>
+    <div style="margin-top:16px" data-a="1.2"><span class="stampOk">${LI(P.check, "#4636f0", 3).replace("<svg", '<svg width="18" height="18"')}Jeudi 10:30 · M. Durand</span></div></div>`,
+  `<div class="card"><div class="fld" style="border:0;padding-top:0"><b style="font-size:24px">Relances</b><span class="meta">Envoyées pour vous</span></div>
+    <div class="fld" data-a="0.3"><span>Devis n°214</span><b class="v">Relancé ✓</b></div>
+    <div class="fld" data-a="0.8"><span>Facture n°88</span><b class="v">Relancée ✓</b></div>
+    <div class="fld" data-a="1.3" style="border:0"><span>Devis n°219</span><b class="v">Relancé ✓</b></div></div>`,
+  `<div class="card"><div class="fld" style="border:0;padding-top:0"><b style="font-size:24px">Fiche client</b><span class="meta">Mise à jour</span></div>
+    <div class="fld"><span>Nom</span><b class="ty" data-a="0.2">Mme Garcia</b></div>
+    <div class="fld"><span>Demande</span><b class="ty" data-a="0.6">Devis rénovation</b></div>
+    <div class="fld"><span>Rendez-vous</span><b class="ty" data-a="1.0">Jeudi 10:30</b></div>
+    <div class="fld" style="border:0"><span>Statut</span><b class="ty v" data-a="1.4">Suivi en cours</b></div></div>`,
+  `<div class="card"><div class="fld" style="border:0;padding-top:0"><b style="font-size:24px">Votre semaine</b><span class="meta">Lundi 8:00</span></div>
+    <div style="font-size:20px;font-weight:600;margin-top:6px">Demandes traitées</div><div class="bar"><i data-w="0.92"></i></div>
+    <div style="font-size:20px;font-weight:600">Rendez-vous pris</div><div class="bar"><i data-w="0.7"></i></div>
+    <div style="font-size:20px;font-weight:600">Relances envoyées</div><div class="bar" style="margin-bottom:0"><i data-w="0.8"></i></div></div>`,
+];
+const vigs = VIGS.map((h, i) => {
+  const el = document.createElement("div"); el.className = "abs vig"; el.innerHTML = h; $("#vigs").appendChild(el);
+  return { el, at: rows[i].at, parts: [...el.querySelectorAll("[data-a]")], bars: [...el.querySelectorAll("[data-w]")], evt: el.querySelector(".evt"), tys: [...el.querySelectorAll(".ty")].map((x) => [x, x.textContent]) };
+});
+
+// --- sur mesure
+const fitWs1 = words($("#fTitle"), "Chaque entreprise est <span class=\"v\">différente.</span>");
+const SATS = [
+  ["tool", "Vos outils", "Mails, agenda, tableurs, WhatsApp", -150, ["l16", 10]],
+  ["flow", "Votre façon de travailler", "Vos étapes, vos habitudes", -90, ["l16", 12]],
+  ["voice", "Vos mots", "Votre ton avec vos clients", -30, ["l16", 16]],
+  ["users", "Vos clients", "Leurs questions, leurs attentes", 30, ["l16", 16]],
+  ["team", "Vos équipes", "Qui fait quoi", 150, ["l16", 12]],
+  ["data", "Vos données", "Elles restent les vôtres", 90, ["l16", 10]],
+];
+const CX = 960, CY = 590, RX = 640, RY = 290;
+const sats = SATS.map(([ic, b, s, ang, w], i) => {
+  const el = document.createElement("div"); el.className = "abs sat";
+  el.innerHTML = `<div class="in"><div class="ic">${LI(P[ic], "#4636f0")}</div><div><b>${b}</b><small>${s}</small></div></div>`;
+  $("#sats").appendChild(el);
+  const a = (ang - 90) * Math.PI / 180;
+  const x = CX + Math.cos(a + Math.PI / 2) * RX, y = CY + Math.sin(a + Math.PI / 2) * RY;
+  const ln = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  ln.setAttribute("stroke", "#4636f0"); ln.setAttribute("stroke-width", "3"); ln.setAttribute("stroke-dasharray", "2 10"); ln.setAttribute("stroke-linecap", "round");
+  $("#fitLines").appendChild(ln);
+  return { el, inner: el.querySelector(".in"), ln, x, y, hi: W(...w), at: SC.fit[0] + 0.5 + i * 0.12 };
+});
+
+// --- méthode
+const STEPS = [["Comprendre", "On découvre votre entreprise et votre façon de travailler.", ["l17", 3]], ["Identifier", "On repère ce qui vous fait perdre du temps.", ["l17", 7]],
+  ["Construire", "On crée votre système, sur mesure, avec vos outils.", ["l17", 16]], ["Faire évoluer", "On l'ajuste avec vous, au rythme de l'entreprise.", ["l17", 23]]];
+const SX = [350, 790, 1230, 1670].map((x) => x - 60);
+const steps = STEPS.map(([b, s, w], i) => {
+  const el = document.createElement("div"); el.className = "abs step";
+  el.innerHTML = `<div class="dot">0${i + 1}</div><div class="txt"><b>${b}</b><small>${s}</small></div>`;
+  el.style.transform = `translate(${SX[i]}px, 600px)`; $("#steps").appendChild(el);
+  return { el, dot: el.querySelector(".dot"), txt: el.querySelector(".txt"), at: W(...w) - 0.15 };
+});
+
+// --- fin
+$("#endLogo").innerHTML = "Luma".split("").map((c) => `<span class="mask"><span>${c}</span></span>`).join("") + `<span class="sp">${SPARK}</span>`;
+
+/* =================== GRAIN =================== */
+const gctx = $("#grain").getContext("2d"), gimg = gctx.createImageData(480, 270);
+function grain(t) { const r = rng(Math.floor(t * 30) + 3), d = gimg.data; for (let i = 0; i < d.length; i += 4) { const v = 120 + r() * 135; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; } gctx.putImageData(gimg, 0, 0); }
+
+/* =================== RENDU =================== */
+function render(t) {
+  // fond : deux halos qui dérivent lentement
+  tf($("#b1"), 1100 + Math.sin(t * 0.13) * 260, -250 + Math.cos(t * 0.11) * 120);
+  tf($("#b2"), -200 + Math.cos(t * 0.09) * 200, 450 + Math.sin(t * 0.12) * 120);
+
+  /* ---- 1. La journée (et retour au résultat) ---- */
+  const dayA = sceneA(t, "day", 0.6, 0.01);
+  const resA = sceneA(t, "result", 0.8, 0.7);
+  const inSpark = t >= SC.spark[0] && t < SC.spark[1] + 0.8;
+  const dayVis = t < SC.who[0] + 0.9 || (t >= SC.result[0] && t < SC.result[1] + 0.1);
+  const Ld = $("#Lday");
+  show(Ld, dayVis);
+  if (dayVis) {
+    const isRes = t >= SC.result[0];
+    const outWho = isRes ? 0 : E.inOut(prog(t, SC.who[0] - 0.1, SC.who[0] + 0.8));
+    Ld.style.opacity = isRes ? resA : (1 - outWho);
+    const drift = isRes ? 1 + 0.015 * prog(t, SC.result[0], SC.result[1]) : 1 + 0.02 * prog(t, 0, SC.day[1]);
+    Ld.style.transform = `scale(${drift * (1 - outWho * 0.04)})`;
+    Ld.style.filter = outWho > 0 ? `blur(${outWho * 10}px)` : "";
+    rise($("#dKick .mask > span"), t, isRes ? SC.result[0] + 0.2 : 0.5);
+    $("#dKick").style.opacity = isRes ? 1 : 1 - prog(t, L("l06") - 0.3, L("l06"));
+    $("#dKick .mask > span").textContent = isRes ? "Avec Luma" : "Votre quotidien";
+    dTitles.forEach((o, i) => {
+      const vis = !isRes && t > o.a - 0.05 && t < o.b + 0.4;
+      show(o.el, vis);
+      if (vis) o.ws.forEach((w, j) => riseOut(w, t, o.a + j * 0.06, o.b + j * 0.02));
+    });
+    // ligne de temps
+    const tlp = isRes ? 1 : E.inOut(prog(t, 0.3, 1.6));
+    $("#tl").style.transform = `scaleX(${tlp})`;
+    hours.forEach(([lab, tk], i) => { const p = isRes ? 1 : E.out(prog(t, 0.6 + i * 0.06, 1.3 + i * 0.06)); lab.style.opacity = tk.style.opacity = p; lab.style.transform = `translateY(${(1 - p) * 14}px)`; });
+    // charge : progression des tâches posées
+    const landed = chips.reduce((a, c) => a + E.out(prog(t, c.at, c.at + 0.5)), 0) / chips.length;
+    const merge = E.inOut(prog(t, W("l05", 6) - 0.2, W("l05", 6) + 1.1));
+    const free = inSpark || t >= SC.spark[0] ? E.inOut(prog(t, L("l06") + 0.6, L("l06") + 2.2)) : 0;
+    esss.forEach((o, i) => {
+      const p = isRes ? 1 : E.back(prog(t, o.at, o.at + 0.7));
+      let h = HMAX * p * (1 - 0.55 * landed * (1 - free)) * (1 - 0.45 * merge * (1 - free));
+      if (isRes) {
+        const hi = [W("l18", 8), W("l18", 10), W("l18", 12)][i];
+        h = HMAX * (1 + 0.06 * Math.exp(-Math.max(0, t - hi) * 3) * (t > hi ? 1 : 0));
+      }
+      o.el.style.height = h + "px"; o.el.style.top = BASE - h + "px";
+      o.el.style.opacity = t < o.at && !isRes ? 0 : 1;
+      const gray = isRes ? 0 : Math.max(landed * 0.7, merge) * (1 - free);
+      o.el.style.filter = `saturate(${1 - gray}) brightness(${1 - gray * 0.03})`;
+      o.el.querySelector(".in").style.opacity = clamp((h - 70) / 60);
+    });
+    // tâches
+    chips.forEach((c, i) => {
+      if (isRes || t < c.at) { c.el.style.opacity = 0; return; }
+      const p = prog(t, c.at, c.at + 0.55);
+      let x = c.x, y = c.y - (1 - E.out(p)) * 90, s = lerp(0.85, 1, E.back(p)), op = clamp(p * 3);
+      // « une à une » : une seule tâche mise en avant
+      const focus = prog(t, W("l05", 0) - 0.1, W("l05", 0) + 0.4) * (1 - prog(t, W("l05", 5), W("l05", 6)));
+      if (i === 2) s *= 1 + focus * 0.18; else op *= 1 - focus * 0.5;
+      // « bout à bout » : elles s'alignent puis deviennent une barre
+      if (merge > 0) {
+        const tx = X0 + (i / chips.length) * (X1 - X0 - 180);
+        x = lerp(x, tx, merge); y = lerp(y, BASE - 96 - 210 * (1 - free * 0), merge); op *= 1 - prog(t, W("l05", 6) + 0.7, W("l05", 6) + 1.1);
+      }
+      c.el.style.opacity = op;
+      c.el.style.zIndex = i === 2 ? 99 : i;
+      tf(c.el, x, y, s, c.r * (1 - merge));
+    });
+    const bar = $("#taskBar");
+    const bp = E.inOut(prog(t, W("l05", 6) + 0.6, W("l05", 6) + 1.3));
+    // déclic : la barre se rétracte vers l'étoile
+    const lift = E.inOut(prog(t, L("l06") + 0.3, L("l06") + 1.6));
+    const bw = (X1 - X0) * bp * (1 - lift);
+    bar.style.width = Math.max(0, bw) + "px";
+    bar.style.left = lerp(X0, 960, lift) - (lift > 0 ? bw / 2 * lift : 0) + "px";
+    bar.style.top = BASE - 96 - 210 - lift * 100 + "px";
+    bar.style.opacity = isRes ? 0 : bp * (1 - prog(t, L("l06") + 1.2, L("l06") + 1.6));
+    bar.style.background = lift > 0 ? `rgb(${lerp(18, 70, lift)},${lerp(16, 54, lift)},${lerp(43, 240, lift)})` : "";
+    bar.querySelector("span").style.opacity = 1 - lift * 2;
+    // résultat : bande « pris en charge par Luma »
+    show(fs, isRes);
+    if (isRes) {
+      const fp = E.out(prog(t, SC.result[0] + 0.6, SC.result[0] + 1.4));
+      fs.style.opacity = fp; fs.style.transform = `translateY(${(1 - fp) * 20}px)`;
+      minis.forEach((m, i) => { const x = 1730 - ((t - SC.result[0]) * 120 + i * 240) % 1920; m.style.left = x - 200 + "px"; m.style.opacity = clamp((x - 200 - 580) / 80) * clamp((1530 - (x - 200)) / 80); });
+      // titres du résultat
+      $("#dTitles").style.opacity = 1;
+    }
+  }
+  // titre du résultat
+  if (t >= SC.result[0] && !$("#resTitle")) {
+    const el = document.createElement("div"); el.className = "abs h1 dTitle"; el.id = "resTitle"; $("#Lday").appendChild(el);
+    el._ws = words(el, "Du temps pour <span class=\"v\">l'essentiel.</span>");
+  }
+  if ($("#resTitle")) { const el = $("#resTitle"); show(el, t >= SC.result[0]); el._ws.forEach((w, j) => rise(w, t, L("l18") + j * 0.07)); }
+
+  /* ---- Déclic ---- */
+  const Lq = $("#Lq");
+  show(Lq, t >= SC.spark[0] - 0.2 && t < SC.who[0] + 0.6);
+  Lq.style.opacity = 1 - E.inOut(prog(t, SC.who[0] - 0.2, SC.who[0] + 0.4));
+  rise($("#qTitle .mask > span"), t, L("l06") - 0.1, 0.8);
+  // les titres de la journée laissent la place à la question
+  $("#dTitles").style.opacity = t >= L("l06") - 0.3 && t < SC.result[0] ? 1 - prog(t, L("l06") - 0.3, L("l06")) : 1;
+  const sp = $("#spark0");
+  const spIn = E.back(prog(t, L("l06") + 1.3, L("l06") + 1.9));
+  const spTo = E.inOut(prog(t, SC.who[0] - 0.3, SC.who[0] + 0.5));
+  show(sp, t > L("l06") + 1.2 && t < SC.who[0] + 0.55);
+  tf(sp, lerp(0, 0, spTo), lerp(0, -40, spTo), spIn * (1 + Math.sin(t * 3) * 0.04) * lerp(1, 0.5, spTo), (t - L("l06")) * 40);
+  sp.style.opacity = 1 - prog(t, SC.who[0] + 0.35, SC.who[0] + 0.55);
+
+  /* ---- 2. Qui nous sommes ---- */
+  const Lw = $("#Lwho"), wA = sceneA(t, "who", 0.5, 0.7);
+  show(Lw, t >= SC.who[0] && t < SC.who[1] + 0.05);
+  if (t >= SC.who[0] && t < SC.who[1] + 0.05) {
+    Lw.style.opacity = wA;
+    const lIn = E.outExpo(prog(t, SC.who[0] + 0.25, SC.who[0] + 1.2));
+    rise($("#logoW .mask > span"), t, SC.who[0] + 0.25, 1.0);
+    $("#logoW .sp").style.transform = `scale(${E.back(prog(t, SC.who[0] + 0.35, SC.who[0] + 0.9))}) rotate(${(1 - lIn) * -90}deg)`;
+    const move = E.inOut(prog(t, L("l08") - 0.5, L("l08") + 0.5));
+    $("#logoW").style.opacity = 1 - move;
+    $("#logoW").style.transform = `translateY(${-move * 80}px) scale(${1 - move * 0.2})`;
+    const cp = E.out(prog(t, W("l07", 6) - 0.2, W("l07", 6) + 0.5));
+    $("#cityPill").style.opacity = cp * (1 - move);
+    $("#cityPill").style.transform = `translateX(-50%) translateY(${(1 - cp) * 20 - move * 80}px)`;
+    rise($("#whoKick .mask > span"), t, L("l08") + 0.1);
+    whoWs.forEach((w, j) => rise(w, t, W("l08", 3) - 0.1 + j * 0.08, 0.9));
+    reas.forEach((r) => { const p = E.out(prog(t, r.at - 0.1, r.at + 0.6)); r.el.style.opacity = p; r.el.style.transform = `translateX(${(1 - p) * -30}px)`; });
+    const fo = $("#founder"), fp = E.outExpo(prog(t, L("l08") + 0.4, L("l08") + 1.6));
+    fo.style.opacity = fp; tf(fo, (1 - fp) * 80, Math.sin(t * 0.8) * 4, lerp(0.96, 1, fp));
+    fo.querySelector(".ring").style.transform = `rotate(${t * 40}deg)`;
+  }
+
+  /* ---- 3. Délégation ---- */
+  const Lb = $("#Lboard"), inB = t >= SC.board[0] && t < SC.board[1] + 0.05;
+  show(Lb, inB);
+  if (inB) {
+    Lb.style.opacity = sceneA(t, "board", 0.7, 0.6);
+    Lb.style.transform = `scale(${1 + 0.012 * prog(t, SC.board[0], SC.board[1])})`;
+    rise($("#bKick .mask > span"), t, SC.board[0] + 0.3);
+    rise($("#bTitle .mask > span"), t, L("l10") + 1.2, 0.9);
+    ["#colL", "#colR"].forEach((id, i) => { const p = E.outExpo(prog(t, SC.board[0] + 0.4 + i * 0.25, SC.board[0] + 1.5 + i * 0.25)); $(id).style.opacity = p; $(id).style.transform = `translateY(${(1 - p) * 50}px)`; });
+    rows.forEach((r, i) => {
+      const ap = E.out(prog(t, SC.board[0] + 1.0 + i * 0.1, SC.board[0] + 1.8 + i * 0.1));
+      const mv = E.inOut(prog(t, r.at, r.at + 1.1));
+      const x0 = 140 + 26, x1 = 1200 + 26, y = ROWY(i);
+      const x = lerp(x0, x1, mv), yy = y - Math.sin(mv * Math.PI) * 70;
+      r.el.style.opacity = ap;
+      tf(r.el, x, yy + (1 - ap) * 20, 1 + Math.sin(mv * Math.PI) * 0.05, 0);
+      r.el.style.background = mv > 0.5 ? "#fff" : "";
+      r.el.style.boxShadow = mv > 0 ? `0 ${20 * Math.sin(mv * Math.PI) + 6}px ${40 * Math.sin(mv * Math.PI) + 16}px rgba(70,54,240,${0.12 + 0.12 * Math.sin(mv * Math.PI)})` : "";
+      const okp = E.back(prog(t, r.at + 0.95, r.at + 1.4));
+      r.ok.style.transform = `scale(${okp})`;
+      const fr = E.out(prog(t, r.at + 0.9, r.at + 1.5));
+      r.freed.style.opacity = fr;
+    });
+    vigs.forEach((v, i) => {
+      const a = v.at + 0.2, b = i < 4 ? vigs[i + 1].at + 0.1 : SC.board[1];
+      const pin = E.outExpo(prog(t, a, a + 0.8)), pout = E.inOut(prog(t, b - 0.4, b));
+      const vis = t > a - 0.05 && t < b + 0.05;
+      show(v.el, vis);
+      if (!vis) return;
+      v.el.style.opacity = pin * (1 - pout);
+      tf(v.el, 0, (1 - pin) * 40 - pout * 30, lerp(0.94, 1, pin), 0);
+      v.parts.forEach((p) => { const q = E.out(prog(t, a + +p.dataset.a, a + +p.dataset.a + 0.5)); p.style.opacity = q; p.style.transform = `translateY(${(1 - q) * 14}px)`; });
+      v.bars.forEach((bb, j) => { bb.style.width = E.outExpo(prog(t, a + 0.4 + j * 0.25, a + 1.6 + j * 0.25)) * +bb.dataset.w * 100 + "%"; });
+      v.tys.forEach(([el, txt]) => { const q = prog(t, a + +el.dataset.a, a + +el.dataset.a + 0.5); el.textContent = txt.slice(0, Math.round(q * txt.length)); });
+      if (v.evt) { const q = E.back(prog(t, a + 0.6, a + 1.1)); v.evt.style.transform = `translate(${26 + 3 * 70.8}px, ${26 + 46 + 14 + 26 + 52}px) scale(${q})`; v.evt.style.opacity = clamp(q * 2); }
+    });
+  }
+
+  /* ---- 4. Sur mesure ---- */
+  const Lf = $("#Lfit"), inF = t >= SC.fit[0] && t < SC.fit[1] + 0.05;
+  show(Lf, inF);
+  if (inF) {
+    Lf.style.opacity = sceneA(t, "fit", 0.7, 0.6);
+    const sw = W("l16", 4) - 0.1;
+    if (t >= sw && !Lf._sw) { Lf._sw = words($("#fTitle"), "Alors on part de <span class=\"v\">la vôtre.</span>"); }
+    const ws = t >= sw ? Lf._sw : fitWs1, a0 = t >= sw ? sw : L("l16") - 0.1;
+    ws.forEach((w, j) => rise(w, t, a0 + j * 0.06));
+    const cp = E.back(prog(t, SC.fit[0] + 0.3, SC.fit[0] + 1.1));
+    tf($("#core"), 0, 0, cp, 0);
+    sats.forEach((s, i) => {
+      const p = E.outExpo(prog(t, s.at, s.at + 1.0));
+      const fl = Math.sin(t * 0.9 + i) * 6;
+      const x = lerp(CX, s.x, p), y = lerp(CY, s.y, p) + fl;
+      tf(s.el, x, y, 1, 0);
+      s.el.style.opacity = clamp(p * 1.5);
+      const hi = E.out(prog(t, s.hi - 0.1, s.hi + 0.5));
+      s.inner.style.boxShadow = `0 18px 44px rgba(70,54,240,${0.08 + hi * 0.18}), 0 0 0 ${1.5 + hi * 1.5}px rgba(70,54,240,${0.05 + hi * 0.8})`;
+      s.inner.style.transform = `translate(-50%, -50%) scale(${1 + hi * 0.04})`;
+      s.ln.setAttribute("x1", CX); s.ln.setAttribute("y1", CY); s.ln.setAttribute("x2", x); s.ln.setAttribute("y2", y);
+      s.ln.setAttribute("stroke-opacity", (0.25 + hi * 0.6) * p);
+      s.ln.setAttribute("stroke-dashoffset", -t * 30);
+    });
+    const rp = E.outExpo(prog(t, W("l16", 17) + 0.3, W("l16", 17) + 1.3));
+    $("#lumaRing").style.opacity = rp; $("#lumaRing").style.transform = `scale(${lerp(1.25, 1, rp)})`;
+    $("#lumaTag").style.opacity = rp; $("#lumaTag").style.transform = `translateY(${(1 - rp) * 16}px)`;
+    rise($("#fitLine .mask > span"), t, W("l16", 17) + 0.6, 0.9);
+  }
+
+  /* ---- 5. Méthode ---- */
+  const Lm = $("#Lmethod"), inM = t >= SC.method[0] && t < SC.method[1] + 0.05;
+  show(Lm, inM);
+  if (inM) {
+    Lm.style.opacity = sceneA(t, "method", 0.7, 0.6);
+    rise($("#mKick .mask > span"), t, SC.method[0] + 0.3);
+    rise($("#mTitle .mask > span"), t, SC.method[0] + 0.5, 0.9);
+    // la ligne avance d'étape en étape
+    let hx2 = 230;
+    steps.forEach((s, i) => {
+      const reach = E.inOut(prog(t, s.at - 0.6, s.at));
+      const target = SX[i];
+      const prev = i === 0 ? 230 : SX[i - 1];
+      if (t >= s.at - 0.6) hx2 = lerp(prev, target, reach);
+      const on = E.back(prog(t, s.at, s.at + 0.5));
+      const ap = E.out(prog(t, SC.method[0] + 0.6 + i * 0.12, SC.method[0] + 1.4 + i * 0.12));
+      s.el.style.opacity = ap;
+      s.dot.style.background = on > 0.5 ? "#4636f0" : "#fff";
+      s.dot.style.borderColor = on > 0.5 ? "#4636f0" : "#d9dcea";
+      s.dot.style.color = on > 0.5 ? "#fff" : "#b2b5c8";
+      s.dot.style.boxShadow = on > 0 ? `0 0 0 ${on * 14}px rgba(70,54,240,${0.12 * on}), 0 20px 40px rgba(70,54,240,${0.25 * on})` : "";
+      s.dot.style.transform = `scale(${1 + 0.08 * on})`;
+      s.txt.style.opacity = 0.35 + 0.65 * E.out(prog(t, s.at, s.at + 0.6));
+      s.txt.style.transform = `translateY(${(1 - E.out(prog(t, s.at, s.at + 0.6))) * 10}px)`;
+    });
+    if (t > steps[3].at) hx2 = lerp(SX[3], 1690, E.inOut(prog(t, steps[3].at + 0.4, SC.method[1])));
+    $("#flowLine").setAttribute("x2", hx2);
+    $("#flowHead").setAttribute("cx", hx2);
+  }
+
+  /* ---- 6. Fin ---- */
+  const Le = $("#Lend"), inE = t >= SC.end[0];
+  show(Le, inE);
+  if (inE) {
+    Le.style.opacity = E.out(prog(t, SC.end[0], SC.end[0] + 0.8));
+    $("#endLogo").querySelectorAll(".mask > span").forEach((c, i) => rise(c, t, L("l19") - 0.25 + i * 0.07, 1.0));
+    $("#endLogo .sp").style.transform = `scale(${E.back(prog(t, L("l19") + 0.15, L("l19") + 0.8))}) rotate(${(1 - E.out(prog(t, L("l19"), L("l19") + 1.2))) * -120}deg)`;
+    const tg = $("#endTag").querySelectorAll(".mask > span");
+    rise(tg[0], t, W("l19", 2) - 0.1); rise(tg[1], t, W("l19", 5) - 0.1);
+    const cp = E.outExpo(prog(t, L("l20") + 0.2, L("l20") + 1.0));
+    const br = t > L("l20") + 1.2 ? 1 + 0.015 * Math.sin((t - L("l20")) * 3) : 1;
+    $("#endCta").style.opacity = cp; $("#endCta").style.transform = `translateX(-50%) translateY(${(1 - cp) * 30}px) scale(${lerp(0.92, 1, cp) * br})`;
+    const sp2 = E.out(prog(t, W("l20", 4) - 0.2, W("l20", 4) + 0.6));
+    $("#endSub").style.opacity = sp2; $("#endSub").style.transform = `translateY(${(1 - sp2) * 12}px)`;
+  }
+
+  // logo discret en haut à gauche, du « qui » jusqu'avant la fin
+  const mk = E.out(prog(t, L("l08"), L("l08") + 0.8)) * (1 - prog(t, SC.end[0] - 0.4, SC.end[0]));
+  $("#mark").style.opacity = mk;
+
+  // sous-titres
+  const s = CU.subs.find((x) => t >= x.a && t < x.b);
+  const st = $("#subT");
+  if (s) { st.textContent = s.text; st.parentElement.style.opacity = clamp((t - s.a) / 0.15) * clamp((s.b - t) / 0.15); }
+  else st.parentElement.style.opacity = 0;
+  st.style.display = s ? "" : "none";
+
+  grain(t);
+}
+window.render = render;
+window.__ready = document.fonts.ready.then(() => { render(0); return true; });
+if (!window.__RENDER) {
+  const a = new Audio("out/luma-presentation-audio.wav"); let t0 = null;
+  document.addEventListener("click", () => { a.currentTime = 0; a.play(); t0 = performance.now(); });
+  const loop = () => { if (t0 !== null) render(Math.min((performance.now() - t0) / 1000, CU.duration)); requestAnimationFrame(loop); }; loop();
+}
+</script>
+</body>
+</html>

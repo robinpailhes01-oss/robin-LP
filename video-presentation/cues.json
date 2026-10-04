@@ -1,0 +1,1228 @@
+{
+ "duration": 108.81,
+ "lines": {
+  "l01": {
+   "at": 1.3,
+   "dur": 2.05,
+   "words": [
+    [
+     "Vous",
+     1.3
+    ],
+    [
+     "dirigez",
+     1.6
+    ],
+    [
+     "une",
+     2.02
+    ],
+    [
+     "entreprise",
+     2.18
+    ],
+    [
+     "qui",
+     2.64
+    ],
+    [
+     "tourne.",
+     2.9
+    ]
+   ]
+  },
+  "l02": {
+   "at": 3.7,
+   "dur": 3.18,
+   "words": [
+    [
+     "des",
+     3.7
+    ],
+    [
+     "clients,",
+     3.9
+    ],
+    [
+     "une",
+     4.58
+    ],
+    [
+     "équipe,",
+     4.74
+    ],
+    [
+     "des",
+     5.64
+    ],
+    [
+     "journées",
+     5.74
+    ],
+    [
+     "bien",
+     6.1
+    ],
+    [
+     "remplies.",
+     6.46
+    ]
+   ]
+  },
+  "l03": {
+   "at": 7.48,
+   "dur": 3.42,
+   "words": [
+    [
+     "Mais",
+     7.48
+    ],
+    [
+     "chaque",
+     7.72
+    ],
+    [
+     "jour,",
+     7.94
+    ],
+    [
+     "les",
+     8.88
+    ],
+    [
+     "mêmes",
+     9.02
+    ],
+    [
+     "petites",
+     9.26
+    ],
+    [
+     "tâches",
+     9.72
+    ],
+    [
+     "reviennent.",
+     10.22
+    ]
+   ]
+  },
+  "l04": {
+   "at": 11.35,
+   "dur": 7.48,
+   "words": [
+    [
+     "Répondre",
+     11.35
+    ],
+    [
+     "aux",
+     12.09
+    ],
+    [
+     "mêmes",
+     12.25
+    ],
+    [
+     "questions,",
+     12.47
+    ],
+    [
+     "relancer",
+     13.83
+    ],
+    [
+     "un",
+     14.17
+    ],
+    [
+     "devis,",
+     14.41
+    ],
+    [
+     "caler",
+     15.41
+    ],
+    [
+     "un",
+     15.71
+    ],
+    [
+     "rendez",
+     15.89
+    ],
+    [
+     "-vous,",
+     16.23
+    ],
+    [
+     "mettre",
+     17.17
+    ],
+    [
+     "à",
+     17.39
+    ],
+    [
+     "jour",
+     17.57
+    ],
+    [
+     "un",
+     17.69
+    ],
+    [
+     "fichier.",
+     17.93
+    ]
+   ]
+  },
+  "l05": {
+   "at": 19.38,
+   "dur": 5.32,
+   "words": [
+    [
+     "Une",
+     19.38
+    ],
+    [
+     "à",
+     19.6
+    ],
+    [
+     "une,",
+     19.84
+    ],
+    [
+     "rien",
+     20.64
+    ],
+    [
+     "de",
+     20.7
+    ],
+    [
+     "compliqué.",
+     21.02
+    ],
+    [
+     "Mise",
+     22.26
+    ],
+    [
+     "bout",
+     22.5
+    ],
+    [
+     "à",
+     22.68
+    ],
+    [
+     "bout,",
+     22.88
+    ],
+    [
+     "elles",
+     23.68
+    ],
+    [
+     "prennent",
+     23.86
+    ],
+    [
+     "vos",
+     24.16
+    ],
+    [
+     "journées.",
+     24.28
+    ]
+   ]
+  },
+  "l06": {
+   "at": 25.7,
+   "dur": 1.81,
+   "words": [
+    [
+     "Et",
+     25.7
+    ],
+    [
+     "si",
+     25.94
+    ],
+    [
+     "elle",
+     26.14
+    ],
+    [
+     "ne",
+     26.22
+    ],
+    [
+     "passait",
+     26.5
+    ],
+    [
+     "plus",
+     26.78
+    ],
+    [
+     "par",
+     26.96
+    ],
+    [
+     "vous...",
+     27.2
+    ]
+   ]
+  },
+  "l07": {
+   "at": 28.81,
+   "dur": 3.6,
+   "words": [
+    [
+     "Nous",
+     28.81
+    ],
+    [
+     "sommes",
+     28.97
+    ],
+    [
+     "Luma,",
+     29.21
+    ],
+    [
+     "une",
+     30.37
+    ],
+    [
+     "agence",
+     30.49
+    ],
+    [
+     "basée",
+     31.03
+    ],
+    [
+     "à",
+     31.67
+    ],
+    [
+     "Montpellier.",
+     31.87
+    ]
+   ]
+  },
+  "l08": {
+   "at": 32.86,
+   "dur": 6.88,
+   "words": [
+    [
+     "Notre",
+     32.86
+    ],
+    [
+     "métier",
+     33.18
+    ],
+    [
+     "?",
+     33.84
+    ],
+    [
+     "Confier",
+     34.24
+    ],
+    [
+     "à",
+     34.7
+    ],
+    [
+     "l",
+     34.92
+    ],
+    [
+     "'intelligence",
+     35.02
+    ],
+    [
+     "artificielle",
+     35.58
+    ],
+    [
+     "le",
+     36.52
+    ],
+    [
+     "travail",
+     36.94
+    ],
+    [
+     "répétitif",
+     37.36
+    ],
+    [
+     "de",
+     38.4
+    ],
+    [
+     "votre",
+     38.78
+    ],
+    [
+     "entreprise.",
+     38.96
+    ]
+   ]
+  },
+  "l09": {
+   "at": 40.19,
+   "dur": 4.13,
+   "words": [
+    [
+     "Et",
+     40.19
+    ],
+    [
+     "vous",
+     40.35
+    ],
+    [
+     "n",
+     40.47
+    ],
+    [
+     "'avez",
+     40.59
+    ],
+    [
+     "pas",
+     40.69
+    ],
+    [
+     "besoin",
+     40.93
+    ],
+    [
+     "d",
+     41.13
+    ],
+    [
+     "'y",
+     41.21
+    ],
+    [
+     "connaître",
+     41.35
+    ],
+    [
+     "quoi",
+     41.75
+    ],
+    [
+     "que",
+     41.97
+    ],
+    [
+     "ce",
+     42.29
+    ],
+    [
+     "soit,",
+     42.35
+    ],
+    [
+     "on",
+     43.25
+    ],
+    [
+     "s",
+     43.37
+    ],
+    [
+     "'occupe",
+     43.53
+    ],
+    [
+     "de",
+     43.85
+    ],
+    [
+     "tout.",
+     44.11
+    ]
+   ]
+  },
+  "l10": {
+   "at": 45.42,
+   "dur": 4.09,
+   "words": [
+    [
+     "Concrètement,",
+     45.42
+    ],
+    [
+     "on",
+     46.56
+    ],
+    [
+     "met",
+     46.62
+    ],
+    [
+     "en",
+     46.76
+    ],
+    [
+     "place",
+     47.02
+    ],
+    [
+     "un",
+     47.34
+    ],
+    [
+     "assistant",
+     47.66
+    ],
+    [
+     "qui",
+     48.2
+    ],
+    [
+     "travaille",
+     48.72
+    ],
+    [
+     "pour",
+     49.02
+    ],
+    [
+     "vous.",
+     49.3
+    ]
+   ]
+  },
+  "l11": {
+   "at": 50.11,
+   "dur": 3.23,
+   "words": [
+    [
+     "Il",
+     50.11
+    ],
+    [
+     "répond",
+     50.29
+    ],
+    [
+     "à",
+     50.63
+    ],
+    [
+     "vos",
+     50.79
+    ],
+    [
+     "clients,",
+     50.97
+    ],
+    [
+     "même",
+     51.69
+    ],
+    [
+     "à",
+     51.99
+    ],
+    [
+     "10",
+     52.33
+    ],
+    [
+     "heures",
+     52.51
+    ],
+    [
+     "du",
+     52.67
+    ],
+    [
+     "soir.",
+     52.93
+    ]
+   ]
+  },
+  "l12": {
+   "at": 53.94,
+   "dur": 1.98,
+   "words": [
+    [
+     "il",
+     53.94
+    ],
+    [
+     "prend",
+     54.16
+    ],
+    [
+     "les",
+     54.34
+    ],
+    [
+     "rendez",
+     54.54
+    ],
+    [
+     "-vous",
+     54.82
+    ],
+    [
+     "dans",
+     54.96
+    ],
+    [
+     "votre",
+     55.16
+    ],
+    [
+     "agenda.",
+     55.36
+    ]
+   ]
+  },
+  "l13": {
+   "at": 56.52,
+   "dur": 3.09,
+   "words": [
+    [
+     "Il",
+     56.52
+    ],
+    [
+     "relance",
+     56.8
+    ],
+    [
+     "les",
+     57.22
+    ],
+    [
+     "devis",
+     57.44
+    ],
+    [
+     "et",
+     57.94
+    ],
+    [
+     "les",
+     58.24
+    ],
+    [
+     "factures",
+     58.46
+    ],
+    [
+     "oubliées.",
+     59.02
+    ]
+   ]
+  },
+  "l14": {
+   "at": 60.21,
+   "dur": 2.68,
+   "words": [
+    [
+     "Ils",
+     60.21
+    ],
+    [
+     "rangent",
+     60.43
+    ],
+    [
+     "chaque",
+     61.01
+    ],
+    [
+     "information",
+     61.23
+    ],
+    [
+     "au",
+     62.03
+    ],
+    [
+     "bon",
+     62.31
+    ],
+    [
+     "endroit.",
+     62.51
+    ]
+   ]
+  },
+  "l15": {
+   "at": 63.49,
+   "dur": 3.13,
+   "words": [
+    [
+     "Et",
+     63.49
+    ],
+    [
+     "chaque",
+     63.75
+    ],
+    [
+     "semaine,",
+     63.95
+    ],
+    [
+     "il",
+     64.91
+    ],
+    [
+     "vous",
+     65.05
+    ],
+    [
+     "dit",
+     65.27
+    ],
+    [
+     "ce",
+     65.63
+    ],
+    [
+     "qui",
+     65.99
+    ],
+    [
+     "a",
+     66.07
+    ],
+    [
+     "été",
+     66.17
+    ],
+    [
+     "fait.",
+     66.39
+    ]
+   ]
+  },
+  "l16": {
+   "at": 67.72,
+   "dur": 8.4,
+   "words": [
+    [
+     "Chaque",
+     67.72
+    ],
+    [
+     "entreprise",
+     68.18
+    ],
+    [
+     "est",
+     68.76
+    ],
+    [
+     "différente,",
+     69.12
+    ],
+    [
+     "alors",
+     70.48
+    ],
+    [
+     "on",
+     70.6
+    ],
+    [
+     "part",
+     70.84
+    ],
+    [
+     "de",
+     71.0
+    ],
+    [
+     "la",
+     71.14
+    ],
+    [
+     "vôtre,",
+     71.34
+    ],
+    [
+     "vos",
+     72.46
+    ],
+    [
+     "outils,",
+     72.58
+    ],
+    [
+     "votre",
+     73.64
+    ],
+    [
+     "façon",
+     73.8
+    ],
+    [
+     "de",
+     74.12
+    ],
+    [
+     "travailler,",
+     74.32
+    ],
+    [
+     "vos",
+     75.7
+    ],
+    [
+     "mots.",
+     75.82
+    ]
+   ]
+  },
+  "l17": {
+   "at": 77.22,
+   "dur": 9.46,
+   "words": [
+    [
+     "D",
+     77.22
+    ],
+    [
+     "'abord,",
+     77.42
+    ],
+    [
+     "on",
+     77.96
+    ],
+    [
+     "comprend",
+     78.06
+    ],
+    [
+     "votre",
+     78.42
+    ],
+    [
+     "entreprise,",
+     78.72
+    ],
+    [
+     "on",
+     79.96
+    ],
+    [
+     "repère",
+     80.08
+    ],
+    [
+     "ce",
+     80.48
+    ],
+    [
+     "qui",
+     80.66
+    ],
+    [
+     "vous",
+     80.8
+    ],
+    [
+     "fait",
+     80.92
+    ],
+    [
+     "perdre",
+     81.06
+    ],
+    [
+     "du",
+     81.3
+    ],
+    [
+     "temps,",
+     81.56
+    ],
+    [
+     "on",
+     82.46
+    ],
+    [
+     "construit",
+     82.68
+    ],
+    [
+     "votre",
+     83.0
+    ],
+    [
+     "système,",
+     83.24
+    ],
+    [
+     "puis",
+     84.5
+    ],
+    [
+     "on",
+     84.72
+    ],
+    [
+     "le",
+     85.06
+    ],
+    [
+     "fait",
+     85.26
+    ],
+    [
+     "évoluer",
+     85.48
+    ],
+    [
+     "avec",
+     86.16
+    ],
+    [
+     "vous.",
+     86.48
+    ]
+   ]
+  },
+  "l18": {
+   "at": 87.78,
+   "dur": 6.24,
+   "words": [
+    [
+     "Vous,",
+     87.78
+    ],
+    [
+     "vous",
+     88.48
+    ],
+    [
+     "retrouvez",
+     88.66
+    ],
+    [
+     "du",
+     89.06
+    ],
+    [
+     "temps",
+     89.2
+    ],
+    [
+     "pour",
+     89.4
+    ],
+    [
+     "l",
+     89.6
+    ],
+    [
+     "'essentiel,",
+     89.72
+    ],
+    [
+     "vos",
+     90.94
+    ],
+    [
+     "clients,",
+     91.04
+    ],
+    [
+     "votre",
+     92.06
+    ],
+    [
+     "équipe,",
+     92.22
+    ],
+    [
+     "votre",
+     93.32
+    ],
+    [
+     "développement.",
+     93.44
+    ]
+   ]
+  },
+  "l19": {
+   "at": 95.42,
+   "dur": 3.95,
+   "words": [
+    [
+     "L",
+     95.42
+    ],
+    [
+     "'humain,",
+     95.66
+    ],
+    [
+     "moins",
+     96.7
+    ],
+    [
+     "à",
+     97.0
+    ],
+    [
+     "gérer,",
+     97.2
+    ],
+    [
+     "plus",
+     98.3
+    ],
+    [
+     "à",
+     98.44
+    ],
+    [
+     "construire.",
+     98.88
+    ]
+   ]
+  },
+  "l20": {
+   "at": 100.17,
+   "dur": 5.04,
+   "words": [
+    [
+     "Parlons",
+     100.17
+    ],
+    [
+     "de",
+     100.59
+    ],
+    [
+     "votre",
+     100.75
+    ],
+    [
+     "entreprise,",
+     100.99
+    ],
+    [
+     "l",
+     102.37
+    ],
+    [
+     "'audit",
+     102.53
+    ],
+    [
+     "est",
+     102.91
+    ],
+    [
+     "offert",
+     103.13
+    ],
+    [
+     "et",
+     104.07
+    ],
+    [
+     "sans",
+     104.39
+    ],
+    [
+     "engagement.",
+     104.63
+    ]
+   ]
+  }
+ },
+ "subs": [
+  {
+   "text": "Vous dirigez une entreprise qui tourne.",
+   "a": 1.3,
+   "b": 3.6
+  },
+  {
+   "text": "Des clients, une équipe, des journées bien remplies.",
+   "a": 3.7,
+   "b": 7.13
+  },
+  {
+   "text": "Mais chaque jour, les mêmes petites tâches reviennent.",
+   "a": 7.48,
+   "b": 11.15
+  },
+  {
+   "text": "Répondre aux mêmes questions. Relancer un devis.",
+   "a": 11.35,
+   "b": 14.41
+  },
+  {
+   "text": "Caler un rendez-vous. Mettre à jour un fichier.",
+   "a": 14.41,
+   "b": 19.08
+  },
+  {
+   "text": "Une à une, rien de compliqué.",
+   "a": 19.38,
+   "b": 22.26
+  },
+  {
+   "text": "Mises bout à bout, elles prennent vos journées.",
+   "a": 22.26,
+   "b": 24.95
+  },
+  {
+   "text": "Et si elles ne passaient plus par vous ?",
+   "a": 25.7,
+   "b": 27.76
+  },
+  {
+   "text": "Nous sommes Luma, une agence basée à Montpellier.",
+   "a": 28.81,
+   "b": 32.66
+  },
+  {
+   "text": "Notre métier : confier à l'intelligence artificielle",
+   "a": 32.86,
+   "b": 36.52
+  },
+  {
+   "text": "le travail répétitif de votre entreprise.",
+   "a": 36.52,
+   "b": 39.99
+  },
+  {
+   "text": "Et vous n'avez pas besoin d'y connaître quoi que ce soit.",
+   "a": 40.19,
+   "b": 43.25
+  },
+  {
+   "text": "On s'occupe de tout.",
+   "a": 43.25,
+   "b": 44.57
+  },
+  {
+   "text": "Concrètement, on met en place un assistant qui travaille pour vous.",
+   "a": 45.42,
+   "b": 49.76
+  },
+  {
+   "text": "Il répond à vos clients, même à dix heures du soir.",
+   "a": 50.11,
+   "b": 53.59
+  },
+  {
+   "text": "Il prend les rendez-vous dans votre agenda.",
+   "a": 53.94,
+   "b": 56.17
+  },
+  {
+   "text": "Il relance les devis et les factures oubliés.",
+   "a": 56.52,
+   "b": 59.86
+  },
+  {
+   "text": "Il range chaque information au bon endroit.",
+   "a": 60.21,
+   "b": 63.14
+  },
+  {
+   "text": "Et chaque semaine, il vous dit ce qui a été fait.",
+   "a": 63.49,
+   "b": 66.87
+  },
+  {
+   "text": "Chaque entreprise est différente. Alors on part de la vôtre :",
+   "a": 67.72,
+   "b": 72.46
+  },
+  {
+   "text": "vos outils, votre façon de travailler, vos mots.",
+   "a": 72.46,
+   "b": 76.37
+  },
+  {
+   "text": "D'abord, on comprend votre entreprise. On repère ce qui vous fait perdre du temps.",
+   "a": 77.22,
+   "b": 81.06
+  },
+  {
+   "text": "On construit votre système. Puis on le fait évoluer avec vous.",
+   "a": 81.06,
+   "b": 86.93
+  },
+  {
+   "text": "Vous, vous retrouvez du temps pour l'essentiel :",
+   "a": 87.78,
+   "b": 90.94
+  },
+  {
+   "text": "vos clients, votre équipe, votre développement.",
+   "a": 90.94,
+   "b": 94.27
+  },
+  {
+   "text": "Luma. Moins à gérer, plus à construire.",
+   "a": 95.42,
+   "b": 99.62
+  },
+  {
+   "text": "Parlons de votre entreprise. L'audit est offert, et sans engagement.",
+   "a": 100.17,
+   "b": 105.46
+  }
+ ],
+ "scenes": {
+  "day": [
+   0,
+   25.3
+  ],
+  "spark": [
+   25.3,
+   28.61
+  ],
+  "who": [
+   28.61,
+   44.72
+  ],
+  "board": [
+   44.72,
+   66.92
+  ],
+  "fit": [
+   66.92,
+   76.42
+  ],
+  "method": [
+   76.42,
+   86.98
+  ],
+  "result": [
+   86.98,
+   94.52
+  ],
+  "end": [
+   94.52,
+   108.81
+  ]
+ }
+}

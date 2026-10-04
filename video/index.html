@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Luma — Pub 9:16</title>
+<style>
+@font-face { font-family: "Geist"; src: url("assets/geist.woff2") format("woff2"); font-weight: 100 900; }
+:root {
+  --violet: #4636f0; --violet-lt: #8f84ff; --navy: #12102b; --ink: #0b0a1f;
+  --page: #f7f8fc; --muted: #7a7e92;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+body { font-family: "Geist", system-ui, sans-serif; -webkit-font-smoothing: antialiased; font-feature-settings: "ss01"; }
+#stage { position: absolute; inset: 0; overflow: hidden; background: var(--ink); }
+.layer { position: absolute; inset: 0; overflow: hidden; }
+.abs { position: absolute; will-change: transform, opacity; }
+.mask { overflow: hidden; display: inline-block; vertical-align: top; padding: 0 0.04em; }
+.mask > span { display: inline-block; will-change: transform; }
+
+/* Scène 1 — le chaos */
+#s1 { background: radial-gradient(120% 70% at 50% 40%, #241f5c 0%, #0b0a1f 62%); }
+.notif { left: 0; top: 0; width: 760px; padding: 26px 30px; border-radius: 40px; display: flex; gap: 24px; align-items: center;
+  background: rgba(32, 30, 66, 0.94); border: 1.5px solid rgba(255,255,255,0.12); box-shadow: 0 30px 80px rgba(0,0,0,0.45); color: #fff; }
+.notif .ic { flex: none; width: 88px; height: 88px; border-radius: 24px; display: grid; place-items: center; }
+.notif .ic svg { width: 50px; height: 50px; }
+.notif .tx { flex: 1; min-width: 0; }
+.notif .row { display: flex; justify-content: space-between; align-items: baseline; }
+.notif b { font-size: 34px; font-weight: 700; letter-spacing: -0.01em; }
+.notif i { font-style: normal; font-size: 25px; color: rgba(255,255,255,0.5); }
+.notif p { font-size: 30px; color: rgba(255,255,255,0.72); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px; }
+.slam { z-index: 50; left: 0; width: 1080px; top: 830px; text-align: center; color: #fff; font-weight: 900; font-size: 196px; letter-spacing: -0.055em; line-height: 1;
+  text-shadow: 0 0 80px rgba(11,10,31,0.95), 0 10px 40px rgba(0,0,0,0.6); }
+#unread { z-index: 60; left: 50%; top: 270px; display: flex; align-items: center; gap: 18px; padding: 18px 34px 18px 22px; border-radius: 999px;
+  background: #ff3b30; color: #fff; font-size: 44px; font-weight: 800; letter-spacing: -0.02em; box-shadow: 0 16px 50px rgba(255,59,48,0.45); }
+#unread svg { width: 48px; height: 48px; }
+.q { z-index: 50; left: 0; width: 1080px; text-align: center; color: #fff; font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; }
+#q1 { top: 560px; font-size: 112px; }
+#q2 { top: 700px; font-size: 112px; }
+#q2 .hl { color: var(--violet-lt); }
+#scrim { position: absolute; inset: 0; z-index: 40; background: radial-gradient(90% 60% at 50% 50%, rgba(11,10,31,0.9), rgba(11,10,31,0.55)); opacity: 0; }
+#spark1 { z-index: 60; left: 540px; top: 1200px; width: 0; height: 0; }
+#spark1 svg { position: absolute; left: -110px; top: -110px; width: 220px; height: 220px; filter: drop-shadow(0 0 40px #8f84ff) drop-shadow(0 0 90px #4636f0); }
+
+/* Scène 3 — l'outil sur mesure, connecté, qui travaille, qui rapporte */
+#s3 { background: var(--page); }
+#night { position: absolute; inset: 0; background: radial-gradient(120% 70% at 50% 45%, #241f5c 0%, #0b0a1f 70%); opacity: 0; }
+#grid3 { position: absolute; inset: 0; background-image: linear-gradient(rgba(70,54,240,0.09) 2px, transparent 2px), linear-gradient(90deg, rgba(70,54,240,0.09) 2px, transparent 2px);
+  background-size: 90px 90px; background-position: 0 0; }
+.star { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+#cam3 { position: absolute; inset: 0; transform-origin: 540px 1100px; }
+.hl3 { left: 0; width: 1080px; text-align: center; font-size: 116px; font-weight: 850; letter-spacing: -0.05em; line-height: 1.12; color: var(--navy); white-space: nowrap; }
+.hl3.l0 { top: 260px; } .hl3.l1 { top: 392px; }
+.hl3 .v { color: var(--violet); }
+.night-on .hl3 .v { color: var(--violet-lt); }
+
+/* A — l'outil se construit */
+#app { left: 90px; top: 600px; width: 900px; height: 880px; border-radius: 56px; background: #fff; overflow: hidden;
+  box-shadow: 0 60px 140px rgba(18,16,43,0.16), 0 0 0 1.5px rgba(18,16,43,0.05); }
+#app .bar { height: 120px; display: flex; align-items: center; gap: 18px; padding: 0 40px; border-bottom: 1.5px solid #e9ebf3; }
+#app .dots { display: flex; gap: 12px; } #app .dots i { width: 20px; height: 20px; border-radius: 50%; background: #e2e4ee; }
+#app .ttl { display: flex; align-items: center; gap: 14px; margin-left: 18px; font-size: 36px; font-weight: 750; color: var(--navy); letter-spacing: -0.02em; }
+#app .ttl svg { width: 40px; height: 40px; }
+#app .ttl em { font-style: normal; color: var(--muted); font-weight: 550; }
+.tile { left: 0; top: 0; width: 390px; height: 222px; border-radius: 36px; background: var(--page); border: 2px dashed rgba(70,54,240,0.0);
+  padding: 26px 30px; display: flex; flex-direction: column; justify-content: space-between; }
+.tile .ti { width: 80px; height: 80px; border-radius: 28px; background: #eeebff; display: grid; place-items: center; }
+.tile .ti svg { width: 46px; height: 46px; }
+.tile b { font-size: 40px; font-weight: 750; color: var(--navy); letter-spacing: -0.02em; }
+.tile .ln { height: 14px; border-radius: 7px; background: #e2e4ee; margin-top: 12px; }
+#surm { left: 560px; top: 540px; padding: 22px 34px; border-radius: 999px; background: var(--navy); color: #fff; font-size: 34px; font-weight: 800; letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 12px; box-shadow: 0 24px 60px rgba(18,16,43,0.35); white-space: nowrap; }
+#surm svg { width: 36px; height: 36px; }
+
+/* B — le hub connecté */
+#hubsvg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+#hub { left: 540px; top: 1060px; width: 0; height: 0; }
+#hub .core { position: absolute; left: -125px; top: -125px; width: 250px; height: 250px; border-radius: 50%; background: var(--violet); display: grid; place-items: center;
+  box-shadow: 0 0 0 26px rgba(70,54,240,0.12), 0 40px 100px rgba(70,54,240,0.45); }
+#hub .core svg { width: 120px; height: 120px; }
+.node { left: 0; top: 0; width: 0; height: 0; }
+.node .nc { position: absolute; left: -84px; top: -84px; width: 168px; height: 168px; border-radius: 50%; background: #fff; display: grid; place-items: center;
+  box-shadow: 0 24px 60px rgba(18,16,43,0.14), 0 0 0 1.5px rgba(18,16,43,0.05); }
+.node .nc svg { width: 76px; height: 76px; }
+.node .nl { position: absolute; left: -150px; width: 300px; top: 96px; text-align: center; font-size: 32px; font-weight: 700; color: var(--navy); letter-spacing: -0.01em; }
+
+/* C — la conversation */
+#card { left: 90px; top: 600px; width: 900px; padding: 34px 34px 40px; border-radius: 56px; background: #fff;
+  box-shadow: 0 60px 140px rgba(18,16,43,0.16), 0 0 0 1.5px rgba(18,16,43,0.05); }
+#card .top { display: flex; align-items: center; gap: 20px; padding-bottom: 26px; border-bottom: 1.5px solid #e9ebf3; }
+.av { width: 84px; height: 84px; border-radius: 50%; background: var(--violet); display: grid; place-items: center; flex: none; }
+.av svg { width: 44px; height: 44px; }
+.nm { font-size: 38px; font-weight: 750; color: var(--navy); letter-spacing: -0.02em; }
+.st { font-size: 27px; color: #19a35a; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.st:before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: #22c55e; }
+#clock { margin-left: auto; font-size: 44px; font-weight: 750; color: var(--navy); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; display: flex; align-items: center; gap: 14px; }
+#clock svg { width: 40px; height: 40px; }
+.msgs { position: relative; height: 640px; }
+.bub { position: absolute; max-width: 640px; padding: 26px 34px; border-radius: 40px; font-size: 37px; line-height: 1.3; letter-spacing: -0.01em; transform-origin: left bottom; }
+.bub.c { left: 0; background: #eef0f6; color: var(--navy); border-bottom-left-radius: 12px; }
+.bub.l { right: 0; background: var(--violet); color: #fff; border-bottom-right-radius: 12px; transform-origin: right bottom; }
+#b1 { top: 36px; } #typ { top: 220px; } #b2 { top: 220px; } #b3 { top: 420px; }
+#typ { right: 0; display: flex; gap: 12px; padding: 32px 36px; }
+#typ span { width: 18px; height: 18px; border-radius: 50%; background: #fff; }
+#rdv { left: 0; right: 0; top: 555px; display: flex; align-items: center; justify-content: center; gap: 16px; font-size: 32px; font-weight: 700; color: var(--violet); }
+.ck { width: 52px; height: 52px; border-radius: 50%; background: var(--violet); display: grid; place-items: center; flex: none; }
+.ck svg { width: 30px; height: 30px; }
+#stamp { left: 470px; top: 530px; padding: 22px 34px; border-radius: 999px; background: var(--navy); color: #fff; font-size: 34px; font-weight: 800;
+  letter-spacing: 0.02em; display: flex; align-items: center; gap: 12px; box-shadow: 0 24px 60px rgba(18,16,43,0.35); transform-origin: center; white-space: nowrap; }
+#stamp svg { width: 38px; height: 38px; }
+.toast { left: 0; top: 0; display: flex; align-items: center; gap: 16px; padding: 22px 32px 22px 22px; border-radius: 999px; background: #fff; color: var(--navy);
+  font-size: 34px; font-weight: 700; box-shadow: 0 24px 70px rgba(70,54,240,0.35); white-space: nowrap; }
+.toast .ck { width: 50px; height: 50px; }
+.toast .ck svg { width: 28px; height: 28px; }
+.toast small { font-size: 28px; color: var(--muted); font-weight: 550; }
+
+/* D — le rapport */
+#report { left: 90px; top: 600px; width: 900px; padding: 40px 44px 46px; border-radius: 56px; background: #fff;
+  box-shadow: 0 60px 140px rgba(18,16,43,0.18), 0 0 0 1.5px rgba(18,16,43,0.05); }
+#report .top { display: flex; align-items: center; gap: 20px; padding-bottom: 30px; border-bottom: 1.5px solid #e9ebf3; }
+#report .when { margin-left: auto; font-size: 30px; color: var(--muted); font-weight: 600; }
+.rrow { display: flex; align-items: center; gap: 22px; padding: 30px 0 0; }
+.rrow .lbl { width: 360px; font-size: 34px; font-weight: 650; color: var(--navy); letter-spacing: -0.01em; }
+.rrow .trk { flex: 1; height: 26px; border-radius: 13px; background: #eef0f6; overflow: hidden; }
+.rrow .fil { height: 100%; border-radius: 13px; background: linear-gradient(90deg, #8f84ff, #4636f0); width: 0; }
+#rchart { display: block; width: 100%; height: 200px; margin-top: 30px; }
+#rnotif { left: 90px; top: 1370px; width: 900px; display: flex; align-items: center; gap: 22px; padding: 26px 30px; border-radius: 40px; background: var(--navy); color: #fff;
+  box-shadow: 0 30px 80px rgba(18,16,43,0.4); }
+#rnotif .ic { width: 84px; height: 84px; border-radius: 24px; background: var(--violet); display: grid; place-items: center; flex: none; }
+#rnotif .ic svg { width: 46px; height: 46px; }
+#rnotif b { display: block; font-size: 34px; font-weight: 750; }
+#rnotif span { font-size: 29px; color: rgba(255,255,255,0.7); }
+
+/* Scène 4 — temps & argent */
+#s4 { background: var(--violet); }
+.ring { position: absolute; left: 540px; top: 960px; border: 3px solid rgba(255,255,255,0.18); border-radius: 50%; }
+#gagnez { left: 0; width: 1080px; top: 560px; text-align: center; color: rgba(255,255,255,0.85); font-size: 84px; font-weight: 650; letter-spacing: -0.03em; }
+.big4 { left: 0; width: 1080px; top: 690px; height: 260px; text-align: center; color: #fff; font-size: 196px; font-weight: 900; letter-spacing: -0.06em; line-height: 1.2; }
+#ico4 { left: 410px; top: 300px; width: 260px; height: 260px; }
+#ico4 svg { width: 100%; height: 100%; }
+#chart { left: 0; top: 1060px; width: 1080px; height: 440px; }
+
+/* Scène 5 — logo */
+#s5 { background: #fff; }
+#glow5 { position: absolute; left: 540px; top: 760px; width: 1400px; height: 1400px; margin: -700px 0 0 -700px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(70,54,240,0.16), rgba(70,54,240,0) 70%); }
+#word { left: 0; top: 590px; width: 1080px; text-align: center; font-size: 270px; font-weight: 820; letter-spacing: -0.06em; line-height: 1.15; color: var(--navy); white-space: nowrap; }
+#word .mask { padding: 0 0.01em; }
+#word .ch { background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; color: transparent; }
+#spark5 { left: 0; top: 0; width: 0; height: 0; }
+#spark5 svg { position: absolute; width: 120px; height: 120px; left: -60px; top: -60px; }
+.ray { position: absolute; left: 0; top: 0; width: 6px; border-radius: 3px; background: var(--violet); transform-origin: 3px 0; }
+#sub5 { left: 0; width: 1080px; top: 965px; text-align: center; font-size: 70px; font-weight: 650; letter-spacing: -0.035em; color: var(--navy); }
+#sub5 .v { color: var(--violet); }
+#city { left: 50%; top: 1090px; display: flex; align-items: center; gap: 14px; padding: 18px 36px 18px 26px; border-radius: 999px;
+  background: #eeebff; color: var(--violet); font-size: 44px; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
+#city svg { width: 44px; height: 44px; }
+#cta { left: 50%; top: 1260px; display: flex; align-items: center; gap: 20px; padding: 36px 56px; border-radius: 999px; background: var(--violet);
+  color: #fff; font-size: 48px; font-weight: 750; letter-spacing: -0.02em; white-space: nowrap; box-shadow: 0 30px 80px rgba(70,54,240,0.4); }
+#cta svg { width: 44px; height: 44px; }
+#trust { left: 0; width: 1080px; top: 1415px; text-align: center; font-size: 34px; color: var(--muted); font-weight: 500; }
+
+#flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+#grain { position: absolute; inset: 0; width: 1080px; height: 1920px; opacity: 0.06; mix-blend-mode: overlay; pointer-events: none; image-rendering: pixelated; }
+#vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(130% 90% at 50% 50%, transparent 55%, rgba(0,0,0,0.35) 100%); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="layer" id="s1">
+    <div id="cards"></div>
+    <div class="abs" id="unread"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1l-2-2Z"/></svg><span id="unreadN">3</span></div>
+    <div id="scrim"></div>
+    <div class="abs slam" id="w0">MESSAGES.</div>
+    <div class="abs slam" id="w1">APPELS.</div>
+    <div class="abs slam" id="w2">RELANCES.</div>
+    <div class="abs q" id="q1"></div>
+    <div class="abs q" id="q2"></div>
+    <div class="abs" id="spark1"><svg viewBox="0 0 100 100"><path fill="#fff" d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg></div>
+  </div>
+
+  <div class="layer" id="s3">
+    <div id="grid3"></div>
+    <div id="night"></div>
+    <div id="stars"></div>
+    <div id="cam3">
+      <div id="heads"></div>
+
+      <div class="abs" id="app">
+        <div class="bar"><div class="dots"><i></i><i></i><i></i></div>
+          <div class="ttl"><svg viewBox="0 0 100 100"><path fill="#4636f0" d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg>Luma <em>· Votre entreprise</em></div></div>
+        <div id="tiles"></div>
+      </div>
+      <div class="abs" id="surm"><svg viewBox="0 0 24 24" fill="none" stroke="#8f84ff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 17 3l4 4L7 21H3v-4Z"/><path d="m14 6 4 4"/></svg>100% SUR MESURE</div>
+
+      <svg id="hubsvg" viewBox="0 0 1080 1920"><g id="hubLines"></g><g id="hubPackets"></g></svg>
+      <div id="nodes"></div>
+      <div class="abs" id="hub"><div class="core"><svg viewBox="0 0 100 100"><path fill="#fff" d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg></div></div>
+
+      <div class="abs" id="card">
+        <div class="top">
+          <div class="av"><svg viewBox="0 0 100 100"><path fill="#fff" d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg></div>
+          <div><div class="nm">Votre assistant</div><div class="st">En ligne</div></div>
+          <div id="clock"><svg id="clockIc" viewBox="0 0 24 24"></svg><span id="clockT">22:47</span></div>
+        </div>
+        <div class="msgs">
+          <div class="abs bub c" id="b1">Bonsoir ! Vous avez une dispo samedi pour un devis ?</div>
+          <div class="abs bub l" id="typ"><span></span><span></span><span></span></div>
+          <div class="abs bub l" id="b2">Oui ! Samedi 10h30, c'est libre. Je vous le réserve ?</div>
+          <div class="abs bub c" id="b3">Parfait, merci !</div>
+          <div class="abs" id="rdv"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>Rendez-vous créé · agenda à jour</div>
+        </div>
+      </div>
+      <div class="abs" id="stamp"><svg viewBox="0 0 24 24" fill="#8f84ff"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>RÉPONSE IMMÉDIATE</div>
+
+      <div class="abs" id="report">
+        <div class="top">
+          <div class="av"><svg viewBox="0 0 100 100"><path fill="#fff" d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg></div>
+          <div><div class="nm">Rapport de la semaine</div><div class="st">Généré automatiquement</div></div>
+          <div class="when">Lundi 8:00</div>
+        </div>
+        <div id="rrows"></div>
+        <svg id="rchart" viewBox="0 0 812 300" preserveAspectRatio="none">
+          <defs><linearGradient id="rfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4636f0" stop-opacity="0.22"/><stop offset="1" stop-color="#4636f0" stop-opacity="0"/></linearGradient>
+            <clipPath id="rclip"><rect id="rclipRect" x="0" y="0" width="0" height="300"/></clipPath></defs>
+          <g clip-path="url(#rclip)">
+            <path d="M0 250 C 90 240, 140 210, 220 205 S 360 150, 440 140 S 600 90, 680 60 S 780 30, 812 24 L 812 300 L 0 300 Z" fill="url(#rfill)"/>
+            <path d="M0 250 C 90 240, 140 210, 220 205 S 360 150, 440 140 S 600 90, 680 60 S 780 30, 812 24" fill="none" stroke="#4636f0" stroke-width="8" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div class="abs" id="rnotif"><div class="ic"><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm9 7.2L4 7.3V8l8 5 8-5v-.7l-8 4.9Z"/></svg></div>
+        <div><b>Votre rapport est prêt</b><span>Tout ce qui a été traité cette semaine</span></div></div>
+
+      <div id="toasts"></div>
+    </div>
+  </div>
+
+  <div class="layer" id="s4">
+    <div id="rings"></div>
+    <div class="abs" id="ico4"></div>
+    <div class="abs" id="gagnez"><span class="mask"><span>Vous gagnez</span></span></div>
+    <div class="abs big4" id="g0"><span class="mask"><span>du temps.</span></span></div>
+    <div class="abs big4" id="g1"><span class="mask"><span>de l'argent.</span></span></div>
+    <svg class="abs" id="chart" viewBox="0 0 1080 560" preserveAspectRatio="none">
+      <defs><linearGradient id="fillg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.32"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <clipPath id="chartClip"><rect id="chartRect" x="0" y="0" width="0" height="560"/></clipPath></defs>
+      <g clip-path="url(#chartClip)">
+        <path d="M-10 470 C 120 460, 180 430, 270 400 S 420 380, 520 300 S 700 250, 800 170 S 980 70, 1090 40 L 1090 560 L -10 560 Z" fill="url(#fillg)"/>
+        <path id="chartLine" d="M-10 470 C 120 460, 180 430, 270 400 S 420 380, 520 300 S 700 250, 800 170 S 980 70, 1090 40" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round"/>
+      </g>
+      <circle id="chartDot" r="20" fill="#fff"/>
+    </svg>
+  </div>
+
+  <div class="layer" id="s5">
+    <div id="glow5"></div>
+    <div class="abs" id="word"></div>
+    <div class="abs" id="spark5"><div id="rays"></div><svg viewBox="0 0 100 100"><path fill="#4636f0" d="M50 0C52 30 70 48 100 50C70 52 52 70 50 100C48 70 30 52 0 50C30 48 48 30 50 0Z"/></svg></div>
+    <div class="abs" id="sub5"><span class="mask"><span>L'agence IA</span></span> <span class="mask"><span>des <span class="v">PME</span></span></span></div>
+    <div class="abs" id="city"><svg viewBox="0 0 24 24" fill="#4636f0"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Montpellier</div>
+    <div class="abs" id="cta">Demander un audit gratuit<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="abs" id="trust">Réponse sous 24h · Sans engagement</div>
+  </div>
+
+  <div id="flash"></div>
+  <canvas id="grain" width="360" height="640"></canvas>
+  <div id="vig"></div>
+</div>
+
+<script src="cues.js"></script>
+<script>
+const CUES = window.__CUES;
+const $ = (s) => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const E = {
+  outExpo: (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p)),
+  inExpo: (p) => (p <= 0 ? 0 : Math.pow(2, 10 * p - 10)),
+  outCubic: (p) => 1 - Math.pow(1 - p, 3),
+  inCubic: (p) => p * p * p,
+  inOut: (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2),
+  outBack: (p) => { const c = 2.2; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); },
+  outElastic: (p) => (p <= 0 ? 0 : p >= 1 ? 1 : Math.pow(2, -9 * p) * Math.sin((p * 10 - 0.75) * (2 * Math.PI / 3)) + 1),
+};
+function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+const show = (el, on) => { el.style.display = on ? "" : "none"; };
+const tf = (el, x, y, s = 1, r = 0, extra = "") => { el.style.transform = `translate(${x}px, ${y}px) scale(${s}) rotate(${r}deg) ${extra}`; };
+// pseudo-noise pour les tremblements de caméra
+const nz = (t, k) => Math.sin(t * 91.7 + k * 12.3) * 0.6 + Math.sin(t * 57.1 + k * 4.1) * 0.4;
+
+/* ---------- Construction ---------- */
+const ICONS = {
+  msg: ["#34c759", '<path fill="#fff" d="M12 3C6.5 3 2 6.8 2 11.5c0 2.6 1.4 4.9 3.6 6.5L5 21.5l4-2c.9.3 1.9.4 3 .4 5.5 0 10-3.8 10-8.4S17.5 3 12 3Z"/>'],
+  call: ["#ff3b30", '<path fill="#fff" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/>'],
+  mail: ["#0a84ff", '<path fill="#fff" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm9 7.2L4 7.3V8l8 5 8-5v-.7l-8 4.9Z"/>'],
+  bell: ["#ff9f0a", '<path fill="#fff" d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1l-2-2Z"/>'],
+  star: ["#f5b700", '<path fill="#fff" d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6L2.5 9.3l6.6-.8 2.9-6Z"/>'],
+};
+const NOTIFS = [
+  ["msg", "Messages", "Bonjour, vous avez reçu mon devis ?"],
+  ["call", "Appel manqué", "06 12 48 •• •• — 3 appels"],
+  ["mail", "Mail", "URGENT : facture du mois dernier"],
+  ["bell", "Relance", "Client Durand sans réponse depuis 4 j"],
+  ["msg", "WhatsApp", "Vous êtes ouverts dimanche ?"],
+  ["star", "Avis Google", "Nouvel avis en attente de réponse"],
+  ["call", "Appel manqué", "Numéro inconnu"],
+  ["mail", "Mail", "Re: Re: Re: demande de rendez-vous"],
+  ["msg", "Instagram", "C'est combien pour 2 personnes ?"],
+  ["bell", "Rappel", "Rappeler le fournisseur avant 17h"],
+  ["mail", "Formulaire site", "Nouvelle demande de contact"],
+  ["call", "Messagerie vocale", "2 nouveaux messages"],
+  ["msg", "Messages", "Toujours pas de nouvelles…"],
+  ["bell", "Relance", "Devis n°214 non signé"],
+  ["mail", "Mail", "Question sur votre offre"],
+  ["msg", "Facebook", "Vous livrez sur Montpellier ?"],
+  ["call", "Appel manqué", "Mme Garcia"],
+  ["star", "Avis Google", "« Personne ne répond au téléphone »"],
+];
+const cardsEl = $("#cards");
+const R = rng(7);
+const cards = CUES.notifs.map((at, i) => {
+  const [k, title, text] = NOTIFS[i % NOTIFS.length];
+  const el = document.createElement("div");
+  el.className = "abs notif";
+  el.innerHTML = `<div class="ic" style="background:${ICONS[k][0]}"><svg viewBox="0 0 24 24">${ICONS[k][1]}</svg></div><div class="tx"><div class="row"><b>${title}</b><i>maintenant</i></div><p>${text}</p></div>`;
+  cardsEl.appendChild(el);
+  // positions réparties sur toute la hauteur, en alternant haut/bas pour remplir l'écran
+  const slot = [3, 12, 7, 15, 1, 10, 5, 13, 8, 2, 16, 6, 11, 0, 14, 9, 4, 17][i] ?? i;
+  const y = 230 + (slot / 17) * 1480 + (R() - 0.5) * 60;
+  const x = 160 + (R() - 0.5) * 360;
+  const fromX = (R() < 0.5 ? -1 : 1) * (900 + R() * 300);
+  return { el, at, x, y, r: (R() - 0.5) * 14, fromX, spin: (R() < 0.5 ? -1 : 1) * (200 + R() * 360) };
+});
+
+const q1 = $("#q1"), q2 = $("#q2");
+const mkWords = (el, words) => words.map((w) => {
+  const m = document.createElement("span"); m.className = "mask";
+  const inner = document.createElement("span"); inner.innerHTML = w; m.appendChild(inner);
+  el.appendChild(m); el.appendChild(document.createTextNode(" "));
+  return inner;
+});
+const q1w = mkWords(q1, ["Et", "si", "tout", "ça…"]);
+const q2w = mkWords(q2, ["se", "gérait", '<span class="hl">tout</span>', '<span class="hl">seul ?</span>']);
+const q1t = [3.22, 3.36, 3.52, 3.72];
+const q2t = [4.68, 4.84, 5.34, 5.5];
+
+// titres de la scène 3 (deux lignes, chaque entrée a son instant d'entrée et de sortie)
+const headEls = CUES.heads.map(([line, html, a, b]) => {
+  const el = document.createElement("div"); el.className = `abs hl3 l${line}`;
+  el.innerHTML = `<span class="mask"><span>${html}</span></span>`;
+  $("#heads").appendChild(el);
+  return { el, inner: el.querySelector(".mask > span"), a, b };
+});
+
+// A — les modules de l'outil
+const LI = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="#4636f0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const TICONS = {
+  chat: LI('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/>'),
+  doc: LI('<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'),
+  cal: LI('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
+  refresh: LI('<path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/>'),
+  star: LI('<path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8L12 3Z"/>'),
+  chart: LI('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'),
+  phone: LI('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>'),
+  mail: LI('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'),
+  users: LI('<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/>'),
+  euro: LI('<path d="M18 6a7 7 0 1 0 0 12M4 10h10M4 14h10"/>'),
+  globe: LI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'),
+  wa: LI('<path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5 5 16.3a8.5 8.5 0 1 1 15.5-4.7Z"/><path d="M9 9.5c.5 2.5 2.5 4.5 5 5"/>'),
+};
+const TILES = [["chat", "Accueil client"], ["doc", "Devis"], ["cal", "Agenda"], ["refresh", "Relances"], ["star", "Avis clients"], ["chart", "Rapports"]];
+const TR = rng(21);
+const tiles = TILES.map(([ic, label], i) => {
+  const el = document.createElement("div"); el.className = "abs tile";
+  el.innerHTML = `<div class="ti">${TICONS[ic]}</div><div><b>${label}</b><div class="ln" style="width:${60 + TR() * 30}%"></div></div>`;
+  $("#tiles").appendChild(el);
+  const x = 40 + (i % 2) * 430, y = 150 + Math.floor(i / 2) * 242;
+  const ang = TR() * Math.PI * 2;
+  return { el, x, y, dx: Math.cos(ang) * 900, dy: Math.sin(ang) * 900, r: (TR() - 0.5) * 70, at: CUES.tiles[i] };
+});
+
+// B — le hub et les outils connectés
+const HUB = { x: 540, y: 1060 }, RAD = 330;
+const TOOLS = [["mail", "Mails"], ["cal", "Agenda"], ["phone", "Téléphone"], ["wa", "WhatsApp"], ["users", "CRM"], ["euro", "Facturation"], ["globe", "Site web"], ["star", "Avis Google"]];
+const SVGNS = "http://www.w3.org/2000/svg";
+const nodes = TOOLS.map(([ic, label], i) => {
+  const el = document.createElement("div"); el.className = "abs node";
+  el.innerHTML = `<div class="nc">${TICONS[ic]}</div><div class="nl">${label}</div>`;
+  $("#nodes").appendChild(el);
+  const line = document.createElementNS(SVGNS, "line");
+  line.setAttribute("stroke", "#4636f0"); line.setAttribute("stroke-width", "5"); line.setAttribute("stroke-linecap", "round");
+  $("#hubLines").appendChild(line);
+  const packets = [0, 1].map(() => {
+    const c = document.createElementNS(SVGNS, "circle"); c.setAttribute("r", "11"); c.setAttribute("fill", "#8f84ff");
+    $("#hubPackets").appendChild(c); return c;
+  });
+  return { el, line, packets, a0: -90 + i * 45, at: CUES.nodes[i] };
+});
+
+// étoiles de nuit
+const starsEl = $("#stars"); const SR = rng(3);
+const stars = Array.from({ length: 46 }, () => {
+  const s = document.createElement("div"); s.className = "star";
+  s.style.left = SR() * 1080 + "px"; s.style.top = SR() * 1920 + "px";
+  const sc = 0.4 + SR() * 1.2; starsEl.appendChild(s);
+  return { s, sc, ph: SR() * 6.28 };
+});
+
+// C — toasts « c'est fait »
+const TOASTS = [
+  [CUES.relance, "Relance envoyée", "Devis n°214", 420, 1190, -3],
+  [CUES.rdv + 0.12, "Agenda à jour", "", 560, 1395, 3],
+  [CUES.toasts[0], "Devis envoyé", "", 40, 540, -4],
+  [CUES.toasts[1], "RDV confirmé", "", 30, 1095, -3],
+  [CUES.toasts[2], "Client relancé", "", 60, 1400, -2],
+];
+const ckSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const toastEls = TOASTS.map(([at, txt, small, x, y, r]) => {
+  const el = document.createElement("div"); el.className = "abs toast";
+  el.innerHTML = `<div class="ck">${ckSvg}</div>${txt}${small ? ` <small>· ${small}</small>` : ""}`;
+  $("#toasts").appendChild(el); return { el, at, x, y, r };
+});
+
+// D — lignes du rapport (barres sans chiffres : rien d'inventé)
+const ROWS = [["Demandes traitées", 0.94], ["Relances envoyées", 0.78], ["Rendez-vous pris", 0.62], ["Avis répondus", 0.86]];
+const rows = ROWS.map(([label, w], i) => {
+  const el = document.createElement("div"); el.className = "rrow";
+  el.innerHTML = `<div class="ck">${ckSvg}</div><div class="lbl">${label}</div><div class="trk"><div class="fil"></div></div>`;
+  $("#rrows").appendChild(el);
+  return { el, fil: el.querySelector(".fil"), w, at: CUES.rows[i] };
+});
+
+// anneaux scène 4
+const ringsEl = $("#rings");
+const rings = Array.from({ length: 6 }, () => { const r = document.createElement("div"); r.className = "ring"; ringsEl.appendChild(r); return r; });
+
+// icônes scène 4
+$("#ico4").innerHTML = `
+<svg viewBox="0 0 200 200" id="icoClock"><circle cx="100" cy="100" r="86" fill="none" stroke="#fff" stroke-width="12"/>
+  <line id="hHour" x1="100" y1="100" x2="100" y2="58" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+  <line id="hMin" x1="100" y1="100" x2="100" y2="34" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="100" cy="100" r="10" fill="#fff"/></svg>
+<svg viewBox="0 0 200 200" id="icoCoin" style="position:absolute;inset:0"><circle cx="100" cy="100" r="92" fill="#fff"/><circle cx="100" cy="100" r="74" fill="none" stroke="#4636f0" stroke-width="6" stroke-opacity="0.25"/>
+  <text x="100" y="134" text-anchor="middle" font-family="Geist" font-weight="850" font-size="104" fill="#4636f0">€</text></svg>`;
+
+// logo
+const word = $("#word");
+const letters = "Luma".split("").map((c) => {
+  const m = document.createElement("span"); m.className = "mask";
+  const ch = document.createElement("span"); ch.className = "ch"; ch.textContent = c;
+  m.appendChild(ch); word.appendChild(m); return ch;
+});
+const raysEl = $("#rays");
+const rays = Array.from({ length: 12 }, (_, i) => { const r = document.createElement("div"); r.className = "ray"; raysEl.appendChild(r); return { r, a: (i / 12) * 360 + 15 }; });
+
+let LOGO = null;
+function measure() {
+  const wr = word.getBoundingClientRect();
+  LOGO = { left: wr.left, width: wr.width, letters: letters.map((l) => l.getBoundingClientRect().left - wr.left) };
+  const last = letters[3].getBoundingClientRect();
+  LOGO.spark = { x: last.right + 52, y: last.top + last.height * 0.27 };
+  letters.forEach((l, i) => {
+    l.style.backgroundImage = "linear-gradient(100deg, #12102b 0%, #12102b 42%, #8f84ff 50%, #12102b 58%, #12102b 100%)";
+    l.style.backgroundSize = `${LOGO.width * 3}px 100%`;
+  });
+}
+
+/* ---------- Grain ---------- */
+const gctx = $("#grain").getContext("2d");
+const gimg = gctx.createImageData(360, 640);
+function grain(t) {
+  const r = rng(Math.floor(t * 60) + 11);
+  const d = gimg.data;
+  for (let i = 0; i < d.length; i += 4) { const v = r() * 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
+  gctx.putImageData(gimg, 0, 0);
+}
+
+/* ---------- Rendu d'une image à l'instant t ---------- */
+function render(t) {
+  const C = CUES;
+  const s1 = $("#s1"), s3 = $("#s3"), s4 = $("#s4"), s5 = $("#s5");
+  show(s1, t < C.flash + 0.05);
+  show(s3, t >= C.flash && t < C.wipeViolet + 0.45);
+  show(s4, t >= C.wipeViolet && t < C.wipeWhite + 0.4);
+  show(s5, t >= C.wipeWhite);
+
+  /* Scène 1 + 2 */
+  if (t < C.flash + 0.05) {
+    // tremblement : décroissance après chaque mot frappé
+    let sh = 0;
+    for (const ts of C.slam) if (t >= ts) sh += 26 * Math.exp(-(t - ts) * 9);
+    for (const ts of C.buzz) if (t >= ts && t < ts + 0.35) sh += 6;
+    sh += t < C.freeze ? 2 + t * 1.5 : 0;
+    const zoom = t < C.freeze ? 1 + t * 0.025 : lerp(1.08, 1.0, E.outCubic(prog(t, C.freeze, C.freeze + 1.2)));
+    s1.style.transform = `translate(${nz(t, 1) * sh}px, ${nz(t, 2) * sh}px) rotate(${nz(t, 3) * sh * 0.04}deg) scale(${zoom})`;
+
+    const freezeP = prog(t, C.freeze, C.freeze + 0.4);
+    cards.forEach((c, i) => {
+      const p = prog(t, c.at, c.at + 0.32);
+      if (t < c.at) { c.el.style.opacity = 0; return; }
+      const e = E.outBack(p);
+      let x = lerp(c.fromX * 0.35, c.x, E.outExpo(p)), y = c.y, s = lerp(0.7, 1, e), r = c.r * e;
+      // agitation, figée au moment de la question
+      const jit = (1 - freezeP) * 4;
+      x += nz(t * 1.3, i) * jit; y += nz(t * 1.1, i + 9) * jit;
+      // dimming quand ils s'empilent
+      const age = t - c.at;
+      let bright = clamp(1 - age * 0.18, 0.55, 1);
+      if (t >= C.freeze) bright = lerp(bright, 0.42, freezeP);
+      // aspiration vers le centre
+      const sp = E.inCubic(prog(t, C.suck[0] + i * 0.035, C.suck[1]));
+      x = lerp(x, 540 - 380, sp); y = lerp(y, 1200 - 70, sp); s *= 1 - sp * 0.97; r += sp * c.spin;
+      c.el.style.opacity = clamp(p * 4) * (1 - Math.pow(sp, 6));
+      c.el.style.filter = `brightness(${bright})`;
+      c.el.style.zIndex = i;
+      tf(c.el, x, y, s, r);
+    });
+
+    // compteur de non-lus
+    const un = $("#unread");
+    const up = E.outBack(prog(t, 0.05, 0.4));
+    const n = Math.floor(lerp(3, 112, E.inCubic(prog(t, 0.1, 2.95))));
+    $("#unreadN").textContent = n > 99 ? "99+" : n;
+    const bump = C.notifs.reduce((a, ts) => a + (t >= ts ? 0.12 * Math.exp(-(t - ts) * 14) : 0), 0);
+    const uOut = E.inCubic(prog(t, C.suck[0], C.suck[0] + 0.6));
+    un.style.opacity = clamp(up) * (1 - uOut);
+    un.style.transform = `translateX(-50%) translateY(${lerp(-80, 0, up) - uOut * 120}px) scale(${up * (1 + bump)})`;
+
+    // mots frappés
+    ["#w0", "#w1", "#w2"].forEach((id, i) => {
+      const el = $(id), a = C.slam[i], b = i < 2 ? C.slam[i + 1] : C.freeze;
+      if (t < a - 0.01 || t > b + 0.12) { el.style.opacity = 0; return; }
+      const p = E.outExpo(prog(t, a, a + 0.22));
+      const out = E.inExpo(prog(t, b - 0.02, b + 0.1));
+      el.style.opacity = clamp(p * 3) * (1 - out);
+      el.style.letterSpacing = `${lerp(0.04, -0.055, p)}em`;
+      el.style.filter = `blur(${(1 - p) * 14 + out * 18}px)`;
+      tf(el, 0, -out * 60, lerp(2.4, 1, p) * (1 + (t - a) * 0.03) * (1 - out * 0.25), 0);
+    });
+
+    // la question
+    const qOut = E.inCubic(prog(t, C.suck[1] - 0.35, C.suck[1] + 0.02));
+    [[q1w, q1t], [q2w, q2t]].forEach(([ws, ts]) => ws.forEach((w, i) => {
+      const p = E.outExpo(prog(t, ts[i], ts[i] + 0.45));
+      w.style.transform = `translateY(${(1 - p) * 110}%)`;
+    }));
+    q1.style.opacity = q2.style.opacity = t < C.freeze ? 0 : 1 - qOut;
+    tf(q1, 0, qOut * 600, 1 - qOut * 0.85);
+    tf(q2, 0, qOut * 470, 1 - qOut * 0.85);
+    q1.style.filter = q2.style.filter = `blur(${qOut * 16}px)`;
+
+    $("#scrim").style.opacity = E.outCubic(prog(t, C.freeze, C.freeze + 0.5));
+    // l'étoile Luma qui se charge puis explose
+    const sp1 = $("#spark1");
+    const g = E.outExpo(prog(t, C.suck[0] + 0.5, C.suck[1]));
+    const pre = prog(t, C.flash - 0.12, C.flash);
+    const pulse = 1 + 0.08 * Math.sin(t * 30) * g;
+    sp1.style.opacity = clamp(g * 2);
+    tf(sp1, 0, 0, g * pulse * (1 - pre * 0.5) + E.inExpo(prog(t, C.flash, C.flash + 0.05)) * 6, (t - C.suck[0]) * 520 * (0.3 + g));
+  }
+
+  /* Flash d'entrée scène 3 */
+  const fl = $("#flash");
+  fl.style.opacity = t >= C.flash ? 1 - E.outCubic(prog(t, C.flash + 0.04, C.flash + 0.55)) : 0;
+  if (t >= C.flash) s3.style.clipPath = `circle(${E.outExpo(prog(t, C.flash, C.flash + 0.3)) * 1400}px at 540px 1200px)`;
+
+  /* Scène 3 */
+  if (t >= C.flash && t < C.wipeViolet + 0.45) {
+    const cam = $("#cam3");
+    const cz = 1.0 + 0.04 * Math.sin(prog(t, C.flash, C.wipeViolet) * Math.PI);
+    let sh = 0;
+    for (const ts of [C.stamp, C.surMesure]) if (t >= ts) sh += 16 * Math.exp(-(t - ts) * 10);
+    cam.style.transform = `translate(${nz(t, 4) * sh}px, ${nz(t, 5) * sh}px) scale(${cz})`;
+
+    // nuit (pendant « 24h/24 »), puis retour au jour pour le rapport
+    const np = E.inOut(prog(t, C.night[0], C.night[1])) * (1 - E.inOut(prog(t, C.report[0], C.report[0] + 0.45)));
+    $("#night").style.opacity = np;
+    s3.classList.toggle("night-on", np > 0.5);
+    stars.forEach((s) => { s.s.style.opacity = np * (0.5 + 0.5 * Math.sin(t * 3 + s.ph)); s.s.style.transform = `scale(${s.sc})`; });
+    $("#grid3").style.opacity = 1 - 0.75 * E.inOut(prog(t, C.hub[1], C.hub[1] + 0.4));
+    $("#grid3").style.backgroundPosition = `0 ${-(t - C.flash) * 40}px`;
+
+    // titres
+    headEls.forEach(({ el, inner, a, b }) => {
+      const pi = E.outExpo(prog(t, a - 0.04, a + 0.45)), po = E.inCubic(prog(t, b - 0.12, b + 0.06));
+      el.style.display = t < a - 0.05 || t > b + 0.08 ? "none" : "";
+      inner.style.transform = `translateY(${(1 - pi) * 115 - po * 115}%)`;
+      el.style.color = `rgb(${lerp(18, 255, np)},${lerp(16, 255, np)},${lerp(43, 255, np)})`;
+    });
+
+    /* A — l'outil se construit */
+    const app = $("#app");
+    const aIn = E.outExpo(prog(t, C.flash + 0.02, C.flash + 0.7));
+    const aOut = E.inOut(prog(t, C.build[1] - 0.05, C.build[1] + 0.35));
+    show(app, t < C.build[1] + 0.4);
+    if (t < C.build[1] + 0.4) {
+      app.style.opacity = clamp(aIn * 2) * (1 - E.inExpo(prog(t, C.build[1] + 0.15, C.build[1] + 0.38)));
+      const ox = lerp(0, HUB.x - 540, aOut), oy = lerp((1 - aIn) * 380, HUB.y - 1040, aOut);
+      tf(app, ox, oy, lerp(0.86, 1, aIn) * (1 - aOut * 0.82), (1 - aIn) * 4 + aOut * 25);
+      app.style.borderRadius = `${lerp(56, 500, aOut)}px`;
+      tiles.forEach((o) => {
+        const p = prog(t, o.at, o.at + 0.42), e = E.outExpo(p);
+        o.el.style.opacity = t < o.at ? 0 : 1;
+        o.el.style.background = p >= 1 ? "" : `rgba(247,248,252,${e})`;
+        tf(o.el, o.x + (1 - e) * o.dx, o.y + (1 - e) * o.dy, lerp(1.6, 1, E.outBack(p)), (1 - e) * o.r);
+        // petit éclair violet à l'impact
+        const hit = Math.exp(-Math.max(0, t - o.at - 0.3) * 8) * (t > o.at + 0.3 ? 1 : 0);
+        o.el.style.boxShadow = `0 0 0 ${hit * 10}px rgba(70,54,240,${hit * 0.35})`;
+      });
+    }
+    const sm = $("#surm"), smp = prog(t, C.surMesure, C.surMesure + 0.28);
+    sm.style.opacity = t < C.surMesure ? 0 : clamp(smp * 5) * (1 - aOut);
+    tf(sm, 0, 0, lerp(2.6, 1, E.outExpo(smp)) * (1 - aOut * 0.5), lerp(-22, -6, E.outBack(smp)));
+
+    /* B — le hub connecté */
+    const inHub = t >= C.build[1] && t < C.hub[1] + 0.5;
+    show($("#hub"), inHub); show($("#nodes"), inHub); show($("#hubsvg"), inHub);
+    if (inHub) {
+      const hp = E.outBack(prog(t, C.build[1] + 0.15, C.build[1] + 0.55));
+      const hOut = E.outExpo(prog(t, C.hub[1], C.hub[1] + 0.38));
+      const hub = $("#hub");
+      // le hub devient l'avatar de la conversation
+      const avX = 90 + 34 + 42, avY = 600 + 34 + 42;
+      const beat = 1 + 0.05 * Math.max(0, Math.sin((t - C.flash) * Math.PI * 4)) * (1 - hOut);
+      tf(hub, lerp(0, avX - HUB.x, hOut), lerp(0, avY - HUB.y, hOut), hp * lerp(1, 0.336, hOut) * beat, (t - C.build[1]) * 30 * (1 - hOut));
+      hub.style.opacity = 1 - prog(t, C.hub[1] + 0.3, C.hub[1] + 0.45);
+      const spin = (t - C.build[1]) * 7;
+      nodes.forEach((n, i) => {
+        const p = prog(t, n.at, n.at + 0.4);
+        const col = E.inCubic(prog(t, C.hub[1] - 0.15 + i * 0.012, C.hub[1] + 0.1));
+        const a = (n.a0 + spin) * Math.PI / 180;
+        const rr = RAD * lerp(0.6, 1, E.outExpo(p)) * (1 - col);
+        const x = HUB.x + Math.cos(a) * rr, y = HUB.y + Math.sin(a) * rr;
+        n.el.style.opacity = t < n.at ? 0 : clamp(p * 4) * (1 - col);
+        tf(n.el, x, y, lerp(0.3, 1, E.outBack(p)) * (1 - col * 0.7), 0);
+        // la ligne se tire du hub vers l'outil
+        const lp = E.outCubic(prog(t, n.at, n.at + 0.3));
+        n.line.setAttribute("x1", HUB.x); n.line.setAttribute("y1", HUB.y);
+        n.line.setAttribute("x2", lerp(HUB.x, x, lp)); n.line.setAttribute("y2", lerp(HUB.y, y, lp));
+        n.line.setAttribute("stroke-opacity", t < n.at ? 0 : 0.35 * (1 - col));
+        n.packets.forEach((pk, k) => {
+          const ph = ((t - n.at) * 1.4 + k * 0.5 + i * 0.13) % 1;
+          const toHub = (i + k) % 2 === 0;
+          const f = toHub ? 1 - ph : ph;
+          pk.setAttribute("cx", lerp(HUB.x, x, f)); pk.setAttribute("cy", lerp(HUB.y, y, f));
+          pk.setAttribute("opacity", t > n.at + 0.3 ? Math.sin(ph * Math.PI) * (1 - col) : 0);
+        });
+      });
+    }
+
+    /* C — la conversation */
+    const card = $("#card");
+    const inChat = t >= C.chat[0] && t < C.chat[1] + 0.5;
+    show(card, inChat); show($("#stamp"), inChat);
+    if (inChat) {
+      const cp = E.outExpo(prog(t, C.chat[0] + 0.14, C.chat[0] + 0.55));
+      const cOut = E.inCubic(prog(t, C.chat[1], C.chat[1] + 0.38));
+      card.style.opacity = clamp(cp * 2);
+      tf(card, -cOut * 1150, (1 - cp) * 60, lerp(0.9, 1, cp), -cOut * 10);
+      card.style.boxShadow = `0 60px 140px rgba(${lerp(18, 70, np)},${lerp(16, 54, np)},${lerp(43, 240, np)},${lerp(0.16, 0.5, np)}), 0 0 0 1.5px rgba(18,16,43,0.05)`;
+      const bub = (id, at, from = 50) => {
+        const el = $(id), p = prog(t, at, at + 0.38);
+        el.style.opacity = clamp(p * 4);
+        el.style.transform = `translateY(${(1 - E.outExpo(p)) * from}px) scale(${t < at ? 0.5 : lerp(0.5, 1, E.outBack(p))})`;
+      };
+      bub("#b1", C.bubbles[0]); bub("#b2", C.bubbles[1]); bub("#b3", C.bubbles[2]);
+      const typ = $("#typ");
+      typ.style.opacity = t >= C.typing[0] && t < C.typing[1] ? clamp(prog(t, C.typing[0], C.typing[0] + 0.1)) : 0;
+      typ.querySelectorAll("span").forEach((d, i) => { d.style.transform = `translateY(${Math.sin(t * 18 - i * 0.9) * -6}px)`; });
+      const rdv = $("#rdv"), rp = prog(t, C.rdv, C.rdv + 0.45);
+      rdv.style.opacity = clamp(rp * 3);
+      rdv.style.transform = `translateY(${(1 - E.outExpo(rp)) * 40}px) scale(${lerp(0.8, 1, E.outBack(rp))})`;
+      const st = $("#stamp"), spp = prog(t, C.stamp, C.stamp + 0.28);
+      st.style.opacity = t < C.stamp ? 0 : clamp(spp * 5) * (1 - cOut);
+      tf(st, -cOut * 1150, 0, lerp(2.6, 1, E.outExpo(spp)), lerp(-22, -7, E.outBack(spp)));
+      // l'heure qui file : 22:47 → 03:12
+      const cl = E.inOut(prog(t, C.clock[0], C.clock[1]));
+      const mins = Math.round(lerp(22 * 60 + 47, 27 * 60 + 12, cl)) % (24 * 60);
+      $("#clockT").textContent = `${String(Math.floor(mins / 60)).padStart(2, "0")}:${String(mins % 60).padStart(2, "0")}`;
+      $("#clockIc").innerHTML = cl < 0.5
+        ? '<circle cx="12" cy="12" r="5" fill="#f5b700"/><g stroke="#f5b700" stroke-width="2" stroke-linecap="round"><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g>'
+        : '<path fill="#4636f0" d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/>';
+      $("#clockIc").style.transform = `rotate(${cl * 360}deg)`;
+    }
+    toastEls.forEach((o, i) => {
+      const p = prog(t, o.at, o.at + 0.4), out = E.inCubic(prog(t, C.chat[1] - 0.05, C.chat[1] + 0.25));
+      o.el.style.opacity = clamp(p * 4) * (1 - out);
+      tf(o.el, o.x - out * 300, o.y + (1 - E.outExpo(p)) * 120 + Math.sin(t * 2 + i) * 6, t < o.at ? 0.4 : lerp(0.4, 1, E.outBack(p)), o.r);
+    });
+
+    /* D — le rapport */
+    const rep = $("#report"), rn = $("#rnotif");
+    const inRep = t >= C.report[0];
+    show(rep, inRep); show(rn, inRep);
+    if (inRep) {
+      const rp = E.outExpo(prog(t, C.report[0] + 0.1, C.report[0] + 0.6));
+      rep.style.opacity = clamp(rp * 3);
+      tf(rep, (1 - rp) * 1100, 0, 1, (1 - rp) * 10);
+      rows.forEach((r) => {
+        const p = prog(t, r.at, r.at + 0.6);
+        r.el.style.opacity = clamp(p * 4);
+        r.el.style.transform = `translateX(${(1 - E.outExpo(p)) * 60}px)`;
+        r.fil.style.width = `${E.outExpo(prog(t, r.at + 0.08, r.at + 0.9)) * r.w * 100}%`;
+      });
+      $("#rclipRect").setAttribute("width", E.inOut(prog(t, C.rows[3] + 0.2, C.rows[3] + 1.1)) * 812);
+      const np2 = prog(t, C.reportNotif, C.reportNotif + 0.45);
+      rn.style.opacity = clamp(np2 * 4);
+      tf(rn, 0, (1 - E.outExpo(np2)) * 260, t < C.reportNotif ? 0.8 : lerp(0.8, 1, E.outBack(np2)), 0);
+    }
+  }
+
+  /* Scène 4 — rideau violet */
+  if (t >= C.wipeViolet) {
+    s4.style.clipPath = `circle(${E.inOut(prog(t, C.wipeViolet, C.wipeViolet + 0.42)) * 2300}px at 540px 1920px)`;
+  }
+  if (t >= C.wipeViolet && t < C.wipeWhite + 0.4) {
+    const beat0 = C.flash;
+    rings.forEach((r, i) => {
+      const ph = ((t - beat0) / 0.5 + i / rings.length) % 1;
+      const d = 200 + ph * 1900;
+      r.style.width = r.style.height = d + "px";
+      r.style.marginLeft = r.style.marginTop = -d / 2 + "px";
+      r.style.opacity = (1 - ph) * 0.9;
+    });
+    const gz = $("#gagnez").querySelector(".mask > span");
+    gz.style.transform = `translateY(${(1 - E.outExpo(prog(t, C.hitTemps - 0.38, C.hitTemps + 0.1))) * 110}%)`;
+    const g0 = $("#g0").querySelector(".mask > span"), g1 = $("#g1").querySelector(".mask > span");
+    const p0 = E.outExpo(prog(t, C.hitTemps - 0.05, C.hitTemps + 0.4)), o0 = E.inCubic(prog(t, C.hitArgent - 0.15, C.hitArgent + 0.05));
+    g0.style.transform = `translateY(${(1 - p0) * 110 - o0 * 110}%) scale(${1 + 0.15 * Math.exp(-(t - C.hitTemps) * 8) * (t > C.hitTemps ? 1 : 0)})`;
+    const p1 = E.outExpo(prog(t, C.hitArgent, C.hitArgent + 0.4));
+    g1.style.transform = `translateY(${(1 - p1) * 110}%) scale(${1 + 0.15 * Math.exp(-(t - C.hitArgent) * 8) * (t > C.hitArgent ? 1 : 0)})`;
+
+    // horloge qui s'emballe, puis pièce qui pivote
+    const ic = $("#ico4"), ip = E.outBack(prog(t, C.hitTemps - 0.1, C.hitTemps + 0.35));
+    const flip = prog(t, C.hitArgent - 0.12, C.hitArgent + 0.2);
+    const spin = (t - C.hitTemps) * 1500;
+    $("#hMin").setAttribute("transform", `rotate(${spin} 100 100)`);
+    $("#hHour").setAttribute("transform", `rotate(${spin / 12} 100 100)`);
+    $("#icoClock").style.opacity = flip < 0.5 ? 1 : 0;
+    $("#icoCoin").style.opacity = flip >= 0.5 ? 1 : 0;
+    const ry = flip < 0.5 ? flip * 180 : (flip - 1) * 180;
+    ic.style.opacity = t < C.hitTemps - 0.1 ? 0 : 1;
+    ic.style.transform = `translateY(${Math.sin(t * 4) * 10}px) scale(${ip}) rotateY(${ry}deg)`;
+
+    // courbe de croissance
+    const cp = E.inOut(prog(t, C.hitArgent - 0.05, C.hitArgent + 0.85));
+    $("#chartRect").setAttribute("width", cp * 1080);
+    const path = $("#chartLine"), L = path.getTotalLength();
+    const pt = path.getPointAtLength(L * clamp(cp * 1.0));
+    const dot = $("#chartDot");
+    dot.setAttribute("cx", Math.min(pt.x, 1060)); dot.setAttribute("cy", pt.y);
+    dot.style.opacity = cp > 0.01 ? 1 : 0;
+
+    // sortie : tout recule avant le rideau blanc
+    const out = E.inCubic(prog(t, C.wipeWhite - 0.3, C.wipeWhite + 0.2));
+    $("#rings").style.opacity = $("#chart").style.opacity = 1 - out;
+    ["#gagnez", "#g0", "#g1", "#ico4"].forEach((id) => { $(id).style.filter = `blur(${out * 20}px)`; });
+  }
+
+  /* Scène 5 — logo */
+  if (t >= C.wipeWhite) {
+    s5.style.clipPath = `circle(${E.outExpo(prog(t, C.wipeWhite, C.wipeWhite + 0.5)) * 1200}px at 540px 960px)`;
+    if (!LOGO) measure();
+    const sp = $("#spark5"), lp = prog(t, C.wipeWhite + 0.02, C.logoLand);
+    const ex = E.outExpo(lp);
+    const sx = lerp(540, LOGO.spark.x, ex), sy = lerp(960, LOGO.spark.y, ex);
+    const land = t - C.logoLand;
+    const wob = land > 0 ? 1 + 0.35 * Math.exp(-land * 6) * Math.cos(land * 26) : 1;
+    tf(sp, sx, sy, lerp(3.2, 1, ex) * wob, lerp(-540, 0, ex) + (land > 0 ? Math.sin(land * 2) * 6 : 0));
+    rays.forEach(({ r, a }, i) => {
+      const rp = prog(t, C.logoLand, C.logoLand + 0.6);
+      const len = E.outExpo(rp) * 110, off = 70 + E.outExpo(rp) * 70;
+      r.style.height = len * (1 - rp) + "px";
+      r.style.transform = `rotate(${a}deg) translateY(${off}px)`;
+      r.style.opacity = rp > 0 && rp < 1 ? 1 : 0;
+    });
+    letters.forEach((l, i) => {
+      const p = E.outExpo(prog(t, C.logoLand - 0.04 + i * 0.06, C.logoLand + 0.5 + i * 0.06));
+      l.style.transform = `translateY(${(1 - p) * 130}%) rotate(${(1 - p) * 8}deg)`;
+      const sw = E.inOut(prog(t, C.sweep, C.sweep + 0.75));
+      l.style.backgroundPosition = `${lerp(0, -LOGO.width * 2, sw) - LOGO.letters[i] + 0}px 0`;
+    });
+    const wz = 1 + 0.035 * prog(t, C.logoLand, C.duration);
+    $("#word").style.transform = `scale(${wz})`;
+    $("#glow5").style.transform = `scale(${0.6 + 0.4 * E.outExpo(prog(t, C.logoLand, C.logoLand + 1))})`;
+    sp.style.transformOrigin = "0 0";
+
+    const subs = $("#sub5").querySelectorAll(".mask > span");
+    subs.forEach((s, i) => { s.style.transform = `translateY(${(1 - E.outExpo(prog(t, C.sub[i] - 0.05, C.sub[i] + 0.45))) * 110}%)`; });
+
+    const city = $("#city"), cip = prog(t, C.city - 0.05, C.city + 0.4);
+    city.style.opacity = clamp(cip * 4);
+    city.style.transform = `translateX(-50%) translateY(${(1 - E.outExpo(cip)) * 40}px) scale(${t < C.city - 0.05 ? 0.6 : lerp(0.6, 1, E.outBack(cip))})`;
+
+    const cta = $("#cta"), ctp = prog(t, C.cta, C.cta + 0.45);
+    const breathe = t > C.cta + 0.6 ? 1 + 0.025 * Math.sin((t - C.cta) * 5) : 1;
+    cta.style.opacity = clamp(ctp * 4);
+    cta.style.transform = `translateX(-50%) translateY(${(1 - E.outExpo(ctp)) * 120}px) scale(${(t < C.cta ? 0.6 : lerp(0.6, 1, E.outBack(ctp))) * breathe})`;
+    const tr = $("#trust"), trp = prog(t, C.cta + 0.25, C.cta + 0.7);
+    tr.style.opacity = trp; tr.style.transform = `translateY(${(1 - E.outExpo(trp)) * 30}px)`;
+  }
+
+  $("#vig").style.opacity = t < C.flash ? 1 : (t >= C.night[0] && t < C.report[0]) ? 0.6 : 0.25;
+  grain(t);
+}
+
+window.render = render;
+window.__ready = document.fonts.ready.then(() => { measure(); render(0); return true; });
+
+// Mode aperçu dans un navigateur (hors rendu) : lecture en temps réel avec le son
+if (!window.__RENDER) {
+  const a = new Audio("out/luma-audio.wav");
+  let t0 = null;
+  document.addEventListener("click", () => { a.currentTime = 0; a.play(); t0 = performance.now(); });
+  const loop = () => { if (t0 !== null) render(Math.min((performance.now() - t0) / 1000, CUES.duration)); requestAnimationFrame(loop); };
+  loop();
+}
+</script>
+</body>
+</html>
