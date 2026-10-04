@@ -1,6 +1,7 @@
 /**
- * Questions avant l’échange : 5 questions à choix rapides, puis des pistes d’automatisation
- * déduites des réponses (règles simples, aucun chiffre inventé), et une demande d’analyse complète.
+ * Questions avant l’échange, posées par l’assistant de Robin : 5 questions à choix rapides, une question libre,
+ * des pistes d’automatisation déduites des réponses (règles simples, aucun chiffre inventé), puis prénom, entreprise
+ * et téléphone ou email. Robin rappelle sous 24 h.
  */
 
 export type Question = {
@@ -12,22 +13,25 @@ export type Question = {
 };
 
 export const audit = {
-  /** Voix de Robin : questions préparées à l’avance, réponses lues par lui. */
+  /** Voix de l’assistant de Robin : il pose des questions préparées, Robin rappelle sous 24 h. */
   agent: {
-    name: "Préparer notre échange",
-    role: "Robin Pailhes · réponse sous 24 h",
-    hello: "Bonjour, je suis Robin. Avant d’échanger, j’ai quelques questions rapides sur votre entreprise. Deux minutes suffisent, et je lis chaque réponse.",
+    name: "Assistant de Robin",
+    role: "Robin vous rappelle sous 24 h",
+    hello: "Bonjour, je suis l’assistant de Robin.",
+    purpose: "Je vous pose quelques questions pour comprendre votre activité, juste le nécessaire. Robin vous rappelle ensuite sous 24 h pour vous montrer ce qu’il serait possible de faire chez vous. Gratuit et sans engagement.",
     /** Dernière question, en texte libre. La réponse arrive à Robin telle quelle. */
     freeQuestion: "Dernière question, et c’est la plus utile : quelle automatisation vous ferait gagner le plus de temps ou d’efficacité ? Si vous avez déjà une idée en tête, même floue, écrivez‑la.",
     freePlaceholder: "Une idée, même floue… ou « je ne sais pas encore »",
-    beforeLeads: "Merci, c’est très clair. D’après vos réponses, voici les pistes que je regarderais en premier.",
-    askContact: "Laissez-moi un email ou un numéro : je reviens vers vous sous 24 h pour en parler, avec des exemples adaptés à votre activité.",
-    done: "C’est noté, merci. Je reviens vers vous sous 24 h. À très vite.",
-    error: "L’envoi n’a pas abouti. Vous pouvez réessayer en renvoyant votre email ou votre numéro.",
+    beforeLeads: "Merci, c’est très clair. D’après vos réponses, voici les pistes que Robin regardera en premier.",
+    askWho: "Pour que Robin sache à qui il parle : votre prénom et le nom de votre entreprise ?",
+    whoPlaceholder: "Prénom, entreprise",
+    askContact: "Et un numéro de téléphone (ou un email) pour que Robin vous rappelle sous 24 h ?",
+    done: "C’est noté, merci. Robin vous rappelle sous 24 h pour vous montrer ce qu’il serait possible de faire chez vous. À très vite.",
+    error: "L’envoi n’a pas abouti. Vous pouvez réessayer en renvoyant votre téléphone ou votre email.",
   },
   resultKicker: "Premières pistes d’après vos réponses",
-  resultNote: "Pistes générales, déduites automatiquement de vos réponses. Je les affine avec vous lors de notre échange.",
-  leadPlaceholder: "Email ou téléphone",
+  resultNote: "Pistes générales, déduites automatiquement de vos réponses. Robin les affine avec vous lors de son appel.",
+  leadPlaceholder: "Téléphone ou email",
   questions: [
     { key: "sector", title: "Dans quel secteur est votre entreprise ?", options: ["Hôtellerie", "Restauration", "Services", "Commerce", "Cabinet", "Immobilier", "Autre"] },
     { key: "size", title: "Quelle est la taille de votre équipe ?", options: ["Je suis seul", "2 à 5", "6 à 20", "Plus de 20"] },
@@ -55,13 +59,13 @@ export const audit = {
   ] satisfies Question[],
 };
 
-export type Answers = Partial<Record<Question["key"] | "need", string[]>>;
+export type Answers = Partial<Record<Question["key"] | "need" | "who", string[]>>;
 
 /** Pop-up d’invitation, quelques secondes après l’arrivée sur le site. */
 export const nudge = {
   delaySeconds: 5,
-  title: "Bonjour, je suis Robin.",
-  text: "Vous vous demandez ce que l’IA pourrait simplifier dans votre relation client ? Répondez à quelques questions, je reviens vers vous sous 24 h.",
+  title: "Bonjour, je suis l’assistant de Robin.",
+  text: "Vous vous demandez ce que l’IA pourrait simplifier dans votre relation client ? Quelques questions, puis Robin vous rappelle sous 24 h.",
   cta: "Préparer notre échange",
   dismiss: "Plus tard",
 };

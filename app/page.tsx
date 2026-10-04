@@ -1,13 +1,13 @@
-import { About, Cases, Contact, Demo, Faq, Hero, Method, Needs } from "@/components/sections/Home";
+import { About, Cases, Contact, Demo, Faq, Hero, Journey, Offer } from "@/components/sections/Home";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Needs />
+      <Offer />
       <Demo />
       <About />
-      <Method />
+      <Journey />
       <Cases />
       <Faq />
       <Contact />

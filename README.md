@@ -19,7 +19,7 @@ Puis ouvrir http://localhost:3000.
 
 Copier `.env.example` en `.env.local`.
 
-- `CONTACT_WEBHOOK_URL` : destination des demandes du panneau « Préparer notre échange » (POST JSON `{ kind: "mini-audit", contact, answers, receivedAt, source }`). Si vide, la demande est journalisée côté serveur.
+- `CONTACT_WEBHOOK_URL` : destination des demandes du panneau « Assistant de Robin » (POST JSON `{ kind: "mini-audit", contact, answers, receivedAt, source }`). `contact` est le téléphone ou l’email, `answers.who` le prénom et l’entreprise. Si vide, la demande est journalisée côté serveur.
 
 ## Périmètre actuel
 

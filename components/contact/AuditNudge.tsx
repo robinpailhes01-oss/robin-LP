@@ -1,12 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
+import { Avatar } from "./ContactPanel";
 import { useContact } from "./ContactContext";
 import { Arrow } from "@/components/ui/Button";
 import { nudge } from "@/lib/audit";
-import { founder } from "@/lib/content";
 
 const KEY = "luma-nudge-seen";
 
@@ -56,9 +55,7 @@ export function AuditNudge() {
               </svg>
             </button>
             <div className="flex items-start gap-3">
-              <span className="inline-flex size-14 shrink-0 items-center justify-center rounded-full bg-mist overflow-hidden" aria-hidden>
-                <Image src={founder.photos.avatar.src} alt="" width={112} height={112} className="h-full w-full object-cover" />
-              </span>
+              <Avatar size={56} />
               <div>
                 <p className="font-display text-[16px] font-bold leading-tight text-night">{nudge.title}</p>
                 <p className="text-[14px] text-ink mt-1.5 leading-[1.5]">{nudge.text}</p>

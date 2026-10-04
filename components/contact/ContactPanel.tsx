@@ -1,15 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useContact } from "./ContactContext";
 import { audit, contextLine, leadsFor, type Answers } from "@/lib/audit";
-import { founder } from "@/lib/content";
 
 /**
- * Panneau « Préparer notre échange » : cinq questions préparées par Robin, à réponses rapides,
- * une question libre, des premières pistes, puis un email ou un numéro. Envoi vers /api/contact.
+ * Panneau « Assistant de Robin » : cinq questions préparées par Robin, à réponses rapides,
+ * une question libre, des premières pistes, puis prénom, entreprise et téléphone ou email.
+ * Robin rappelle sous 24 h. Envoi vers /api/contact.
  */
 
 type Msg =
@@ -29,7 +28,7 @@ export function ContactPanel() {
   const [answers, setAnswers] = useState<Answers>({});
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<string[]>([]);
-  const [phase, setPhase] = useState<"questions" | "free" | "contact">("questions");
+  const [phase, setPhase] = useState<"questions" | "free" | "who" | "contact">("questions");
   const [typing, setTyping] = useState(false);
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -51,7 +50,7 @@ export function ContactPanel() {
     );
   }
 
-  // Ouverture : on repart de zéro et Robin se présente.
+  // Ouverture : on repart de zéro et l’assistant de Robin se présente.
   useEffect(() => {
     if (!open) return;
     setMessages([]);
@@ -64,6 +63,8 @@ export function ContactPanel() {
     let cancelled = false;
     (async () => {
       await say(audit.agent.hello, 500);
+      if (cancelled) return;
+      await say(audit.agent.purpose, 900);
       if (cancelled) return;
       await say(audit.questions[0].title, 700);
     })();
@@ -129,8 +130,8 @@ export function ContactPanel() {
         setMessages((m) => [...m, { id: nid(), from: "leads", leads: leadsFor(next), context: contextLine(next) }]);
       }, delay(900));
       setTimeout(async () => {
-        await say(audit.agent.askContact, 600);
-        setPhase("contact");
+        await say(audit.agent.askWho, 600);
+        setPhase("who");
         inputRef.current?.focus();
       }, delay(1800));
     }
@@ -142,6 +143,15 @@ export function ContactPanel() {
       return;
     }
     setPicked((p) => (p.includes(option) ? p.filter((o) => o !== option) : [...p, option]));
+  }
+
+  async function submitWho(text: string) {
+    setMessages((m) => [...m, { id: nid(), from: "client", text }]);
+    setValue("");
+    setAnswers((a) => ({ ...a, who: [text] }));
+    await say(audit.agent.askContact, 600);
+    setPhase("contact");
+    inputRef.current?.focus();
   }
 
   async function submitContact(contact: string) {
@@ -174,6 +184,10 @@ export function ContactPanel() {
       if (text) void submitContact(text);
       return;
     }
+    if (phase === "who") {
+      if (text) void submitWho(text);
+      return;
+    }
     if (phase === "free") {
       if (text) void submitFree(text);
       return;
@@ -184,7 +198,7 @@ export function ContactPanel() {
   }
 
   const canSend = phase === "questions" ? value.trim().length > 0 || (q.multiple && picked.length > 0) : value.trim().length > 0;
-  const placeholder = phase === "contact" ? audit.leadPlaceholder : phase === "free" ? audit.agent.freePlaceholder : "Ou écrivez votre réponse…";
+  const placeholder = phase === "contact" ? audit.leadPlaceholder : phase === "who" ? audit.agent.whoPlaceholder : phase === "free" ? audit.agent.freePlaceholder : "Ou écrivez votre réponse…";
   const showChips = phase === "questions" && !typing && status === "idle";
 
   return (
@@ -331,8 +345,8 @@ export function ContactPanel() {
                 ref={inputRef}
                 id="contact-input"
                 type="text"
-                autoComplete={phase === "contact" ? "email" : "off"}
-                inputMode={phase === "contact" ? "email" : "text"}
+                autoComplete={phase === "contact" ? "tel" : "off"}
+                inputMode="text"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 placeholder={status === "done" ? "Merci, à très vite." : placeholder}
@@ -357,10 +371,13 @@ export function ContactPanel() {
   );
 }
 
+/** Avatar de l’assistant : l’étoile Luma, pour ne pas laisser croire que Robin répond en direct. */
 export function Avatar({ size = 32 }: { size?: number }) {
   return (
-    <span className="inline-flex shrink-0 items-center justify-center rounded-full bg-mist overflow-hidden" style={{ width: size, height: size }} aria-hidden>
-      <Image src={founder.photos.avatar.src} alt="" width={96} height={96} className="h-full w-full object-cover" />
+    <span className="inline-flex shrink-0 items-center justify-center rounded-full bg-night text-white" style={{ width: size, height: size }} aria-hidden>
+      <svg width={size * 0.46} height={size * 0.46} viewBox="0 0 16 16" fill="none">
+        <path d="M8 0c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z" fill="currentColor" />
+      </svg>
     </span>
   );
 }

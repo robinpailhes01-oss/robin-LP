@@ -45,40 +45,38 @@ export const hero = {
   note: "Un seul interlocuteur, de la première discussion au suivi.",
 };
 
-/** Section « Besoins » : situations concrètes du dirigeant, chacune reliée à un usage précis. */
-export const needs = {
-  kicker: "Relation client",
-  title: "Là où votre relation client se complique.",
-  text: "L’IA n’est pas utile partout. Voici les moments où elle simplifie vraiment le contact avec vos clients, avec l’outil que Luma construit pour chacun.",
-  labelNeed: "Votre situation",
-  labelUse: "Ce que Luma met en place",
-  items: [
-    {
-      title: "Les demandes clients",
-      need: "Les mêmes questions reviennent chaque jour, sur WhatsApp, par email ou au téléphone, souvent quand vous êtes occupé ailleurs.",
-      use: "Un agent répond aux questions courantes et vous transmet le reste.",
-    },
-    {
-      title: "L’historique client",
-      need: "Ce qu’un client vous a dit ou demandé est éparpillé entre emails, messages et fichiers.",
-      use: "Tous les échanges d’un client, réunis au même endroit.",
-    },
-    {
-      title: "Les devis et les rendez‑vous",
-      need: "Préparer un devis, caler un rendez‑vous, envoyer une confirmation : des allers‑retours qui prennent du temps et retardent le client.",
-      use: "Devis préparés, créneaux proposés, confirmations envoyées. Vous validez.",
-    },
-    {
-      title: "Les relances",
-      need: "Des devis restent sans réponse, des relances sont oubliées, un client attend sans nouvelles.",
-      use: "Des relances programmées au bon moment.",
-    },
-    {
-      title: "Vos outils",
-      need: "Vous faites vous-même le lien entre la messagerie où vos clients écrivent, votre agenda, vos tableurs et votre CRM.",
-      use: "Messagerie, agenda et CRM reliés entre eux.",
-    },
+/**
+ * Schéma animé de l’accueil : très peu de texte, tout passe par l’image.
+ * Un outil personnalisé, relié aux outils du client, avec un agent IA entraîné sur son entreprise.
+ */
+export const offer = {
+  kicker: "Ce que Luma construit",
+  title: "Un outil à vos mesures, branché sur vos outils.",
+  caption: "Un outil personnalisé, relié à vos outils, avec un agent IA entraîné sur votre entreprise.",
+  alt: "Schéma : vos outils (WhatsApp, email, agenda, CRM, paiement) sont reliés à un outil Luma sur mesure, avec un agent IA entraîné sur votre activité, vos règles et vos objectifs. Il alimente un tableau de bord où vous validez.",
+  colTools: "Vos outils",
+  colLuma: "Votre outil Luma",
+  colYou: "Vous",
+  tools: [
+    { icon: "WhatsApp", label: "WhatsApp" },
+    { icon: "Gmail", label: "Email" },
+    { icon: "Google Calendar", label: "Agenda" },
+    { icon: "HubSpot", label: "CRM" },
+    { icon: "Stripe", label: "Paiement" },
   ],
+  otherTools: "Vos outils métier",
+  agent: "Agent IA",
+  trained: "Entraîné sur",
+  training: ["Votre activité", "Vos règles", "Vos objectifs"],
+  dash: {
+    title: "Tableau de bord",
+    rows: [
+      { label: "Nouvelle demande", status: "À valider" },
+      { label: "Devis préparé", status: "À valider" },
+      { label: "Relance client", status: "Planifiée" },
+    ],
+    validate: "Vous validez",
+  },
 };
 
 /** Section « Démonstration » : un exemple de fonctionnement, présenté comme tel. */
@@ -131,6 +129,18 @@ export const about = {
     { title: "Un seul interlocuteur", text: "Vous parlez à la personne qui conçoit et met en place." },
     { title: "Outils personnalisés", text: "Chaque outil part de vos clients, de vos outils et de vos règles." },
     { title: "Vous gardez la main", text: "Vous validez ce qui part, et pouvez reprendre à tout moment." },
+  ],
+};
+
+/** Parcours animé de l’accueil : de l’appel sous 24 h à l’outil qui travaille. */
+export const journey = {
+  kicker: "Travailler ensemble",
+  title: "Comment ça se passe.",
+  steps: [
+    { name: "Un appel sous 24\u00a0h", text: "Je vous montre ce qui est possible chez vous." },
+    { name: "Je comprends votre PME", text: "Votre activité, vos objectifs, vos outils." },
+    { name: "Je construis votre outil", text: "Branché sur vos outils, testé sur vos cas réels." },
+    { name: "Il travaille, vous validez", text: "Je suis les résultats et j’ajuste." },
   ],
 };
 
@@ -372,6 +382,6 @@ export const faq = {
 export const contact = {
   kicker: "Contact",
   title: "Parlons de votre projet.",
-  text: "Quelques questions rapides, et je reviens vers vous sous 24 h.",
+  text: "Mon assistant vous pose quelques questions, puis je vous rappelle sous 24 h pour vous montrer ce qu’il serait possible de faire chez vous.",
   note: "Gratuit et sans engagement.",
 };

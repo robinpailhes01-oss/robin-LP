@@ -157,3 +157,97 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   .hero-in { animation: hero-in 0.6s var(--ease-luma) both; }
 }
+
+/* Schémas animés de l’accueil (OfferSchema, JourneySchema).
+   Sans JavaScript ou avec « réduire les animations », tout reste affiché à son état final. */
+.sch-dot {
+  position: absolute;
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--color-night);
+  opacity: 0;
+}
+.sch-dot-x { top: -3px; left: 0; }
+.sch-dot-y { left: -3px; top: 0; }
+.sch-learn { border-color: rgba(255, 255, 255, 0.16); }
+.sch-learn-dot { background: var(--color-powder); }
+
+@keyframes sch-run-x {
+  0% { left: 0; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { left: calc(100% - 7px); opacity: 0; }
+}
+@keyframes sch-run-y {
+  0% { top: 0; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { top: calc(100% - 7px); opacity: 0; }
+}
+@keyframes sch-learn {
+  0%, 3% { background-color: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.16); }
+  9%, 28% { background-color: #fff; color: var(--color-night); border-color: #fff; }
+  35%, 100% { background-color: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.16); }
+}
+@keyframes sch-learn-dot {
+  0%, 3% { background-color: var(--color-powder); transform: scale(1); }
+  9%, 28% { background-color: var(--color-night); transform: scale(1.25); }
+  35%, 100% { background-color: var(--color-powder); transform: scale(1); }
+}
+@keyframes sch-row {
+  0% { opacity: 0; transform: translateY(8px); }
+  8%, 86% { opacity: 1; transform: none; }
+  94%, 100% { opacity: 0; transform: translateY(-4px); }
+}
+@keyframes sch-ok {
+  0%, 46% { box-shadow: 0 0 0 0 rgba(23, 38, 61, 0); }
+  54% { box-shadow: 0 0 0 0 rgba(23, 38, 61, 0.35); }
+  72%, 100% { box-shadow: 0 0 0 12px rgba(23, 38, 61, 0); }
+}
+@keyframes sch-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@keyframes jr-dot {
+  from { background-color: #fff; color: var(--color-slate); border-color: var(--color-powder); }
+  to { background-color: var(--color-night); color: #fff; border-color: var(--color-night); }
+}
+@keyframes jr-txt {
+  from { opacity: 0.3; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes jr-draw-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes jr-draw-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.jr-dot { background-color: var(--color-night); color: #fff; border-color: var(--color-night); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Boucle de 7 s, lancée quand le schéma est visible */
+  .js .sch .sch-dot-x { animation: sch-run-x 2.4s linear infinite paused; animation-delay: var(--d, 0s); }
+  .js .sch .sch-dot-y { animation: sch-run-y 1.6s linear infinite paused; animation-delay: var(--d, 0s); }
+  .js .sch .sch-learn { animation: sch-learn 6s ease-in-out infinite paused; animation-delay: calc(var(--i) * 2s); }
+  .js .sch .sch-learn-dot { animation: sch-learn-dot 6s ease-in-out infinite paused; animation-delay: calc(var(--i) * 2s); }
+  .js .sch .sch-row { animation: sch-row 7s var(--ease-luma) infinite paused; animation-delay: calc(var(--i) * 0.55s); }
+  .js .sch .sch-ok { animation: sch-ok 7s ease-out infinite paused; }
+  .js .sch .sch-live { animation: sch-live 2s ease-in-out infinite paused; }
+  .js .sch.is-in .sch-dot,
+  .js .sch.is-in .sch-learn,
+  .js .sch.is-in .sch-learn-dot,
+  .js .sch.is-in .sch-row,
+  .js .sch.is-in .sch-ok,
+  .js .sch.is-in .sch-live { animation-play-state: running; }
+
+  /* Parcours : le trait se dessine, puis chaque étape s’allume, une seule fois par passage */
+  .js .jr .jr-dot { animation: jr-dot 0.45s var(--ease-luma) both paused; animation-delay: calc(var(--i) * 0.9s + 0.15s); }
+  .js .jr .jr-txt { animation: jr-txt 0.6s var(--ease-luma) both paused; animation-delay: calc(var(--i) * 0.9s + 0.15s); }
+  .js .jr .jr-seg { animation: jr-draw-y 0.8s var(--ease-luma) both paused; animation-delay: calc(var(--i) * 0.9s + 0.4s); }
+  .js .jr.is-in .jr-dot,
+  .js .jr.is-in .jr-txt,
+  .js .jr.is-in .jr-seg { animation-play-state: running; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
+  .js .jr .jr-seg { animation-name: jr-draw-x; }
+}

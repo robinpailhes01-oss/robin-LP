@@ -7,8 +7,9 @@ import { ConversationCard } from "@/components/ui/ConversationCard";
 import { FaqList } from "@/components/ui/FaqList";
 import { ExampleTag, Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
+import { JourneySchema, OfferSchema } from "@/components/ui/Schema";
 import { Section } from "@/components/ui/Section";
-import { about, caseStudies, casesIndex, contact, cta, demo, faq, founder, hero, method, needs, type CaseStudy } from "@/lib/content";
+import { about, caseStudies, casesIndex, contact, cta, demo, faq, founder, hero, journey, method, offer, type CaseStudy } from "@/lib/content";
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -76,29 +77,15 @@ export function Hero() {
   );
 }
 
-/* 2. Besoins : cinq situations, chacune reliée à un usage concret. */
-export function Needs() {
+/* 2. Offre : un schéma animé qui montre l’outil construit, relié aux outils du client. */
+export function Offer() {
   return (
     <Section id="besoins">
       <Reveal>
-        <Kicker>{needs.kicker}</Kicker>
-        <h2 className="t-h2 mt-5 max-w-[16ch]">{needs.title}</h2>
+        <Kicker>{offer.kicker}</Kicker>
+        <h2 className="t-h2 mt-5 max-w-[18ch]">{offer.title}</h2>
       </Reveal>
-      <div className="mt-14 md:mt-16">
-        <ol className="border-t border-line">
-          {needs.items.map((n, i) => (
-            <li key={n.title} className="border-b border-line">
-              <Reveal className="grid md:grid-cols-12 gap-2 md:gap-8 items-baseline py-7 md:py-8">
-                <h3 className="md:col-span-5 t-h3 text-[22px] md:text-[24px] flex items-baseline gap-4">
-                  <span className="font-display text-[14px] font-semibold text-slate tabular-nums" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
-                  {n.title}
-                </h3>
-                <p className="md:col-start-7 md:col-span-6 pl-[34px] md:pl-0 text-[16px] md:text-[18px] leading-[1.5] text-ink">{n.use}</p>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
-      </div>
+      <OfferSchema />
     </Section>
   );
 }
@@ -246,6 +233,24 @@ export function Method({ withLink = true, tone = "mist" as "mist" | "white" }: {
           <TextLink href="/methode">Voir la méthode en détail</TextLink>
         </div>
       )}
+    </Section>
+  );
+}
+
+/* 5 bis. Parcours animé : de l’appel sous 24 h à l’outil qui travaille. */
+export function Journey() {
+  return (
+    <Section id="accompagnement" tone="mist">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <Reveal>
+          <Kicker>{journey.kicker}</Kicker>
+          <h2 className="t-h2 mt-5">{journey.title}</h2>
+        </Reveal>
+        <Reveal>
+          <OpenContactButton />
+        </Reveal>
+      </div>
+      <JourneySchema />
     </Section>
   );
 }
