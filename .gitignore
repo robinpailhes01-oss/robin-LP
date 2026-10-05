@@ -8,3 +8,10 @@ out
 tsconfig.tsbuildinfo
 next-env.d.ts
 lab/
+
+# Montage du Reel : rushes et fichiers de travail trop lourds pour le dépôt
+video-reel-montage/rushes/*.MOV
+video-reel-montage/rushes/*.mov
+video-reel-montage/rushes/*.wav
+video-reel-montage/rushes/*.png
+video-reel-montage/build/
