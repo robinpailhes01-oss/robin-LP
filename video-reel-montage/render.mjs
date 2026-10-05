@@ -2,7 +2,7 @@
 // Usage : node render.mjs [--stills 1.5,7.2,...]
 import { createRequire } from "node:module";
 import { spawn } from "node:child_process";
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -10,6 +10,7 @@ const { chromium } = createRequire(import.meta.url)("playwright");
 const dir = path.dirname(fileURLToPath(import.meta.url));
 const cues = JSON.parse(readFileSync(path.join(dir, "cues.json"), "utf8"));
 cues.total = Math.round((cues.duration + 1.7) * 100) / 100; // + carte de fin
+cues.frames = readdirSync(path.join(dir, "build", "frames")).filter((f) => f.endsWith(".jpg")).length;
 writeFileSync(path.join(dir, "cues.js"), `window.__CUES = ${JSON.stringify(cues)};\n`);
 mkdirSync(path.join(dir, "out"), { recursive: true });
 

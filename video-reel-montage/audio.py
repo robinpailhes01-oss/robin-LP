@@ -251,8 +251,7 @@ for c in C["cuts"][1:]:
 # hook
 sw(0.05, 0.4, 600, 4000, 0.22)
 t3 = WD("trois")
-place(sfx, filt(boom(0.9, 160, 45, 6.0), "low", 200), t3 - 0.04, 0.45)
-place(sfx, click(0.03, 2200), t3 - 0.04, 0.3)
+place(sfx, filt(boom(0.7, 140, 50, 7.0), "low", 180), t3 - 0.04, 0.25)
 for pat, f in (("temps", 1100), ("argent", 1400)):
     place(sfx, pop(f, 500, 0.09), WD(pat) - 0.06, 0.35)
     place(sfx, bell(note(88), 0.6, 0.4), WD(pat), 0.06)
@@ -269,8 +268,8 @@ for pat in ("répondre", "prospecter", "envoyer", "relancer"):
 tA = WD("automatisé")
 for i in range(4):
     place(sfx, click(0.025, 3200 + 200 * i), tA - 0.05 + i * 0.07, 0.3, pan=0.3)
-place(sfx, boom(0.6, 200, 60, 8.0), tA + 0.55, 0.5)
-place(sfx, click(0.05, 1800), tA + 0.55, 0.45)
+for i, n in enumerate((83, 88, 92)):
+    place(sfx, bell(note(n), 1.2, 0.4), tA + 0.05 + i * 0.08, 0.05)
 # p2
 for i in range(6):
     place(sfx, pop(1000 + 60 * i, 500, 0.07), PT["p2"][0] + 0.45 + i * 0.09, 0.2, pan=(i % 3 - 1) * 0.5)
@@ -282,15 +281,12 @@ tE = WD("économisez")
 sw(tE, 0.4, 500, 3000, 0.25)
 tic = tt(0.9)
 ching = sum(np.sin(2 * np.pi * f * tic) * np.exp(-tic * k) for f, k in ((2637, 5), (3729, 7), (5274, 9), (6645, 12))) * 0.3
-place(sfx, ching, tE + 0.2, 0.35)
-for i in range(6):
-    place(sfx, click(0.03, 4500 + 300 * i), tE + 0.3 + i * 0.09, 0.12, pan=rng.uniform(-0.6, 0.6))
+place(sfx, ching, tE + 0.1, 0.16)
 # p3
 tAg, tF = WD("agences"), WD("fini")
 place(sfx, pop(900, 450, 0.08), tAg - 0.15, 0.3)
-place(sfx, swept_noise(0.25, 6000, 1500, q=0.5) * np.linspace(1, 0, int(0.25 * SR)), tF + 0.25, 0.15)
-place(sfx, boom(0.7, 180, 50, 7.0), tF + 0.32, 0.5)
-place(sfx, click(0.05, 1600), tF + 0.32, 0.4)
+place(sfx, swept_noise(0.3, 5000, 1500, q=0.5) * np.linspace(1, 0, int(0.3 * SR)), tF - 0.05, 0.08)
+place(sfx, pop(700, 380, 0.09), tF + 0.2, 0.25)
 tP, tV = WD("photos"), WD("vidéos")
 for i in range(6):
     place(sfx, pop(1200 + 80 * i, 600, 0.06), (tP if i % 2 == 0 else tV) + (i % 3) * 0.08, 0.2, pan=-0.4)
@@ -315,7 +311,7 @@ for i, (n, gg) in enumerate(((76, 0.3), (83, 0.27), (88, 0.3), (95, 0.14))):
 
 # ---------- VOIX ----------
 raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(DIR / "build" / "voice.wav"),
-                      "-af", "highpass=f=80,afftdn=nr=10:nf=-45,acompressor=threshold=-20dB:ratio=3:attack=8:release=120:makeup=4dB,equalizer=f=3500:t=q:w=1:g=2",
+                      "-af", "highpass=f=70",  # voix laissée naturelle : aucun débruitage, compresseur ni égaliseur
                       "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"], capture_output=True, check=True).stdout
 v = np.frombuffer(raw, dtype=np.float32).astype(np.float64)
 vo = np.zeros((N, 2))
@@ -331,13 +327,19 @@ e = np.convolve(e, np.ones(k) / k, mode="same")
 e = np.minimum(1, e / (np.percentile(e[e > 1e-4], 85) + 1e-9))
 music *= (1 - 0.7 * e)[:, None]
 sfx *= (1 - 0.35 * e)[:, None]
-mix = music * 0.5 + sfx * 0.55 + vo * 1.0
+bed = music * 0.42 + sfx * 0.5
+bed = np.tanh(bed * 1.2) / 1.2
+mix = bed + vo * 1.0
 tail = int(0.7 * SR)
 mix[-tail:] *= np.linspace(1, 0, tail)[:, None] ** 2
 mix /= np.max(np.abs(mix))
-mix = np.tanh(mix * 1.4) / np.tanh(1.4)
 (DIR / "out").mkdir(exist_ok=True)
+# niveau global : gain fixe mesuré (pas de normalisation dynamique, qui « pompe » la voix) + limiteur de crête
+raw_mix = (mix * 0.97).astype(np.float32).tobytes()
+meas = subprocess.run(["ffmpeg", "-hide_banner", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", "-af", "ebur128", "-f", "null", "-"],
+                      input=raw_mix, capture_output=True).stderr.decode()
+lufs = float(re.findall(r"I:\s+(-?[\d.]+) LUFS", meas)[-1])
 subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-",
-                "-af", "loudnorm=I=-14:TP=-1.0:LRA=9", "-ar", str(SR), str(DIR / "out" / "reel-audio.wav")],
-               input=(mix * 0.97).astype(np.float32).tobytes(), check=True)
+                "-af", f"volume={-15 - lufs:.2f}dB,alimiter=limit=0.89:attack=5:release=60:level=disabled", "-ar", str(SR), str(DIR / "out" / "reel-audio.wav")],
+               input=raw_mix, check=True)
 print("audio OK")

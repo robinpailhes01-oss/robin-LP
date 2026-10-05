@@ -42,7 +42,7 @@ SUBS = {
     "l20": ["Parlons de votre entreprise. L'audit est offert, et sans engagement."],
 }
 # index du mot qui ouvre le 2e segment
-SPLIT = {"l04": 6, "l05": 6, "l08": 8, "l09": 13, "l16": 10, "l17": 12, "l18": 8}
+SPLIT = {"l04": 7, "l05": 6, "l08": 8, "l09": 13, "l16": 10, "l17": 15, "l18": 8}
 
 t = 0.0
 lines, subs = {}, []
