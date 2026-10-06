@@ -12,7 +12,7 @@ const font = path.join(__dirname, "assets", "inter-700.woff2");
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face { font-family: Txt; src: url("file://${font}"); font-weight: 700; }
 html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
-.p { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font: 700 46px/1 Txt; letter-spacing: -0.025em;
+.p { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font: 700 42px/1 Txt; letter-spacing: -0.025em;
      color: #fff4e3; text-shadow: 0 2px 8px rgba(30,12,0,0.85), 0 0 2px rgba(30,12,0,0.7); }
 .t { font-size: 80px; letter-spacing: -0.03em; color: #ffd47a;
      text-shadow: 0 0 3px rgba(40,15,0,0.9), 0 2px 14px rgba(25,8,0,0.95), 0 0 26px rgba(255,170,60,0.45); }
@@ -32,7 +32,10 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
   for (const it of items) {
     await page.evaluate(({ text, xy, cls }) => {
       document.body.innerHTML = `<div class="${cls}" style="left:${xy[0]}px;top:${xy[1]}px">${text}</div>`;
-      return document.fonts.ready;
+      return document.fonts.ready.then(() => {
+        const el = document.body.firstChild, w = el.getBoundingClientRect().width;
+        el.style.left = Math.min(Math.max(xy[0], w / 2 + 40), 1040 - w / 2) + "px";
+      });
     }, it);
     await page.screenshot({ path: path.join(OUT, it.name + ".png"), omitBackground: true });
   }
@@ -42,7 +45,10 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
     const all = items.filter((x) => list.includes(x.name));
     await page.evaluate((all) => {
       document.body.innerHTML = all.map((it) => `<div class="${it.cls}" style="left:${it.xy[0]}px;top:${it.xy[1]}px">${it.text}</div>`).join("");
-      return document.fonts.ready;
+      return document.fonts.ready.then(() => [...document.body.children].forEach((el, i) => {
+        const w = el.getBoundingClientRect().width;
+        el.style.left = Math.min(Math.max(all[i].xy[0], w / 2 + 40), 1040 - w / 2) + "px";
+      }));
     }, all);
     await page.screenshot({ path: path.join(OUT, name + ".png"), omitBackground: true });
   }

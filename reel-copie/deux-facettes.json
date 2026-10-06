@@ -3,12 +3,12 @@
  "total": 27.48,
  "title": [
   {
-   "text": "Mes deux facettes",
+   "text": "Ce que je vois",
    "from": 0.0,
    "to": 19.96
   },
   {
-   "text": "Je peux le faire.",
+   "text": "Je suis là pour eux.",
    "from": 19.96,
    "to": 27.48
   }
@@ -16,138 +16,138 @@
  "negatives": [
   {
    "en": "it won't work",
-   "fr": "ça va pas marcher",
+   "fr": "l'IA avance plus vite que jamais",
    "in": 0.88,
    "out": 19.64,
    "xy": [
-    270,
-    1330
+    540,
+    1300
    ]
   },
   {
    "en": "I have no ideas",
-   "fr": "j'ai plus d'idées",
+   "fr": "les PME décrochent",
    "in": 1.84,
    "out": 19.32,
    "xy": [
-    300,
-    1440
+    0,
+    905
    ]
   },
   {
    "en": "this guy is much better",
-   "fr": "lui, il est bien meilleur",
+   "fr": "leurs concurrents s'automatisent déjà",
    "in": 2.68,
    "out": 19.0,
    "xy": [
-    740,
-    1450
+    540,
+    1390
    ]
   },
   {
    "en": "I can't continue",
-   "fr": "je peux pas continuer",
+   "fr": "personne ne leur explique l'IA",
    "in": 3.68,
    "out": 18.6,
    "xy": [
-    300,
-    1060
+    0,
+    290
    ]
   },
   {
    "en": "I'm tired",
-   "fr": "je suis épuisé",
+   "fr": "les dirigeants n'ont plus le temps",
    "in": 4.6,
    "out": 18.2,
    "xy": [
-    840,
-    760
+    1080,
+    375
    ]
   },
   {
    "en": "what's the point?",
-   "fr": "à quoi bon ?",
+   "fr": "trop d'outils, aucun mode d'emploi",
    "in": 5.56,
    "out": 17.84,
    "xy": [
-    250,
-    560
+    0,
+    460
    ]
   },
   {
    "en": "I need to stop overthinking",
-   "fr": "faut que j'arrête de trop réfléchir",
+   "fr": "les tâches répétitives les épuisent",
    "in": 6.44,
    "out": 17.44,
    "xy": [
-    540,
-    330
-   ]
-  },
-  {
-   "en": "no one cares",
-   "fr": "tout le monde s'en fiche",
-   "in": 7.4,
-   "out": 17.12,
-   "xy": [
-    790,
+    1080,
     545
    ]
   },
   {
+   "en": "no one cares",
+   "fr": "les clients attendent une réponse 24h/24",
+   "in": 7.4,
+   "out": 17.12,
+   "xy": [
+    540,
+    630
+   ]
+  },
+  {
    "en": "AI is gonna replace me",
-   "fr": "l'IA va me remplacer",
+   "fr": "chaque mois de retard coûte cher",
    "in": 8.28,
    "out": 16.68,
    "xy": [
-    290,
-    450
+    1080,
+    715
    ]
   },
   {
    "en": "I don't want it",
-   "fr": "j'en ai plus envie",
+   "fr": "elles ont besoin d'un partenaire IA",
    "in": 9.28,
    "out": 16.24,
    "xy": [
-    820,
-    650
+    1080,
+    800
    ]
   },
   {
    "en": "I'm left behind",
-   "fr": "je suis à la traîne",
+   "fr": "il faut se mettre à la page maintenant",
    "in": 10.2,
    "out": 15.68,
    "xy": [
-    860,
-    870
+    540,
+    1480
    ]
   },
   {
    "en": "what if it fails?",
-   "fr": "et si ça échoue ?",
+   "fr": "qui va les accompagner ?",
    "in": 11.24,
    "out": 15.28,
    "xy": [
-    540,
-    1000
+    0,
+    1005
    ]
   }
  ],
  "positives": [
   {
    "en": "it's gonna work",
-   "fr": "ça va marcher",
+   "fr": "je les accompagne",
    "in": 22.16,
    "xy": [
-    280,
-    1060
+    0,
+    905
    ]
   },
   {
    "en": "work always pays off",
-   "fr": "le travail finit toujours par payer",
+   "fr": "je suis leur partenaire IA",
    "in": 23.08,
    "xy": [
     540,
@@ -156,29 +156,29 @@
   },
   {
    "en": "let's lock in",
-   "fr": "on s'y met à fond",
+   "fr": "je simplifie l'IA pour les PME",
    "in": 24.0,
    "xy": [
-    800,
-    700
+    1080,
+    560
    ]
   },
   {
    "en": "I'm consistent",
-   "fr": "je suis régulier",
+   "fr": "je leur fais gagner du temps",
    "in": 24.92,
    "xy": [
-    270,
-    600
+    540,
+    1390
    ]
   },
   {
    "en": "I'll do whatever it takes",
-   "fr": "je ferai tout ce qu'il faut",
+   "fr": "on avance ensemble",
    "in": 25.84,
    "xy": [
     540,
-    1440
+    1480
    ]
   }
  ],
