@@ -62,8 +62,7 @@ export function Nav() {
 
           <div className="flex items-center gap-2">
             <Button onClick={openContact} className="min-h-11 px-4 sm:px-5 text-[14px]">
-              <span className="hidden sm:inline">{cta.primary}</span>
-              <span className="sm:hidden">{cta.primaryShort}</span>
+              {cta.primaryShort}
               <Arrow />
             </Button>
             <button

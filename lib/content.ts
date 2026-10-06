@@ -7,7 +7,7 @@
 export const site = {
   title: "Luma · Des outils IA pour simplifier votre relation client, par Robin Pailhes",
   description:
-    "Robin Pailhes a mis l’IA dans sa propre entreprise. Avec Luma, à Montpellier, il simplifie la relation client des PME : conseil, outils IA sur mesure, formation.",
+    "Robin Pailhes, partenaire IA des PME à Montpellier : audit gratuit, infrastructure IA sur mesure, consulting et formation pour simplifier votre relation client.",
 };
 
 export const founder = {
@@ -31,8 +31,8 @@ export const nav = [
 
 export const cta = {
   /** Ouvre le panneau de contact (questions courtes pour préparer l’échange). */
-  primary: "Échanger sur mon projet",
-  primaryShort: "Échanger",
+  primary: "Demander mon audit gratuit",
+  primaryShort: "Audit gratuit",
 };
 
 export const hero = {
@@ -41,8 +41,8 @@ export const hero = {
   second: "Maintenant, je la mets dans la vôtre.",
   accent: "dans la vôtre",
   badge: "Robin Pailhes · Agence IA à Montpellier",
-  text: "Chez Harmonie Yacht, l’IA répond à mes clients à toute heure. Je simplifie maintenant la relation client des PME : conseil, outils sur mesure, formation.",
-  reassurance: ["Appel offert", "Robin vous rappelle sous 24 h", "Sans engagement"],
+  text: "Chez Harmonie Yacht, l’IA répond à mes clients à toute heure. Je suis maintenant le partenaire IA des dirigeants de PME qui veulent simplifier leur relation client, sans y passer leur temps.",
+  reassurance: ["Audit offert", "Robin vous rappelle sous 24 h", "Sans engagement"],
   flowKicker: "Une demande client",
   flow: ["Message reçu", "Besoin compris", "Fiche client à jour", "Devis ou RDV prêt"],
   /** Chiffre réel : cas Harmonie Yacht. */
@@ -50,36 +50,36 @@ export const hero = {
 };
 
 export const trust = {
-  kicker: "Testé chez moi, puis chez eux",
+  kicker: "Déjà en place chez",
   own: "Mon entreprise",
   client: "Client",
 };
 
 /** Le constat : les demandes arrivent de partout et tout repose sur le dirigeant. Messages illustratifs. */
 export const problem = {
-  kicker: "Mon point de départ",
-  title: "Mes clients m’écrivaient partout.",
-  second: "Et tout reposait sur moi.",
+  kicker: "Votre quotidien",
+  title: "Vos clients vous écrivent partout.",
+  second: "Et tout repose sur vous.",
   messages: [
     { icon: "WhatsApp", channel: "WhatsApp", text: "Bonsoir, une dispo samedi ?", time: "22:47" },
-    { icon: "Gmail", channel: "Email", text: "Une sortie en mer pour un anniversaire ?", time: "09:12" },
+    { icon: "Gmail", channel: "Email", text: "Demande de devis pour la semaine prochaine", time: "09:12" },
     { icon: "phone", channel: "Téléphone", text: "Appel manqué, à rappeler", time: "12:30" },
-    { icon: "instagram", channel: "Instagram", text: "C’est combien pour 6 ?", time: "18:05" },
-    { icon: "site", channel: "Site web", text: "Nouvelle demande de réservation", time: "20:16" },
+    { icon: "instagram", channel: "Instagram", text: "C’est combien ?", time: "18:05" },
+    { icon: "site", channel: "Site web", text: "Nouveau formulaire reçu", time: "20:16" },
   ],
-  you: "Moi",
+  you: "Vous",
   pending: "5 en attente",
   note: "Messages d’exemple",
-  caption: "Chez Harmonie Yacht, je passais mes journées à répondre. Si c’est votre cas, la suite vous concerne.",
+  caption: "Des réponses en retard, des devis oubliés, des relances qui ne partent jamais.",
   alt: "Schéma : des messages arrivent en même temps par WhatsApp, email, téléphone, Instagram et le site, et convergent tous vers le dirigeant. Cinq demandes en attente.",
 };
 
 /** Le système : un outil Luma au centre, relié aux canaux, au contexte et aux outils du client. */
 export const system = {
-  kicker: "Ce que j’ai construit",
-  title: "L’outil travaille.",
+  kicker: "Votre infrastructure IA",
+  title: "Votre outil travaille.",
   second: "Vous validez.",
-  text: "C’est ce qui tourne chez Harmonie Yacht. Chez vous, il part de votre activité et de vos outils.",
+  text: "Je construis le système autour de votre entreprise : vos canaux, vos règles, vos outils.",
   hub: "Votre outil",
   nodes: {
     you: { label: "Vous", caption: "Vous pilotez et validez", action: "Vous validez" },
@@ -94,45 +94,42 @@ export const system = {
 };
 
 /** Trois points de départ, chacun appuyé sur une réalisation réelle. */
+/** Le pivot de la page : texte révélé mot à mot au défilement. Les mots marqués * sont appuyés. */
+export const manifesto = {
+  text: "Vous savez que l’IA peut aider votre entreprise. Mais vous n’avez ni le temps, ni les compétences pour vous en occuper. C’est là que j’interviens : je deviens *votre *partenaire *IA.",
+};
+
+/** Trois offres, dans l’ordre où on les vit : l’audit gratuit, puis on construit pour vous ou avec vous. */
 export const offers = {
   kicker: "Ce que je fais pour vous",
-  title: "Simplifier votre relation client,",
-  second: "à votre rythme.",
-  text: "Un conseil pour commencer, un outil créé pour vous, ou construit avec vous.",
-  ideal: "Idéal si",
-  all: "Voir les réalisations",
+  title: "Tout commence",
+  second: "par un audit gratuit.",
+  text: "Ensuite, je construis votre infrastructure IA, ou nous créons vos outils ensemble.",
   items: [
     {
-      kind: "consulting",
-      label: "Conseil",
-      tag: "Le premier pas",
-      title: "Savoir par où commencer",
-      text: "Je regarde où votre relation client vous prend du temps, et ce que l’IA peut simplifier.",
-      points: ["Vos demandes, vos canaux et vos outils passés en revue", "Les priorités classées, du plus simple au plus utile", "Un plan clair, que vous menez avec moi ou seul"],
-      ideal: "vous sentez que l’IA peut vous aider, sans savoir par où commencer.",
-      link: { href: "/methode", label: "Voir la méthode" },
+      kind: "audit",
+      label: "Gratuit",
+      title: "Audit IA gratuit",
+      text: "Voyez comment l’IA peut aider votre entreprise, avant d’investir quoi que ce soit.",
+      points: ["Un appel sur votre activité et vos outils", "Les tâches que l’IA peut prendre en charge", "Un plan clair, sans engagement"],
     },
     {
-      kind: "whatsapp",
-      label: "Outils sur mesure",
-      tag: "Déjà en place dans 3 entreprises",
-      title: "Je crée vos outils",
-      text: "Un agent qui répond à vos clients, un suivi client, des relances, des bons de commande : je les conçois pour votre métier.",
-      points: ["Ils partent de votre façon de travailler", "Reliés à vos outils : agenda, fichier clients, tableurs", "Testés sur vos cas réels, puis suivis"],
-      ideal: "vos demandes clients ou une tâche répétitive vous prennent des heures.",
+      kind: "build",
+      label: "Sur mesure",
+      title: "Votre infrastructure IA",
+      text: "Je crée l’infrastructure IA personnalisée de votre PME, et je vous accompagne.",
+      points: ["Agent IA, suivi client, relances, tableau de bord", "Relié à vos outils et à vos règles", "Mise en place, tests et suivi inclus"],
       link: { href: "/cas-clients", label: "Voir les réalisations" },
     },
     {
       kind: "training",
-      label: "Construits ensemble",
-      tag: "Votre équipe autonome",
-      title: "On les construit ensemble",
-      text: "On crée l’outil à deux, et je forme votre équipe pour qu’elle le fasse évoluer.",
-      points: ["Un atelier pour poser votre relation client à plat", "L’outil construit avec vous, étape par étape", "Votre équipe formée pour le faire évoluer seule"],
-      ideal: "vous voulez comprendre l’IA et garder la main sur vos outils.",
+      label: "Consulting et formation",
+      title: "Vos outils, créés avec vous",
+      text: "On crée ensemble les outils dont vous avez besoin pour gagner du temps et économiser de l’argent. Vous vous concentrez sur votre croissance.",
+      points: ["Des ateliers pour repérer ce qui vous coûte du temps", "Les outils construits avec vous, un par un", "Votre équipe formée et autonome"],
       link: { href: "/methode", label: "Voir la méthode" },
     },
-  ] as { kind: "consulting" | "whatsapp" | "training"; label: string; tag: string; title: string; text: string; points: string[]; ideal: string; link: { href: string; label: string } }[],
+  ] as { kind: "audit" | "build" | "training"; label: string; title: string; text: string; points: string[]; link?: { href: string; label: string } }[],
 };
 
 /** Section « À propos ». Uniquement des faits confirmés. */
@@ -156,7 +153,7 @@ export const journey = {
   title: "Comment ça se passe.",
   second: "De l’appel à l’outil qui tourne.",
   steps: [
-    { name: "Un appel sous 24\u00a0h", text: "Je vous montre ce que j’ai fait chez moi, et ce qui est possible chez vous." },
+    { name: "Votre audit gratuit", text: "Sous 24\u00a0h, je vous montre ce que l’IA peut faire chez vous." },
     { name: "Je comprends votre PME", text: "Votre activité, vos objectifs, vos outils." },
     { name: "On construit votre outil", text: "Pour vous ou avec vous, branché sur vos outils." },
     { name: "Il travaille, vous validez", text: "Je forme votre équipe et j’ajuste selon les résultats." },
@@ -394,6 +391,7 @@ export const faq = {
     { q: "Est-ce qu’un agent IA remplace mon équipe ?", a: "Non. Il prend le répétitif, votre équipe garde ce qui demande quelqu’un." },
     { q: "Faut-il s’y connaître en IA ?", a: "Non. Vous connaissez vos clients, c’est ce qui compte. Je m’occupe du reste." },
     { q: "L’IA peut-elle se tromper ?", a: "Oui. Chaque outil est donc testé sur vos cas réels, avec des limites claires : ce qui est sensible vous est transmis." },
+    { q: "En quoi consiste l’audit gratuit ?", a: "Un appel où je regarde votre activité, vos outils et ce qui vous prend du temps. Vous repartez avec les pistes où l’IA peut vous aider, sans engagement." },
     { q: "Peut-on construire l’outil avec vous ?", a: "Oui. En accompagnement, on le construit ensemble et je forme votre équipe pour qu’elle le fasse évoluer seule." },
     { q: "Comment sont gérées les données ?", a: "Elles restent les vôtres. Je vous montre où elles passent avant la mise en place." },
   ],
@@ -401,7 +399,7 @@ export const faq = {
 
 export const contact = {
   kicker: "Contact",
-  title: "Parlons de votre entreprise.",
-  text: "Mon assistant vous pose quelques questions, puis je vous rappelle sous 24 h pour vous montrer ce qu’il serait possible de faire chez vous.",
+  title: "Votre audit gratuit.",
+  text: "Mon assistant vous pose quelques questions, puis je vous rappelle sous 24 h pour vous montrer ce que l’IA peut faire chez vous.",
   note: "Gratuit et sans engagement.",
 };

@@ -3,13 +3,15 @@ import Link from "next/link";
 import { OpenContactButton } from "@/components/contact/OpenContactButton";
 import { Arrow, TextLink } from "@/components/ui/Button";
 import { ClientMark } from "@/components/ui/ClientMark";
-import { HeroFlow, OfferPreview, ProblemSchema, SystemSchema } from "@/components/ui/Diagrams";
+import { HeroFlow, ProblemSchema, SystemSchema } from "@/components/ui/Diagrams";
+import { Parallax } from "@/components/ui/Parallax";
+import { ScrollWords } from "@/components/ui/ScrollWords";
 import { FaqList } from "@/components/ui/FaqList";
 import { Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { JourneySchema } from "@/components/ui/Schema";
 import { Section } from "@/components/ui/Section";
-import { about, caseStudies, casesIndex, contact, faq, founder, hero, journey, method, offers, problem, system, trust, type CaseStudy } from "@/lib/content";
+import { about, caseStudies, casesIndex, contact, faq, founder, hero, journey, method, manifesto, offers, problem, system, trust, type CaseStudy } from "@/lib/content";
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -52,8 +54,9 @@ export function Hero() {
   const avatar = founder.photos.avatar;
   return (
     <section className="relative overflow-hidden bg-white pb-16 pt-32 sm:pt-36 md:pb-20 lg:pt-44">
-      <div aria-hidden className="hero-grid absolute inset-0" />
+      <Parallax className="hero-grid absolute inset-0" y={[0, 140]} />
       <div className="relative mx-auto max-w-luma px-5 text-center sm:px-6 lg:px-8">
+        <Parallax y={[0, -70]} opacity={[1, 0.25]}>
         <div className="hero-in">
           <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-white py-1 pl-1 pr-4 text-[13px] font-medium text-ink">
             <Image src={avatar.src} alt="" width={56} height={56} className="size-7 rounded-full object-cover" />
@@ -70,6 +73,7 @@ export function Hero() {
             <p className="text-[14px] text-muted">{hero.reassurance.join(" · ")}</p>
           </div>
         </div>
+        </Parallax>
         <HeroFlow />
       </div>
     </section>
@@ -120,48 +124,58 @@ export function System() {
   );
 }
 
-/* 5. Points de départ : trois offres, chacune appuyée sur une réalisation réelle. */
+/* 4 bis. Manifeste : le pivot de la page, révélé mot à mot au défilement. */
+export function Manifesto() {
+  return (
+    <section id="partenaire" className="bg-white">
+      <div className="mx-auto max-w-luma px-5 sm:px-6 lg:px-8">
+        <ScrollWords text={manifesto.text} />
+      </div>
+    </section>
+  );
+}
+
+/* 5. Offres : l’audit gratuit d’abord, puis on construit pour vous ou avec vous. */
 export function Offers() {
   return (
     <Section id="offres" tone="mist">
       <Heading kicker={offers.kicker} title={offers.title} second={offers.second} text={offers.text} />
-      <ul className="mt-14 grid gap-5 md:mt-16 lg:grid-cols-3">
-        {offers.items.map((o, i) => (
-          <li key={o.kind}>
-            <Reveal delay={i * 0.06} className="h-full">
-              <article className="flex h-full flex-col rounded-[24px] border border-line bg-white p-5 sm:p-6">
-                <OfferPreview kind={o.kind} />
-                <p className="t-kicker mt-6">{o.label}</p>
-                <p className="mt-3 inline-flex w-fit items-center gap-2 rounded-full bg-mist px-3 py-1 text-[13px] font-semibold text-night">
-                  <span className="size-1.5 rounded-full bg-night" aria-hidden />
-                  {o.tag}
-                </p>
-                <h3 className="t-h3 mt-4 text-[22px]">{o.title}</h3>
-                <p className="mt-1.5 text-[15px] font-medium text-night">{o.text}</p>
-                <ul className="mt-5 flex flex-col gap-2.5">
-                  {o.points.map((pt) => (
-                    <li key={pt} className="flex gap-2.5 text-[15px] leading-[1.45] text-ink">
-                      <Check className="mt-[3px] text-night" />
-                      {pt}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-6 rounded-2xl bg-paper p-4 text-[14px] leading-[1.5] text-ink lg:mt-auto">
-                  <span className="font-semibold text-night">{offers.ideal}</span> {o.ideal}
-                </p>
-                <Link href={o.link.href} className="group mt-4 inline-flex items-center gap-2 text-[14px] font-semibold text-night">
-                  {o.link.label}
-                  <Arrow />
-                </Link>
-              </article>
-            </Reveal>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-12 flex flex-col items-center gap-5 sm:flex-row sm:justify-center">
-        <OpenContactButton />
-        <TextLink href="/cas-clients">{offers.all}</TextLink>
-      </div>
+      <ol className="mt-14 grid gap-5 md:mt-16 lg:grid-cols-3">
+        {offers.items.map((o, i) => {
+          const dark = o.kind === "audit";
+          return (
+            <li key={o.kind}>
+              <Reveal delay={i * 0.08} className="h-full">
+                <article className={`flex h-full flex-col rounded-[24px] p-7 sm:p-8 ${dark ? "bg-night text-white" : "border border-line bg-white"}`}>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className={`font-display text-[44px] font-extrabold leading-none tracking-[-0.04em] tabular-nums ${dark ? "text-white/25" : "text-powder"}`} aria-hidden>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className={`rounded-full px-3 py-1 text-[13px] font-semibold ${dark ? "bg-white text-night" : "bg-mist text-night"}`}>{o.label}</span>
+                  </div>
+                  <h3 className={`mt-8 font-display text-[26px] font-extrabold leading-[1.1] tracking-[-0.02em] ${dark ? "text-white" : "text-night"}`}>{o.title}</h3>
+                  <p className={`mt-3 text-[16px] leading-[1.5] ${dark ? "text-white/80" : "text-ink"}`}>{o.text}</p>
+                  <ul className="mt-6 flex flex-col gap-2.5">
+                    {o.points.map((pt) => (
+                      <li key={pt} className={`flex gap-2.5 text-[15px] leading-[1.45] ${dark ? "text-white/90" : "text-ink"}`}>
+                        <Check className={`mt-[3px] ${dark ? "text-powder" : "text-night"}`} />
+                        {pt}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-8 lg:mt-auto lg:pt-8">
+                    {dark ? (
+                      <OpenContactButton variant="onDark" />
+                    ) : (
+                      o.link && <TextLink href={o.link.href}>{o.link.label}</TextLink>
+                    )}
+                  </div>
+                </article>
+              </Reveal>
+            </li>
+          );
+        })}
+      </ol>
     </Section>
   );
 }

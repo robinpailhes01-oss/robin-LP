@@ -1,6 +1,7 @@
 "use client";
 
-import type { CSSProperties, ReactNode } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { ToolIcon } from "./ToolIcons";
 import { usePlay } from "./usePlay";
 import { hero, problem, system } from "@/lib/content";
@@ -320,39 +321,73 @@ const POS: Record<NodeId, { x: number; y: number; out: boolean }> = {
 };
 const ORDER: NodeId[] = ["channels", "context", "agent", "tools", "you"];
 
+/**
+ * Assemblage au défilement (grand écran) : les cartes sortent du centre et les lignes se tracent
+ * à mesure que le schéma monte dans l’écran. Avant hydratation ou en mouvement réduit : état final.
+ */
+function useAssembly() {
+  const stage = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
+  const { scrollYProgress } = useScroll({ target: stage, offset: ["start end", "center center"] });
+  const p = useTransform(scrollYProgress, [0.25, 1], [0, 1], { clamp: true });
+  return { stage, p, on: ready && !reduced };
+}
+
+function AssemblingNode({ id, p, on }: { id: NodeId; p: MotionValue<number>; on: boolean }) {
+  const pos = POS[id];
+  const x = useTransform(p, [0, 1], [`${(HUB.x - pos.x) / 10}%`, "0%"]);
+  const y = useTransform(p, [0, 1], [`${((HUB.y - pos.y) / 740) * 100}%`, "0%"]);
+  const opacity = useTransform(p, [0, 0.6], [0, 1]);
+  const scale = useTransform(p, [0, 1], [0.6, 1]);
+  return (
+    <motion.div className="pointer-events-none absolute inset-0" style={on ? { x, y, opacity } : undefined}>
+      <motion.div className="pointer-events-auto absolute w-[200px] -translate-x-1/2" style={{ left: `${pos.x / 10}%`, top: `calc(${(pos.y / 740) * 100}% - 60px)`, ...(on ? { scale } : {}) }}>
+        <NodeCard id={id} />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function AssemblingLine({ d, p, on }: { d: string; p: MotionValue<number>; on: boolean }) {
+  const pathLength = useTransform(p, [0.2, 1], [0, 1]);
+  return <motion.path d={d} stroke="var(--color-powder)" strokeWidth="1.5" fill="none" style={on ? { pathLength } : undefined} />;
+}
+
 export function SystemSchema() {
   const ref = usePlay<HTMLElement>(0.25);
+  const { stage, p, on } = useAssembly();
+  const hubScale = useTransform(p, [0, 1], [0.7, 1]);
+  const late = useTransform(p, [0.85, 1], [0, 1]);
   return (
     <figure ref={ref} className="sys mt-14 md:mt-16" role="img" aria-label={system.alt}>
       {/* Grand écran : schéma en étoile */}
-      <div className="relative mx-auto hidden aspect-[1000/740] w-full max-w-[1000px] lg:block">
+      <div ref={stage} className="relative mx-auto hidden aspect-[1000/740] w-full max-w-[1000px] lg:block">
         <svg viewBox="0 0 1000 740" className="absolute inset-0 h-full w-full" aria-hidden>
           <circle cx={HUB.x} cy={HUB.y} r="300" fill="none" stroke="var(--color-line)" strokeWidth="1.5" strokeDasharray="2 9" />
           {ORDER.map((id, i) => {
-            const p = POS[id];
-            const d = p.out ? `M${HUB.x} ${HUB.y} L${p.x} ${p.y}` : `M${p.x} ${p.y} L${HUB.x} ${HUB.y}`;
+            const pos = POS[id];
+            const d = pos.out ? `M${HUB.x} ${HUB.y} L${pos.x} ${pos.y}` : `M${pos.x} ${pos.y} L${HUB.x} ${HUB.y}`;
             return (
               <g key={id}>
-                <path d={d} stroke="var(--color-powder)" strokeWidth="1.5" fill="none" />
+                <AssemblingLine d={d} p={p} on={on} />
                 <path d={d} pathLength={100} className="sys-bead" stroke="var(--color-night)" strokeWidth="5" strokeLinecap="round" fill="none" style={vars({ "--i": i })} />
               </g>
             );
           })}
         </svg>
+        {ORDER.map((id) => (
+          <AssemblingNode key={id} id={id} p={p} on={on} />
+        ))}
         <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: "50%", top: `${(HUB.y / 740) * 100}%` }}>
-          <Hub />
+          <motion.div style={on ? { scale: hubScale } : undefined}>
+            <Hub />
+          </motion.div>
         </div>
-        {ORDER.map((id) => {
-          const p = POS[id];
-          return (
-            <div key={id} className="absolute w-[200px] -translate-x-1/2" style={{ left: `${p.x / 10}%`, top: `calc(${(p.y / 740) * 100}% - 60px)` }}>
-              <NodeCard id={id} />
-            </div>
-          );
-        })}
-        <div className="absolute" style={{ left: "calc(50% + 116px)", top: `calc(${(POS.you.y / 740) * 100}% - 52px)` }}>
+        <motion.div className="absolute" style={{ left: "calc(50% + 116px)", top: `calc(${(POS.you.y / 740) * 100}% - 52px)`, ...(on ? { opacity: late } : {}) }}>
           <Toasts />
-        </div>
+        </motion.div>
       </div>
 
       {/* Mobile et tablette : le centre, puis les cartes */}
@@ -371,87 +406,5 @@ export function SystemSchema() {
         </div>
       </div>
     </figure>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 4. Aperçus des points de départ                                     */
-/* ------------------------------------------------------------------ */
-
-function Window({ url, children }: { url: string; children: ReactNode }) {
-  return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-white" aria-hidden>
-      <div className="flex h-8 items-center gap-1.5 border-b border-line bg-paper px-3">
-        <i className="size-2 rounded-full bg-powder" />
-        <i className="size-2 rounded-full bg-powder" />
-        <i className="size-2 rounded-full bg-powder" />
-        <span className="ml-2 truncate font-mono text-[11px] text-muted">{url}</span>
-      </div>
-      <div className="h-[168px] p-4">{children}</div>
-    </div>
-  );
-}
-
-const PROGRAM = [
-  { step: "Atelier relation client", state: "Fait" },
-  { step: "Construction de l’outil", state: "Fait" },
-  { step: "Formation de l’équipe", state: "En cours" },
-  { step: "Autonomie", state: "À venir" },
-];
-
-const PRIORITIES = [
-  { item: "Réponses aux clients", tag: "Priorité 1", w: "92%" },
-  { item: "Devis et relances", tag: "Priorité 2", w: "70%" },
-  { item: "Suivi des clients", tag: "Priorité 3", w: "48%" },
-];
-
-export function OfferPreview({ kind }: { kind: "consulting" | "whatsapp" | "training" }) {
-  if (kind === "consulting")
-    return (
-      <Window url="exemple · diagnostic">
-        <div className="flex h-full flex-col gap-2.5">
-          <p className="text-[12px] font-semibold text-night">Où passe votre temps</p>
-          {PRIORITIES.map((r) => (
-            <div key={r.item} className="flex flex-col gap-1">
-              <span className="flex items-center justify-between text-[11px] text-ink">
-                {r.item}
-                <span className="font-semibold text-night">{r.tag}</span>
-              </span>
-              <span className="h-1.5 w-full overflow-hidden rounded-full bg-mist">
-                <i className="block h-full rounded-full bg-night" style={{ width: r.w }} />
-              </span>
-            </div>
-          ))}
-        </div>
-      </Window>
-    );
-  if (kind === "training")
-    return (
-      <Window url="exemple · accompagnement">
-        <div className="flex h-full flex-col gap-2">
-          <p className="text-[12px] font-semibold text-night">Programme d’accompagnement</p>
-          {PROGRAM.map((r) => (
-            <span key={r.step} className="flex h-7 items-center justify-between gap-2 rounded-md border border-line bg-paper px-2.5 text-[11px] text-ink">
-              <span className="flex items-center gap-2">
-                <i className={`size-1.5 rounded-full ${r.state === "Fait" ? "bg-night" : r.state === "En cours" ? "bg-slate" : "bg-powder"}`} />
-                {r.step}
-              </span>
-              <span className={`font-semibold ${r.state === "À venir" ? "text-muted" : "text-night"}`}>{r.state}</span>
-            </span>
-          ))}
-        </div>
-      </Window>
-    );
-  return (
-    <Window url="exemple · agent-whatsapp">
-      <div className="flex h-full flex-col gap-2 text-[12px] leading-snug">
-        <span className="max-w-[78%] rounded-2xl rounded-bl-md bg-mist px-3 py-2 text-night">Dispo samedi pour 6 personnes ?</span>
-        <span className="max-w-[84%] self-end rounded-2xl rounded-br-md bg-night px-3 py-2 text-white">Oui, 10 h 30 sur le bateau 8 places. Je vous le réserve ?</span>
-        <span className="mt-auto inline-flex w-fit items-center gap-1.5 rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold text-night">
-          <Icon size={12}>{PATHS.check}</Icon>
-          Fiche client à jour
-        </span>
-      </div>
-    </Window>
   );
 }
