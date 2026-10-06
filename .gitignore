@@ -15,3 +15,9 @@ video-reel-montage/rushes/*.mov
 video-reel-montage/rushes/*.wav
 video-reel-montage/rushes/*.png
 video-reel-montage/build/
+
+# Reel « Mon équipe » : vidéos sources, référence tierce et rendus intermédiaires hors du dépôt
+reel-chatgpt-claude/src/
+reel-chatgpt-claude/build/*.mp4
+reel-chatgpt-claude/build/*.png
+interview-reels/rushes/
