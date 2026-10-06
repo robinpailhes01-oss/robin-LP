@@ -90,7 +90,7 @@ export const system = {
   },
   tools: ["Agenda", "CRM", "Devis", "Paiement", "Tableur", "Mail"],
   toasts: ["Devis préparé · à valider", "Relance envoyée", "RDV confirmé samedi 10 h 30"],
-  alt: "Schéma : au centre, votre outil Luma. Il est relié à vos canaux (WhatsApp, email, site), à votre contexte (offres, tarifs, règles), à vos outils (agenda, CRM, devis) et à un agent IA qui répond, qualifie et relance. Au sommet, vous pilotez et validez.",
+  alt: "Schéma : au centre, votre outil Luma. Il est relié à vos canaux (WhatsApp, email, site), à votre contexte (offres, tarifs, règles), à vos outils (agenda, fichier clients, devis) et à un agent IA qui répond, pose les questions et relance. Au sommet, vous pilotez et validez.",
 };
 
 /** Trois points de départ, chacun appuyé sur une réalisation réelle. */
@@ -235,7 +235,7 @@ export const whatsapp = {
           { from: "client", text: "Murs et plafond, peinture fournie par vous." },
           { from: "agent", text: "Merci. Je transmets votre demande, vous recevez un devis d’ici ce soir." },
         ],
-        action: "Demande qualifiée · devis à valider par le dirigeant",
+        action: "Besoin compris · devis à valider par le dirigeant",
       },
       {
         title: "Un rendez-vous",
