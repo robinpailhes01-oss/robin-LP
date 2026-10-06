@@ -1,0 +1,27 @@
+{
+ "ref": "src/ref6/ref.mp4",
+ "total": 27.48,
+ "title": [{"text": "Mes deux facettes", "from": 0.0, "to": 19.96}, {"text": "Je peux le faire.", "from": 19.96, "to": 27.48}],
+ "negatives": [
+  {"en": "it won't work", "fr": "ça va pas marcher", "in": 0.88, "out": 19.64},
+  {"en": "I have no ideas", "fr": "j'ai plus d'idées", "in": 1.84, "out": 19.32},
+  {"en": "this guy is much better", "fr": "lui, il est bien meilleur", "in": 2.68, "out": 19.0},
+  {"en": "I can't continue", "fr": "je peux pas continuer", "in": 3.68, "out": 18.6},
+  {"en": "I'm tired", "fr": "je suis épuisé", "in": 4.6, "out": 18.2},
+  {"en": "what's the point?", "fr": "à quoi bon ?", "in": 5.56, "out": 17.84},
+  {"en": "I need to stop overthinking", "fr": "faut que j'arrête de trop réfléchir", "in": 6.44, "out": 17.44},
+  {"en": "no one cares", "fr": "tout le monde s'en fiche", "in": 7.4, "out": 17.12},
+  {"en": "AI is gonna replace me", "fr": "l'IA va me remplacer", "in": 8.28, "out": 16.68},
+  {"en": "I don't want it", "fr": "j'en ai plus envie", "in": 9.28, "out": 16.24},
+  {"en": "I'm left behind", "fr": "je suis à la traîne", "in": 10.2, "out": 15.68},
+  {"en": "what if it fails?", "fr": "et si ça échoue ?", "in": 11.24, "out": 15.28}
+ ],
+ "positives": [
+  {"en": "it's gonna work", "fr": "ça va marcher", "in": 22.16},
+  {"en": "work always pays off", "fr": "le travail finit toujours par payer", "in": 23.08},
+  {"en": "let's lock in", "fr": "on s'y met à fond", "in": 24.0},
+  {"en": "I'm consistent", "fr": "je suis régulier", "in": 24.92},
+  {"en": "I'll do whatever it takes", "fr": "je ferai tout ce qu'il faut", "in": 25.84}
+ ],
+ "notes": "Apparitions et disparitions sèches (sans fondu). Phrases blanches, graisse semi-bold, légère ombre. Titre jaune lumineux au centre, à hauteur des yeux. Plan unique de 27,5 s, référence en 4:3."
+}
