@@ -1,0 +1,27 @@
+{
+ "title": "Quand tu commences à bâtir la vie de tes rêves, prépare-toi à…",
+ "video": {"src": "src/pause/robin.mov", "start": 4.0, "dur": 2.6},
+ "fade": [8.15, 8.8],
+ "total": 8.867,
+ "cards": [
+  {"text": "SOLITUDE", "color": "black", "t": 2.6},
+  {"text": "BURN-OUT", "color": "white", "t": 2.9667},
+  {"text": "STRESS", "color": "black", "t": 3.1333},
+  {"text": "ANXIÉTÉ", "color": "white", "t": 3.3},
+  {"text": "NUITS BLANCHES", "color": "black", "t": 3.6},
+  {"text": "PAS DE WEEK-ENDS", "color": "white", "t": 3.9333},
+  {"text": "AUCUN ÉQUILIBRE", "color": "black", "t": 4.2333},
+  {"text": "AUCUNE LIBERTÉ", "color": "white", "t": 4.4333},
+  {"text": "AUCUNE CERTITUDE", "color": "black", "t": 4.7667},
+  {"text": "DOUTES", "color": "white", "t": 5.0667},
+  {"text": "AUCUN SOUTIEN", "color": "black", "t": 5.5667},
+  {"text": "PAS DE TEMPS LIBRE", "color": "white", "t": 5.7333},
+  {"text": "AUCUN REPOS", "color": "black", "t": 5.9333},
+  {"text": "ÉCHECS", "color": "white", "t": 6.2},
+  {"text": "INSOMNIE", "color": "black", "t": 6.5333},
+  {"text": "BROUILLARD MENTAL", "color": "white", "t": 6.8333},
+  {"text": "CRASHS MENTAUX", "color": "black", "t": 7.0333},
+  {"text": "ET À LA FIN…", "color": "white", "t": 7.3667},
+  {"text": "ON DIT QUE T’AS EU DE LA CHANCE.", "color": "black", "t": 7.6667}
+ ]
+}
