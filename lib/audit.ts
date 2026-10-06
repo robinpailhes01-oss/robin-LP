@@ -5,7 +5,7 @@
  */
 
 export type Question = {
-  key: "sector" | "size" | "pains" | "channels" | "tools";
+  key: "sector" | "size" | "pains" | "channels" | "mode" | "tools";
   title: string;
   hint?: string;
   multiple?: boolean;
@@ -48,6 +48,11 @@ export const audit = {
       hint: "Plusieurs réponses possibles",
       multiple: true,
       options: ["WhatsApp", "Email", "Téléphone", "Instagram ou Facebook", "Site web", "Plateformes (Airbnb, Booking…)"],
+    },
+    {
+      key: "mode",
+      title: "Comment préférez-vous travailler ?",
+      options: ["Que Luma crée l’outil pour moi", "Le construire ensemble, avec une formation", "Je ne sais pas encore"],
     },
     {
       key: "tools",

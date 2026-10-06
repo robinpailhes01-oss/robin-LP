@@ -7,7 +7,7 @@
 export const site = {
   title: "Luma · Des outils IA pour simplifier votre relation client, par Robin Pailhes",
   description:
-    "Robin Pailhes, fondateur de Luma, aide les PME à améliorer et simplifier leur relation client grâce à des outils IA personnalisés.",
+    "Robin Pailhes, fondateur de Luma à Montpellier, crée des outils IA personnalisés pour la relation client des PME, ou les construit avec vous, formation comprise.",
 };
 
 export const founder = {
@@ -41,7 +41,7 @@ export const hero = {
   accent: "mieux servis",
   second: "Sans y passer vos journées.",
   badge: "Robin Pailhes · Agence IA à Montpellier",
-  text: "Des outils IA personnalisés, branchés sur vos outils, pour la relation client des PME.",
+  text: "Des outils IA personnalisés pour la relation client des PME. Je les crée pour vous, ou nous les construisons ensemble, formation comprise.",
   reassurance: ["Appel offert", "Robin vous rappelle sous 24 h", "Sans engagement"],
   flowKicker: "Une demande client",
   flow: ["Message reçu", "Demande qualifiée", "Fiche client à jour", "Devis ou RDV prêt"],
@@ -92,45 +92,47 @@ export const system = {
 
 /** Trois points de départ, chacun appuyé sur une réalisation réelle. */
 export const offers = {
-  kicker: "Les points de départ",
-  title: "Seul ou à vingt,",
-  second: "il y a un point de départ.",
-  text: "On le choisit ensemble, au premier appel.",
+  kicker: "Travailler avec Luma",
+  title: "Trois façons de travailler ensemble.",
+  second: "Pour vous, ou avec vous.",
+  text: "On choisit la bonne au premier appel.",
   ideal: "Idéal si",
   see: "Voir la réalisation",
+  method: "Voir la méthode",
   all: "Voir toutes les réalisations",
   items: [
     {
       kind: "whatsapp",
+      label: "Relation client",
       slug: "harmonie-yacht",
       client: "Harmonie Yacht",
-      tag: "3 h gagnées par jour",
-      title: "Agent WhatsApp et suivi client",
-      text: "Vos clients ont une réponse, à toute heure.",
-      points: ["Répond avec vos informations et votre ton", "Qualifie la demande et remplit la fiche client", "Relance au bon moment, vous validez"],
-      ideal: "vos demandes arrivent en continu, sur WhatsApp ou par email.",
+      tag: "3 h gagnées par jour · Harmonie Yacht",
+      title: "Votre relation client, prise en charge",
+      text: "Un agent IA répond, qualifie et relance. Vous validez.",
+      points: ["Répond à vos clients avec vos informations et votre ton", "Qualifie la demande et remplit la fiche client", "Relance au bon moment, vous gardez la main"],
+      ideal: "vos demandes clients vous prennent des heures chaque jour.",
     },
     {
       kind: "form",
+      label: "Outil sur mesure",
       slug: "energies-concept",
       client: "Énergies Concept",
       tag: "3 à 4 h par jour · 20 commerciaux",
-      title: "Outil métier sur mesure",
-      text: "Une étape papier devient un outil simple.",
-      points: ["Un formulaire guidé qui refuse un dossier incomplet", "Plus de ressaisie entre le terrain et le bureau", "Une vue d’ensemble pour les dirigeants"],
-      ideal: "votre équipe remplit, ressaisit ou vérifie les mêmes documents chaque jour.",
+      title: "Un outil créé pour votre métier",
+      text: "Je le conçois, je le construis, je le branche sur vos outils.",
+      points: ["Conçu à partir de votre façon de travailler", "Relié à vos outils : agenda, CRM, tableurs", "Testé sur vos cas réels, puis suivi"],
+      ideal: "une tâche répétitive ralentit votre équipe ou vos clients.",
     },
     {
-      kind: "booking",
-      slug: "barber-saint-anne",
-      client: "Barber Saint-Anne",
-      tag: "Réservations 24 h/24",
-      title: "Réservation et rappels",
-      text: "Vos clients réservent seuls, même quand vous êtes fermé.",
-      points: ["Réservation en ligne, depuis votre site", "Le calendrier de l’équipe au même endroit", "Confirmations et rappels automatiques"],
-      ideal: "vous vivez de rendez-vous et voulez éviter les plateformes coûteuses.",
+      kind: "training",
+      label: "Consulting et formation",
+      tag: "Votre équipe autonome",
+      title: "Votre outil, construit ensemble",
+      text: "On le crée à deux, et je vous forme pour le faire évoluer.",
+      points: ["Un atelier pour poser votre relation client à plat", "L’outil construit avec vous, étape par étape", "Votre équipe formée pour le faire évoluer seule"],
+      ideal: "vous voulez comprendre l’IA et garder la main sur vos outils.",
     },
-  ] as { kind: "whatsapp" | "form" | "booking"; slug: string; client: string; tag: string; title: string; text: string; points: string[]; ideal: string }[],
+  ] as { kind: "whatsapp" | "form" | "training"; label: string; slug?: string; client?: string; tag: string; title: string; text: string; points: string[]; ideal: string }[],
 };
 
 /** Section « À propos ». Uniquement des faits confirmés. */
@@ -156,8 +158,8 @@ export const journey = {
   steps: [
     { name: "Un appel sous 24\u00a0h", text: "Je vous montre ce qui est possible chez vous." },
     { name: "Je comprends votre PME", text: "Votre activité, vos objectifs, vos outils." },
-    { name: "Je construis votre outil", text: "Branché sur vos outils, testé sur vos cas réels." },
-    { name: "Il travaille, vous validez", text: "Je suis les résultats et j’ajuste." },
+    { name: "On construit votre outil", text: "Pour vous ou avec vous, branché sur vos outils." },
+    { name: "Il travaille, vous validez", text: "Je forme votre équipe et j’ajuste selon les résultats." },
   ],
 };
 
@@ -392,6 +394,7 @@ export const faq = {
     { q: "Est-ce qu’un agent IA remplace mon équipe ?", a: "Non. Il prend le répétitif, votre équipe garde ce qui demande quelqu’un." },
     { q: "Faut-il s’y connaître en IA ?", a: "Non. Vous connaissez vos clients, c’est ce qui compte. Je m’occupe du reste." },
     { q: "L’IA peut-elle se tromper ?", a: "Oui. Chaque outil est donc testé sur vos cas réels, avec des limites claires : ce qui est sensible vous est transmis." },
+    { q: "Peut-on construire l’outil avec vous ?", a: "Oui. En accompagnement, on le construit ensemble et je forme votre équipe pour qu’elle le fasse évoluer seule." },
     { q: "Comment sont gérées les données ?", a: "Elles restent les vôtres. Je vous montre où elles passent avant la mise en place." },
   ],
 };

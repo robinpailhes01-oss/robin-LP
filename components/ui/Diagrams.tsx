@@ -391,7 +391,31 @@ function Window({ url, children }: { url: string; children: ReactNode }) {
   );
 }
 
-export function OfferPreview({ kind }: { kind: "whatsapp" | "form" | "booking" }) {
+const PROGRAM = [
+  { step: "Atelier relation client", state: "Fait" },
+  { step: "Construction de l’outil", state: "Fait" },
+  { step: "Formation de l’équipe", state: "En cours" },
+  { step: "Autonomie", state: "À venir" },
+];
+
+export function OfferPreview({ kind }: { kind: "whatsapp" | "form" | "training" }) {
+  if (kind === "training")
+    return (
+      <Window url="accompagnement · votre-equipe">
+        <div className="flex h-full flex-col gap-2">
+          <p className="text-[12px] font-semibold text-night">Programme d’accompagnement</p>
+          {PROGRAM.map((r) => (
+            <span key={r.step} className="flex h-7 items-center justify-between gap-2 rounded-md border border-line bg-paper px-2.5 text-[11px] text-ink">
+              <span className="flex items-center gap-2">
+                <i className={`size-1.5 rounded-full ${r.state === "Fait" ? "bg-night" : r.state === "En cours" ? "bg-slate" : "bg-powder"}`} />
+                {r.step}
+              </span>
+              <span className={`font-semibold ${r.state === "À venir" ? "text-muted" : "text-night"}`}>{r.state}</span>
+            </span>
+          ))}
+        </div>
+      </Window>
+    );
   if (kind === "whatsapp")
     return (
       <Window url="whatsapp · agent-luma">
@@ -405,41 +429,19 @@ export function OfferPreview({ kind }: { kind: "whatsapp" | "form" | "booking" }
         </div>
       </Window>
     );
-  if (kind === "form")
-    return (
-      <Window url="app · bon-de-commande">
-        <div className="flex h-full flex-col gap-2">
-          <p className="text-[12px] font-semibold text-night">Bon de commande</p>
-          {["Client", "Offre", "Signature"].map((f) => (
-            <span key={f} className="flex h-7 items-center justify-between rounded-md border border-line bg-paper px-2.5 text-[11px] text-ink">
-              {f}
-              <span className="text-night">
-                <Icon size={13}>{PATHS.check}</Icon>
-              </span>
-            </span>
-          ))}
-          <span className="mt-auto inline-flex h-7 w-fit items-center rounded-full bg-night px-3 text-[11px] font-semibold text-white">Envoyer au secrétariat</span>
-        </div>
-      </Window>
-    );
-  const slots = ["9:00", "10:30", "11:15", "14:00", "15:30", "16:45", "17:30", "18:15", "19:00"];
   return (
-    <Window url="reservation · votre-site">
-      <div className="flex h-full flex-col gap-2.5">
-        <p className="text-[12px] font-semibold text-night">Jeudi · coupe et barbe</p>
-        <div className="grid grid-cols-3 gap-1.5">
-          {slots.map((s, i) => (
-            <span
-              key={s}
-              className={`flex h-7 items-center justify-center rounded-md text-[11px] font-semibold tabular-nums ${
-                i === 5 ? "bg-night text-white" : i % 3 === 1 ? "bg-mist text-muted line-through" : "border border-line text-night"
-              }`}
-            >
-              {s}
+    <Window url="app · bon-de-commande">
+      <div className="flex h-full flex-col gap-2">
+        <p className="text-[12px] font-semibold text-night">Bon de commande</p>
+        {["Client", "Offre", "Signature"].map((f) => (
+          <span key={f} className="flex h-7 items-center justify-between rounded-md border border-line bg-paper px-2.5 text-[11px] text-ink">
+            {f}
+            <span className="text-night">
+              <Icon size={13}>{PATHS.check}</Icon>
             </span>
-          ))}
-        </div>
-        <span className="mt-auto text-[11px] text-muted">Confirmation et rappel envoyés</span>
+          </span>
+        ))}
+        <span className="mt-auto inline-flex h-7 w-fit items-center rounded-full bg-night px-3 text-[11px] font-semibold text-white">Envoyer au secrétariat</span>
       </div>
     </Window>
   );

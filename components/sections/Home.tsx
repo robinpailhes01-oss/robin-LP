@@ -115,17 +115,17 @@ export function System() {
 
 /* 5. Points de départ : trois offres, chacune appuyée sur une réalisation réelle. */
 export function Offers() {
-  const bySlug = Object.fromEntries(caseStudies.items.map((c) => [c.slug, c]));
   return (
     <Section id="offres" tone="mist">
       <Heading kicker={offers.kicker} title={offers.title} second={offers.second} text={offers.text} />
       <ul className="mt-14 grid gap-5 md:mt-16 lg:grid-cols-3">
         {offers.items.map((o, i) => (
-          <li key={o.slug}>
+          <li key={o.kind}>
             <Reveal delay={i * 0.06} className="h-full">
               <article className="flex h-full flex-col rounded-[24px] border border-line bg-white p-5 sm:p-6">
                 <OfferPreview kind={o.kind} />
-                <p className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-mist px-3 py-1 text-[13px] font-semibold text-night">
+                <p className="t-kicker mt-6">{o.label}</p>
+                <p className="mt-3 inline-flex w-fit items-center gap-2 rounded-full bg-mist px-3 py-1 text-[13px] font-semibold text-night">
                   <span className="size-1.5 rounded-full bg-night" aria-hidden />
                   {o.tag}
                 </p>
@@ -142,8 +142,8 @@ export function Offers() {
                 <p className="mt-6 rounded-2xl bg-paper p-4 text-[14px] leading-[1.5] text-ink lg:mt-auto">
                   <span className="font-semibold text-night">{offers.ideal}</span> {o.ideal}
                 </p>
-                <Link href={`/cas-clients/${o.slug}`} className="group mt-4 inline-flex items-center gap-2 text-[14px] font-semibold text-night">
-                  {offers.see} · {bySlug[o.slug]?.client ?? o.client}
+                <Link href={o.slug ? `/cas-clients/${o.slug}` : "/methode"} className="group mt-4 inline-flex items-center gap-2 text-[14px] font-semibold text-night">
+                  {o.slug ? `${offers.see} · ${o.client}` : offers.method}
                   <Arrow />
                 </Link>
               </article>
