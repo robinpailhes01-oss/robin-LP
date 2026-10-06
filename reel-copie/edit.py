@@ -100,7 +100,7 @@ enc = subprocess.Popen([
     "-i", str(DIR / "build" / "music.wav"),
     "-filter_complex",
     f"[0:v]noise=alls=7:allf=t,pad=1080:1920:0:{BAND_Y}:black,format=yuv420p[v]",
-    "-map", "[v]", "-map", "1:a", "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-maxrate", "16M", "-bufsize", "32M", "-c:a", "aac", "-b:a", "256k",
+    "-map", "[v]", "-map", "1:a", "-c:v", "libx264", "-preset", "slow", "-crf", "21", "-maxrate", "12M", "-bufsize", "24M", "-c:a", "aac", "-b:a", "256k",
     "-movflags", "+faststart", "-shortest", str(out)], stdin=subprocess.PIPE)
 
 for a, b, kind, data in plan:

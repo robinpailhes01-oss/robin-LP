@@ -11,11 +11,11 @@ fs.mkdirSync(OUT, { recursive: true });
 
 const css = `
 @font-face { font-family: Sans; src: url(assets/inter-tight-800.woff2); font-weight: 800; }
-@font-face { font-family: Serif; src: url(assets/instrument-serif.woff2); }
+@font-face { font-family: SerifFace; src: url(assets/instrument-serif.woff2); }
 html, body { margin: 0; width: 1080px; height: 810px; overflow: hidden; background: transparent; }
 #t { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-52%); text-align: center; white-space: nowrap; }
 .sans { font: 800 58px/1 Sans; letter-spacing: -0.028em; word-spacing: 0.05em; }
-.serif { font: 400 66px/1 Serif; letter-spacing: -0.01em; }
+.serif { font: 400 66px/1 SerifFace; letter-spacing: -0.01em; }
 `;
 
 // [fichier, texte, fond, police, couleur]
