@@ -1,0 +1,43 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face { font-family: SerifFace; src: url(fonts/source-serif-4.woff2); }
+@font-face { font-family: Sans; src: url(fonts/inter-400.woff2); }
+html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; }
+body { background: linear-gradient(180deg, #faf9f6 0%, #f8f3ee 22%, #f6d2b0 38%, #f0a465 52%, #e2802f 70%, #c7621c 100%); position: relative; }
+.icons { position: absolute; top: 150px; left: 66px; right: 66px; display: flex; justify-content: space-between; align-items: center; }
+.hello { position: absolute; top: 300px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 26px; }
+.hello span { font: 400 74px/1 SerifFace; letter-spacing: -0.02em; color: #2b2a27; }
+.rule { position: absolute; top: 432px; left: 78px; right: 78px; height: 3px; background: #f0c49a; border-radius: 2px; }
+.caption { position: absolute; top: 520px; left: 0; right: 0; text-align: center; font: 400 50px/1 Sans; letter-spacing: -0.02em; color: #1f1f1f; }
+.card { position: absolute; left: 67px; top: 600px; width: 946px; height: 752px; border-radius: 34px; box-shadow: 0 0 0 3px rgba(255,255,255,0.65), 0 18px 50px rgba(120,60,10,0.18); }
+body.mask { background: #000; }
+body.mask > *:not(.card) { display: none; }
+body.mask .card { background: #fff; box-shadow: none; }
+</style></head>
+<body>
+<div class="icons">
+  <svg width="46" height="36" viewBox="0 0 46 36" fill="none" stroke="#2b2a27" stroke-width="3.6" stroke-linecap="round"><path d="M3 4h40M3 18h30M3 32h20"/></svg>
+  <svg width="46" height="50" viewBox="0 0 46 50" fill="none" stroke="#2b2a27" stroke-width="3.6" stroke-linejoin="round"><path d="M4 46V22a19 19 0 0 1 38 0v24l-6.3-5-6.4 5-6.3-5-6.4 5-6.3-5z"/><circle cx="16" cy="22" r="2.6" fill="#2b2a27" stroke="none"/><circle cx="30" cy="22" r="2.6" fill="#2b2a27" stroke="none"/></svg>
+</div>
+<div class="hello">
+  <svg id="spark" width="88" height="88" viewBox="-50 -50 100 100"></svg>
+  <span id="greet">Good evening, Robin</span>
+</div>
+<div class="rule"></div>
+<div class="caption" id="cap">Me Prompting claude at 3AM</div>
+<div class="card"></div>
+<script>
+// étoile à rayons irréguliers, couleur corail
+const rays = [46, 38, 44, 35, 47, 40, 36, 45, 39, 43, 34, 42];
+const g = document.getElementById("spark");
+rays.forEach((r, i) => {
+  const a = (i / rays.length) * Math.PI * 2 + 0.12 * Math.sin(i * 2.3);
+  const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  l.setAttribute("x1", 0); l.setAttribute("y1", 0);
+  l.setAttribute("x2", (Math.cos(a) * r).toFixed(1)); l.setAttribute("y2", (Math.sin(a) * r).toFixed(1));
+  l.setAttribute("stroke", "#d97757"); l.setAttribute("stroke-width", 9.5); l.setAttribute("stroke-linecap", "round");
+  g.appendChild(l);
+});
+</script>
+</body></html>
