@@ -52,7 +52,7 @@ export const audit = {
     {
       key: "mode",
       title: "Comment préférez-vous travailler ?",
-      options: ["Que Luma crée l’outil pour moi", "Le construire ensemble, avec une formation", "Je ne sais pas encore"],
+      options: ["Un conseil pour savoir par où commencer", "Que Robin crée l’outil pour moi", "Le construire ensemble, avec une formation", "Je ne sais pas encore"],
     },
     {
       key: "tools",

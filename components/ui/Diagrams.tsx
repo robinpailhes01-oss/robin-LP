@@ -132,7 +132,7 @@ function YouNode() {
         <Icon size={30}>{PATHS.person}</Icon>
         <span className="text-[14px] font-semibold">{problem.you}</span>
       </span>
-      <span className="pb-badge mt-4 inline-flex h-8 items-center gap-2 rounded-full border border-line bg-white px-3.5 text-[13px] font-semibold text-night">
+      <span className="pb-badge mt-4 inline-flex h-8 items-center whitespace-nowrap gap-2 rounded-full border border-line bg-white px-3.5 text-[13px] font-semibold text-night">
         <span className="pb-ping size-2 rounded-full bg-slate" aria-hidden />
         {problem.pending}
       </span>
@@ -184,7 +184,8 @@ export function ProblemSchema() {
         <span aria-hidden className="mx-auto my-4 block h-10 w-px bg-powder" />
         <YouNode />
       </div>
-      <figcaption className="t-lead mx-auto mt-10 max-w-[36rem] text-center">{problem.caption}</figcaption>
+      <p className="mt-6 text-center text-[12px] text-muted">{problem.note}</p>
+      <figcaption className="t-lead mx-auto mt-6 max-w-[36rem] text-center">{problem.caption}</figcaption>
     </figure>
   );
 }
@@ -398,10 +399,35 @@ const PROGRAM = [
   { step: "Autonomie", state: "À venir" },
 ];
 
-export function OfferPreview({ kind }: { kind: "whatsapp" | "form" | "training" }) {
+const PRIORITIES = [
+  { item: "Réponses aux clients", tag: "Priorité 1", w: "92%" },
+  { item: "Devis et relances", tag: "Priorité 2", w: "70%" },
+  { item: "Suivi des clients", tag: "Priorité 3", w: "48%" },
+];
+
+export function OfferPreview({ kind }: { kind: "consulting" | "whatsapp" | "training" }) {
+  if (kind === "consulting")
+    return (
+      <Window url="exemple · diagnostic">
+        <div className="flex h-full flex-col gap-2.5">
+          <p className="text-[12px] font-semibold text-night">Où passe votre temps</p>
+          {PRIORITIES.map((r) => (
+            <div key={r.item} className="flex flex-col gap-1">
+              <span className="flex items-center justify-between text-[11px] text-ink">
+                {r.item}
+                <span className="font-semibold text-night">{r.tag}</span>
+              </span>
+              <span className="h-1.5 w-full overflow-hidden rounded-full bg-mist">
+                <i className="block h-full rounded-full bg-night" style={{ width: r.w }} />
+              </span>
+            </div>
+          ))}
+        </div>
+      </Window>
+    );
   if (kind === "training")
     return (
-      <Window url="accompagnement · votre-equipe">
+      <Window url="exemple · accompagnement">
         <div className="flex h-full flex-col gap-2">
           <p className="text-[12px] font-semibold text-night">Programme d’accompagnement</p>
           {PROGRAM.map((r) => (
@@ -416,32 +442,15 @@ export function OfferPreview({ kind }: { kind: "whatsapp" | "form" | "training" 
         </div>
       </Window>
     );
-  if (kind === "whatsapp")
-    return (
-      <Window url="whatsapp · agent-luma">
-        <div className="flex h-full flex-col gap-2 text-[12px] leading-snug">
-          <span className="max-w-[78%] rounded-2xl rounded-bl-md bg-mist px-3 py-2 text-night">Dispo samedi pour 6 personnes ?</span>
-          <span className="max-w-[84%] self-end rounded-2xl rounded-br-md bg-night px-3 py-2 text-white">Oui, 10 h 30 sur le bateau 8 places. Je vous le réserve ?</span>
-          <span className="mt-auto inline-flex w-fit items-center gap-1.5 rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold text-night">
-            <Icon size={12}>{PATHS.check}</Icon>
-            Fiche client à jour
-          </span>
-        </div>
-      </Window>
-    );
   return (
-    <Window url="app · bon-de-commande">
-      <div className="flex h-full flex-col gap-2">
-        <p className="text-[12px] font-semibold text-night">Bon de commande</p>
-        {["Client", "Offre", "Signature"].map((f) => (
-          <span key={f} className="flex h-7 items-center justify-between rounded-md border border-line bg-paper px-2.5 text-[11px] text-ink">
-            {f}
-            <span className="text-night">
-              <Icon size={13}>{PATHS.check}</Icon>
-            </span>
-          </span>
-        ))}
-        <span className="mt-auto inline-flex h-7 w-fit items-center rounded-full bg-night px-3 text-[11px] font-semibold text-white">Envoyer au secrétariat</span>
+    <Window url="exemple · agent-whatsapp">
+      <div className="flex h-full flex-col gap-2 text-[12px] leading-snug">
+        <span className="max-w-[78%] rounded-2xl rounded-bl-md bg-mist px-3 py-2 text-night">Dispo samedi pour 6 personnes ?</span>
+        <span className="max-w-[84%] self-end rounded-2xl rounded-br-md bg-night px-3 py-2 text-white">Oui, 10 h 30 sur le bateau 8 places. Je vous le réserve ?</span>
+        <span className="mt-auto inline-flex w-fit items-center gap-1.5 rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold text-night">
+          <Icon size={12}>{PATHS.check}</Icon>
+          Fiche client à jour
+        </span>
       </div>
     </Window>
   );

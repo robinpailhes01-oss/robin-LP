@@ -7,7 +7,7 @@
 export const site = {
   title: "Luma · Des outils IA pour simplifier votre relation client, par Robin Pailhes",
   description:
-    "Robin Pailhes, fondateur de Luma à Montpellier, crée des outils IA personnalisés pour la relation client des PME, ou les construit avec vous, formation comprise.",
+    "Robin Pailhes a mis l’IA dans sa propre entreprise. Avec Luma, à Montpellier, il simplifie la relation client des PME : conseil, outils IA sur mesure, formation.",
 };
 
 export const founder = {
@@ -37,102 +37,102 @@ export const cta = {
 
 export const hero = {
   /** Titre en deux temps : le bénéfice, puis la réassurance. Un seul accent par page. */
-  title: "Vos clients mieux servis.",
-  accent: "mieux servis",
-  second: "Sans y passer vos journées.",
+  title: "J’ai mis l’IA dans mon entreprise.",
+  second: "Maintenant, je la mets dans la vôtre.",
+  accent: "dans la vôtre",
   badge: "Robin Pailhes · Agence IA à Montpellier",
-  text: "Des outils IA personnalisés pour la relation client des PME. Je les crée pour vous, ou nous les construisons ensemble, formation comprise.",
+  text: "Chez Harmonie Yacht, l’IA répond à mes clients à toute heure. Je simplifie maintenant la relation client des PME : conseil, outils sur mesure, formation.",
   reassurance: ["Appel offert", "Robin vous rappelle sous 24 h", "Sans engagement"],
   flowKicker: "Une demande client",
-  flow: ["Message reçu", "Demande qualifiée", "Fiche client à jour", "Devis ou RDV prêt"],
+  flow: ["Message reçu", "Besoin compris", "Fiche client à jour", "Devis ou RDV prêt"],
   /** Chiffre réel : cas Harmonie Yacht. */
-  result: { value: "3 h", label: "gagnées par jour chez Harmonie Yacht" },
+  result: { value: "3 h", label: "gagnées par jour dans mon entreprise, Harmonie Yacht" },
 };
 
 export const trust = {
-  kicker: "Ils m’ont fait confiance",
+  kicker: "Testé chez moi, puis chez eux",
+  own: "Mon entreprise",
+  client: "Client",
 };
 
 /** Le constat : les demandes arrivent de partout et tout repose sur le dirigeant. Messages illustratifs. */
 export const problem = {
-  kicker: "Le constat",
-  title: "Vos clients vous écrivent partout.",
-  second: "Et tout repose sur vous.",
+  kicker: "Mon point de départ",
+  title: "Mes clients m’écrivaient partout.",
+  second: "Et tout reposait sur moi.",
   messages: [
     { icon: "WhatsApp", channel: "WhatsApp", text: "Bonsoir, une dispo samedi ?", time: "22:47" },
-    { icon: "Gmail", channel: "Email", text: "Devis pour la rénovation d’un salon", time: "09:12" },
+    { icon: "Gmail", channel: "Email", text: "Une sortie en mer pour un anniversaire ?", time: "09:12" },
     { icon: "phone", channel: "Téléphone", text: "Appel manqué, à rappeler", time: "12:30" },
     { icon: "instagram", channel: "Instagram", text: "C’est combien pour 6 ?", time: "18:05" },
-    { icon: "site", channel: "Site web", text: "Nouveau formulaire reçu", time: "20:16" },
+    { icon: "site", channel: "Site web", text: "Nouvelle demande de réservation", time: "20:16" },
   ],
-  you: "Vous",
+  you: "Moi",
   pending: "5 en attente",
-  caption: "Des réponses en retard, des devis oubliés, des relances qui ne partent jamais.",
-  alt: "Schéma : des messages arrivent en même temps par WhatsApp, email, téléphone, Instagram et le site, et convergent tous vers vous. Cinq demandes en attente.",
+  note: "Messages d’exemple",
+  caption: "Chez Harmonie Yacht, je passais mes journées à répondre. Si c’est votre cas, la suite vous concerne.",
+  alt: "Schéma : des messages arrivent en même temps par WhatsApp, email, téléphone, Instagram et le site, et convergent tous vers le dirigeant. Cinq demandes en attente.",
 };
 
 /** Le système : un outil Luma au centre, relié aux canaux, au contexte et aux outils du client. */
 export const system = {
-  kicker: "Le système",
-  title: "Votre outil travaille.",
+  kicker: "Ce que j’ai construit",
+  title: "L’outil travaille.",
   second: "Vous validez.",
-  text: "Un outil, pas juste une IA : branché sur vos outils, nourri de votre activité.",
+  text: "C’est ce qui tourne chez Harmonie Yacht. Chez vous, il part de votre activité et de vos outils.",
   hub: "Votre outil",
   nodes: {
     you: { label: "Vous", caption: "Vous pilotez et validez", action: "Vous validez" },
     context: { label: "Votre contexte", caption: "Offres, tarifs, règles" },
-    agent: { label: "L’agent IA", caption: "Répond, qualifie, relance" },
+    agent: { label: "L’agent IA", caption: "Répond, pose les questions, relance" },
     channels: { label: "Vos canaux", caption: "WhatsApp, email, site" },
-    tools: { label: "Vos outils", caption: "Agenda, CRM, devis" },
+    tools: { label: "Vos outils", caption: "Agenda, fichier clients, devis" },
   },
   tools: ["Agenda", "CRM", "Devis", "Paiement", "Tableur", "Mail"],
-  toasts: ["Devis préparé · à valider", "Relance envoyée", "RDV confirmé samedi 10 h30"],
+  toasts: ["Devis préparé · à valider", "Relance envoyée", "RDV confirmé samedi 10 h 30"],
   alt: "Schéma : au centre, votre outil Luma. Il est relié à vos canaux (WhatsApp, email, site), à votre contexte (offres, tarifs, règles), à vos outils (agenda, CRM, devis) et à un agent IA qui répond, qualifie et relance. Au sommet, vous pilotez et validez.",
 };
 
 /** Trois points de départ, chacun appuyé sur une réalisation réelle. */
 export const offers = {
-  kicker: "Travailler avec Luma",
-  title: "Trois façons de travailler ensemble.",
-  second: "Pour vous, ou avec vous.",
-  text: "On choisit la bonne au premier appel.",
+  kicker: "Ce que je fais pour vous",
+  title: "Simplifier votre relation client,",
+  second: "à votre rythme.",
+  text: "Un conseil pour commencer, un outil créé pour vous, ou construit avec vous.",
   ideal: "Idéal si",
-  see: "Voir la réalisation",
-  method: "Voir la méthode",
-  all: "Voir toutes les réalisations",
+  all: "Voir les réalisations",
   items: [
     {
-      kind: "whatsapp",
-      label: "Relation client",
-      slug: "harmonie-yacht",
-      client: "Harmonie Yacht",
-      tag: "3 h gagnées par jour · Harmonie Yacht",
-      title: "Votre relation client, prise en charge",
-      text: "Un agent IA répond, qualifie et relance. Vous validez.",
-      points: ["Répond à vos clients avec vos informations et votre ton", "Qualifie la demande et remplit la fiche client", "Relance au bon moment, vous gardez la main"],
-      ideal: "vos demandes clients vous prennent des heures chaque jour.",
+      kind: "consulting",
+      label: "Conseil",
+      tag: "Le premier pas",
+      title: "Savoir par où commencer",
+      text: "Je regarde où votre relation client vous prend du temps, et ce que l’IA peut simplifier.",
+      points: ["Vos demandes, vos canaux et vos outils passés en revue", "Les priorités classées, du plus simple au plus utile", "Un plan clair, que vous menez avec moi ou seul"],
+      ideal: "vous sentez que l’IA peut vous aider, sans savoir par où commencer.",
+      link: { href: "/methode", label: "Voir la méthode" },
     },
     {
-      kind: "form",
-      label: "Outil sur mesure",
-      slug: "energies-concept",
-      client: "Énergies Concept",
-      tag: "3 à 4 h par jour · 20 commerciaux",
-      title: "Un outil créé pour votre métier",
-      text: "Je le conçois, je le construis, je le branche sur vos outils.",
-      points: ["Conçu à partir de votre façon de travailler", "Relié à vos outils : agenda, CRM, tableurs", "Testé sur vos cas réels, puis suivi"],
-      ideal: "une tâche répétitive ralentit votre équipe ou vos clients.",
+      kind: "whatsapp",
+      label: "Outils sur mesure",
+      tag: "Déjà en place dans 3 entreprises",
+      title: "Je crée vos outils",
+      text: "Un agent qui répond à vos clients, un suivi client, des relances, des bons de commande : je les conçois pour votre métier.",
+      points: ["Ils partent de votre façon de travailler", "Reliés à vos outils : agenda, fichier clients, tableurs", "Testés sur vos cas réels, puis suivis"],
+      ideal: "vos demandes clients ou une tâche répétitive vous prennent des heures.",
+      link: { href: "/cas-clients", label: "Voir les réalisations" },
     },
     {
       kind: "training",
-      label: "Consulting et formation",
+      label: "Construits ensemble",
       tag: "Votre équipe autonome",
-      title: "Votre outil, construit ensemble",
-      text: "On le crée à deux, et je vous forme pour le faire évoluer.",
+      title: "On les construit ensemble",
+      text: "On crée l’outil à deux, et je forme votre équipe pour qu’elle le fasse évoluer.",
       points: ["Un atelier pour poser votre relation client à plat", "L’outil construit avec vous, étape par étape", "Votre équipe formée pour le faire évoluer seule"],
       ideal: "vous voulez comprendre l’IA et garder la main sur vos outils.",
+      link: { href: "/methode", label: "Voir la méthode" },
     },
-  ] as { kind: "whatsapp" | "form" | "training"; label: string; slug?: string; client?: string; tag: string; title: string; text: string; points: string[]; ideal: string }[],
+  ] as { kind: "consulting" | "whatsapp" | "training"; label: string; tag: string; title: string; text: string; points: string[]; ideal: string; link: { href: string; label: string } }[],
 };
 
 /** Section « À propos ». Uniquement des faits confirmés. */
@@ -140,8 +140,8 @@ export const about = {
   kicker: "À propos",
   title: "Je suis Robin Pailhes, fondateur de Luma.",
   paragraphs: [
-    "Entrepreneur, j’ai d’abord mis en place un agent WhatsApp dans ma propre entreprise, Harmonie Yacht : trois heures gagnées chaque jour.",
-    "Avec Luma, je fais la même chose pour d’autres PME. Je suis votre seul interlocuteur, du premier échange au suivi.",
+    "Entrepreneur, j’ai d’abord mis l’IA dans ma propre entreprise, Harmonie Yacht : un agent WhatsApp qui répond aux clients et un tableau de bord pour tout suivre.",
+    "Avec Luma, je fais la même chose pour d’autres PME : conseil, outils sur mesure, formation. Je suis votre seul interlocuteur, du premier échange au suivi.",
   ],
   points: [
     { title: "Un seul interlocuteur", text: "Vous parlez à la personne qui conçoit et met en place." },
@@ -152,11 +152,11 @@ export const about = {
 
 /** Parcours animé de l’accueil : de l’appel sous 24 h à l’outil qui travaille. */
 export const journey = {
-  kicker: "Travailler ensemble",
+  kicker: "La méthode",
   title: "Comment ça se passe.",
   second: "De l’appel à l’outil qui tourne.",
   steps: [
-    { name: "Un appel sous 24\u00a0h", text: "Je vous montre ce qui est possible chez vous." },
+    { name: "Un appel sous 24\u00a0h", text: "Je vous montre ce que j’ai fait chez moi, et ce qui est possible chez vous." },
     { name: "Je comprends votre PME", text: "Votre activité, vos objectifs, vos outils." },
     { name: "On construit votre outil", text: "Pour vous ou avec vous, branché sur vos outils." },
     { name: "Il travaille, vous validez", text: "Je forme votre équipe et j’ajuste selon les résultats." },
@@ -401,7 +401,7 @@ export const faq = {
 
 export const contact = {
   kicker: "Contact",
-  title: "Parlons de votre projet.",
+  title: "Parlons de votre entreprise.",
   text: "Mon assistant vous pose quelques questions, puis je vous rappelle sous 24 h pour vous montrer ce qu’il serait possible de faire chez vous.",
   note: "Gratuit et sans engagement.",
 };

@@ -34,9 +34,21 @@ function Heading({ kicker, title, second, text }: { kicker: string; title: strin
   );
 }
 
+/** Souligne l’accent s’il figure dans le texte (un seul accent par page). */
+function Accented({ text, accent }: { text: string; accent: string }) {
+  const at = text.indexOf(accent);
+  if (at < 0) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, at)}
+      <span className="u-accent">{accent}</span>
+      {text.slice(at + accent.length)}
+    </>
+  );
+}
+
 /* 1. Hero : promesse en deux temps, un seul appel à l’action, le parcours d’une demande. */
 export function Hero() {
-  const at = hero.title.indexOf(hero.accent);
   const avatar = founder.photos.avatar;
   return (
     <section className="relative overflow-hidden bg-white pb-16 pt-32 sm:pt-36 md:pb-20 lg:pt-44">
@@ -47,18 +59,10 @@ export function Hero() {
             <Image src={avatar.src} alt="" width={56} height={56} className="size-7 rounded-full object-cover" />
             {hero.badge}
           </p>
-          <h1 className="t-display mx-auto mt-8 max-w-[14em]">
-            {at >= 0 ? (
-              <>
-                {hero.title.slice(0, at)}
-                <span className="u-accent">{hero.accent}</span>
-                {hero.title.slice(at + hero.accent.length)}
-              </>
-            ) : (
-              hero.title
-            )}
+          <h1 className="t-h1 mx-auto mt-8 max-w-[18em]">
+            <Accented text={hero.title} accent={hero.accent} />
             <br />
-            {hero.second}
+            <Accented text={hero.second} accent={hero.accent} />
           </h1>
           <p className="t-lead mx-auto mt-7 max-w-[34rem]">{hero.text}</p>
           <div className="mt-10 flex flex-col items-center gap-4">
@@ -83,7 +87,10 @@ export function Trust() {
             <li key={c.slug}>
               <Link href={`/cas-clients/${c.slug}`} className="group inline-flex items-center gap-3 rounded-2xl py-1 pr-3 hover:bg-paper">
                 <ClientMark c={c} size="md" />
-                <span className="text-[14px] font-semibold text-night">{c.client}</span>
+                <span className="text-left">
+                  <span className="block text-[14px] font-semibold leading-tight text-night">{c.client}</span>
+                  <span className="block text-[12px] leading-tight text-muted">{c.slug === "harmonie-yacht" ? trust.own : trust.client}</span>
+                </span>
               </Link>
             </li>
           ))}
@@ -142,8 +149,8 @@ export function Offers() {
                 <p className="mt-6 rounded-2xl bg-paper p-4 text-[14px] leading-[1.5] text-ink lg:mt-auto">
                   <span className="font-semibold text-night">{offers.ideal}</span> {o.ideal}
                 </p>
-                <Link href={o.slug ? `/cas-clients/${o.slug}` : "/methode"} className="group mt-4 inline-flex items-center gap-2 text-[14px] font-semibold text-night">
-                  {o.slug ? `${offers.see} · ${o.client}` : offers.method}
+                <Link href={o.link.href} className="group mt-4 inline-flex items-center gap-2 text-[14px] font-semibold text-night">
+                  {o.link.label}
                   <Arrow />
                 </Link>
               </article>
