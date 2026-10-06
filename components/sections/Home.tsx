@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { OpenContactButton } from "@/components/contact/OpenContactButton";
-import { Arrow, ArrowDown, TextLink } from "@/components/ui/Button";
+import { Arrow, TextLink } from "@/components/ui/Button";
 import { ClientMark } from "@/components/ui/ClientMark";
-import { ConversationCard } from "@/components/ui/ConversationCard";
+import { HeroFlow, OfferPreview, ProblemSchema, SystemSchema } from "@/components/ui/Diagrams";
 import { FaqList } from "@/components/ui/FaqList";
-import { ExampleTag, Kicker } from "@/components/ui/Logo";
+import { Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
-import { JourneySchema, OfferSchema } from "@/components/ui/Schema";
+import { JourneySchema } from "@/components/ui/Schema";
 import { Section } from "@/components/ui/Section";
-import { about, caseStudies, casesIndex, contact, cta, demo, faq, founder, hero, journey, method, offer, type CaseStudy } from "@/lib/content";
+import { about, caseStudies, casesIndex, contact, faq, founder, hero, journey, method, offers, problem, system, trust, type CaseStudy } from "@/lib/content";
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -19,143 +19,156 @@ function Check({ className = "" }: { className?: string }) {
   );
 }
 
-/* 1. Hero : signature, promesse, photo réelle. */
-export function Hero() {
-  const photo = founder.photos.portrait;
-  const at = hero.title.indexOf(hero.accent);
+/** Titre de section centré en deux temps : l’affirmation, puis la suite en bleu ardoise. */
+function Heading({ kicker, title, second, text }: { kicker: string; title: string; second: string; text?: string }) {
   return (
-    <section className="bg-white pt-28 sm:pt-32 lg:pt-40 pb-4 md:pb-8">
-      <div className="mx-auto max-w-luma px-5 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-14 lg:gap-10 items-center">
-        <div className="lg:col-span-7 hero-in">
-          <div>
-            <p className="text-[14px] font-medium text-ink flex items-center gap-3">
-              <span className="h-px w-8 bg-slate" aria-hidden />
-              {founder.signature}
-            </p>
-            <h1 className="t-display mt-7 max-w-[13em]">
-              {at >= 0 ? (
-                <>
-                  {hero.title.slice(0, at)}
-                  <span className="u-accent">{hero.accent}</span>
-                  {hero.title.slice(at + hero.accent.length)}
-                </>
-              ) : (
-                hero.title
-              )}
-            </h1>
-            <p className="t-lead mt-7 max-w-[30rem]">{hero.text}</p>
-            <div className="mt-10 flex flex-col sm:flex-row gap-3">
-              <OpenContactButton />
-              <a
-                href="#exemple"
-                className="group inline-flex items-center justify-center gap-2 rounded-full px-6 min-h-12 text-[15px] font-semibold bg-white text-night border border-powder hover:border-night/40 hover:bg-paper transition-[background-color,border-color] duration-200 whitespace-nowrap"
-              >
-                {cta.example}
-                <ArrowDown />
-              </a>
-            </div>
+    <Reveal className="mx-auto max-w-[58rem] text-center">
+      <Kicker className="justify-center">{kicker}</Kicker>
+      <h2 className="t-h2 mt-5">
+        {title}
+        <br />
+        <span className="text-slate">{second}</span>
+      </h2>
+      {text && <p className="t-lead mx-auto mt-5 max-w-[34rem]">{text}</p>}
+    </Reveal>
+  );
+}
+
+/* 1. Hero : promesse en deux temps, un seul appel à l’action, le parcours d’une demande. */
+export function Hero() {
+  const at = hero.title.indexOf(hero.accent);
+  const avatar = founder.photos.avatar;
+  return (
+    <section className="relative overflow-hidden bg-white pb-16 pt-32 sm:pt-36 md:pb-20 lg:pt-44">
+      <div aria-hidden className="hero-grid absolute inset-0" />
+      <div className="relative mx-auto max-w-luma px-5 text-center sm:px-6 lg:px-8">
+        <div className="hero-in">
+          <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-white py-1 pl-1 pr-4 text-[13px] font-medium text-ink">
+            <Image src={avatar.src} alt="" width={56} height={56} className="size-7 rounded-full object-cover" />
+            {hero.badge}
+          </p>
+          <h1 className="t-display mx-auto mt-8 max-w-[14em]">
+            {at >= 0 ? (
+              <>
+                {hero.title.slice(0, at)}
+                <span className="u-accent">{hero.accent}</span>
+                {hero.title.slice(at + hero.accent.length)}
+              </>
+            ) : (
+              hero.title
+            )}
+            <br />
+            {hero.second}
+          </h1>
+          <p className="t-lead mx-auto mt-7 max-w-[34rem]">{hero.text}</p>
+          <div className="mt-10 flex flex-col items-center gap-4">
+            <OpenContactButton className="min-h-14 px-7 text-[16px]" />
+            <p className="text-[14px] text-muted">{hero.reassurance.join(" · ")}</p>
           </div>
         </div>
-        <div className="lg:col-span-5 hero-in [animation-delay:80ms]">
-          <figure className="mx-auto w-full max-w-[420px] lg:max-w-none">
-            <div className="relative">
-            <span aria-hidden className="absolute inset-0 translate-x-3 translate-y-3 sm:translate-x-5 sm:translate-y-5 rounded-[28px] bg-mist" />
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              width={photo.width}
-              height={photo.height}
-              priority
-              sizes="(min-width: 1024px) 420px, (min-width: 640px) 420px, 90vw"
-              className="relative w-full h-auto aspect-[4/5] object-cover rounded-[28px]"
-            />
-            </div>
-          </figure>
-        </div>
+        <HeroFlow />
       </div>
     </section>
   );
 }
 
-/* 2. Offre : un schéma animé qui montre l’outil construit, relié aux outils du client. */
-export function Offer() {
+/* 2. Confiance : les vrais clients, avec leurs logos. */
+export function Trust() {
   return (
-    <Section id="besoins">
-      <Reveal>
-        <Kicker>{offer.kicker}</Kicker>
-        <h2 className="t-h2 mt-5 max-w-[18ch]">{offer.title}</h2>
-      </Reveal>
-      <OfferSchema />
+    <section className="bg-white pb-16 md:pb-20">
+      <div className="mx-auto max-w-luma px-5 sm:px-6 lg:px-8">
+        <p className="t-kicker text-center">{trust.kicker}</p>
+        <ul className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          {caseStudies.items.map((c) => (
+            <li key={c.slug}>
+              <Link href={`/cas-clients/${c.slug}`} className="group inline-flex items-center gap-3 rounded-2xl py-1 pr-3 hover:bg-paper">
+                <ClientMark c={c} size="md" />
+                <span className="text-[14px] font-semibold text-night">{c.client}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/* 3. Constat : les demandes arrivent de partout, tout repose sur le dirigeant. */
+export function Problem() {
+  return (
+    <Section id="probleme" tone="paper">
+      <Heading kicker={problem.kicker} title={problem.title} second={problem.second} />
+      <ProblemSchema />
     </Section>
   );
 }
 
-/* 3. Démonstration : le parcours d’une demande, clairement présenté comme un exemple. */
-export function Demo() {
+/* 4. Système : l’outil Luma au centre, relié aux canaux, au contexte et aux outils. */
+export function System() {
   return (
-    <Section id="exemple" tone="mist">
-      <Reveal>
-        <div className="max-w-[44rem]">
-          <Kicker>{demo.kicker}</Kicker>
-          <h2 className="t-h2 mt-5">{demo.title}</h2>
-          {demo.text && <p className="t-body mt-5 max-w-[36rem]">{demo.text}</p>}
-        </div>
-      </Reveal>
-      <div className="mt-14 md:mt-16 grid lg:grid-cols-12 gap-12 lg:gap-10 items-start">
-        <ol className="lg:col-span-5 relative flex flex-col gap-7">
-          <span aria-hidden className="absolute left-[19px] top-6 bottom-6 w-px bg-powder" />
-          {demo.steps.map((s, i) => (
-            <li key={s.title}>
-              <Reveal delay={i * 0.05} className="relative flex items-center gap-5">
-                <span className="relative inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-white border border-powder font-display text-[15px] font-bold text-night tabular-nums">
-                  {i + 1}
-                </span>
-                <h3 className="t-h3 text-[18px]">{s.title}</h3>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
-        <Reveal className="lg:col-span-7" delay={0.08}>
-          <div className="flex items-center justify-between gap-4">
-            <ExampleTag>{demo.label}</ExampleTag>
-          </div>
-          <div className="mt-4 grid md:grid-cols-[1.2fr_1fr] gap-4 items-end">
-            <ConversationCard {...demo.conversation} />
-            <RecordCard />
-          </div>
-          <div className="mt-8">
-            <TextLink href="/agent-whatsapp" className="whitespace-nowrap">{demo.link}</TextLink>
-          </div>
-        </Reveal>
+    <Section id="systeme">
+      <Heading kicker={system.kicker} title={system.title} second={system.second} text={system.text} />
+      <SystemSchema />
+    </Section>
+  );
+}
+
+/* 5. Points de départ : trois offres, chacune appuyée sur une réalisation réelle. */
+export function Offers() {
+  const bySlug = Object.fromEntries(caseStudies.items.map((c) => [c.slug, c]));
+  return (
+    <Section id="offres" tone="mist">
+      <Heading kicker={offers.kicker} title={offers.title} second={offers.second} text={offers.text} />
+      <ul className="mt-14 grid gap-5 md:mt-16 lg:grid-cols-3">
+        {offers.items.map((o, i) => (
+          <li key={o.slug}>
+            <Reveal delay={i * 0.06} className="h-full">
+              <article className="flex h-full flex-col rounded-[24px] border border-line bg-white p-5 sm:p-6">
+                <OfferPreview kind={o.kind} />
+                <p className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-mist px-3 py-1 text-[13px] font-semibold text-night">
+                  <span className="size-1.5 rounded-full bg-night" aria-hidden />
+                  {o.tag}
+                </p>
+                <h3 className="t-h3 mt-4 text-[22px]">{o.title}</h3>
+                <p className="mt-1.5 text-[15px] font-medium text-night">{o.text}</p>
+                <ul className="mt-5 flex flex-col gap-2.5">
+                  {o.points.map((pt) => (
+                    <li key={pt} className="flex gap-2.5 text-[15px] leading-[1.45] text-ink">
+                      <Check className="mt-[3px] text-night" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-6 rounded-2xl bg-paper p-4 text-[14px] leading-[1.5] text-ink lg:mt-auto">
+                  <span className="font-semibold text-night">{offers.ideal}</span> {o.ideal}
+                </p>
+                <Link href={`/cas-clients/${o.slug}`} className="group mt-4 inline-flex items-center gap-2 text-[14px] font-semibold text-night">
+                  {offers.see} · {bySlug[o.slug]?.client ?? o.client}
+                  <Arrow />
+                </Link>
+              </article>
+            </Reveal>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-12 flex flex-col items-center gap-5 sm:flex-row sm:justify-center">
+        <OpenContactButton />
+        <TextLink href="/cas-clients">{offers.all}</TextLink>
       </div>
     </Section>
   );
 }
 
-function RecordCard() {
-  const r = demo.record;
+/* 6. Parcours animé : de l’appel sous 24 h à l’outil qui travaille. */
+export function Journey() {
   return (
-    <article className="rounded-[20px] bg-white border border-line overflow-hidden">
-      <header className="flex items-center justify-between gap-3 px-5 py-3.5 border-b border-line">
-        <p className="text-[14px] font-semibold text-night">{r.title}</p>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-mist px-2.5 h-6 text-[12px] font-semibold text-night">
-          <span className="size-1.5 rounded-full bg-slate" aria-hidden />
-          {r.status}
-        </span>
-      </header>
-      <dl className="px-5 py-4 flex flex-col gap-3">
-        {r.fields.map((f) => (
-          <div key={f.label} className="flex items-baseline justify-between gap-4 text-[14px]">
-            <dt className="text-muted">{f.label}</dt>
-            <dd className="font-medium text-night text-right">{f.value}</dd>
-          </div>
-        ))}
-      </dl>
-      <footer className="px-5 py-3.5 border-t border-line flex items-center gap-2 text-[13px] text-ink">
-        <Check className="text-night" />
-        {r.note}
-      </footer>
-    </article>
+    <Section id="accompagnement">
+      <Heading kicker={journey.kicker} title={journey.title} second={journey.second} />
+      <JourneySchema />
+      <div className="mt-14 flex justify-center">
+        <OpenContactButton />
+      </div>
+    </Section>
   );
 }
 
@@ -164,7 +177,7 @@ export function About() {
   const photo = founder.photos.buste;
   return (
     <Section id="a-propos">
-      <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         <Reveal className="order-2 lg:order-1 lg:col-span-5">
           <figure className="mx-auto max-w-[400px] lg:max-w-none">
             <Image
@@ -237,24 +250,6 @@ export function Method({ withLink = true, tone = "mist" as "mist" | "white" }: {
   );
 }
 
-/* 5 bis. Parcours animé : de l’appel sous 24 h à l’outil qui travaille. */
-export function Journey() {
-  return (
-    <Section id="accompagnement" tone="mist">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <Reveal>
-          <Kicker>{journey.kicker}</Kicker>
-          <h2 className="t-h2 mt-5">{journey.title}</h2>
-        </Reveal>
-        <Reveal>
-          <OpenContactButton />
-        </Reveal>
-      </div>
-      <JourneySchema />
-    </Section>
-  );
-}
-
 /* 6. Réalisations : uniquement des cas réels, avec leurs vrais logos. */
 export function CaseList({ items = caseStudies.items, compact = false }: { items?: CaseStudy[]; compact?: boolean }) {
   return (
@@ -289,27 +284,6 @@ export function CaseList({ items = caseStudies.items, compact = false }: { items
         </li>
       ))}
     </ul>
-  );
-}
-
-export function Cases() {
-  return (
-    <Section id="realisations">
-      <Reveal>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <Kicker>{caseStudies.kicker}</Kicker>
-            <h2 className="t-h2 mt-5 max-w-[18ch]">{caseStudies.title}</h2>
-          </div>
-          <TextLink href="/cas-clients" className="shrink-0">
-            {caseStudies.all}
-          </TextLink>
-        </div>
-      </Reveal>
-      <Reveal className="mt-12 md:mt-14">
-        <CaseList compact />
-      </Reveal>
-    </Section>
   );
 }
 

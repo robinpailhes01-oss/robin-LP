@@ -22,7 +22,7 @@ export const founder = {
 };
 
 export const nav = [
-  { label: "Solutions", href: "/#besoins" },
+  { label: "Solutions", href: "/#offres" },
   { label: "Agent WhatsApp", href: "/agent-whatsapp" },
   { label: "Réalisations", href: "/cas-clients" },
   { label: "Méthode", href: "/methode" },
@@ -33,88 +33,104 @@ export const cta = {
   /** Ouvre le panneau de contact (questions courtes pour préparer l’échange). */
   primary: "Échanger sur mon projet",
   primaryShort: "Échanger",
-  /** Fait défiler jusqu’à la démonstration. */
-  example: "Voir un exemple concret",
 };
 
 export const hero = {
-  title: "Une relation client plus simple, grâce à l’IA.",
-  /** Mot ou groupe surligné dans le titre (un seul accent par page). */
-  accent: "plus simple",
-  text: "J’aide les PME à améliorer et simplifier leur relation client avec des outils IA personnalisés.",
-  note: "Un seul interlocuteur, de la première discussion au suivi.",
+  /** Titre en deux temps : le bénéfice, puis la réassurance. Un seul accent par page. */
+  title: "Vos clients mieux servis.",
+  accent: "mieux servis",
+  second: "Sans y passer vos journées.",
+  badge: "Robin Pailhes · Agence IA à Montpellier",
+  text: "Des outils IA personnalisés, branchés sur vos outils, pour la relation client des PME.",
+  reassurance: ["Appel offert", "Robin vous rappelle sous 24 h", "Sans engagement"],
+  flowKicker: "Une demande client",
+  flow: ["Message reçu", "Demande qualifiée", "Fiche client à jour", "Devis ou RDV prêt"],
+  /** Chiffre réel : cas Harmonie Yacht. */
+  result: { value: "3 h", label: "gagnées par jour chez Harmonie Yacht" },
 };
 
-/**
- * Schéma animé de l’accueil : très peu de texte, tout passe par l’image.
- * Un outil personnalisé, relié aux outils du client, avec un agent IA entraîné sur son entreprise.
- */
-export const offer = {
-  kicker: "Ce que Luma construit",
-  title: "Un outil à vos mesures, branché sur vos outils.",
-  caption: "Un outil personnalisé, relié à vos outils, avec un agent IA entraîné sur votre entreprise.",
-  alt: "Schéma : vos outils (WhatsApp, email, agenda, CRM, paiement) sont reliés à un outil Luma sur mesure, avec un agent IA entraîné sur votre activité, vos règles et vos objectifs. Il alimente un tableau de bord où vous validez.",
-  colTools: "Vos outils",
-  colLuma: "Votre outil Luma",
-  colYou: "Vous",
-  tools: [
-    { icon: "WhatsApp", label: "WhatsApp" },
-    { icon: "Gmail", label: "Email" },
-    { icon: "Google Calendar", label: "Agenda" },
-    { icon: "HubSpot", label: "CRM" },
-    { icon: "Stripe", label: "Paiement" },
-  ],
-  otherTools: "Vos outils métier",
-  agent: "Agent IA",
-  trained: "Entraîné sur",
-  training: ["Votre activité", "Vos règles", "Vos objectifs"],
-  dash: {
-    title: "Tableau de bord",
-    rows: [
-      { label: "Nouvelle demande", status: "À valider" },
-      { label: "Devis préparé", status: "À valider" },
-      { label: "Relance client", status: "Planifiée" },
-    ],
-    validate: "Vous validez",
-  },
+export const trust = {
+  kicker: "Ils m’ont fait confiance",
 };
 
-/** Section « Démonstration » : un exemple de fonctionnement, présenté comme tel. */
-export const demo = {
-  kicker: "Exemple de fonctionnement",
-  title: "Quand un client vous écrit.",
-  text: "",
-  label: "Exemple illustratif",
-  steps: [
-    { title: "Le client écrit", text: "Sur WhatsApp, par email ou depuis votre site, à n’importe quelle heure." },
-    { title: "L’agent rassemble l’essentiel", text: "Il répond à ce qu’il sait, pose les questions utiles et s’arrête là où vos règles le prévoient." },
-    { title: "La demande est enregistrée", text: "Elle arrive complète dans votre outil de suivi : CRM, tableur ou agenda." },
-    { title: "Vous validez", text: "Vous recevez un résumé. Rien de sensible ne part sans votre accord." },
+/** Le constat : les demandes arrivent de partout et tout repose sur le dirigeant. Messages illustratifs. */
+export const problem = {
+  kicker: "Le constat",
+  title: "Vos clients vous écrivent partout.",
+  second: "Et tout repose sur vous.",
+  messages: [
+    { icon: "WhatsApp", channel: "WhatsApp", text: "Bonsoir, une dispo samedi ?", time: "22:47" },
+    { icon: "Gmail", channel: "Email", text: "Devis pour la rénovation d’un salon", time: "09:12" },
+    { icon: "phone", channel: "Téléphone", text: "Appel manqué, à rappeler", time: "12:30" },
+    { icon: "instagram", channel: "Instagram", text: "C’est combien pour 6 ?", time: "18:05" },
+    { icon: "site", channel: "Site web", text: "Nouveau formulaire reçu", time: "20:16" },
   ],
-  conversation: {
-    title: "Demande de devis",
-    sector: "Exemple · entreprise de services",
-    time: "21:14",
-    messages: [
-      { from: "client", text: "Bonsoir, vous faites l’entretien de jardins ? J’ai environ 400 m²." },
-      { from: "agent", text: "Bonsoir, oui. Pour préparer votre devis : c’est un entretien ponctuel ou régulier ? Et dans quelle ville ?" },
-      { from: "client", text: "Régulier, une fois par mois, à Pessac." },
-      { from: "agent", text: "Merci, c’est noté. Votre demande est transmise, vous recevez une proposition demain dans la journée." },
-    ] as { from: "client" | "agent"; text: string }[],
-    action: "Demande enregistrée · résumé envoyé au dirigeant",
+  you: "Vous",
+  pending: "5 en attente",
+  caption: "Des réponses en retard, des devis oubliés, des relances qui ne partent jamais.",
+  alt: "Schéma : des messages arrivent en même temps par WhatsApp, email, téléphone, Instagram et le site, et convergent tous vers vous. Cinq demandes en attente.",
+};
+
+/** Le système : un outil Luma au centre, relié aux canaux, au contexte et aux outils du client. */
+export const system = {
+  kicker: "Le système",
+  title: "Votre outil travaille.",
+  second: "Vous validez.",
+  text: "Un outil, pas juste une IA : branché sur vos outils, nourri de votre activité.",
+  hub: "Votre outil",
+  nodes: {
+    you: { label: "Vous", caption: "Vous pilotez et validez", action: "Vous validez" },
+    context: { label: "Votre contexte", caption: "Offres, tarifs, règles" },
+    agent: { label: "L’agent IA", caption: "Répond, qualifie, relance" },
+    channels: { label: "Vos canaux", caption: "WhatsApp, email, site" },
+    tools: { label: "Vos outils", caption: "Agenda, CRM, devis" },
   },
-  record: {
-    title: "Nouvelle demande",
-    status: "À valider",
-    fields: [
-      { label: "Besoin", value: "Entretien de jardin, 400 m²" },
-      { label: "Fréquence", value: "Mensuelle" },
-      { label: "Ville", value: "Pessac" },
-      { label: "Canal", value: "WhatsApp" },
-    ],
-    note: "Enregistrée dans votre outil de suivi",
-  },
-  link: "Voir l’agent WhatsApp en détail",
+  tools: ["Agenda", "CRM", "Devis", "Paiement", "Tableur", "Mail"],
+  toasts: ["Devis préparé · à valider", "Relance envoyée", "RDV confirmé samedi 10 h30"],
+  alt: "Schéma : au centre, votre outil Luma. Il est relié à vos canaux (WhatsApp, email, site), à votre contexte (offres, tarifs, règles), à vos outils (agenda, CRM, devis) et à un agent IA qui répond, qualifie et relance. Au sommet, vous pilotez et validez.",
+};
+
+/** Trois points de départ, chacun appuyé sur une réalisation réelle. */
+export const offers = {
+  kicker: "Les points de départ",
+  title: "Seul ou à vingt,",
+  second: "il y a un point de départ.",
+  text: "On le choisit ensemble, au premier appel.",
+  ideal: "Idéal si",
+  see: "Voir la réalisation",
+  all: "Voir toutes les réalisations",
+  items: [
+    {
+      kind: "whatsapp",
+      slug: "harmonie-yacht",
+      client: "Harmonie Yacht",
+      tag: "3 h gagnées par jour",
+      title: "Agent WhatsApp et suivi client",
+      text: "Vos clients ont une réponse, à toute heure.",
+      points: ["Répond avec vos informations et votre ton", "Qualifie la demande et remplit la fiche client", "Relance au bon moment, vous validez"],
+      ideal: "vos demandes arrivent en continu, sur WhatsApp ou par email.",
+    },
+    {
+      kind: "form",
+      slug: "energies-concept",
+      client: "Énergies Concept",
+      tag: "3 à 4 h par jour · 20 commerciaux",
+      title: "Outil métier sur mesure",
+      text: "Une étape papier devient un outil simple.",
+      points: ["Un formulaire guidé qui refuse un dossier incomplet", "Plus de ressaisie entre le terrain et le bureau", "Une vue d’ensemble pour les dirigeants"],
+      ideal: "votre équipe remplit, ressaisit ou vérifie les mêmes documents chaque jour.",
+    },
+    {
+      kind: "booking",
+      slug: "barber-saint-anne",
+      client: "Barber Saint-Anne",
+      tag: "Réservations 24 h/24",
+      title: "Réservation et rappels",
+      text: "Vos clients réservent seuls, même quand vous êtes fermé.",
+      points: ["Réservation en ligne, depuis votre site", "Le calendrier de l’équipe au même endroit", "Confirmations et rappels automatiques"],
+      ideal: "vous vivez de rendez-vous et voulez éviter les plateformes coûteuses.",
+    },
+  ] as { kind: "whatsapp" | "form" | "booking"; slug: string; client: string; tag: string; title: string; text: string; points: string[]; ideal: string }[],
 };
 
 /** Section « À propos ». Uniquement des faits confirmés. */
@@ -136,6 +152,7 @@ export const about = {
 export const journey = {
   kicker: "Travailler ensemble",
   title: "Comment ça se passe.",
+  second: "De l’appel à l’outil qui tourne.",
   steps: [
     { name: "Un appel sous 24\u00a0h", text: "Je vous montre ce qui est possible chez vous." },
     { name: "Je comprends votre PME", text: "Votre activité, vos objectifs, vos outils." },
