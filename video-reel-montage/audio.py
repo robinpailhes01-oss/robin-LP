@@ -327,7 +327,8 @@ e = np.convolve(e, np.ones(k) / k, mode="same")
 e = np.minimum(1, e / (np.percentile(e[e > 1e-4], 85) + 1e-9))
 music *= (1 - 0.7 * e)[:, None]
 sfx *= (1 - 0.35 * e)[:, None]
-bed = music * 0.42 + sfx * 0.5
+MUSIC = 0.0  # musique retirée à la demande de Robin (trop générique) ; voix + effets seulement
+bed = music * MUSIC + sfx * 0.5
 bed = np.tanh(bed * 1.2) / 1.2
 mix = bed + vo * 1.0
 tail = int(0.7 * SR)
