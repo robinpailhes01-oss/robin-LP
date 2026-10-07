@@ -46,6 +46,25 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
 .bars { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; font-size: 26px; }
 .bars div { display: flex; justify-content: space-between; gap: 30px; padding: 10px 14px; border-radius: 14px; background: rgba(255,255,255,.08); }
 .bars i { width: 14px; height: 14px; border-radius: 50%; background: #25d366; display: inline-block; margin-right: 10px; }
+/* style épuré (C.style = "minimal") : pas de boîtes, typo fine, ombres douces */
+body.min #sub { font-size: 62px; letter-spacing: -0.015em; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+body.min #sub .on { color: #fff; text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 10px; text-decoration-color: #ffc35c; }
+body.min #sub .k { font-size: 70px; }
+body.min #sub.q { font-size: 54px; color: rgba(255,255,255,.88); }
+body.min #sub.q .on { color: #fff; text-decoration-color: rgba(255,255,255,.7); }
+body.min .qlabel { background: none; box-shadow: none; padding: 0; top: 1046px; font-size: 22px; letter-spacing: .3em; opacity: .75;
+                   text-shadow: 0 1px 6px rgba(0,0,0,.6); }
+body.min .seam { height: 2px; top: 959px; background: rgba(255,255,255,.85); box-shadow: none; }
+body.min .tag { background: none; border: none; backdrop-filter: none; padding: 0; left: 44px; top: 780px; font-size: 24px;
+                letter-spacing: .12em; text-transform: uppercase; text-shadow: 0 1px 8px rgba(0,0,0,.65); }
+body.min .hook { background: none; border: none; top: 170px; font-size: 56px; text-shadow: 0 2px 16px rgba(0,0,0,.7); }
+body.min .hook em { font-size: 70px; }
+.mcard { position: absolute; transform: translate(-50%, -50%); text-align: center; color: #fff; white-space: nowrap; padding: 34px 70px;
+         background: radial-gradient(closest-side, rgba(0,0,0,.42), rgba(0,0,0,.18) 60%, transparent);
+         text-shadow: 0 2px 14px rgba(0,0,0,.7), 0 0 2px rgba(0,0,0,.5); }
+.mcard small { display: block; font: 800 20px/1 Bold; letter-spacing: .32em; text-transform: uppercase; opacity: .8; }
+.mcard hr { width: 46px; height: 2px; border: 0; margin: 14px auto 12px; background: #ffc35c; box-shadow: 0 1px 6px rgba(0,0,0,.4); }
+.mcard div { font: italic 400 66px/1 SerifF; }
 </style></head><body></body></html>`;
 const ICON = {
   chat: '<svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>',
@@ -55,6 +74,8 @@ const ICON = {
   chart: '<svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="3" width="4" height="17" rx="1"/></svg>',
 };
 const card = (g) => {
+  if (g.type === "min")
+    return `<div class="mcard" style="left:${g.pos[0]}px;top:${g.pos[1]}px"><small>${g.title || ""}</small><hr><div>${g.text}</div></div>`;
   const ic = g.icon ? `<div class="ic ${g.color || ""}">${ICON[g.icon] || ""}</div>` : "";
   let body = "";
   if (g.type === "chat") body = `<small>${g.title || "WhatsApp"}</small>` + (g.lines || []).map((l, i) => `<div class="bubble ${i % 2 ? "me" : ""}">${l}</div>`).join("");
@@ -71,7 +92,8 @@ const card = (g) => {
   fs.writeFileSync(f, html);
   await page.goto("file://" + f);
   const shot = async (inner, name) => {
-    await page.evaluate((h) => { document.body.innerHTML = h; return document.fonts.ready; }, inner);
+    await page.evaluate(([h, m]) => { document.body.innerHTML = h; document.body.className = m ? "min" : ""; return document.fonts.ready; },
+                        [inner, S.style === "minimal"]);
     await page.screenshot({ path: path.join(OUT, name), omitBackground: true });
   };
   await shot(`<div class="seam"></div>`, "seam.png");

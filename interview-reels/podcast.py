@@ -91,7 +91,7 @@ for gi_, g in enumerate(C.get("graphics", [])):
     graphics.append({**g, "t0": t0, "i": gi_})
 spec = {"graphics": [{k: v for k, v in g.items() if k not in ("t0",)} for g in graphics],
         "groups": [[w[0] for w in g] for g in groups], "speakers": [g[0][3] for g in groups], "keys": C.get("keys", []), "tag": C.get("tag", ""),
-        "hook": C.get("hook", ""), "out": str(B)}
+        "hook": C.get("hook", ""), "style": C.get("style", ""), "out": str(B)}
 (B / "spec.json").write_text(json.dumps(spec, ensure_ascii=False))
 subprocess.run(["node", str(DIR / "podcast_text.cjs"), str(B / "spec.json")], check=True,
                env={**os.environ, "NODE_PATH": "/opt/node-tools/node_modules"})
@@ -140,9 +140,10 @@ out.parent.mkdir(exist_ok=True)
 enc = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}", "-r", str(FPS),
                         "-i", "-", "-i", str(base.with_suffix(".mov")), "-map", "0:v", "-map", "1:a",
                         "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-c:v", "libx264", "-preset", "slow", "-crf", "20",
-                        "-maxrate", "12M", "-bufsize", "24M", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
+                        "-maxrate", C.get("maxrate", "12M"), "-bufsize", "24M", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
                         "-movflags", "+faststart", str(out)], stdin=subprocess.PIPE)
-POP = [1.12, 1.05, 1.0]
+MIN = C.get("style") == "minimal"   # version épurée : mouvements plus doux, pas de flash ni de rebond
+POP = [1.03, 1.01, 1.0] if MIN else [1.12, 1.05, 1.0]
 n = 0
 while True:
     raw = dec.stdout.read(W * H * 3)
@@ -155,7 +156,7 @@ while True:
     since = min([t - c for c in cuts if t >= c] + [t])
     pi = max([i for i, (_, _, at) in enumerate(pieces) if at <= t] + [0])
     who = spk[pi]
-    z = 1.0 + 0.02 * t / max(TOTAL, 1) + 0.05 * np.exp(-since / 0.18)
+    z = 1.0 + 0.02 * t / max(TOTAL, 1) + (0.02 if MIN else 0.05) * np.exp(-since / (0.3 if MIN else 0.18))
     sl = slice(0, HALF) if who == "r" else slice(HALF, H)
     half = frame[sl]
     M = np.float32([[z, 0, W / 2 * (1 - z)], [0, z, HALF * 0.45 * (1 - z)]])
@@ -172,7 +173,7 @@ while True:
         if wcut > 0:
             blend(frame, (img[:, :wcut], x0, y0))
     # petit flash quand la parole change de personne
-    if pi > 0 and spk[pi] != spk[pi - 1] and 0 <= t - pieces[pi][2] < 0.12:
+    if not MIN and pi > 0 and spk[pi] != spk[pi - 1] and 0 <= t - pieces[pi][2] < 0.12:
         fl = 0.35 * (1 - (t - pieces[pi][2]) / 0.12)
         frame[sl] = frame[sl] * (1 - fl) + fl
     # cartes animées (entrée avec rebond, sortie en fondu)
@@ -181,9 +182,13 @@ while True:
         dur = g.get("dur", 2.4)
         if 0 <= dt < dur:
             k = int(dt * FPS)
-            sc = [0.6, 0.85, 1.08, 1.12, 1.04, 0.98, 1.0][k] if k < 7 else 1.0
-            al = min(1, dt / 0.12) * min(1, (dur - dt) / 0.25)
-            blend(frame, layer(f"gfx{g['i']}", B / f"gfx_{g['i']:02d}.png"), scale=sc, alpha=al, dy=int(30 * max(0, 1 - dt / 0.25)))
+            if MIN:   # simple fondu avec léger glissé vers le haut
+                ease = 1 - (1 - min(1, dt / 0.4)) ** 3
+                sc, al, dy = 1.0, min(1, dt / 0.3) * min(1, (dur - dt) / 0.35), int(18 * (1 - ease))
+            else:
+                sc = [0.6, 0.85, 1.08, 1.12, 1.04, 0.98, 1.0][k] if k < 7 else 1.0
+                al, dy = min(1, dt / 0.12) * min(1, (dur - dt) / 0.25), int(30 * max(0, 1 - dt / 0.25))
+            blend(frame, layer(f"gfx{g['i']}", B / f"gfx_{g['i']:02d}.png"), scale=sc, alpha=al, dy=dy)
     if C.get("tag"):
         blend(frame, layer("tag", B / "tag.png"), alpha=min(1, max(0, t - C.get("hook_until", 0)) / 0.4))
     if C.get("hook") and t < C.get("hook_until", 3.0):
