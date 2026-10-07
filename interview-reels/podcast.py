@@ -49,9 +49,10 @@ parts = []
 for k, (a, b, _) in enumerate(pieces):
     d = b - a
     pk = B / f"piece{k:02d}.mov"
+    src_a = "1:a" if spk[k] == "q" else "0:a"   # chaque personne sur le micro le plus proche
     fc = (f"[0:v]fps={FPS},crop={W}:{HALF}:0:{CROP_A}[ta];[1:v]fps={FPS},crop={W}:{HALF}:0:{CROP_B}[tb];"
           f"[ta][tb]vstack,setsar=1,trim=duration={d:.3f}[v];"
-          f"[0:a]atrim=duration={d:.3f},afade=t=in:d=0.015,afade=t=out:st={max(0, d - 0.02):.3f}:d=0.02[a]")
+          f"[{src_a}]atrim=duration={d:.3f},afade=t=in:d=0.015,afade=t=out:st={max(0, d - 0.02):.3f}:d=0.02,aformat=sample_rates=48000:channel_layouts=mono[a]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{a:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camA.mov"),
                     "-ss", f"{a + OFFSET:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camB.mov"), "-filter_complex", fc,
                     "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-c:a", "pcm_s16le", str(pk)],
