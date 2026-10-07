@@ -1,0 +1,2 @@
+{"out": "out/reel-rob.mp4", "fps": 30, "audio": {"src": "src/ref7/ref.mp4"},
+ "segments": [{"src": "src/rob/robin.mov", "in": 0.3, "dur": 6.29, "overlays": [{"png": "build/rob/texte.png"}]}]}
