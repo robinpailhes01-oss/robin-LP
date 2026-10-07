@@ -65,6 +65,8 @@ for k, (a, b, _) in enumerate(pieces):
     d = b - a
     pk = B / f"piece{k:02d}.mov"
     src_a = "1:a" if spk[k] == "q" else "0:a"   # chaque personne sur le micro le plus proche
+    if bopt[k].get("audio") == "b":               # son pris sur le micro de la caméra B (plus net sur certains passages)
+        src_a = "1:a"
     bs = bopt[k].get("bsrc", a + OFFSET)
     extra = []
     if "bsrc" in bopt[k] and spk[k] == "q":       # image décalée : le son de la question reste celui, synchrone, de la caméra B
