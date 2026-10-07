@@ -1,4 +1,16 @@
-[{"out": "build/rob/texte.png",
+[
+ {
+  "out": "build/rob/texte.png",
   "text": "Certaines personnes m’appellent<br>« Robin »<br><br>D’autres seulement « Rob »<br><br>Mais tu peux m’appeler quand<br>tu voudras implémenter l’IA<br>dans ton entreprise et avoir<br>un partenaire à tes côtés",
-  "font": "../skills/reel-kit/assets/fonts/instrument-serif.woff2", "weight": 400, "size": 68, "line": 0.93, "top": 960, "color": "#f8efd8", "side": 40,
-  "tracking": "-0.005em", "shadow": true}]
+  "font": "../skills/reel-kit/assets/fonts/instrument-serif.woff2",
+  "weight": 400,
+  "size": 68,
+  "line": 0.93,
+  "top": 960,
+  "color": "#ffffff",
+  "side": 40,
+  "tracking": "-0.005em",
+  "shadow": false,
+  "extra_css": "text-shadow: 0 0 2px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.6), 0 0 18px rgba(0,0,0,0.45);"
+ }
+]
