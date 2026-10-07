@@ -43,6 +43,8 @@ for p in C["pieces"]:
             pool.pop(0)
         if pool:
             o["bsrc"] = pool[0][0]
+            if len(pool[0]) > 2:                   # recadrage propre à cette plage d'écoute
+                o = {**pool[0][2], **o}
             pool[0][0] += b - a + 0.1
         else:
             print("ATTENTION plus assez de plans d'écoute pour", a)
