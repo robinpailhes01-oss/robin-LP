@@ -16,6 +16,11 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
        font: 800 74px/1.1 Bold; letter-spacing: -0.02em; color: #fff;
        text-shadow: 0 0 2px rgba(0,0,0,.7), 0 4px 14px rgba(0,0,0,.55); }
 #sub .on { color: #ffc35c; }
+#sub.q { color: #f3eee6; font-size: 64px; }
+#sub.q .on { color: #b8adff; }
+.qlabel { position: absolute; left: 50%; top: 1040px; transform: translateX(-50%); padding: 10px 22px; border-radius: 30px;
+          background: #7c6cff; font: 800 28px/1 Bold; color: #fff; letter-spacing: 0.08em; text-transform: uppercase;
+          box-shadow: 0 6px 20px rgba(124,108,255,.5); }
 #sub .k { font-family: SerifF; font-weight: 400; font-style: italic; font-size: 80px; letter-spacing: 0; }
 .seam { position: absolute; left: 0; right: 0; top: 958px; height: 4px;
         background: linear-gradient(90deg, transparent, #7c6cff 20%, #ffc35c 50%, #7c6cff 80%, transparent);
@@ -43,6 +48,7 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
   await shot(`<div class="seam"></div>`, "seam.png");
   if (S.tag) await shot(`<div class="tag">${S.tag}</div>`, "tag.png");
   if (S.hook) await shot(`<div class="hook">${S.hook}</div>`, "hook.png");
+  await shot(`<div class="qlabel">La question</div>`, "qlabel.png");
   const clean = (w) => w.toLowerCase().replace(/[.,!?:;«»"]/g, "");
   for (const [gi, g] of S.groups.entries()) {
     for (let wi = 0; wi < g.length; wi++) {
@@ -50,7 +56,8 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
         const cls = [j === wi ? "on" : "", keys.has(clean(w)) ? "k" : ""].join(" ").trim();
         return `<span class="${cls}">${w}</span>`;
       }).join(" ");
-      await shot(`<div id="sub">${inner}</div>`, `sub_${String(gi).padStart(3, "0")}_${String(wi).padStart(2, "0")}.png`);
+      const q = (S.speakers || [])[gi] === "q" ? ' class="q"' : "";
+      await shot(`<div id="sub"${q}>${inner}</div>`, `sub_${String(gi).padStart(3, "0")}_${String(wi).padStart(2, "0")}.png`);
     }
   }
   await browser.close();

@@ -27,16 +27,18 @@ B = DIR / "build" / name
 B.mkdir(parents=True, exist_ok=True)
 
 # --- 1. timeline : morceaux de la caméra A recollés, mots replacés ---
-pieces, t = [], 0.0
-for a, b in C["pieces"]:
+pieces, t, spk = [], 0.0, []
+for p in C["pieces"]:
+    a, b = p[0], p[1]
     pieces.append((a, b, t))
+    spk.append(p[2] if len(p) > 2 else "r")   # "q" = question (personne du bas), "r" = Robin
     t += b - a
 TOTAL = t
 words = []
 for txt, s, e in C["words"]:
-    for a, b, at in pieces:
+    for pi, (a, b, at) in enumerate(pieces):
         if a - 0.05 <= s < b:
-            words.append([txt, at + max(0.0, s - a), at + min(b - a, e - a)])
+            words.append([txt, at + max(0.0, s - a), at + min(b - a, e - a), spk[pi]])
             break
 words.sort(key=lambda w: w[1])
 cuts = [at for _, _, at in pieces[1:]]
@@ -62,6 +64,8 @@ subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "
 # --- 3. sous-titres : groupes de 3-4 mots, mot prononcé surligné, rendus en PNG (un par état) ---
 groups, cur = [], []
 for w in words:
+    if cur and cur[-1][3] != w[3]:          # jamais de groupe à cheval sur deux personnes
+        groups.append(cur); cur = []
     cur.append(w)
     if len(cur) >= 4 or w[0].endswith((".", ",", "?", "!", ":")) or (len(cur) >= 3 and len(" ".join(x[0] for x in cur)) > 18):
         groups.append(cur); cur = []
@@ -74,7 +78,7 @@ for gi, g in enumerate(groups):
         if wi + 1 == len(g):
             end = min(end, w[2] + 0.35)
         states.append((w[1], end, gi, wi))
-spec = {"groups": [[w[0] for w in g] for g in groups], "keys": C.get("keys", []), "tag": C.get("tag", ""),
+spec = {"groups": [[w[0] for w in g] for g in groups], "speakers": [g[0][3] for g in groups], "keys": C.get("keys", []), "tag": C.get("tag", ""),
         "hook": C.get("hook", ""), "out": str(B)}
 (B / "spec.json").write_text(json.dumps(spec, ensure_ascii=False))
 subprocess.run(["node", str(DIR / "podcast_text.cjs"), str(B / "spec.json")], check=True,
@@ -137,10 +141,16 @@ while True:
     frame = src.astype(np.float32) / 255
     # coup de zoom sur la moitié haute à chaque coupe (et léger zoom continu)
     since = min([t - c for c in cuts if t >= c] + [t])
+    pi = max([i for i, (_, _, at) in enumerate(pieces) if at <= t] + [0])
+    who = spk[pi]
     z = 1.0 + 0.02 * t / max(TOTAL, 1) + 0.05 * np.exp(-since / 0.18)
-    top = frame[:HALF]
+    sl = slice(0, HALF) if who == "r" else slice(HALF, H)
+    half = frame[sl]
     M = np.float32([[z, 0, W / 2 * (1 - z)], [0, z, HALF * 0.45 * (1 - z)]])
-    frame[:HALF] = cv2.warpAffine(top, M, (W, HALF), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    frame[sl] = cv2.warpAffine(half, M, (W, HALF), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    if who == "q":
+        qs = pieces[pi][2]
+        blend(frame, layer("qlabel", B / "qlabel.png"), scale=POP[min(int((t - qs) * FPS), 2)] if t - qs < 0.1 else 1.0)
     blend(frame, layer("seam", B / "seam.png"))
     if C.get("tag"):
         blend(frame, layer("tag", B / "tag.png"), alpha=min(1, max(0, t - C.get("hook_until", 0)) / 0.4))
