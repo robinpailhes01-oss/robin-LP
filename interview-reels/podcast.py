@@ -65,9 +65,11 @@ for k, (a, b, _) in enumerate(pieces):
     d = b - a
     pk = B / f"piece{k:02d}.mov"
     src_a = "1:a" if spk[k] == "q" else "0:a"   # chaque personne sur le micro le plus proche
-    if "bsrc" in bopt[k] and spk[k] == "q":
-        src_a = "0:a"                              # plan décalé : le son ne peut plus venir de la caméra B
     bs = bopt[k].get("bsrc", a + OFFSET)
+    extra = []
+    if "bsrc" in bopt[k] and spk[k] == "q":       # image décalée : le son de la question reste celui, synchrone, de la caméra B
+        src_a = "2:a"
+        extra = ["-ss", f"{a + OFFSET:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camB.mov")]
     if "bcrop" in bopt[k]:
         x, y, cw = bopt[k]["bcrop"]
         ch = int(round(cw * HALF / W / 2)) * 2
@@ -79,7 +81,7 @@ for k, (a, b, _) in enumerate(pieces):
           f"[ta][tb]vstack,setsar=1,{GRADE},trim=duration={d:.3f}[v];"
           f"[{src_a}]atrim=duration={d:.3f},afade=t=in:d=0.015,afade=t=out:st={max(0, d - 0.02):.3f}:d=0.02,aformat=sample_rates=48000:channel_layouts=mono[a]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{a:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camA.mov"),
-                    "-ss", f"{bs:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camB.mov"), "-filter_complex", fc,
+                    "-ss", f"{bs:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camB.mov"), *extra, "-filter_complex", fc,
                     "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-c:a", "pcm_s16le", str(pk)],
                    check=True)
     parts.append(pk)
