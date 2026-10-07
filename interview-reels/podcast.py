@@ -50,8 +50,9 @@ for k, (a, b, _) in enumerate(pieces):
     d = b - a
     pk = B / f"piece{k:02d}.mov"
     src_a = "1:a" if spk[k] == "q" else "0:a"   # chaque personne sur le micro le plus proche
+    GRADE = C.get("grade", "eq=contrast=1.06:saturation=1.12:gamma=0.98,vignette=PI/6")
     fc = (f"[0:v]fps={FPS},crop={W}:{HALF}:0:{CROP_A}[ta];[1:v]fps={FPS},crop={W}:{HALF}:0:{CROP_B}[tb];"
-          f"[ta][tb]vstack,setsar=1,trim=duration={d:.3f}[v];"
+          f"[ta][tb]vstack,setsar=1,{GRADE},trim=duration={d:.3f}[v];"
           f"[{src_a}]atrim=duration={d:.3f},afade=t=in:d=0.015,afade=t=out:st={max(0, d - 0.02):.3f}:d=0.02,aformat=sample_rates=48000:channel_layouts=mono[a]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{a:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camA.mov"),
                     "-ss", f"{a + OFFSET:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camB.mov"), "-filter_complex", fc,
@@ -79,7 +80,17 @@ for gi, g in enumerate(groups):
         if wi + 1 == len(g):
             end = min(end, w[2] + 0.35)
         states.append((w[1], end, gi, wi))
-spec = {"groups": [[w[0] for w in g] for g in groups], "speakers": [g[0][3] for g in groups], "keys": C.get("keys", []), "tag": C.get("tag", ""),
+graphics = []
+for gi_, g in enumerate(C.get("graphics", [])):
+    t0 = g.get("t")
+    if t0 is None:
+        cand = [w[1] for w in words if w[0].lower().strip(".,?!") .startswith(g["at_word"].lower())]
+        if not cand:
+            print("ATTENTION mot introuvable pour la carte", g["at_word"]); continue
+        t0 = cand[g.get("nth", 0)] - 0.05
+    graphics.append({**g, "t0": t0, "i": gi_})
+spec = {"graphics": [{k: v for k, v in g.items() if k not in ("t0",)} for g in graphics],
+        "groups": [[w[0] for w in g] for g in groups], "speakers": [g[0][3] for g in groups], "keys": C.get("keys", []), "tag": C.get("tag", ""),
         "hook": C.get("hook", ""), "out": str(B)}
 (B / "spec.json").write_text(json.dumps(spec, ensure_ascii=False))
 subprocess.run(["node", str(DIR / "podcast_text.cjs"), str(B / "spec.json")], check=True,
@@ -152,7 +163,27 @@ while True:
     if who == "q":
         qs = pieces[pi][2]
         blend(frame, layer("qlabel", B / "qlabel.png"), scale=POP[min(int((t - qs) * FPS), 2)] if t - qs < 0.1 else 1.0)
-    blend(frame, layer("seam", B / "seam.png"))
+    # filet central qui se remplit comme une barre de progression
+    blend(frame, layer("seam", B / "seam.png"), alpha=0.35)
+    sp = layer("seam", B / "seam.png")
+    if sp is not None:
+        img, x0, y0 = sp
+        wcut = int(img.shape[1] * min(1, t / TOTAL))
+        if wcut > 0:
+            blend(frame, (img[:, :wcut], x0, y0))
+    # petit flash quand la parole change de personne
+    if pi > 0 and spk[pi] != spk[pi - 1] and 0 <= t - pieces[pi][2] < 0.12:
+        fl = 0.35 * (1 - (t - pieces[pi][2]) / 0.12)
+        frame[sl] = frame[sl] * (1 - fl) + fl
+    # cartes animées (entrée avec rebond, sortie en fondu)
+    for g in graphics:
+        dt = t - g["t0"]
+        dur = g.get("dur", 2.4)
+        if 0 <= dt < dur:
+            k = int(dt * FPS)
+            sc = [0.6, 0.85, 1.08, 1.12, 1.04, 0.98, 1.0][k] if k < 7 else 1.0
+            al = min(1, dt / 0.12) * min(1, (dur - dt) / 0.25)
+            blend(frame, layer(f"gfx{g['i']}", B / f"gfx_{g['i']:02d}.png"), scale=sc, alpha=al, dy=int(30 * max(0, 1 - dt / 0.25)))
     if C.get("tag"):
         blend(frame, layer("tag", B / "tag.png"), alpha=min(1, max(0, t - C.get("hook_until", 0)) / 0.4))
     if C.get("hook") and t < C.get("hook_until", 3.0):

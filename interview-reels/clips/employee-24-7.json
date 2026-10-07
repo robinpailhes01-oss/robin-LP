@@ -785,5 +785,96 @@
  ],
  "tag": "Robin · <b>Luma</b>",
  "hook": "Une employée 24h/24, 7j/7… <em>qui n'en a jamais marre</em>",
- "hook_until": 2.8
+ "hook_until": 2.8,
+ "graphics": [
+  {
+   "at_word": "WhatsApp",
+   "type": "chat",
+   "icon": "chat",
+   "color": "g",
+   "title": "WhatsApp · 02:14",
+   "lines": [
+    "Le bateau est dispo demain ?",
+    "Oui ! Il reste le créneau de 18h"
+   ],
+   "pos": [
+    720,
+    1250
+   ],
+   "w": 500,
+   "dur": 3.0
+  },
+  {
+   "at_word": "24h/24",
+   "type": "big",
+   "icon": "clock",
+   "title": "Toujours disponible",
+   "text": "24h/24 · 7j/7",
+   "pos": [
+    700,
+    1170
+   ],
+   "w": 460,
+   "dur": 2.6
+  },
+  {
+   "at_word": "relancer",
+   "type": "text",
+   "icon": "check",
+   "color": "g",
+   "title": "Automatique",
+   "text": "Relance envoyée",
+   "pos": [
+    720,
+    1160
+   ],
+   "dur": 2.2,
+   "w": 430
+  },
+  {
+   "at_word": "café",
+   "type": "text",
+   "icon": "cup",
+   "color": "o",
+   "title": "Chaque matin",
+   "text": "Rituel du tableau de bord",
+   "pos": [
+    720,
+    1160
+   ],
+   "w": 430,
+   "dur": 2.0
+  },
+  {
+   "at_word": "tableau",
+   "type": "list",
+   "icon": "chart",
+   "title": "Tableau de bord",
+   "lines": [
+    "Conversations",
+    "Réservations",
+    "Clients intéressés"
+   ],
+   "pos": [
+    760,
+    1210
+   ],
+   "w": 420,
+   "dur": 3.4
+  },
+  {
+   "at_word": "5",
+   "type": "big",
+   "icon": "clock",
+   "color": "o",
+   "title": "Pour tout voir",
+   "text": "5 min",
+   "pos": [
+    270,
+    1170
+   ],
+   "dur": 2.0,
+   "w": 400
+  }
+ ]
 }
