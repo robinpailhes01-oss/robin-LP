@@ -27,11 +27,26 @@ B = DIR / "build" / name
 B.mkdir(parents=True, exist_ok=True)
 
 # --- 1. timeline : morceaux de la caméra A recollés, mots replacés ---
-pieces, t, spk = [], 0.0, []
+# Écran du bas : on doit toujours y voir la personne qui parle avec Robin. La caméra B se balade parfois
+# (décor, autre personne) : pendant les réponses de Robin on prend donc des plans d'écoute de l'intervieweur
+# (C["listen"] : plages de la caméra B où il écoute en silence), et une question peut être recadrée sur lui
+# ({"bcrop": [x, y, largeur]} dans la caméra B, mise à l'échelle sur la demi-hauteur).
+pieces, t, spk, bopt = [], 0.0, [], []
+pool = [list(r) for r in C.get("listen", [])]
 for p in C["pieces"]:
     a, b = p[0], p[1]
     pieces.append((a, b, t))
-    spk.append(p[2] if len(p) > 2 else "r")   # "q" = question (personne du bas), "r" = Robin
+    spk.append(next((x for x in p[2:] if isinstance(x, str)), "r"))   # "q" = question (personne du bas), "r" = Robin
+    o = dict(next((x for x in p[2:] if isinstance(x, dict)), {}))
+    if "bsrc" not in o and spk[-1] == "r" and pool:
+        while pool and pool[0][1] - pool[0][0] < b - a + 0.25:
+            pool.pop(0)
+        if pool:
+            o["bsrc"] = pool[0][0]
+            pool[0][0] += b - a + 0.1
+        else:
+            print("ATTENTION plus assez de plans d'écoute pour", a)
+    bopt.append(o)
     t += b - a
 TOTAL = t
 words = []
@@ -50,12 +65,21 @@ for k, (a, b, _) in enumerate(pieces):
     d = b - a
     pk = B / f"piece{k:02d}.mov"
     src_a = "1:a" if spk[k] == "q" else "0:a"   # chaque personne sur le micro le plus proche
+    if "bsrc" in bopt[k] and spk[k] == "q":
+        src_a = "0:a"                              # plan décalé : le son ne peut plus venir de la caméra B
+    bs = bopt[k].get("bsrc", a + OFFSET)
+    if "bcrop" in bopt[k]:
+        x, y, cw = bopt[k]["bcrop"]
+        ch = int(round(cw * HALF / W / 2)) * 2
+        bfil = f"crop={cw}:{ch}:{x}:{y},scale={W}:{HALF}:flags=lanczos"
+    else:
+        bfil = f"crop={W}:{HALF}:0:{CROP_B}"
     GRADE = C.get("grade", "eq=contrast=1.06:saturation=1.12:gamma=0.98,vignette=PI/6")
-    fc = (f"[0:v]fps={FPS},crop={W}:{HALF}:0:{CROP_A}[ta];[1:v]fps={FPS},crop={W}:{HALF}:0:{CROP_B}[tb];"
+    fc = (f"[0:v]fps={FPS},crop={W}:{HALF}:0:{CROP_A}[ta];[1:v]fps={FPS},{bfil}[tb];"
           f"[ta][tb]vstack,setsar=1,{GRADE},trim=duration={d:.3f}[v];"
           f"[{src_a}]atrim=duration={d:.3f},afade=t=in:d=0.015,afade=t=out:st={max(0, d - 0.02):.3f}:d=0.02,aformat=sample_rates=48000:channel_layouts=mono[a]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{a:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camA.mov"),
-                    "-ss", f"{a + OFFSET:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camB.mov"), "-filter_complex", fc,
+                    "-ss", f"{bs:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camB.mov"), "-filter_complex", fc,
                     "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-c:a", "pcm_s16le", str(pk)],
                    check=True)
     parts.append(pk)

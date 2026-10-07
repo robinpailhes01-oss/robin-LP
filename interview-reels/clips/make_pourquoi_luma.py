@@ -14,7 +14,7 @@ for t, s, e in ws:
 FIX = {"Wienia": "l'IA"}
 O = 0.48
 pieces_b = [  # temps caméra B
-    (1038.71, 1040.95, "q"), (1042.35, 1047.2, "q"),
+    (1038.71, 1040.95, "q", {"bcrop": [0, 640, 760]}), (1042.35, 1047.2, "q", {"bcrop": [0, 640, 760]}),
     (977.95, 981.75), (984.55, 987.4), (990.9, 992.45), (993.7, 998.9),
     (1019.8, 1021.15),
     (1074.5, 1078.25, "q"),
@@ -28,7 +28,7 @@ for p in pieces_b:
     first = who != prev
     prev = who
     a, b = p[0], p[1]
-    pieces.append([round(a - O, 3), round(b - O, 3)] + ([p[2]] if len(p) > 2 else []))
+    pieces.append([round(a - O, 3), round(b - O, 3)] + list(p[2:]))
     for t, s, e in m:
         if a - 0.02 <= s < b:
             t = FIX.get(t, t)
@@ -38,6 +38,8 @@ for p in pieces_b:
 C = {
     "maxrate": "6M",
     "style": "minimal",
+    # plans de la caméra B où l'intervieweur écoute Robin en silence (réponse « chiffres »), pour l'écran du bas
+    "listen": [[911.0, 917.6], [919.0, 940.4], [943.2, 955.2], [955.9, 968.0]],
     "pieces": pieces, "words": words,
     "keys": ["vie,", "essentiel.", "humain.", "temps,", "l'efficacité", "100 %", "relationnel."],
     "tag": "Robin · <b>Luma</b>",
