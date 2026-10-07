@@ -13,7 +13,7 @@ const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face { font-family: SerifF; src: url("${F("instrument-serif.woff2")}"); }
 html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
 #sub { position: absolute; left: 60px; right: 60px; top: 960px; transform: translateY(-50%); text-align: center;
-       font: 800 66px/1.12 Bold; letter-spacing: -0.02em; color: #fff;
+       font: 800 74px/1.1 Bold; letter-spacing: -0.02em; color: #fff;
        text-shadow: 0 0 2px rgba(0,0,0,.7), 0 4px 14px rgba(0,0,0,.55); }
 #sub .on { color: #ffc35c; }
 #sub .k { font-family: SerifF; font-weight: 400; font-style: italic; font-size: 80px; letter-spacing: 0; }
@@ -24,7 +24,7 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
        background: rgba(10,10,20,.55); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.25);
        font: 800 30px/1 Bold; color: #fff; letter-spacing: -0.01em; }
 .tag b { color: #ffc35c; }
-.hook { position: absolute; left: 70px; right: 70px; top: 300px; text-align: center; padding: 26px 30px; border-radius: 30px;
+.hook { position: absolute; left: 70px; right: 70px; top: 640px; text-align: center; padding: 26px 30px; border-radius: 30px;
         background: rgba(10,10,20,.62); border: 1px solid rgba(255,255,255,.22);
         font: 800 58px/1.1 Bold; color: #fff; letter-spacing: -0.02em; }
 .hook em { font-family: SerifF; font-weight: 400; color: #ffc35c; font-size: 70px; }

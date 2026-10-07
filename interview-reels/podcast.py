@@ -6,6 +6,7 @@ Le JSON décrit les morceaux gardés (temps de la caméra A) et les mots (texte 
 Les deux caméras sont synchronisées : temps B = temps A + OFFSET (mesuré par corrélation du son, 0,48 s).
 """
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -40,20 +41,23 @@ for txt, s, e in C["words"]:
 words.sort(key=lambda w: w[1])
 cuts = [at for _, _, at in pieces[1:]]
 
-# --- 2. vidéo de base : A en haut, B en bas, son de A ---
-fc, cat = [], []
+# --- 2. vidéo de base : A en haut, B en bas, son de A (un morceau à la fois, pour la mémoire) ---
+base = B / "base.mp4"
+parts = []
 for k, (a, b, _) in enumerate(pieces):
     d = b - a
-    fc.append(f"[0:v]trim={a:.3f}:{b:.3f},setpts=PTS-STARTPTS,fps={FPS},crop={W}:{HALF}:0:{CROP_A}[ta{k}]")
-    fc.append(f"[1:v]trim={a + OFFSET:.3f}:{b + OFFSET:.3f},setpts=PTS-STARTPTS,fps={FPS},crop={W}:{HALF}:0:{CROP_B}[tb{k}]")
-    fc.append(f"[ta{k}][tb{k}]vstack,setsar=1[v{k}]")
-    fc.append(f"[0:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS,afade=t=in:d=0.015,afade=t=out:st={max(0, d - 0.02):.3f}:d=0.02[a{k}]")
-    cat.append(f"[v{k}][a{k}]")
-fc.append("".join(cat) + f"concat=n={len(pieces)}:v=1:a=1[v][a]")
-base = B / "base.mp4"
-subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(R / "camA.mov"), "-i", str(R / "camB.mov"),
-                "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "16", "-preset", "fast",
-                "-c:a", "pcm_s16le", str(base.with_suffix(".mov"))], check=True)
+    pk = B / f"piece{k:02d}.mov"
+    fc = (f"[0:v]fps={FPS},crop={W}:{HALF}:0:{CROP_A}[ta];[1:v]fps={FPS},crop={W}:{HALF}:0:{CROP_B}[tb];"
+          f"[ta][tb]vstack,setsar=1,trim=duration={d:.3f}[v];"
+          f"[0:a]atrim=duration={d:.3f},afade=t=in:d=0.015,afade=t=out:st={max(0, d - 0.02):.3f}:d=0.02[a]")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{a:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camA.mov"),
+                    "-ss", f"{a + OFFSET:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / "camB.mov"), "-filter_complex", fc,
+                    "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-c:a", "pcm_s16le", str(pk)],
+                   check=True)
+    parts.append(pk)
+(B / "parts.txt").write_text("".join(f"file '{p.name}'\n" for p in parts))
+subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(B / "parts.txt"), "-c", "copy",
+                str(base.with_suffix(".mov"))], check=True)
 
 # --- 3. sous-titres : groupes de 3-4 mots, mot prononcé surligné, rendus en PNG (un par état) ---
 groups, cur = [], []
@@ -74,7 +78,7 @@ spec = {"groups": [[w[0] for w in g] for g in groups], "keys": C.get("keys", [])
         "hook": C.get("hook", ""), "out": str(B)}
 (B / "spec.json").write_text(json.dumps(spec, ensure_ascii=False))
 subprocess.run(["node", str(DIR / "podcast_text.cjs"), str(B / "spec.json")], check=True,
-               env={"NODE_PATH": "/opt/node-tools/node_modules", "PATH": "/usr/bin:/bin:/usr/local/bin"})
+               env={**os.environ, "NODE_PATH": "/opt/node-tools/node_modules"})
 
 
 def png(path):
@@ -139,7 +143,7 @@ while True:
     frame[:HALF] = cv2.warpAffine(top, M, (W, HALF), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
     blend(frame, layer("seam", B / "seam.png"))
     if C.get("tag"):
-        blend(frame, layer("tag", B / "tag.png"), alpha=min(1, t / 0.4))
+        blend(frame, layer("tag", B / "tag.png"), alpha=min(1, max(0, t - C.get("hook_until", 0)) / 0.4))
     if C.get("hook") and t < C.get("hook_until", 3.0):
         k = int(t * FPS)
         blend(frame, layer("hook", B / "hook.png"), scale=POP[k] if k < len(POP) else 1.0,
