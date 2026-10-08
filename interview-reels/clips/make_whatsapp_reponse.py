@@ -48,12 +48,20 @@ C = {
     "tag": "Robin · <b>Luma</b>",
     "hook": "Tes clients veulent <em>une réponse</em>",
     "hook_until": 2.6,
+    # motion design : le canal -> les messages à toute heure (notifications d'illustration) -> la réponse de l'agent
     "graphics": [
-        {"type": "min", "title": "Le canal", "text": "Tout passe par WhatsApp", "at_word": "WhatsApp", "pos": [540, 1135], "dur": 2.6},
-        {"type": "min", "title": "Les clients", "text": "Dimanche 23 h, 1 h du matin…", "at_word": "dimanche", "pos": [540, 1135], "dur": 2.8},
-        {"type": "min", "title": "L'agent IA", "text": "Répond du tac au tac", "at_word": "rapidement", "pos": [540, 1135], "dur": 2.4},
-        {"type": "min", "title": "Le résultat", "text": "Réservations de dernière minute", "at_word": "dernière", "pos": [540, 1135], "dur": 2.8},
+        {"type": "chip", "icon": "chat", "text": "Tout passe par WhatsApp", "at_word": "WhatsApp", "pos": [540, 1150], "dur": 2.0},
+        {"type": "chip", "text": "Un beau site internet…", "at_word": "site", "until": "surtout", "pos": [540, 1110]},
+        {"type": "chip", "icon": "chat", "text": "…mais ils envoient un message", "at_word": "message", "until": "surtout", "pos": [540, 1215]},
+        {"type": "chip", "style": "gold", "text": "→ ils veulent quelqu'un", "at_word": "quelqu", "until": "surtout", "pos": [540, 1325]},
+        {"type": "notif", "time": "DIM. 23:04", "text": "Bonjour, le bateau est dispo demain ?", "at_word": "dimanche", "until": "rapidement", "pos": [540, 1165]},
+        {"type": "notif", "time": "01:12", "text": "Il reste de la place samedi ?", "at_word": "1h", "until": "rapidement", "pos": [540, 1300]},
+        {"type": "notif", "time": "01:13", "text": "On peut réserver pour 6 ?", "at_word": "réponse", "until": "rapidement", "pos": [540, 1435]},
+        {"type": "chip", "icon": "check", "text": "L'agent IA répond tout de suite", "at_word": "rapidement", "pos": [540, 1130], "dur": 99},
+        {"type": "chip", "icon": "up", "color": "o", "text": "Réservations de dernière minute", "at_word": "dernière", "pos": [540, 1235], "dur": 99},
+        {"type": "chip", "style": "gold", "text": "Sinon, ils réservent ailleurs", "at_word": "répondait", "pos": [540, 1345], "dur": 99},
     ],
+
 }
 json.dump(C, open(D + "clips/whatsapp-reponse.json", "w"), ensure_ascii=False, indent=1)
 print(" ".join(w[0] for w in words))

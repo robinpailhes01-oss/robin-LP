@@ -78,6 +78,12 @@ body.min .hook em { font-size: 70px; }
         text-shadow: 0 2px 14px rgba(0,0,0,.75); }
 .step small { display: block; font: 800 22px/1 Bold; letter-spacing: .3em; text-transform: uppercase; color: #ffc35c; margin-bottom: 12px; }
 .step div { font: italic 400 58px/1 SerifF; }
+.notif { position: absolute; transform: translate(-50%, -50%); width: 760px; display: flex; gap: 18px; align-items: center;
+         padding: 18px 22px; border-radius: 30px; background: rgba(245,245,247,.92); color: #111;
+         box-shadow: 0 14px 40px rgba(0,0,0,.35); font: 800 30px/1.2 Bold; }
+.notif .app { width: 62px; height: 62px; border-radius: 16px; background: #25d366; display: grid; place-items: center; flex: none; }
+.notif small { display: flex; justify-content: space-between; font-size: 21px; color: #777; letter-spacing: .04em; margin-bottom: 6px; }
+.notif .tx { flex: 1; }
 .line { position: absolute; height: 4px; border-radius: 2px; background: linear-gradient(90deg, #ffc35c, #fff);
         box-shadow: 0 1px 8px rgba(0,0,0,.5); }
 </style></head><body></body></html>`;
@@ -93,6 +99,9 @@ const card = (g) => {
   if (g.type === "chip")
     return `<div class="chip ${g.icon ? "" : "plain"} ${g.style || ""}" style="left:${g.pos[0]}px;top:${g.pos[1]}px">` +
       (g.icon ? `<span class="dot ${g.color || ""}">${ICON[g.icon] || ""}</span>` : "") + `${g.text}</div>`;
+  if (g.type === "notif")   // notification WhatsApp (illustration)
+    return `<div class="notif" style="left:${g.pos[0]}px;top:${g.pos[1]}px"><div class="app">${ICON.chat}</div>` +
+      `<div class="tx"><small><span>WHATSAPP</span><span>${g.time}</span></small>${g.text}</div></div>`;
   if (g.type === "step")
     return `<div class="step" style="left:${g.pos[0]}px;top:${g.pos[1]}px"><small>${g.title}</small><div>${g.text}</div></div>`;
   if (g.type === "line")
