@@ -3,15 +3,17 @@
  "ref": "src/ref.mp4",
  "start": 2.0,
  "pov": "POV",
- "line": "il est 1h du matin mais<br>tu es chef d’entreprise",
- "pov_y": 518,
- "pov_size": 47,
- "line_y": 612,
- "line_size": 47,
+ "line": "Il est une heure du matin,<br>mais tu es <em>chef d’entreprise.</em>",
+ "pov_y": 500,
+ "pov_size": 26,
+ "line_y": 556,
+ "line_size": 84,
  "end_brand": "Luma",
  "end_sub": "Agence IA · Montpellier",
  "cut": 6.0,
  "black": 0.067,
  "dim": 0.28,
- "grade": "eq=brightness=0.03:contrast=1.07:saturation=1.05:gamma=1.12"
+ "grade": "curves=all='0/0 0.3/0.23 0.6/0.48 1/0.8',eq=saturation=0.9:contrast=1.04,colorbalance=rs=0.05:gs=0.01:bs=-0.04:rm=0.03:bh=-0.02,vignette=a=PI/4.2:x0=w*0.55:y0=h*0.55",
+ "shade": 0.5,
+ "shade_y": 600
 }

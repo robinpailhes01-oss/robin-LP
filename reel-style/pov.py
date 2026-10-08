@@ -45,7 +45,7 @@ def blend(frame, lay, scale=1.0, alpha=1.0, dy=0):
 title, brand, handle = layer("title.png"), layer("brand.png"), layer("handle.png")
 # léger voile sombre derrière le titre (le plafond du bateau est clair, la référence avait un mur sombre)
 yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-SHADE = (C.get("shade", 0.28) * np.exp(-(((xx - W / 2) / 520) ** 2 + ((yy - 610) / 230) ** 2)))[..., None]
+SHADE = (C.get("shade", 0.28) * np.exp(-(((xx - W / 2) / 560) ** 2 + ((yy - C.get("shade_y", 610)) / 190) ** 2)))[..., None]
 ease = lambda x: 1 - (1 - min(max(x, 0), 1)) ** 3
 dec = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-ss", str(C["start"]), "-i", str(DIR / C["rush"]), "-t", f"{dur + 0.2:.3f}",
                         "-vf", f"{TONEMAP},{C['grade']},fps={FPS},scale={W}:{H}", "-f", "rawvideo", "-pix_fmt", "bgr24", "-"],
