@@ -1,0 +1,1113 @@
+{
+ "name": "vsl-luma.mp4",
+ "order": [
+  "r9",
+  "r4",
+  "r8",
+  "r5",
+  "r1",
+  "r2",
+  "r3",
+  "r7",
+  "r6"
+ ],
+ "threshold_db": -42,
+ "min_gap": 0.28,
+ "drop": [
+  [
+   "r7",
+   28.95,
+   29.85
+  ],
+  [
+   "r9",
+   86.0,
+   88.55
+  ]
+ ],
+ "fix": [
+  [
+   "r9",
+   40.98,
+   "tapes"
+  ],
+  [
+   "r9",
+   56.9,
+   "relances,"
+  ],
+  [
+   "r9",
+   82.88,
+   "400 %"
+  ],
+  [
+   "r9",
+   86.1,
+   null
+  ],
+  [
+   "r8",
+   32.08,
+   "chatbot,"
+  ],
+  [
+   "r8",
+   32.24,
+   null
+  ],
+  [
+   "r8",
+   32.34,
+   null
+  ],
+  [
+   "r7",
+   29.02,
+   null
+  ],
+  [
+   "r5",
+   17.4,
+   "d'œil."
+  ],
+  [
+   "r3",
+   7.18,
+   "WhatsApp"
+  ],
+  [
+   "r3",
+   0.68,
+   "Et"
+  ],
+  [
+   "r7",
+   8.98,
+   "15 %"
+  ]
+ ],
+ "keys": [
+  "chronophage",
+  "disponibilité",
+  "premier",
+  "400 %",
+  "luma",
+  "employé",
+  "secondes",
+  "relais",
+  "dernière",
+  "chatbot",
+  "tableau",
+  "15 %",
+  "dessous"
+ ],
+ "graphics": [
+  {
+   "type": "kicker",
+   "at": [
+    "r9",
+    1.0
+   ],
+   "end": [
+    "r9",
+    6.1
+   ],
+   "text": "Luma · agent IA WhatsApp",
+   "pos": [
+    540,
+    1330
+   ]
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    9.2
+   ],
+   "text": "Ta boîte tourne",
+   "pos": [
+    540,
+    1300
+   ],
+   "end": [
+    "r9",
+    11.1
+   ],
+   "icon": "check"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    10.08
+   ],
+   "text": "Des clients",
+   "pos": [
+    540,
+    1405
+   ],
+   "end": [
+    "r9",
+    11.1
+   ],
+   "icon": "check"
+  },
+  {
+   "type": "notif",
+   "at": [
+    "r9",
+    14.6
+   ],
+   "end": [
+    "r9",
+    19.6
+   ],
+   "time": "22:00",
+   "text": "Bonsoir, j'aurais souhaité des renseignements…",
+   "pos": [
+    540,
+    1230
+   ]
+  },
+  {
+   "type": "notif",
+   "at": [
+    "r9",
+    15.8
+   ],
+   "end": [
+    "r9",
+    19.6
+   ],
+   "time": "23:47",
+   "text": "C'est encore dispo samedi ?",
+   "pos": [
+    540,
+    1360
+   ]
+  },
+  {
+   "type": "notif",
+   "at": [
+    "r9",
+    16.96
+   ],
+   "end": [
+    "r9",
+    19.6
+   ],
+   "time": "06:52",
+   "text": "Vous pouvez m'envoyer un devis ?",
+   "pos": [
+    540,
+    1490
+   ]
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    19.14
+   ],
+   "text": "Complètement chronophage",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r9",
+    23.4
+   ],
+   "style": "gold"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    25.14
+   ],
+   "text": "Une des tâches les plus importantes",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r9",
+    33.3
+   ],
+   "icon": "bolt",
+   "color": "o"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    35.2
+   ],
+   "text": "En plein rendez-vous",
+   "pos": [
+    540,
+    1280
+   ],
+   "end": [
+    "r9",
+    38.9
+   ],
+   "icon": "cal",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    36.86
+   ],
+   "text": "Au sport",
+   "pos": [
+    540,
+    1375
+   ],
+   "end": [
+    "r9",
+    38.9
+   ],
+   "icon": "clock",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    37.4
+   ],
+   "text": "En famille",
+   "pos": [
+    540,
+    1470
+   ],
+   "end": [
+    "r9",
+    38.9
+   ],
+   "icon": "user",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    41.22
+   ],
+   "text": "Les mêmes réponses, tous les jours",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r9",
+    46.9
+   ],
+   "icon": "repeat",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    47.8
+   ],
+   "text": "Des devis qui traînent",
+   "pos": [
+    540,
+    1310
+   ],
+   "end": [
+    "r9",
+    58.9
+   ],
+   "icon": "doc",
+   "color": "r"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    56.9
+   ],
+   "text": "Des relances oubliées",
+   "pos": [
+    540,
+    1415
+   ],
+   "end": [
+    "r9",
+    58.9
+   ],
+   "icon": "x",
+   "color": "r"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    66.0
+   ],
+   "text": "Il écrit à 3 établissements",
+   "pos": [
+    540,
+    1310
+   ],
+   "end": [
+    "r9",
+    73.3
+   ],
+   "icon": "chat"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    72.08
+   ],
+   "text": "Le premier qui répond gagne",
+   "pos": [
+    540,
+    1420
+   ],
+   "end": [
+    "r9",
+    77.3
+   ],
+   "style": "gold"
+  },
+  {
+   "type": "big",
+   "at": [
+    "r9",
+    80.5
+   ],
+   "end": [
+    "r9",
+    86.0
+   ],
+   "title": "Répondre en moins de 5 min",
+   "text": "+400 %",
+   "sub": "de chances que le client signe",
+   "pos": [
+    540,
+    1340
+   ]
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    92.22
+   ],
+   "text": "L'organisation",
+   "pos": [
+    540,
+    1300
+   ],
+   "end": [
+    "r4",
+    0.9
+   ],
+   "icon": "x",
+   "color": "r",
+   "style": "off"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r9",
+    93.14
+   ],
+   "text": "La disponibilité",
+   "pos": [
+    540,
+    1410
+   ],
+   "end": [
+    "r4",
+    0.9
+   ],
+   "style": "gold"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r4",
+    4.14
+   ],
+   "text": "Embaucher quelqu'un ?",
+   "pos": [
+    540,
+    1300
+   ],
+   "end": [
+    "r4",
+    10.5
+   ],
+   "icon": "user",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r4",
+    6.54
+   ],
+   "text": "Ça reste très cher",
+   "pos": [
+    540,
+    1405
+   ],
+   "end": [
+    "r4",
+    10.5
+   ],
+   "icon": "x",
+   "color": "r"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r4",
+    11.3
+   ],
+   "text": "Samedi",
+   "pos": [
+    330,
+    1300
+   ],
+   "end": [
+    "r4",
+    16.3
+   ],
+   "icon": "x",
+   "color": "r",
+   "style": "off"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r4",
+    12.02
+   ],
+   "text": "Dimanche",
+   "pos": [
+    750,
+    1300
+   ],
+   "end": [
+    "r4",
+    16.3
+   ],
+   "icon": "x",
+   "color": "r",
+   "style": "off"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r4",
+    15.12
+   ],
+   "text": "La nuit",
+   "pos": [
+    330,
+    1405
+   ],
+   "end": [
+    "r4",
+    16.3
+   ],
+   "icon": "x",
+   "color": "r",
+   "style": "off"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r4",
+    15.86
+   ],
+   "text": "Les soirées",
+   "pos": [
+    750,
+    1405
+   ],
+   "end": [
+    "r4",
+    16.3
+   ],
+   "icon": "x",
+   "color": "r",
+   "style": "off"
+  },
+  {
+   "type": "brand",
+   "at": [
+    "r8",
+    4.74
+   ],
+   "end": [
+    "r8",
+    8.7
+   ],
+   "text": "Luma",
+   "sub": "Agent IA WhatsApp",
+   "pos": [
+    540,
+    1330
+   ]
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    9.46
+   ],
+   "text": "Connaît tout de ton entreprise",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r8",
+    13.2
+   ],
+   "icon": "bolt",
+   "color": "o"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    14.02
+   ],
+   "text": "Branché à tes outils",
+   "pos": [
+    540,
+    1250
+   ],
+   "end": [
+    "r8",
+    26.6
+   ],
+   "style": "gold"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    16.2
+   ],
+   "text": "Agenda",
+   "pos": [
+    330,
+    1350
+   ],
+   "end": [
+    "r8",
+    26.6
+   ],
+   "icon": "cal",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    17.24
+   ],
+   "text": "Mails",
+   "pos": [
+    750,
+    1350
+   ],
+   "end": [
+    "r8",
+    26.6
+   ],
+   "icon": "mail",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    18.6
+   ],
+   "text": "Devis",
+   "pos": [
+    330,
+    1455
+   ],
+   "end": [
+    "r8",
+    26.6
+   ],
+   "icon": "doc",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    23.58
+   ],
+   "text": "Données",
+   "pos": [
+    750,
+    1455
+   ],
+   "end": [
+    "r8",
+    26.6
+   ],
+   "icon": "db",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    28.02
+   ],
+   "text": "Répond en quelques secondes",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r8",
+    31.4
+   ],
+   "icon": "clock",
+   "color": "o"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    31.84
+   ],
+   "text": "Un chatbot",
+   "pos": [
+    540,
+    1300
+   ],
+   "end": [
+    "r8",
+    35.3
+   ],
+   "icon": "x",
+   "color": "r",
+   "style": "off"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    32.86
+   ],
+   "text": "Un employé",
+   "pos": [
+    540,
+    1410
+   ],
+   "end": [
+    "r8",
+    35.3
+   ],
+   "icon": "check"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    35.5
+   ],
+   "text": "Parle comme toi",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r8",
+    39.9
+   ],
+   "icon": "chat"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    44.72
+   ],
+   "text": "Engage la conversation",
+   "pos": [
+    540,
+    1280
+   ],
+   "end": [
+    "r8",
+    50.4
+   ],
+   "icon": "chat"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    46.54
+   ],
+   "text": "Crée les devis",
+   "pos": [
+    540,
+    1375
+   ],
+   "end": [
+    "r8",
+    50.4
+   ],
+   "icon": "doc",
+   "color": "o"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r8",
+    48.54
+   ],
+   "text": "Pousse à réserver",
+   "pos": [
+    540,
+    1470
+   ],
+   "end": [
+    "r8",
+    50.4
+   ],
+   "icon": "up",
+   "color": "o"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r5",
+    2.08
+   ],
+   "text": "Relance les clients",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r5",
+    6.5
+   ],
+   "icon": "repeat",
+   "color": "o"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r5",
+    9.06
+   ],
+   "text": "Fiches clients",
+   "pos": [
+    540,
+    1310
+   ],
+   "end": [
+    "r5",
+    17.7
+   ],
+   "icon": "user",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r5",
+    12.3
+   ],
+   "text": "Tableau de bord",
+   "pos": [
+    540,
+    1415
+   ],
+   "end": [
+    "r5",
+    17.7
+   ],
+   "icon": "grid",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r1",
+    3.46
+   ],
+   "text": "Demande sensible ?",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r1",
+    6.0
+   ],
+   "icon": "bolt",
+   "color": "o"
+  },
+  {
+   "type": "insert",
+   "at": [
+    "r1",
+    6.0
+   ],
+   "end": [
+    "r1",
+    10.2
+   ],
+   "src": "escalade-lea.png",
+   "w": 900,
+   "y": 760,
+   "title": "Le message que je reçois",
+   "cap_y": 420
+  },
+  {
+   "type": "insert",
+   "at": [
+    "r2",
+    2.6
+   ],
+   "end": [
+    "r2",
+    9.9
+   ],
+   "src": "conv-loanne.png",
+   "w": 640,
+   "win": 1200,
+   "y": 790,
+   "title": "Un vrai échange, géré par l'agent",
+   "cap_y": 150
+  },
+  {
+   "type": "insert",
+   "at": [
+    "r3",
+    2.9
+   ],
+   "end": [
+    "r3",
+    11.0
+   ],
+   "src": "tableau-de-bord.png",
+   "w": 720,
+   "y": 800,
+   "title": "Mon tableau de bord",
+   "cap_y": 380
+  },
+  {
+   "type": "big",
+   "at": [
+    "r7",
+    1.98
+   ],
+   "end": [
+    "r7",
+    4.6
+   ],
+   "title": "Temps gagné",
+   "text": "2 à 3 h",
+   "sub": "par jour",
+   "pos": [
+    540,
+    1340
+   ]
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r7",
+    5.78
+   ],
+   "text": "Une grosse charge mentale en moins",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r7",
+    7.3
+   ],
+   "icon": "check"
+  },
+  {
+   "type": "big",
+   "at": [
+    "r7",
+    8.98
+   ],
+   "end": [
+    "r7",
+    11.0
+   ],
+   "title": "Chiffre d'affaires",
+   "text": "+15 %",
+   "sub": "grâce aux demandes de dernière minute",
+   "pos": [
+    540,
+    1340
+   ]
+  },
+  {
+   "type": "insert",
+   "at": [
+    "r7",
+    11.04
+   ],
+   "end": [
+    "r7",
+    19.85
+   ],
+   "src": "stats-lea.png",
+   "w": 760,
+   "y": 760,
+   "title": "Ce que l'agent a accompli",
+   "cap_y": 330
+  },
+  {
+   "type": "big",
+   "at": [
+    "r7",
+    24.5
+   ],
+   "end": [
+    "r7",
+    27.2
+   ],
+   "title": "Coût",
+   "text": "5 à 10×",
+   "sub": "moins cher qu'un employé",
+   "pos": [
+    540,
+    1340
+   ]
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r7",
+    28.3
+   ],
+   "text": "Disponible tout le temps",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r7",
+    31.0
+   ],
+   "icon": "clock",
+   "color": "o"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r6",
+    4.78
+   ],
+   "text": "Le formulaire juste en dessous",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r6",
+    7.2
+   ],
+   "icon": "down",
+   "color": "o"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r6",
+    7.68
+   ],
+   "text": "Un appel de 15 min avec moi",
+   "pos": [
+    540,
+    1360
+   ],
+   "end": [
+    "r6",
+    12.2
+   ],
+   "icon": "phone"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r6",
+    13.44
+   ],
+   "text": "D'où viennent tes demandes",
+   "pos": [
+    540,
+    1310
+   ],
+   "end": [
+    "r6",
+    15.6
+   ],
+   "icon": "chat",
+   "color": "v"
+  },
+  {
+   "type": "chip",
+   "at": [
+    "r6",
+    14.46
+   ],
+   "text": "Combien",
+   "pos": [
+    540,
+    1410
+   ],
+   "end": [
+    "r6",
+    15.6
+   ],
+   "icon": "up",
+   "color": "v"
+  },
+  {
+   "type": "brand",
+   "at": [
+    "r6",
+    16.3
+   ],
+   "end": [
+    "r6",
+    30
+   ],
+   "text": "Luma",
+   "sub": "↓ Réserve ton appel",
+   "pos": [
+    540,
+    1330
+   ]
+  }
+ ]
+}
