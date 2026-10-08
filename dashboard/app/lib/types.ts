@@ -22,6 +22,7 @@ export type Lead = {
   variante: Variante | null;
   statut: Statut;
   notes: string;
+  statut_le: string | null;
   collecte_le: string;
   maj_le: string;
 };

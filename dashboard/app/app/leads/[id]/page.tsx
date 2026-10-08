@@ -11,25 +11,11 @@ import { actionNotes, actionStatut } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-const MESSAGES: Record<string, { texte: string; ton: "ok" | "info" | "erreur" }> = {
-  statut: { texte: "Statut enregistré.", ton: "ok" },
-  notes: { texte: "Notes enregistrées.", ton: "ok" },
-  demo: { texte: "Mode démo : rien n'a été enregistré. Ça marchera dès que Supabase sera branché.", ton: "info" },
-  erreur: { texte: "L'enregistrement a échoué. Réessaie, et préviens Claude si ça recommence.", ton: "erreur" },
-};
-
-export default async function FicheLead({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ msg?: string }>;
-}) {
-  const [{ id }, { msg }] = await Promise.all([params, searchParams]);
+export default async function FicheLead({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const fiche = await lireLead(decodeURIComponent(id));
   if (!fiche) notFound();
   const { lead: l, messages, evenements } = fiche;
-  const notice = msg ? MESSAGES[msg] : undefined;
 
   return (
     <Cadre actif="leads">
@@ -51,16 +37,6 @@ export default async function FicheLead({
         <BadgeStatut statut={l.statut} />
       </header>
 
-      {notice && (
-        <p
-          role="status"
-          className={`mt-4 rounded-lg px-3.5 py-2.5 text-[14px] ${
-            notice.ton === "ok" ? "bg-good-tint text-good" : notice.ton === "info" ? "bg-accent-tint text-ink-2" : "bg-bad-tint text-bad"
-          }`}
-        >
-          {notice.texte}
-        </p>
-      )}
 
       <div className="mt-8 grid gap-10 lg:grid-cols-12">
         <div className="flex flex-col gap-10 lg:col-span-7">

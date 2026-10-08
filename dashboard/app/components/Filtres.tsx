@@ -17,7 +17,7 @@ export function Filtres({ champs, recherche, actifs }: { champs: Champ[]; recher
           defaultValue={recherche}
           placeholder="Rechercher un nom"
           enterKeyHint="search"
-          className="h-11 w-full rounded-lg border border-line-strong bg-surface px-3 text-[15px] text-ink placeholder:text-muted focus:border-accent focus:outline-none"
+          className="h-11 w-full rounded-lg border border-line-strong bg-surface px-3 text-[16px] text-ink placeholder:text-muted focus:border-accent focus:outline-none"
         />
       </label>
       {champs.map((c) => (
@@ -27,7 +27,7 @@ export function Filtres({ champs, recherche, actifs }: { champs: Champ[]; recher
             name={c.nom}
             defaultValue={c.valeur}
             onChange={(e) => e.currentTarget.form?.requestSubmit()}
-            className={`h-11 w-full appearance-none truncate rounded-lg border bg-surface pl-3 pr-8 text-[14px] focus:border-accent focus:outline-none ${
+            className={`h-11 w-full appearance-none truncate rounded-lg border bg-surface pl-3 pr-8 text-[16px] sm:text-[14px] focus:border-accent focus:outline-none ${
               c.valeur ? "border-accent text-ink" : "border-line-strong text-ink-2"
             }`}
           >
@@ -44,9 +44,15 @@ export function Filtres({ champs, recherche, actifs }: { champs: Champ[]; recher
         </label>
       ))}
       <div className="col-span-2 flex items-center gap-4 sm:col-span-5">
+        {/* Les listes filtrent dès qu'on choisit ; sans JavaScript, ce bouton prend le relais. */}
         <button type="submit" className="sr-only focus:not-sr-only focus:text-[13px] focus:text-accent">
           Appliquer les filtres
         </button>
+        <noscript>
+          <button type="submit" className="h-11 rounded-full bg-accent px-5 text-[14px] font-medium text-white">
+            Filtrer
+          </button>
+        </noscript>
         {actifs && (
           <Link href="/leads" className="text-[13px] font-medium text-accent hover:text-accent-strong">
             Effacer les filtres

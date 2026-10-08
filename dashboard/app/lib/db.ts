@@ -39,15 +39,26 @@ async function supabase<T>(chemin: string, init: RequestInit = {}): Promise<T> {
   return (texte ? JSON.parse(texte) : undefined) as T;
 }
 
+// Supabase renvoie au plus 1000 lignes par requête (réglage « Max rows ») sans signaler la coupure :
+// on lit donc page par page jusqu'à une page vide. Le tri doit être total (id en dernier) pour que les pages ne se chevauchent pas.
+async function toutLire<T>(chemin: string): Promise<T[]> {
+  const lignes: T[] = [];
+  for (;;) {
+    const page = await supabase<T[]>(`${chemin}&limit=1000&offset=${lignes.length}`);
+    if (page.length === 0) return lignes;
+    lignes.push(...page);
+  }
+}
+
 export async function listerLeads(): Promise<Lead[]> {
   if (modeDemo) return demoLeads;
-  return supabase<Lead[]>(`${TABLE.leads}?select=*&order=score.desc.nullslast,nom.asc`);
+  return toutLire<Lead>(`${TABLE.leads}?select=*&order=score.desc.nullslast,nom.asc,id.asc`);
 }
 
 export async function listerEnvois(): Promise<Envoi[]> {
   if (modeDemo) return demoMessages.filter((m) => m.statut === "envoye");
-  return supabase<Envoi[]>(
-    `${TABLE.messages}?select=lead_id,type,variante,objet,envoye_le&statut=eq.envoye&order=envoye_le.asc`,
+  return toutLire<Envoi>(
+    `${TABLE.messages}?select=lead_id,type,variante,objet,envoye_le&statut=eq.envoye&order=envoye_le.asc,id.asc`,
   );
 }
 
@@ -89,10 +100,14 @@ export async function changerStatut(id: string, statut: Statut) {
     }
   }
 
-  await supabase(`${TABLE.leads}?id=eq.${id}`, {
+  // Le filtre statut=neq évite un faux changement (et une fausse entrée d'historique) si on retape le même statut.
+  const maintenant = new Date().toISOString();
+  const modifies = await supabase<{ id: string }[]>(`${TABLE.leads}?id=eq.${id}&statut=neq.${statut}&select=id`, {
     method: "PATCH",
-    body: JSON.stringify({ statut, maj_le: new Date().toISOString() }),
+    headers: { Prefer: "return=representation" },
+    body: JSON.stringify({ statut, statut_le: maintenant, maj_le: maintenant }),
   });
+  if (!modifies?.length) return;
   await supabase(TABLE.evenements, {
     method: "POST",
     body: JSON.stringify({ lead_id: id, type: "statut", detail: STATUT_LABEL[statut] }),

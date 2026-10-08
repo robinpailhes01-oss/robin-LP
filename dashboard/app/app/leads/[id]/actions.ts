@@ -1,44 +1,41 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { changerStatut, enregistrerNotes, ErreurDemo } from "@/lib/db";
 import { STATUTS } from "@/lib/labels";
 import type { Statut } from "@/lib/types";
 
-const retour = (id: string, msg: string) => `/leads/${encodeURIComponent(id)}?msg=${msg}`;
+// Les actions renvoient un état au lieu de rediriger : la page se met à jour sur place,
+// et ce que Robin a tapé reste dans le champ si l'enregistrement échoue.
+export type Retour = { message: "statut" | "notes" | "demo" | "erreur" | null };
 
-const issue = (e: unknown) => {
-  if (e instanceof ErreurDemo) return "demo";
+const issue = (e: unknown): Retour => {
+  if (e instanceof ErreurDemo) return { message: "demo" };
   console.error(e);
-  return "erreur";
+  return { message: "erreur" };
 };
 
-export async function actionStatut(formData: FormData) {
+export async function actionStatut(_avant: Retour, formData: FormData): Promise<Retour> {
   const id = String(formData.get("id") ?? "");
   const statut = String(formData.get("statut") ?? "") as Statut;
-  let msg = "statut";
-  if (!STATUTS.includes(statut)) msg = "erreur";
-  else {
-    try {
-      await changerStatut(id, statut);
-    } catch (e) {
-      msg = issue(e);
-    }
+  if (!STATUTS.includes(statut)) return { message: "erreur" };
+  try {
+    await changerStatut(id, statut);
+  } catch (e) {
+    return issue(e);
   }
   revalidatePath("/", "layout");
-  redirect(retour(id, msg));
+  return { message: "statut" };
 }
 
-export async function actionNotes(formData: FormData) {
+export async function actionNotes(_avant: Retour, formData: FormData): Promise<Retour> {
   const id = String(formData.get("id") ?? "");
   const notes = String(formData.get("notes") ?? "").slice(0, 5000);
-  let msg = "notes";
   try {
     await enregistrerNotes(id, notes);
   } catch (e) {
-    msg = issue(e);
+    return issue(e);
   }
   revalidatePath("/", "layout");
-  redirect(retour(id, msg));
+  return { message: "notes" };
 }

@@ -89,6 +89,7 @@ function creer(l: Ligne, i: number, segment: Segment, collecte: string): Lead {
     variante: (i % 2 === 0 ? "1" : "2") as Variante,
     statut: "nouveau",
     notes: "",
+    statut_le: null,
     collecte_le: collecte,
     maj_le: collecte,
   };
@@ -134,6 +135,7 @@ for (const [i, statut, j] of changements) {
   const lead = demoLeads[i];
   lead.statut = statut;
   lead.maj_le = jour(j, 15);
+  lead.statut_le = lead.maj_le;
   if (statut === "rdv") {
     demoEvenements.push({ id: demoEvenements.length + 1, lead_id: lead.id, type: "statut", detail: "Répondu", cree_le: jour(j - 1, 18) });
   }

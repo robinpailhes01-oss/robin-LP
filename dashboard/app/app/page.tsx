@@ -71,7 +71,7 @@ export default async function VueEnsemble() {
         </section>
 
         <section className="lg:col-span-5">
-          <TitreSection aside="test 50/50">Par variante</TitreSection>
+          <TitreSection aside="test en cours · 50/50">Par variante</TitreSection>
           <Variantes variantes={s.variantes} />
         </section>
 
@@ -105,7 +105,7 @@ export default async function VueEnsemble() {
                     </span>
                     <span className="flex flex-col items-end gap-1">
                       <BadgeStatut statut={l.statut} />
-                      <span className="chiffres text-[11px] text-muted">{fmtJour(l.maj_le)}</span>
+                      <span className="chiffres text-[11px] text-muted">{fmtJour(l.statut_le ?? l.maj_le)}</span>
                     </span>
                   </Link>
                 </li>

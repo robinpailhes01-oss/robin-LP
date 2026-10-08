@@ -23,6 +23,7 @@ create table if not exists prospection_leads (
   statut              text not null default 'nouveau'
                         check (statut in ('nouveau', 'contacte', 'repondu', 'rdv', 'refus', 'desinscrit')),
   notes               text not null default '',
+  statut_le           timestamptz,                   -- dernier vrai changement de statut (tri des réponses)
   collecte_le         timestamptz not null default now(),
   maj_le              timestamptz not null default now()
 );

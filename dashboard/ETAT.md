@@ -4,7 +4,7 @@ Mis à jour le 8 octobre 2026. Mettre à jour à la fin de chaque étape, puis p
 
 ## Où on en est
 - Squelette `dashboard/` fait. Schéma de la base écrit (`prospection/db/schema.sql`), pas encore appliqué.
-- Dashboard v1 construit en parallèle, à la demande de Robin. Il tourne en démo (données fictives), protégé par mot de passe, testé à 390 px et sur ordinateur.
+- Dashboard v1 construit en parallèle, à la demande de Robin. Il tourne en démo (données fictives), protégé par mot de passe, testé à 390 px et sur ordinateur, relu par trois agents (12 points corrigés).
 - Aucun lead réel, aucun mail envoyé.
 
 ## Prochaine étape

@@ -27,7 +27,7 @@ export function Variantes({ variantes }: { variantes: Stats["variantes"] }) {
                 <span className={`size-2.5 rounded-[3px] ${COULEUR[v].trait}`} aria-hidden />
                 Variante {v}
               </p>
-              <p className="mt-1 line-clamp-2 min-h-[2.5rem] text-[12px] leading-5 text-muted">
+              <p className="mt-1 text-[12px] leading-5 text-muted sm:line-clamp-2 sm:min-h-[2.5rem]">
                 {b.objet ? `« ${b.objet} »` : "Pas encore d'envoi"}
               </p>
               <p className="mt-3 text-[34px] font-semibold leading-none tracking-[-0.03em] text-ink sm:text-[40px]">
@@ -42,7 +42,11 @@ export function Variantes({ variantes }: { variantes: Stats["variantes"] }) {
                 aria-valuemin={0}
                 aria-valuemax={SEUIL_PREUVE}
                 aria-valuenow={Math.min(b.contactes, SEUIL_PREUVE)}
-                aria-label={`Variante ${v} : ${b.contactes} envois sur les ${SEUIL_PREUVE} nécessaires pour conclure`}
+                aria-label={
+                  b.contactes >= SEUIL_PREUVE
+                    ? `Variante ${v} : ${b.contactes} envois, seuil de ${SEUIL_PREUVE} atteint`
+                    : `Variante ${v} : ${b.contactes} envois sur les ${SEUIL_PREUVE} nécessaires pour conclure`
+                }
               >
                 <div className={`h-full rounded-full ${COULEUR[v].trait}`} style={{ width: `${progression * 100}%` }} />
               </div>

@@ -9,7 +9,7 @@ La rigueur typographique de Linear croisée avec un carnet de bord : les repère
 ## Tokens (voir `app/globals.css`)
 - **Couleurs** : `ink` #12102B (texte), `ink-2` #4B4F63, `muted` #6A6E83 (contraste ≥ 4,5:1 sur les deux fonds), `surface` #FFFFFF et `surface-2` #F7F8FC, `line` #E9EBF3, `accent` #4636F0, réservé au signal (taux, RDV, actions, onglet actif).
 - **Variantes A/B** : `v1` #4636F0 et `v2` #D97706. La paire a été validée avec le script dataviz (contraste, daltonisme).
-- **États** : `good` #15803D (RDV), `bad` #B42318 (refus). Toujours accompagnés d'un libellé, jamais la couleur seule.
+- **États** : `good` #166534 (RDV), `bad` #B42318 (refus). Toujours accompagnés d'un libellé, jamais la couleur seule.
 - **Type** : Geist Sans (la police de la marque) + Geist Mono pour les données. Grands chiffres en chiffres proportionnels, colonnes en `tabular-nums`.
 - **Espacement** : base 4 px. **Rayons** : 12 px pour les blocs, 8 px pour les champs et boutons, pilule pour les badges et le CTA. **Ombres** : aucune, uniquement des filets de 1 px.
 - **Mouvement** : seulement les transitions de couleur au survol. Rien d'animé sur les données.
