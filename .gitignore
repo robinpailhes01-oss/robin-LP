@@ -8,3 +8,8 @@ out
 tsconfig.tsbuildinfo
 next-env.d.ts
 lab/
+
+# Données de prospection : jamais commitées
+*.db
+*.sqlite
+*.sqlite3
