@@ -114,6 +114,11 @@ for g in G:
         put(pop(1320, 0.18), t0 + 0.02, -27)
     elif ty == "kicker":
         put(whoosh(0.6, 400, 5000), t0 - 0.2, -28)
+    elif ty == "anim":
+        put(whoosh(0.45, 300, 3000), t0 - 0.2, -27)
+        put(pop(988, 0.14), t0 + 0.05, -22)
+        for k, c in enumerate(g.get("cues", [])):
+            put(pop(880 * 2 ** (min(k + 1, 5) * 2 / 12)), t0 + c, -21)
     elif ty == "insert":
         put(whoosh(0.55, 200, 2500, rise=0.5), t0 - 0.25, -22)
         put(whoosh(0.4, 2500, 300, rise=0.5), g["t1"] - 0.35, -28)     # sortie plus douce

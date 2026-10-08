@@ -1,0 +1,3 @@
+Emojis 3D : Microsoft Fluent UI Emoji — licence MIT (https://github.com/microsoft/fluentui-emoji).
+Logos (Google Agenda, Gmail, WhatsApp) : marques de leurs propriétaires, utilisées pour indiquer une intégration ;
+fichiers SVG issus du jeu d'icônes « logos » d'Iconify.

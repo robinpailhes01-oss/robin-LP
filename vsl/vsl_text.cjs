@@ -92,7 +92,7 @@ const el = (g) => {
     await page.evaluate((h) => { document.body.innerHTML = h; return document.fonts.ready; }, inner);
     await page.screenshot({ path: path.join(OUT, name), omitBackground: true });
   };
-  for (const g of S.graphics) if (g.type !== "insert") await shot(el(g), `gfx_${String(g.i).padStart(3, "0")}.png`);
+  for (const g of S.graphics) if (g.type !== "insert" && g.type !== "anim") await shot(el(g), `gfx_${String(g.i).padStart(3, "0")}.png`);
   for (const g of S.graphics) if (g.type === "insert" && g.title) await shot(el({ type: "cap", text: g.title, pos: [g.x || VW / 2, g.cap_y] }), `cap_${String(g.i).padStart(3, "0")}.png`);
   const clean = (w) => w.toLowerCase().replace(/[.,!?:;«»"…]/g, "");
   for (const [gi, g] of S.groups.entries()) {

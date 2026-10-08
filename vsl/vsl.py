@@ -179,11 +179,28 @@ for g in graphics:
     g["t1_new"] = min(t1, TOTAL)
 for g in graphics:
     g["t1"] = g.pop("t1_new")
+    if g["type"] == "anim":                    # mock-up animé : repères internes en secondes depuis l'apparition
+        g["cues"] = [round(to_tl(*c) - g["t0"], 3) for c in g.get("cue_at", [])]
+        settle = max(g["cues"] + [0]) + g.get("tail", 2.6)
+        g["nf"] = int(round(min(g["t1"] - g["t0"], settle) * FPS)) + 1
 spec = {"graphics": graphics, "groups": [[w[0] for w in g] for g in groups], "keys": C.get("keys", []),
         "sub_y": C.get("sub_y", 960), "size": [W, H], "ui_scale": C.get("ui_scale", 1), "out": str(B)}
 (B / "spec.json").write_text(json.dumps(spec, ensure_ascii=False))
 subprocess.run(["node", str(DIR / "vsl_text.cjs"), str(B / "spec.json")], check=True,
                env={**os.environ, "NODE_PATH": "/opt/node-tools/node_modules"})
+subprocess.run(["node", str(DIR / "vsl_anim.cjs"), str(B / "spec.json")], check=True,
+               env={**os.environ, "NODE_PATH": "/opt/node-tools/node_modules"})
+
+
+def anim_frame(g, k):
+    """image k d'un mock-up animé, placée centrée sur g['pos'] (la dernière image est tenue)"""
+    f = B / f"anim_{g['i']:03d}" / f"{min(k, g['nf'] - 1):04d}.png"
+    a = cv2.imread(str(f), cv2.IMREAD_UNCHANGED)
+    if a is None:
+        return None
+    a = a.astype(np.float32) / 255
+    h, w = a.shape[:2]
+    return a, int(g["pos"][0] - w / 2), int(g["pos"][1] - h / 2)
 
 
 def png(path):
@@ -322,6 +339,13 @@ while True:
         if g["type"] == "insert" or not (g["t0"] <= t < g["t1"]):
             continue
         dt, dur = t - g["t0"], g["t1"] - g["t0"]
+        if g["type"] == "anim":                # l'entrée est animée dans le mock-up ; ici seulement la sortie
+            lay = anim_frame(g, int(dt * FPS))
+            if lay is not None:
+                img, x0, y0 = lay
+                q = min(1, (dur - dt) / 0.35)
+                blend(frame, (img, x0, y0), scale=0.97 + 0.03 * q, alpha=q)
+            continue
         al = min(1, dt / 0.25) * min(1, (dur - dt) / 0.3)
         e = 1 - (1 - min(1, dt / 0.4)) ** 3
         sc = 0.94 + 0.06 * e if g["type"] in ("big", "brand") else 1.0

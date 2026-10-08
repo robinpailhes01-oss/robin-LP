@@ -154,249 +154,247 @@
    "icon": "check"
   },
   {
-   "type": "notif",
+   "type": "anim",
+   "tpl": "iphone",
    "at": [
     "r9",
-    14.6
+    14.4
    ],
    "end": [
     "r9",
     19.6
    ],
-   "time": "22:00",
-   "text": "Bonsoir, j'aurais souhaité des renseignements…",
    "pos": [
     470,
-    330
+    488
+   ],
+   "date": "mardi 14 juillet",
+   "notifs": [
+    {
+     "time": "22:00",
+     "text": "Bonsoir, j'aurais souhaité des renseignements pour réserver…"
+    },
+    {
+     "time": "23:47",
+     "text": "C'est encore dispo samedi ?"
+    },
+    {
+     "time": "06:52",
+     "text": "Vous pouvez m'envoyer un devis ?"
+    }
+   ],
+   "cue_at": [
+    [
+     "r9",
+     14.6
+    ],
+    [
+     "r9",
+     15.8
+    ],
+    [
+     "r9",
+     16.96
+    ]
    ]
   },
   {
-   "type": "notif",
-   "at": [
-    "r9",
-    15.8
-   ],
-   "end": [
-    "r9",
-    19.6
-   ],
-   "time": "23:47",
-   "text": "C'est encore dispo samedi ?",
-   "pos": [
-    470,
-    480
-   ]
-  },
-  {
-   "type": "notif",
-   "at": [
-    "r9",
-    16.96
-   ],
-   "end": [
-    "r9",
-    19.6
-   ],
-   "time": "06:52",
-   "text": "Vous pouvez m'envoyer un devis ?",
-   "pos": [
-    470,
-    630
-   ]
-  },
-  {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "emoji",
    "at": [
     "r9",
     19.14
    ],
-   "text": "Complètement chronophage",
-   "pos": [
-    470,
-    480
-   ],
    "end": [
     "r9",
-    23.4
+    25.0
    ],
-   "style": "gold"
+   "pos": [
+    470,
+    470
+   ],
+   "emoji": "hourglass",
+   "title": "Complètement<br>chronophage"
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "emoji",
    "at": [
     "r9",
     25.14
-   ],
-   "text": "Une des tâches les plus importantes",
-   "pos": [
-    470,
-    480
    ],
    "end": [
     "r9",
     33.3
    ],
-   "icon": "bolt",
-   "color": "o"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r9",
-    35.2
-   ],
-   "text": "En plein rendez-vous",
    "pos": [
     470,
-    350
+    470
+   ],
+   "emoji": "bolt",
+   "title": "Une des tâches<br>les plus importantes"
+  },
+  {
+   "type": "anim",
+   "tpl": "row",
+   "at": [
+    "r9",
+    35.0
    ],
    "end": [
     "r9",
     38.9
    ],
-   "icon": "cal",
-   "color": "v"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r9",
-    36.86
-   ],
-   "text": "Au sport",
    "pos": [
     470,
-    475
+    470
    ],
-   "end": [
-    "r9",
-    38.9
+   "items": [
+    {
+     "emoji": "calendar",
+     "label": "En plein<br>rendez-vous"
+    },
+    {
+     "emoji": "lifting",
+     "label": "Au sport"
+    },
+    {
+     "emoji": "house",
+     "label": "En famille"
+    }
    ],
-   "icon": "clock",
-   "color": "v"
+   "cue_at": [
+    [
+     "r9",
+     35.2
+    ],
+    [
+     "r9",
+     36.86
+    ],
+    [
+     "r9",
+     37.4
+    ]
+   ]
   },
   {
-   "type": "chip",
-   "at": [
-    "r9",
-    37.4
-   ],
-   "text": "En famille",
-   "pos": [
-    470,
-    600
-   ],
-   "end": [
-    "r9",
-    38.9
-   ],
-   "icon": "user",
-   "color": "v"
-  },
-  {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "emoji",
    "at": [
     "r9",
     41.22
-   ],
-   "text": "Les mêmes réponses, tous les jours",
-   "pos": [
-    470,
-    480
    ],
    "end": [
     "r9",
     46.9
    ],
-   "icon": "repeat",
-   "color": "v"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r9",
-    47.8
-   ],
-   "text": "Des devis qui traînent",
    "pos": [
     470,
-    350
+    470
+   ],
+   "emoji": "repeat",
+   "title": "Les mêmes réponses,",
+   "sub": "tous les jours",
+   "cue_at": [
+    [
+     "r9",
+     41.86
+    ]
+   ]
+  },
+  {
+   "type": "anim",
+   "tpl": "todo",
+   "at": [
+    "r9",
+    47.6
    ],
    "end": [
     "r9",
     58.9
    ],
-   "icon": "doc",
-   "color": "r"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r9",
-    56.9
-   ],
-   "text": "Des relances oubliées",
    "pos": [
     470,
-    475
+    460
    ],
-   "end": [
-    "r9",
-    58.9
+   "head": "À faire",
+   "items": [
+    {
+     "t": "Envoyer le devis · sortie 6 pers.",
+     "s": "En retard · 5 jours"
+    },
+    {
+     "t": "Relancer le client de mardi",
+     "s": "Oublié"
+    }
    ],
-   "icon": "x",
-   "color": "r"
+   "cue_at": [
+    [
+     "r9",
+     47.8
+    ],
+    [
+     "r9",
+     56.9
+    ]
+   ]
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "race",
    "at": [
     "r9",
-    66.0
-   ],
-   "text": "Il écrit à 3 établissements",
-   "pos": [
-    470,
-    350
-   ],
-   "end": [
-    "r9",
-    73.3
-   ],
-   "icon": "chat"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r9",
-    72.08
-   ],
-   "text": "Le premier qui répond gagne",
-   "pos": [
-    470,
-    475
+    65.8
    ],
    "end": [
     "r9",
     77.3
    ],
-   "style": "gold"
+   "pos": [
+    470,
+    450
+   ],
+   "cue_at": [
+    [
+     "r9",
+     72.08
+    ]
+   ]
   },
   {
-   "type": "big",
+   "type": "anim",
+   "tpl": "counter",
    "at": [
     "r9",
-    80.5
+    80.3
    ],
    "end": [
     "r9",
     86.0
    ],
-   "title": "Répondre en moins de 5 min",
-   "text": "+400 %",
-   "sub": "de chances que le client signe",
    "pos": [
     470,
-    480
+    470
+   ],
+   "kicker": "Répondre en moins de 5 min",
+   "value": 400,
+   "prefix": "+",
+   "suffix": " %",
+   "sub": "de chances que le client signe",
+   "bars": [
+    {
+     "label": "Après 5 min",
+     "w": 20,
+     "color": "rgba(255,255,255,.55)",
+     "v": "×1"
+    },
+    {
+     "label": "Moins de 5 min",
+     "w": 100,
+     "color": "#ffc35c",
+     "v": "×5"
+    }
    ]
   },
   {
@@ -436,116 +434,63 @@
    "style": "gold"
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "emoji",
    "at": [
     "r4",
-    4.14
-   ],
-   "text": "Embaucher quelqu'un ?",
-   "pos": [
-    470,
-    350
+    4.0
    ],
    "end": [
     "r4",
     10.5
    ],
-   "icon": "user",
-   "color": "v"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r4",
-    6.54
-   ],
-   "text": "Ça reste très cher",
    "pos": [
     470,
-    475
+    470
    ],
-   "end": [
-    "r4",
-    10.5
-   ],
-   "icon": "x",
-   "color": "r"
+   "emoji": "money",
+   "title": "Embaucher quelqu'un ?",
+   "sub": "Ça reste très cher",
+   "cue_at": [
+    [
+     "r4",
+     6.54
+    ]
+   ]
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "week",
    "at": [
     "r4",
-    11.3
-   ],
-   "text": "Samedi",
-   "pos": [
-    270,
-    440
+    10.6
    ],
    "end": [
     "r4",
     16.3
    ],
-   "icon": "x",
-   "color": "r",
-   "style": "off"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r4",
-    12.02
-   ],
-   "text": "Dimanche",
    "pos": [
-    680,
-    440
+    470,
+    460
    ],
-   "end": [
-    "r4",
-    16.3
-   ],
-   "icon": "x",
-   "color": "r",
-   "style": "off"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r4",
-    15.12
-   ],
-   "text": "La nuit",
-   "pos": [
-    270,
-    545
-   ],
-   "end": [
-    "r4",
-    16.3
-   ],
-   "icon": "x",
-   "color": "r",
-   "style": "off"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r4",
-    15.86
-   ],
-   "text": "Les soirées",
-   "pos": [
-    680,
-    545
-   ],
-   "end": [
-    "r4",
-    16.3
-   ],
-   "icon": "x",
-   "color": "r",
-   "style": "off"
+   "cue_at": [
+    [
+     "r4",
+     11.3
+    ],
+    [
+     "r4",
+     12.02
+    ],
+    [
+     "r4",
+     15.12
+    ],
+    [
+     "r4",
+     15.86
+    ]
+   ]
   },
   {
    "type": "brand",
@@ -565,307 +510,306 @@
    ]
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "emoji",
    "at": [
     "r8",
     9.46
    ],
-   "text": "Connaît tout de ton entreprise",
-   "pos": [
-    470,
-    480
-   ],
    "end": [
     "r8",
-    13.2
+    14.0
    ],
-   "icon": "bolt",
-   "color": "o"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r8",
-    14.02
-   ],
-   "text": "Branché à tes outils",
    "pos": [
     470,
-    350
-   ],
-   "end": [
-    "r8",
-    26.6
-   ],
-   "style": "gold"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r8",
-    16.2
-   ],
-   "text": "Agenda",
-   "pos": [
-    270,
     470
    ],
-   "end": [
-    "r8",
-    26.6
-   ],
-   "icon": "cal",
-   "color": "v"
+   "emoji": "brain",
+   "title": "Connaît tout<br>de ton entreprise"
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "hub",
    "at": [
     "r8",
-    17.24
-   ],
-   "text": "Mails",
-   "pos": [
-    680,
-    470
+    14.0
    ],
    "end": [
     "r8",
     26.6
    ],
-   "icon": "mail",
-   "color": "v"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r8",
-    18.6
-   ],
-   "text": "Devis",
-   "pos": [
-    270,
-    575
-   ],
-   "end": [
-    "r8",
-    26.6
-   ],
-   "icon": "doc",
-   "color": "v"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r8",
-    23.58
-   ],
-   "text": "Données",
-   "pos": [
-    680,
-    575
-   ],
-   "end": [
-    "r8",
-    26.6
-   ],
-   "icon": "db",
-   "color": "v"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r8",
-    28.02
-   ],
-   "text": "Répond en quelques secondes",
    "pos": [
     470,
-    480
+    440
+   ],
+   "center": "Agent IA",
+   "tools": [
+    {
+     "logo": "google-calendar",
+     "label": "Agenda",
+     "x": 150,
+     "y": 110
+    },
+    {
+     "logo": "google-gmail",
+     "label": "Gmail",
+     "x": 750,
+     "y": 110
+    },
+    {
+     "emoji": "page",
+     "label": "Devis",
+     "x": 110,
+     "y": 420
+    },
+    {
+     "emoji": "globe",
+     "label": "Site internet",
+     "x": 790,
+     "y": 420
+    },
+    {
+     "emoji": "bar_chart",
+     "label": "Données",
+     "x": 450,
+     "y": 505
+    }
+   ],
+   "cue_at": [
+    [
+     "r8",
+     16.2
+    ],
+    [
+     "r8",
+     17.24
+    ],
+    [
+     "r8",
+     18.6
+    ],
+    [
+     "r8",
+     20.6
+    ],
+    [
+     "r8",
+     23.58
+    ]
+   ]
+  },
+  {
+   "type": "anim",
+   "tpl": "stopwatch",
+   "at": [
+    "r8",
+    27.6
    ],
    "end": [
     "r8",
     31.4
    ],
-   "icon": "clock",
-   "color": "o"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r8",
-    31.84
-   ],
-   "text": "Un chatbot",
    "pos": [
     470,
-    350
+    440
+   ],
+   "secs": 3
+  },
+  {
+   "type": "anim",
+   "tpl": "versus",
+   "at": [
+    "r8",
+    31.5
    ],
    "end": [
     "r8",
     35.3
    ],
-   "icon": "x",
-   "color": "r",
-   "style": "off"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r8",
-    32.86
-   ],
-   "text": "Un employé",
    "pos": [
     470,
-    475
+    450
+   ],
+   "cue_at": [
+    [
+     "r8",
+     32.86
+    ]
+   ]
+  },
+  {
+   "type": "anim",
+   "tpl": "chat",
+   "at": [
+    "r8",
+    35.4
    ],
    "end": [
     "r8",
-    35.3
+    44.3
    ],
-   "icon": "check"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r8",
-    35.5
-   ],
-   "text": "Parle comme toi",
    "pos": [
     470,
-    480
+    440
    ],
-   "end": [
-    "r8",
-    39.9
-   ],
-   "icon": "chat"
+   "who": "Client",
+   "q": "Bonsoir ! Il y aura d'autres personnes à bord ?",
+   "r": "Bonsoir 😊 c'est une location privative, donc le bateau est entièrement pour vous — aucun inconnu à bord.",
+   "cue_at": [
+    [
+     "r8",
+     40.3
+    ]
+   ]
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "steps",
    "at": [
     "r8",
-    44.72
-   ],
-   "text": "Engage la conversation",
-   "pos": [
-    470,
-    350
+    44.4
    ],
    "end": [
     "r8",
     50.4
    ],
-   "icon": "chat"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r8",
-    46.54
-   ],
-   "text": "Crée les devis",
    "pos": [
     470,
-    475
+    430
    ],
-   "end": [
-    "r8",
-    50.4
+   "items": [
+    {
+     "emoji": "speech",
+     "label": "Engage la<br>conversation"
+    },
+    {
+     "emoji": "page",
+     "label": "Crée le devis"
+    },
+    {
+     "emoji": "check",
+     "label": "Pousse à réserver"
+    }
    ],
-   "icon": "doc",
-   "color": "o"
+   "cue_at": [
+    [
+     "r8",
+     44.72
+    ],
+    [
+     "r8",
+     46.54
+    ],
+    [
+     "r8",
+     48.54
+    ]
+   ]
   },
   {
-   "type": "chip",
-   "at": [
-    "r8",
-    48.54
-   ],
-   "text": "Pousse à réserver",
-   "pos": [
-    470,
-    600
-   ],
-   "end": [
-    "r8",
-    50.4
-   ],
-   "icon": "up",
-   "color": "o"
-  },
-  {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "banner",
    "at": [
     "r5",
-    2.08
-   ],
-   "text": "Relance les clients",
-   "pos": [
-    470,
-    480
+    1.9
    ],
    "end": [
     "r5",
     6.5
    ],
-   "icon": "repeat",
-   "color": "o"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r5",
-    9.06
-   ],
-   "text": "Fiches clients",
    "pos": [
     470,
-    350
+    420
+   ],
+   "title": "Relance automatique",
+   "time": "maintenant",
+   "text": "Bonjour 😊 avez-vous pu en parler avec vos amis ? Le 5 août est toujours libre !"
+  },
+  {
+   "type": "anim",
+   "tpl": "crm",
+   "at": [
+    "r5",
+    8.9
    ],
    "end": [
     "r5",
     17.7
    ],
-   "icon": "user",
-   "color": "v"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r5",
-    12.3
-   ],
-   "text": "Tableau de bord",
    "pos": [
     470,
-    475
+    470
    ],
-   "end": [
-    "r5",
-    17.7
+   "client": {
+    "n": "Andres",
+    "o": "Nuit Prestige",
+    "d": "23 juil.",
+    "p": 2,
+    "s": 8
+   },
+   "rows": [
+    {
+     "n": "Andres",
+     "o": "Nuit Prestige",
+     "d": "23 juil.",
+     "p": 2,
+     "s": 8
+    },
+    {
+     "n": "Flo",
+     "o": "Sortie privative 3h",
+     "d": "25 juil.",
+     "p": 6,
+     "s": 8
+    },
+    {
+     "n": "Chabane",
+     "o": "Sortie privative 3h",
+     "d": "12 août",
+     "p": 3,
+     "s": 7
+    },
+    {
+     "n": "Nadia",
+     "o": "Sortie privative 3h soir",
+     "d": "15 sept.",
+     "p": 5,
+     "s": 8
+    }
    ],
-   "icon": "grid",
-   "color": "v"
+   "k1": 219,
+   "k2": 1851,
+   "cue_at": [
+    [
+     "r5",
+     12.3
+    ]
+   ]
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "emoji",
    "at": [
     "r1",
-    3.46
-   ],
-   "text": "Demande sensible ?",
-   "pos": [
-    470,
-    480
+    3.3
    ],
    "end": [
     "r1",
     6.0
    ],
-   "icon": "bolt",
-   "color": "o"
+   "pos": [
+    470,
+    470
+   ],
+   "emoji": "bell",
+   "title": "Demande sensible ?",
+   "sub": "L'agent te prévient",
+   "cue_at": [
+    [
+     "r1",
+     4.94
+    ]
+   ]
   },
   {
    "type": "insert",
@@ -920,57 +864,65 @@
    "x": 960
   },
   {
-   "type": "big",
+   "type": "anim",
+   "tpl": "ring",
    "at": [
     "r7",
-    1.98
+    1.9
    ],
    "end": [
     "r7",
     4.6
    ],
-   "title": "Temps gagné",
-   "text": "2 à 3 h",
-   "sub": "par jour",
    "pos": [
     470,
-    480
-   ]
+    440
+   ],
+   "text": "2–3 h",
+   "unit": "par jour",
+   "kicker": "Temps gagné",
+   "fill": 0.8
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "emoji",
    "at": [
     "r7",
     5.78
    ],
-   "text": "Une grosse charge mentale en moins",
-   "pos": [
-    470,
-    480
-   ],
    "end": [
     "r7",
-    7.3
+    8.9
    ],
-   "icon": "check"
+   "pos": [
+    470,
+    470
+   ],
+   "emoji": "relieved",
+   "title": "Une grosse charge<br>mentale en moins"
   },
   {
-   "type": "big",
+   "type": "anim",
+   "tpl": "counter",
    "at": [
     "r7",
-    8.98
+    8.9
    ],
    "end": [
     "r7",
     11.0
    ],
-   "title": "Chiffre d'affaires",
-   "text": "+15 %",
-   "sub": "grâce aux demandes de dernière minute",
    "pos": [
     470,
-    480
-   ]
+    470
+   ],
+   "kicker": "Chiffre d'affaires",
+   "value": 15,
+   "prefix": "+",
+   "suffix": " %",
+   "sub": "grâce aux demandes de dernière minute",
+   "line": true,
+   "count": 1.0
   },
   {
    "type": "insert",
@@ -990,75 +942,103 @@
    "x": 960
   },
   {
-   "type": "big",
+   "type": "anim",
+   "tpl": "cost",
    "at": [
     "r7",
-    24.5
+    21.9
    ],
    "end": [
     "r7",
     27.2
    ],
-   "title": "Coût",
-   "text": "5 à 10×",
-   "sub": "moins cher qu'un employé",
    "pos": [
     470,
-    480
+    450
+   ],
+   "kicker": "Coût",
+   "rows": [
+    {
+     "emoji": "office_worker",
+     "label": "Un salarié",
+     "w": 100,
+     "color": "rgba(255,255,255,.55)",
+     "v": "€€€€€"
+    },
+    {
+     "emoji": "robot",
+     "label": "Agent IA",
+     "w": 14,
+     "color": "#30d158",
+     "v": "€"
+    }
+   ],
+   "big": "5 à 10× moins cher",
+   "cue_at": [
+    [
+     "r7",
+     24.5
+    ]
    ]
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "emoji",
    "at": [
     "r7",
     28.3
    ],
-   "text": "Disponible tout le temps",
+   "end": [
+    "r6",
+    3.0
+   ],
    "pos": [
     470,
-    480
+    470
    ],
-   "end": [
-    "r7",
-    31.0
-   ],
-   "icon": "clock",
-   "color": "o"
+   "emoji": "moon",
+   "title": "Disponible<br>tout le temps"
   },
   {
-   "type": "chip",
+   "type": "anim",
+   "tpl": "emoji",
    "at": [
     "r6",
-    4.78
-   ],
-   "text": "Le formulaire juste en dessous",
-   "pos": [
-    470,
-    480
+    4.6
    ],
    "end": [
     "r6",
     7.2
    ],
-   "icon": "down",
-   "color": "o"
-  },
-  {
-   "type": "chip",
-   "at": [
-    "r6",
-    7.68
-   ],
-   "text": "Un appel de 15 min avec moi",
    "pos": [
     470,
-    480
+    470
+   ],
+   "emoji": "point_down",
+   "title": "Le formulaire<br>juste en dessous",
+   "bounce": true
+  },
+  {
+   "type": "anim",
+   "tpl": "booking",
+   "at": [
+    "r6",
+    7.5
    ],
    "end": [
     "r6",
     12.2
    ],
-   "icon": "phone"
+   "pos": [
+    470,
+    460
+   ],
+   "cue_at": [
+    [
+     "r6",
+     9.02
+    ]
+   ]
   },
   {
    "type": "chip",
@@ -1125,5 +1105,6 @@
  ],
  "maxrate": "10M",
  "ui_scale": 1.25,
- "shade": 0.62
+ "shade": 0.62,
+ "min_show": 1.8
 }
