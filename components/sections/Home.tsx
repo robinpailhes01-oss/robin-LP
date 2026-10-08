@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { OpenContactButton } from "@/components/contact/OpenContactButton";
+import { BookingButton } from "@/components/contact/BookingButton";
 import { Arrow, ButtonLink, TextLink } from "@/components/ui/Button";
 import { CaseCard } from "@/components/cases/CaseCards";
 import { ClientMark } from "@/components/ui/ClientMark";
@@ -11,7 +11,7 @@ import { FaqList } from "@/components/ui/FaqList";
 import { Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
-import { about, caseStudies, casesIndex, contact, cta, faq, founder, guarantee, hero, manifesto, method, problem, steps, system, trust, vsl } from "@/lib/content";
+import { about, caseStudies, casesIndex, contact, cta, faq, founder, guarantee, hero, manifesto, method, problem, steps, system, trust } from "@/lib/content";
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -74,7 +74,6 @@ export function Hero() {
               <Arrow />
             </ButtonLink>
             <p className="text-[14px] text-muted">{hero.reassurance.join(" · ")}</p>
-            {vsl.url && <TextLink href="/video">{hero.video}</TextLink>}
           </div>
         </div>
         </Parallax>
@@ -357,7 +356,7 @@ export function Contact() {
                   {cta.primary}
                   <Arrow />
                 </ButtonLink>
-                <OpenContactButton variant="secondary" label={cta.call} />
+                <BookingButton />
                 <span className="text-[14px] text-muted">{contact.note}</span>
               </div>
             </div>

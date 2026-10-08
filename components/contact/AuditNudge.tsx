@@ -14,7 +14,7 @@ const KEY = "luma-nudge-seen";
 /** Invitation discrète au mini-audit, quelques secondes après l’arrivée, une fois par session (pas sur la page du mini-audit). */
 export function AuditNudge() {
   const { open } = useContact();
-  const onAudit = usePathname() === "/audit";
+  const onAudit = usePathname().startsWith("/audit");
   const reduced = useReducedMotion();
   const [show, setShow] = useState(false);
 

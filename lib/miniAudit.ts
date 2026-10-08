@@ -22,12 +22,12 @@ export type AuditQuestion = {
 
 export const miniAudit = {
   meta: {
-    title: "Mini-audit IA gratuit",
-    description: "En 2 minutes, voyez à quoi ressemblerait votre outil IA et le temps qu’il vous ferait gagner.",
+    title: "Audit gratuit en ligne",
+    description: "En 5 minutes, voyez à quoi ressemblerait votre outil IA et le temps qu’il vous ferait gagner.",
   },
-  kicker: "Mini-audit gratuit",
+  kicker: "Audit gratuit en ligne",
   title: "À quoi ressemblerait votre outil IA ?",
-  text: "Quelques questions, environ 2 minutes. Vous voyez aussitôt votre futur outil et ce qu’il vous ferait gagner.",
+  text: "Quelques questions, 5 minutes. Vous voyez aussitôt votre futur outil et ce qu’il vous ferait gagner.",
   start: "Commencer",
   next: "Continuer",
   back: "Retour",
@@ -104,7 +104,7 @@ export const miniAudit = {
     callbackText: "Un clic, et Robin vous rappelle sous 24 h pour en discuter. Gratuit, sans engagement.",
     callback: "Être rappelé par Robin",
     callbackDone: "C’est noté. Robin vous rappelle sous 24 h.",
-    restart: "Refaire le mini-audit",
+    restart: "Refaire l’audit",
     sendError: "L’envoi de vos coordonnées n’a pas abouti. Vous pouvez réessayer.",
     retry: "Réessayer",
   },

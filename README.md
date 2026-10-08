@@ -19,6 +19,8 @@ Puis ouvrir http://localhost:3000.
 
 Copier `.env.example` en `.env.local`.
 
+Parcours : chaque bouton « Faire mon audit gratuit » mène à `/audit` (la VSL, `vsl.url` dans `lib/content.ts`), puis à l’audit en ligne `/audit/en-ligne` ou à la réservation d’un appel (`booking.url` : lien Calendly, Cal.com… ; vide = l’assistant recueille un numéro). `/video` redirige vers `/audit`.
+
 Les demandes du site arrivent sur `/api/contact` : `mini-audit` (coordonnées en fin de mini-audit, avec réponses et estimation), `rappel` (bouton « Être rappelé par Robin » du résultat) et `assistant` (panneau « Assistant de Robin »). Chaque destination est active si ses variables sont renseignées :
 
 - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` : une ligne par demande dans la table `leads`. Créer la table avec `supabase/migrations/20261008000000_leads.sql` (RLS activé, aucune politique : seule la clé service, côté serveur, peut écrire et lire). Ne jamais exposer la clé service en `NEXT_PUBLIC_`.

@@ -7,7 +7,7 @@
 export const site = {
   title: "Luma · Des outils IA pour simplifier votre relation client, par Robin Pailhes",
   description:
-    "Robin Pailhes simplifie et automatise la relation client des PME avec des outils IA sur mesure. Mini-audit gratuit : votre futur outil et vos gains, en 2 minutes.",
+    "Robin Pailhes simplifie et automatise la relation client des PME avec des outils IA sur mesure. Audit gratuit en ligne : votre futur outil et vos gains, en 5 minutes.",
 };
 
 export const founder = {
@@ -38,12 +38,12 @@ export const footerNav = [
 ];
 
 export const cta = {
-  /** Ouvre le panneau de contact (questions courtes pour préparer l’échange). */
-  primary: "Faire mon mini-audit gratuit",
-  primaryShort: "Mini-audit",
-  reassurance: "Gratuit · Environ 2 minutes · Résultat immédiat",
-  /** Second choix : être rappelé (ouvre l’assistant). */
-  call: "Préférer être rappelé",
+  /** Mène à la page /audit : la VSL, puis l’audit en ligne ou la réservation d’un appel. */
+  primary: "Faire mon audit gratuit",
+  primaryShort: "Audit gratuit",
+  reassurance: "Gratuit · 5 minutes · Résultat immédiat",
+  /** Second choix : réserver un appel (lien de rendez-vous, sinon l’assistant). */
+  call: "Réserver un appel",
 };
 
 export const hero = {
@@ -53,8 +53,7 @@ export const hero = {
   accent: "Moins de charges",
   badge: "Robin Pailhes · Agence IA à Montpellier",
   text: "J’ai d’abord mis l’IA dans ma propre entreprise, Harmonie Yacht. Je crée maintenant des outils IA sur mesure pour les PME qui veulent se libérer des tâches chronophages.",
-  reassurance: ["Gratuit", "Environ 2 minutes", "Résultat immédiat"],
-  video: "Voir la vidéo",
+  reassurance: ["Gratuit", "5 minutes", "Résultat immédiat"],
   flowKicker: "Une demande client",
   flow: ["Message reçu", "Besoin compris", "Fiche client à jour", "Devis ou RDV prêt"],
 };
@@ -69,13 +68,25 @@ export const guarantee = {
  * VSL de l’accueil. Coller ici l’adresse YouTube, Vimeo ou d’un fichier .mp4.
  * Vide : la vidéo n’apparaît pas et le parcours animé d’une demande la remplace.
  */
+/** Page /audit : la VSL, puis deux choix. `url` accepte YouTube, Vimeo ou un fichier .mp4 ; vide = image d’attente. */
 export const vsl = {
   url: "",
-  kicker: "En vidéo",
-  title: "Comment je simplifie la relation client des PME",
-  text: "Ce que je crée, pour qui, et ce que ça change dans vos journées.",
-  soon: "La vidéo arrive bientôt.",
+  meta: { title: "Audit gratuit", description: "La vidéo, puis votre audit gratuit : en ligne en 5 minutes, ou lors d’un appel." },
+  kicker: "Audit gratuit",
+  title: "Voyez ce que l’IA peut changer dans votre entreprise.",
+  text: "Dans cette vidéo, je vous montre comment je simplifie la relation client des PME. Ensuite, à vous de choisir : l’audit en ligne, ou un appel avec moi.",
+  soon: "La vidéo arrive bientôt",
+  online: "Faire mon audit gratuit en ligne maintenant",
+  onlineNote: "5 minutes · Résultat immédiat · Sans appel",
+  call: "Réserver un appel",
+  callNote: "Gratuit et sans engagement",
 };
+
+/**
+ * Réservation d’un appel : lien de prise de rendez-vous (Calendly, Cal.com, Google Agenda…).
+ * Vide = le bouton ouvre l’assistant, qui recueille un numéro pour être rappelé.
+ */
+export const booking = { url: "" };
 
 export const trust = {
   kicker: "Déjà en place chez",
@@ -138,10 +149,10 @@ export const steps = {
   second: "Une seule à faire aujourd’hui.",
   items: [
     {
-      label: "Gratuit · 2 min",
-      title: "Votre mini-audit",
+      label: "Gratuit · 5 min",
+      title: "Votre audit gratuit",
       text: "Répondez à quelques questions : vous voyez aussitôt à quoi ressemblerait votre outil IA, et le temps et les charges qu’il vous ferait économiser.",
-      points: ["Environ 2 minutes, sans appel", "Votre futur outil, adapté à vos réponses", "Une estimation de vos gains"],
+      points: ["5 minutes en ligne, ou un appel si vous préférez", "Votre futur outil, adapté à vos réponses", "Une estimation de vos gains"],
     },
     {
       label: "Sur mesure",
@@ -415,7 +426,7 @@ export const faq = {
     { q: "Est-ce qu’un agent IA remplace mon équipe ?", a: "Non. Il prend le répétitif, votre équipe garde ce qui demande quelqu’un." },
     { q: "Faut-il s’y connaître en IA ?", a: "Non. Vous connaissez vos clients, c’est ce qui compte. Je m’occupe du reste." },
     { q: "L’IA peut-elle se tromper ?", a: "Oui. Chaque outil est donc testé sur vos cas réels, avec des limites claires : ce qui est sensible vous est transmis." },
-    { q: "En quoi consiste le mini-audit ?", a: "Quelques questions sur vos tâches et vos outils. Vous voyez aussitôt à quoi ressemblerait votre outil IA et une estimation du temps et de l’argent qu’il vous ferait gagner. Gratuit, sans appel ni engagement." },
+    { q: "En quoi consiste l’audit gratuit ?", a: "En ligne, en 5 minutes : quelques questions sur vos tâches et vos outils. Vous voyez aussitôt à quoi ressemblerait votre outil IA et une estimation du temps et de l’argent qu’il vous ferait gagner. Vous préférez en parler ? Réservez un appel. Gratuit et sans engagement." },
     { q: "Et si l’outil ne me convient pas ?", a: "Vous avez 7 jours après la mise en service pour le tester. S’il ne vous convient pas, vous êtes remboursé." },
     { q: "Peut-on construire l’outil avec vous ?", a: "Oui. En accompagnement, on le construit ensemble et je forme votre équipe pour qu’elle le fasse évoluer seule." },
     { q: "Comment sont gérées les données ?", a: "Elles restent les vôtres. Je vous montre où elles passent avant la mise en place." },
@@ -424,7 +435,7 @@ export const faq = {
 
 export const contact = {
   kicker: "Contact",
-  title: "Votre mini-audit gratuit.",
-  text: "Environ 2 minutes pour voir à quoi ressemblerait votre outil IA et ce qu’il vous ferait gagner. Vous préférez en parler ? Je vous rappelle sous 24 h.",
+  title: "Votre audit gratuit.",
+  text: "En ligne en 5 minutes, ou lors d’un appel si vous préférez : voyez à quoi ressemblerait votre outil IA et ce qu’il vous ferait gagner.",
   note: "Gratuit et sans engagement.",
 };
