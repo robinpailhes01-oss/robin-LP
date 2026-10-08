@@ -162,7 +162,18 @@ graphics = []
 for i, g in enumerate(C["graphics"]):
     t0 = to_tl(*g["at"])
     t1 = to_tl(*g["end"]) if "end" in g else t0 + g.get("dur", 2.5)
-    graphics.append({**g, "i": i, "t0": t0, "t1": min(t1, TOTAL)})
+    graphics.append({**g, "i": i, "t0": t0, "t1": max(t1, t0 + C.get("min_show", 1.8)), "grp": json.dumps(g.get("end"))})
+# un groupe (même fin) disparaît d'un bloc, sans empiéter sur l'élément suivant
+for g in graphics:
+    mates = [x for x in graphics if x["grp"] == g["grp"] and g["grp"] != "null"] or [g]
+    first = min(x["t0"] for x in mates)
+    t1 = max(x["t1"] for x in mates)
+    nxt = [x["t0"] for x in graphics if x["t0"] > first + 0.01 and x not in mates]
+    if nxt and min(nxt) - 0.05 < t1 and min(nxt) - 0.05 - g["t0"] >= 0.8:
+        t1 = min(nxt) - 0.05
+    g["t1_new"] = min(t1, TOTAL)
+for g in graphics:
+    g["t1"] = g.pop("t1_new")
 spec = {"graphics": graphics, "groups": [[w[0] for w in g] for g in groups], "keys": C.get("keys", []),
         "sub_y": C.get("sub_y", 1640), "out": str(B)}
 (B / "spec.json").write_text(json.dumps(spec, ensure_ascii=False))
@@ -176,7 +187,7 @@ def png(path):
     if len(ys) == 0:
         return None
     y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
-    return a[y0:y1, x0:x1], x0, y0
+    return a[y0:y1, x0:x1].copy(), x0, y0      # copie : sinon l'image pleine taille reste en mémoire
 
 
 cache = {}
@@ -184,6 +195,8 @@ cache = {}
 
 def layer(path):
     if path not in cache:
+        if len(cache) > 80:                     # mémoire limitée : on ne garde que les calques récents
+            cache.clear()
         cache[path] = png(path)
     return cache[path]
 
@@ -305,6 +318,10 @@ while True:
             break
     enc.stdin.write((np.clip(frame, 0, 1) * 255).astype(np.uint8).tobytes())
     n += 1
+    if os.environ.get("VSL_DEBUG") and n % 150 == 0:
+        print(n, "frames, mémoire", int(open("/proc/self/status").read().split("VmRSS:")[1].split()[0]) // 1024, "Mo", flush=True)
+    if os.environ.get("VSL_MAXF") and n >= int(os.environ["VSL_MAXF"]):
+        break
 enc.stdin.close()
 enc.wait()
 print(f"OK {out} ({TOTAL:.1f} s, {len(groups)} groupes de sous-titres)")
