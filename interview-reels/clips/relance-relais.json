@@ -776,16 +776,16 @@
    "dur": 2.8
   },
   {
-   "type": "min",
-   "title": "Et si elle ne sait pas",
-   "text": "Je prends le relais",
-   "at_word": "relais",
-   "nth": 1,
+   "type": "img",
+   "title": "Le message que je reçois",
+   "src": "rushes/escalade-lea.png",
+   "w": 820,
+   "at_word": "m'envoie",
    "pos": [
     540,
-    1135
+    1420
    ],
-   "dur": 2.4
+   "dur": 6.4
   }
  ]
 }

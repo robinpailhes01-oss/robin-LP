@@ -74,6 +74,10 @@ const ICON = {
   chart: '<svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="3" width="4" height="17" rx="1"/></svg>',
 };
 const card = (g) => {
+  if (g.type === "img")   // capture d'écran (chemin relatif au dossier interview-reels)
+    return `<div class="mcard" style="left:${g.pos[0]}px;top:${g.pos[1]}px">${g.title ? `<small>${g.title}</small><hr>` : ""}` +
+      `<img src="file://${path.resolve(__dirname, g.src)}" style="display:block;width:${g.w || 760}px;border-radius:26px;` +
+      `box-shadow:0 18px 50px rgba(0,0,0,.45)"></div>`;
   if (g.type === "min")
     return `<div class="mcard" style="left:${g.pos[0]}px;top:${g.pos[1]}px"><small>${g.title || ""}</small><hr><div>${g.text}</div></div>`;
   const ic = g.icon ? `<div class="ic ${g.color || ""}">${ICON[g.icon] || ""}</div>` : "";
@@ -92,7 +96,8 @@ const card = (g) => {
   fs.writeFileSync(f, html);
   await page.goto("file://" + f);
   const shot = async (inner, name) => {
-    await page.evaluate(([h, m]) => { document.body.innerHTML = h; document.body.className = m ? "min" : ""; return document.fonts.ready; },
+    await page.evaluate(([h, m]) => { document.body.innerHTML = h; document.body.className = m ? "min" : "";
+                                     return Promise.all([document.fonts.ready, ...[...document.images].map((i) => i.decode())]); },
                         [inner, S.style === "minimal"]);
     await page.screenshot({ path: path.join(OUT, name), omitBackground: true });
   };

@@ -51,7 +51,9 @@ C = {
     "graphics": [
         {"type": "min", "title": "Le tableau de bord", "text": "Toutes les conversations", "at_word": "tableau", "pos": [540, 1135], "dur": 2.6},
         {"type": "min", "title": "L'agent IA", "text": "Relance les indécis", "at_word": "relance", "pos": [540, 1135], "dur": 2.8},
-        {"type": "min", "title": "Et si elle ne sait pas", "text": "Je prends le relais", "at_word": "relais", "nth": 1, "pos": [540, 1135], "dur": 2.4},
+        # le vrai message d'escalade reçu de l'agent (numéro du client flouté)
+        {"type": "img", "title": "Le message que je reçois", "src": "rushes/escalade-lea.png", "w": 820,
+         "at_word": "m'envoie", "pos": [540, 1420], "dur": 6.4},
     ],
 }
 json.dump(C, open(D + "clips/relance-relais.json", "w"), ensure_ascii=False, indent=1)
