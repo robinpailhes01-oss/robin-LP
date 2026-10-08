@@ -879,9 +879,9 @@
    ],
    "src": "escalade-lea.png",
    "w": 1000,
-   "y": 540,
+   "y": 500,
    "title": "Le message que je reçois",
-   "cap_y": 230,
+   "cap_y": 190,
    "x": 960
   },
   {
@@ -895,11 +895,11 @@
     9.9
    ],
    "src": "conv-loanne.png",
-   "w": 470,
-   "win": 860,
-   "y": 560,
+   "w": 540,
+   "win": 760,
+   "y": 500,
    "title": "Un vrai échange, géré par l'agent",
-   "cap_y": 80,
+   "cap_y": 85,
    "x": 960
   },
   {
@@ -913,10 +913,10 @@
     11.0
    ],
    "src": "tableau-de-bord.png",
-   "w": 620,
-   "y": 560,
+   "w": 740,
+   "y": 505,
    "title": "Mon tableau de bord",
-   "cap_y": 170,
+   "cap_y": 90,
    "x": 960
   },
   {
@@ -984,9 +984,9 @@
    ],
    "src": "stats-lea.png",
    "w": 740,
-   "y": 570,
+   "y": 510,
    "title": "Ce que l'agent a accompli",
-   "cap_y": 170,
+   "cap_y": 135,
    "x": 960
   },
   {
