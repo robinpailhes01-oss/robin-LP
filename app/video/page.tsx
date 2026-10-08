@@ -20,7 +20,7 @@ export default function VideoPage() {
         <p className="t-lead mx-auto mt-4 max-w-[36rem]">{vsl.text}</p>
         <div className="mx-auto mt-10 max-w-[56rem]">
           {vsl.url ? (
-            <CaseVideo url={vsl.url} title={vsl.title} />
+            <CaseVideo url={vsl.url} title={vsl.title} poster={vsl.poster} />
           ) : (
             <div className="flex aspect-video w-full items-center justify-center rounded-[20px] border border-line bg-mist text-[15px] font-semibold text-ink">{vsl.soon}</div>
           )}

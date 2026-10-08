@@ -9,7 +9,7 @@ function embedUrl(url: string): { kind: "iframe" | "video"; src: string } | null
 }
 
 /** Vidéo YouTube, Vimeo ou fichier. Sans URL, rien n’est affiché : pas d’emplacement vide. */
-export function CaseVideo({ url, title }: { url: string; title: string }) {
+export function CaseVideo({ url, title, poster }: { url: string; title: string; poster?: string }) {
   const e = embedUrl(url);
   if (!e) return null;
   return (
@@ -24,7 +24,7 @@ export function CaseVideo({ url, title }: { url: string; title: string }) {
           loading="lazy"
         />
       ) : (
-        <video src={e.src} controls playsInline preload="metadata" className="absolute inset-0 h-full w-full object-cover" />
+        <video src={e.src} poster={poster} controls playsInline preload="metadata" className="absolute inset-0 h-full w-full object-cover" />
       )}
     </div>
   );

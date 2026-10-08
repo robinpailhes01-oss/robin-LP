@@ -70,7 +70,9 @@ export const guarantee = {
  * Vide : la vidéo n’apparaît pas et le parcours animé d’une demande la remplace.
  */
 export const vsl = {
-  url: "",
+  url: "/videos/vsl-luma.mp4",
+  /** Image affichée avant la lecture d’un fichier .mp4. */
+  poster: "/videos/vsl-luma-poster.jpg",
   kicker: "En vidéo",
   title: "Comment je simplifie la relation client des PME",
   text: "Ce que je crée, pour qui, et ce que ça change dans vos journées.",
