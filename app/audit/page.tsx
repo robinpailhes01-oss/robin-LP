@@ -28,7 +28,7 @@ export default function AuditLandingPage() {
 
           <div className="mx-auto mt-10 max-w-[58rem] md:mt-12">
             {vsl.url ? (
-              <CaseVideo url={vsl.url} title={vsl.title} />
+              <CaseVideo url={vsl.url} title={vsl.title} poster={vsl.poster} />
             ) : (
               <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-[24px] bg-night text-white">
                 <span aria-hidden className="absolute -left-24 -top-24 size-96 rounded-full bg-[radial-gradient(circle,rgba(202,223,237,0.28),transparent_65%)]" />

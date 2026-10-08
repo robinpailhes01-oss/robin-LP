@@ -70,7 +70,9 @@ export const guarantee = {
  */
 /** Page /audit : la VSL, puis deux choix. `url` accepte YouTube, Vimeo ou un fichier .mp4 ; vide = image d’attente. */
 export const vsl = {
-  url: "",
+  url: "/videos/vsl-luma.mp4",
+  /** Image affichée avant la lecture d’un fichier .mp4. */
+  poster: "/videos/vsl-luma-poster.jpg",
   meta: { title: "Audit gratuit", description: "La vidéo, puis votre audit gratuit : en ligne en 5 minutes, ou lors d’un appel." },
   kicker: "Audit gratuit",
   title: "Voyez ce que l’IA peut changer dans votre entreprise.",
