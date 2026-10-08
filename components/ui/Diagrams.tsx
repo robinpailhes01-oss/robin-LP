@@ -101,10 +101,6 @@ export function HeroFlow() {
           </li>
         ))}
       </ol>
-      <p className="fl-result mt-9 flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-center">
-        <span className="font-display text-[36px] font-extrabold leading-none tracking-[-0.03em] text-night">{hero.result.value}</span>
-        <span className="text-[15px] text-ink">{hero.result.label}</span>
-      </p>
     </div>
   );
 }

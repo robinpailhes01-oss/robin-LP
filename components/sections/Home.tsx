@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { OpenContactButton } from "@/components/contact/OpenContactButton";
 import { Arrow, TextLink } from "@/components/ui/Button";
+import { CaseVideo } from "@/components/ui/CaseVideo";
 import { ClientMark } from "@/components/ui/ClientMark";
 import { HeroFlow, ProblemSchema, SystemSchema } from "@/components/ui/Diagrams";
 import { Parallax } from "@/components/ui/Parallax";
@@ -9,9 +10,8 @@ import { ScrollWords } from "@/components/ui/ScrollWords";
 import { FaqList } from "@/components/ui/FaqList";
 import { Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
-import { JourneySchema } from "@/components/ui/Schema";
 import { Section } from "@/components/ui/Section";
-import { about, caseStudies, casesIndex, contact, faq, founder, hero, journey, method, manifesto, offers, problem, system, trust, type CaseStudy } from "@/lib/content";
+import { about, caseStudies, casesIndex, contact, faq, founder, hero, manifesto, method, problem, steps, system, trust, vsl, type CaseStudy } from "@/lib/content";
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -68,13 +68,18 @@ export function Hero() {
             <Accented text={hero.second} accent={hero.accent} />
           </h1>
           <p className="t-lead mx-auto mt-7 max-w-[34rem]">{hero.text}</p>
+          {vsl.url && (
+            <div className="mx-auto mt-10 max-w-[52rem]">
+              <CaseVideo url={vsl.url} title={vsl.title} />
+            </div>
+          )}
           <div className="mt-10 flex flex-col items-center gap-4">
             <OpenContactButton className="min-h-14 px-7 text-[16px]" />
             <p className="text-[14px] text-muted">{hero.reassurance.join(" · ")}</p>
           </div>
         </div>
         </Parallax>
-        <HeroFlow />
+        {!vsl.url && <HeroFlow />}
       </div>
     </section>
   );
@@ -96,6 +101,14 @@ export function Trust() {
                   <span className="block text-[12px] leading-tight text-muted">{c.slug === "harmonie-yacht" ? trust.own : trust.client}</span>
                 </span>
               </Link>
+            </li>
+          ))}
+        </ul>
+        <ul className="mt-8 flex flex-wrap justify-center gap-x-10 gap-y-4">
+          {trust.stats.map((st) => (
+            <li key={st.label} className="flex items-baseline gap-2.5">
+              <span className="font-display text-[28px] font-extrabold leading-none tracking-[-0.01em] text-night">{st.value}</span>
+              <span className="text-[14px] text-ink">{st.label}</span>
             </li>
           ))}
         </ul>
@@ -135,59 +148,62 @@ export function Manifesto() {
   );
 }
 
-/* 5. Offres : l’audit gratuit d’abord, puis on construit pour vous ou avec vous. */
-export function Offers() {
+/* 5. Parcours : trois étapes, une seule à faire aujourd’hui (la démo gratuite). */
+export function Steps() {
   return (
-    <Section id="offres" tone="mist">
-      <Heading kicker={offers.kicker} title={offers.title} second={offers.second} text={offers.text} />
+    <Section id="parcours" tone="mist">
+      <Heading kicker={steps.kicker} title={steps.title} second={steps.second} />
       <ol className="mt-14 grid gap-5 md:mt-16 lg:grid-cols-3">
-        {offers.items.map((o, i) => {
-          const dark = o.kind === "audit";
+        {steps.items.map((st, i) => {
+          const dark = i === 0;
           return (
-            <li key={o.kind}>
+            <li key={st.title}>
               <Reveal delay={i * 0.08} className="h-full">
                 <article className={`flex h-full flex-col rounded-[24px] p-7 sm:p-8 ${dark ? "bg-night text-white" : "border border-line bg-white"}`}>
                   <div className="flex items-center justify-between gap-3">
                     <span className={`font-display text-[44px] font-extrabold leading-none tracking-[-0.04em] tabular-nums ${dark ? "text-white/25" : "text-powder"}`} aria-hidden>
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className={`rounded-full px-3 py-1 text-[13px] font-semibold ${dark ? "bg-white text-night" : "bg-mist text-night"}`}>{o.label}</span>
+                    <span className={`rounded-full px-3 py-1 text-[13px] font-semibold ${dark ? "bg-white text-night" : "bg-mist text-night"}`}>{st.label}</span>
                   </div>
-                  <h3 className={`mt-8 font-display text-[26px] font-extrabold leading-[1.1] tracking-[-0.02em] ${dark ? "text-white" : "text-night"}`}>{o.title}</h3>
-                  <p className={`mt-3 text-[16px] leading-[1.5] ${dark ? "text-white/80" : "text-ink"}`}>{o.text}</p>
-                  <ul className="mt-6 flex flex-col gap-2.5">
-                    {o.points.map((pt) => (
-                      <li key={pt} className={`flex gap-2.5 text-[15px] leading-[1.45] ${dark ? "text-white/90" : "text-ink"}`}>
-                        <Check className={`mt-[3px] ${dark ? "text-powder" : "text-night"}`} />
-                        {pt}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-8 lg:mt-auto lg:pt-8">
-                    {dark ? (
+                  <h3 className={`mt-8 font-display text-[26px] font-extrabold leading-[1.1] tracking-[-0.02em] ${dark ? "text-white" : "text-night"}`}>
+                    <span className="sr-only">Étape {i + 1} : </span>
+                    {st.title}
+                  </h3>
+                  <p className={`mt-3 text-[16px] leading-[1.5] ${dark ? "text-white/80" : "text-ink"}`}>{st.text}</p>
+                  {st.points && (
+                    <ul className="mt-6 flex flex-col gap-2.5">
+                      {st.points.map((pt) => (
+                        <li key={pt} className={`flex gap-2.5 text-[15px] leading-[1.45] ${dark ? "text-white/90" : "text-ink"}`}>
+                          <Check className={`mt-[3px] ${dark ? "text-powder" : "text-night"}`} />
+                          {pt}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {st.options && (
+                    <ul className="mt-6 flex flex-col gap-3">
+                      {st.options.map((op) => (
+                        <li key={op.name} className="rounded-2xl bg-paper p-4">
+                          <p className="text-[15px] font-semibold text-night">{op.name}</p>
+                          <p className="mt-1 text-[14px] leading-[1.45] text-ink">{op.text}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {dark && (
+                    <div className="mt-8 lg:mt-auto lg:pt-8">
                       <OpenContactButton variant="onDark" />
-                    ) : (
-                      o.link && <TextLink href={o.link.href}>{o.link.label}</TextLink>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </article>
               </Reveal>
             </li>
           );
         })}
       </ol>
-    </Section>
-  );
-}
-
-/* 6. Parcours animé : de l’appel sous 24 h à l’outil qui travaille. */
-export function Journey() {
-  return (
-    <Section id="accompagnement">
-      <Heading kicker={journey.kicker} title={journey.title} second={journey.second} />
-      <JourneySchema />
-      <div className="mt-14 flex justify-center">
-        <OpenContactButton />
+      <div className="mt-10 flex justify-center">
+        <TextLink href="/cas-clients">Voir les réalisations</TextLink>
       </div>
     </Section>
   );

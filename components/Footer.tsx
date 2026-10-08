@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
-import { founder, nav } from "@/lib/content";
+import { founder, footerNav } from "@/lib/content";
 
 export function Footer() {
   return (
@@ -14,7 +14,7 @@ export function Footer() {
         </div>
         <nav aria-label="Pied de page" className="md:col-span-7 md:justify-self-end">
           <ul className="grid grid-cols-2 sm:flex sm:flex-wrap gap-x-8 gap-y-1">
-            {nav.map((l) => (
+            {footerNav.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="inline-flex min-h-11 items-center text-[14px] text-white/80 hover:text-white transition-colors">
                   {l.label}

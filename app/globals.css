@@ -175,7 +175,7 @@ body {
 }
 
 /* États finaux (sans animation) */
-.fl-dot, .jr-dot { background-color: var(--color-night); color: #fff; border-color: var(--color-night); }
+.fl-dot { background-color: var(--color-night); color: #fff; border-color: var(--color-night); }
 .pb-dot {
   position: absolute;
   left: 0;
@@ -199,7 +199,6 @@ body {
   to { background-color: var(--color-night); color: #fff; border-color: var(--color-night); transform: none; }
 }
 @keyframes fl-txt { from { opacity: 0.35; } to { opacity: 1; } }
-@keyframes fl-result { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 @keyframes pb-card { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
 @keyframes pb-run {
@@ -226,23 +225,11 @@ body {
 }
 @keyframes sys-typing { 0%, 80%, 100% { opacity: 0.3; } 40% { opacity: 1; } }
 
-@keyframes jr-dot {
-  from { background-color: #fff; color: var(--color-slate); border-color: var(--color-powder); }
-  to { background-color: var(--color-night); color: #fff; border-color: var(--color-night); }
-}
-@keyframes jr-txt {
-  from { opacity: 0.3; transform: translateY(8px); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes jr-draw-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-@keyframes jr-draw-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-
 @media (prefers-reduced-motion: no-preference) {
   /* Hero : la demande avance d’étape en étape, une fois par passage */
   .js .fl .fl-fill { animation: fl-fill 2.6s var(--ease-luma) both paused; animation-delay: 0.3s; }
   .js .fl .fl-dot { animation: fl-dot 0.45s var(--ease-luma) both paused; animation-delay: calc(var(--i) * 0.8s + 0.2s); }
   .js .fl .fl-txt { animation: fl-txt 0.45s var(--ease-luma) both paused; animation-delay: calc(var(--i) * 0.8s + 0.2s); }
-  .js .fl .fl-result { animation: fl-result 0.6s var(--ease-luma) both paused; animation-delay: 3.1s; }
 
   /* Constat : les messages arrivent, puis filent en continu vers vous */
   .js .pb .pb-card { animation: pb-card 0.5s var(--ease-luma) both paused; animation-delay: calc(var(--i) * 0.18s); }
@@ -259,16 +246,7 @@ body {
   .js .sys .sys-typing i:nth-child(3) { animation-delay: 0.3s; }
   .js .sys .sys-ping { animation: pb-ping 1.6s ease-in-out infinite paused; }
 
-  /* Parcours : le trait se dessine, puis chaque étape s’allume */
-  .js .jr .jr-dot { animation: jr-dot 0.45s var(--ease-luma) both paused; animation-delay: calc(var(--i) * 0.9s + 0.15s); }
-  .js .jr .jr-txt { animation: jr-txt 0.6s var(--ease-luma) both paused; animation-delay: calc(var(--i) * 0.9s + 0.15s); }
-  .js .jr .jr-seg { animation: jr-draw-y 0.8s var(--ease-luma) both paused; animation-delay: calc(var(--i) * 0.9s + 0.4s); }
-
-  .js .is-in .fl-fill, .js .is-in .fl-dot, .js .is-in .fl-txt, .js .is-in .fl-result,
+  .js .is-in .fl-fill, .js .is-in .fl-dot, .js .is-in .fl-txt,
   .js .is-in .pb-card, .js .is-in .pb-dot, .js .is-in .pb-badge, .js .is-in .pb-ping,
-  .js .is-in .sys-bead, .js .is-in .sys-hub, .js .is-in .sys-toast, .js .is-in .sys-typing i, .js .is-in .sys-ping,
-  .js .is-in .jr-dot, .js .is-in .jr-txt, .js .is-in .jr-seg { animation-play-state: running; }
-}
-@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
-  .js .jr .jr-seg { animation-name: jr-draw-x; }
+  .js .is-in .sys-bead, .js .is-in .sys-hub, .js .is-in .sys-toast, .js .is-in .sys-typing i, .js .is-in .sys-ping { animation-play-state: running; }
 }

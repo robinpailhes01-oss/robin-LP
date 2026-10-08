@@ -5,7 +5,7 @@
  */
 
 export type Question = {
-  key: "sector" | "size" | "pains" | "channels" | "mode" | "tools";
+  key: "sector" | "size" | "pains" | "channels" | "tools";
   title: string;
   hint?: string;
   multiple?: boolean;
@@ -18,7 +18,7 @@ export const audit = {
     name: "Assistant de Robin",
     role: "Robin vous rappelle sous 24 h",
     hello: "Bonjour, je suis l’assistant de Robin.",
-    purpose: "Je vous pose quelques questions pour préparer votre audit gratuit, juste le nécessaire. Robin vous rappelle ensuite sous 24 h pour vous montrer ce que l’IA peut faire chez vous. Sans engagement.",
+    purpose: "Je vous pose quelques questions pour préparer votre démo gratuite, juste le nécessaire. Robin vous rappelle ensuite sous 24 h pour vous montrer à quoi ressemblerait votre outil IA et ce qu’il vous ferait gagner. Sans engagement.",
     /** Dernière question, en texte libre. La réponse arrive à Robin telle quelle. */
     freeQuestion: "Dernière question, et c’est la plus utile : quelle automatisation vous ferait gagner le plus de temps ou d’efficacité ? Si vous avez déjà une idée en tête, même floue, écrivez‑la.",
     freePlaceholder: "Une idée, même floue… ou « je ne sais pas encore »",
@@ -26,7 +26,7 @@ export const audit = {
     askWho: "Pour que Robin sache à qui il parle : votre prénom et le nom de votre entreprise ?",
     whoPlaceholder: "Prénom, entreprise",
     askContact: "Et un numéro de téléphone (ou un email) pour que Robin vous rappelle sous 24 h ?",
-    done: "C’est noté, merci. Robin vous rappelle sous 24 h pour vous montrer ce qu’il serait possible de faire chez vous. À très vite.",
+    done: "C’est noté, merci. Robin vous rappelle sous 24 h pour vous montrer votre futur outil IA. À très vite.",
     error: "L’envoi n’a pas abouti. Vous pouvez réessayer en renvoyant votre téléphone ou votre email.",
   },
   resultKicker: "Premières pistes d’après vos réponses",
@@ -50,11 +50,6 @@ export const audit = {
       options: ["WhatsApp", "Email", "Téléphone", "Instagram ou Facebook", "Site web", "Plateformes (Airbnb, Booking…)"],
     },
     {
-      key: "mode",
-      title: "Comment préférez-vous travailler ?",
-      options: ["D’abord l’audit, on verra ensuite", "Que Robin crée l’infrastructure pour moi", "Créer les outils ensemble, avec une formation", "Je ne sais pas encore"],
-    },
-    {
       key: "tools",
       title: "Quels outils utilisez-vous au quotidien ?",
       hint: "Plusieurs réponses possibles",
@@ -71,7 +66,7 @@ export const nudge = {
   delaySeconds: 5,
   title: "Bonjour, je suis l’assistant de Robin.",
   text: "Vous vous demandez ce que l’IA pourrait simplifier dans votre relation client ? Quelques questions, puis Robin vous rappelle sous 24 h.",
-  cta: "Préparer mon audit gratuit",
+  cta: "Préparer ma démo gratuite",
   dismiss: "Plus tard",
 };
 
