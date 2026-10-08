@@ -340,3 +340,7 @@ while True:
 enc.stdin.close()
 enc.wait()
 print(f"OK {out} ({TOTAL:.1f} s, {len(groups)} groupes de sous-titres)")
+
+# --- 5. effets sonores sur chaque apparition d'élément (voir vsl_sfx.py) ---
+if not C.get("no_sfx"):
+    subprocess.run([sys.executable, str(DIR / "vsl_sfx.py"), sys.argv[1]], check=True)
