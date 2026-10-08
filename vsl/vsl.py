@@ -94,6 +94,7 @@ for r in C["order"]:
         pa = keep[i - 1][1] if i else 0
         nb = keep[i + 1][0] if i + 1 < len(keep) else b + 1
         a2, b2 = max(a - 0.07, (pa + a) / 2), min(b + 0.12, (b + nb) / 2)
+        b2 = a2 + max(1, round((b2 - a2) * FPS)) / FPS   # durée = nombre entier d'images : sinon le son se décale à chaque coupe
         pieces.append((r, a2, b2, t))
         t += b2 - a2
 TOTAL = t
@@ -130,10 +131,13 @@ words.sort(key=lambda w: w[1])
 parts = []
 for k, (r, a, b, _) in enumerate(pieces):
     pk = B / f"piece{k:03d}.mov"
-    d = b - a
+    nf = round((b - a) * FPS)
+    d = nf / FPS
     if not pk.exists() or C.get("rebuild"):
+        # image et son coupés exactement à la même durée (nf images) pour garder la synchro sur toute la vidéo
         fc = (f"[0:v]{TONEMAP},fps={FPS},scale={W}:{H},setsar=1,{C.get('grade', 'eq=contrast=1.04:saturation=1.08')},"
-              f"trim=duration={d:.3f}[v];[0:a:0]atrim=duration={d:.3f},afade=t=in:d=0.02,"
+              f"trim=end_frame={nf},setpts=PTS-STARTPTS[v];[0:a:0]aresample=48000,atrim=end_sample={round(d * 48000)},asetpts=PTS-STARTPTS,"
+              f"apad=whole_len={round(d * 48000)},afade=t=in:d=0.02,"
               f"afade=t=out:st={max(0, d - 0.03):.3f}:d=0.03,aformat=sample_rates=48000:channel_layouts=mono[a]")
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{a:.3f}", "-t", f"{d + 0.2:.3f}", "-i", str(R / f"{r}.mov"),
                         "-filter_complex", fc, "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "15", "-preset", "fast",
