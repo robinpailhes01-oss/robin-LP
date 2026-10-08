@@ -118,6 +118,10 @@ for gi_, g in enumerate(C.get("graphics", [])):
         if not cand:
             print("ATTENTION mot introuvable pour la carte", g["at_word"]); continue
         t0 = cand[g.get("nth", 0)] - 0.05
+    if "until" in g:                       # la carte reste jusqu'à ce mot (fin de l'idée)
+        tu = [w[1] for w in words if w[0].lower().strip(".,?!").startswith(g["until"].lower())]
+        if tu:
+            g = {**g, "dur": tu[g.get("until_nth", 0)] - t0 + 0.15}
     graphics.append({**g, "t0": t0, "i": gi_})
 spec = {"graphics": [{k: v for k, v in g.items() if k not in ("t0",)} for g in graphics],
         "groups": [[w[0] for w in g] for g in groups], "speakers": [g[0][3] for g in groups], "keys": C.get("keys", []), "tag": C.get("tag", ""),
@@ -218,7 +222,13 @@ while True:
             else:
                 sc = [0.6, 0.85, 1.08, 1.12, 1.04, 0.98, 1.0][k] if k < 7 else 1.0
                 al, dy = min(1, dt / 0.12) * min(1, (dur - dt) / 0.25), int(30 * max(0, 1 - dt / 0.25))
-            blend(frame, layer(f"gfx{g['i']}", B / f"gfx_{g['i']:02d}.png"), scale=sc, alpha=al, dy=dy)
+            lay = layer(f"gfx{g['i']}", B / f"gfx_{g['i']:02d}.png")
+            if g.get("wipe") and lay is not None:   # trait qui se dessine de gauche à droite
+                img, x0, y0 = lay
+                k = max(1, int(img.shape[1] * (1 - (1 - min(1, dt / g["wipe"])) ** 3)))
+                blend(frame, (img[:, :k], x0, y0), alpha=min(1, (dur - dt) / 0.35))
+                continue
+            blend(frame, lay, scale=sc, alpha=al, dy=dy)
     if C.get("tag"):
         blend(frame, layer("tag", B / "tag.png"), alpha=min(1, max(0, t - C.get("hook_until", 0)) / 0.4))
     if C.get("hook") and t < C.get("hook_until", 3.0):

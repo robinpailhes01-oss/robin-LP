@@ -50,12 +50,19 @@ C = {
     "tag": "Robin · <b>Luma</b>",
     "hook": "Ce que je fais <em>de mieux</em>",
     "hook_until": 2.4,
+    # motion design épuré qui suit le propos : spécialité -> pour qui -> méthode en 2 étapes
     "graphics": [
-        {"type": "min", "title": "Ma spécialité", "text": "L'agent WhatsApp", "at_word": "spécialisé", "pos": [540, 1135], "dur": 2.6},
-        {"type": "min", "title": "Pour qui", "text": "PME, hébergements…", "at_word": "PME", "pos": [540, 1135], "dur": 2.6},
-        {"type": "min", "title": "Étape 1", "text": "Libérer du temps", "at_word": "libérer", "pos": [540, 1135], "dur": 2.6},
-        {"type": "min", "title": "Étape 2", "text": "Développer la suite", "at_word": "développer", "pos": [540, 1135], "dur": 2.4},
+        {"type": "chip", "icon": "chat", "text": "Agent WhatsApp", "at_word": "whatsapp", "until": "aider", "pos": [540, 1120]},
+        {"type": "chip", "icon": "up", "color": "o", "text": "Grosse valeur ajoutée", "at_word": "valeur", "until": "aider", "pos": [540, 1225]},
+        {"type": "chip", "text": "PME", "at_word": "pme", "until": "déjà", "pos": [540, 1100]},
+        {"type": "chip", "text": "Hébergements", "at_word": "hébergements", "until": "déjà", "pos": [540, 1185]},
+        {"type": "chip", "text": "Trop de demandes", "at_word": "trop", "until": "déjà", "pos": [540, 1270]},
+        {"type": "chip", "style": "gold", "text": "→ focus : l'expérience client", "at_word": "focaliser", "until": "déjà", "pos": [540, 1370]},
+        {"type": "step", "title": "Étape 1", "text": "Libérer du temps", "at_word": "libérer", "pos": [285, 1150], "dur": 99},
+        {"type": "line", "at_word": "ensuite", "pos": [505, 1162], "w": 170, "wipe": 0.7, "dur": 99},
+        {"type": "step", "title": "Étape 2", "text": "Développer", "at_word": "développer", "pos": [830, 1150], "dur": 99},
     ],
+
 }
 json.dump(C, open(D + "clips/specialite.json", "w"), ensure_ascii=False, indent=1)
 print(" ".join(w[0] for w in words))

@@ -65,8 +65,24 @@ body.min .hook em { font-size: 70px; }
 .mcard small { display: block; font: 800 20px/1 Bold; letter-spacing: .32em; text-transform: uppercase; opacity: .8; }
 .mcard hr { width: 46px; height: 2px; border: 0; margin: 14px auto 12px; background: #ffc35c; box-shadow: 0 1px 6px rgba(0,0,0,.4); }
 .mcard div { font: italic 400 66px/1 SerifF; }
+/* pastilles et frise (motion design épuré) */
+.chip { position: absolute; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 16px; white-space: nowrap;
+        padding: 14px 28px 14px 14px; border-radius: 60px; background: rgba(12,12,20,.55); border: 1.5px solid rgba(255,255,255,.35);
+        font: 800 38px/1 Bold; color: #fff; letter-spacing: -0.01em; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+.chip.plain { padding: 14px 30px; }
+.chip .dot { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: #25d366; }
+.chip .dot.o { background: #ffc35c; }
+.chip.gold { background: none; border: none; box-shadow: none; font: italic 400 58px/1 SerifF; color: #ffc35c;
+             text-shadow: 0 2px 14px rgba(0,0,0,.75); }
+.step { position: absolute; transform: translate(-50%, -50%); text-align: center; white-space: nowrap; color: #fff;
+        text-shadow: 0 2px 14px rgba(0,0,0,.75); }
+.step small { display: block; font: 800 22px/1 Bold; letter-spacing: .3em; text-transform: uppercase; color: #ffc35c; margin-bottom: 12px; }
+.step div { font: italic 400 58px/1 SerifF; }
+.line { position: absolute; height: 4px; border-radius: 2px; background: linear-gradient(90deg, #ffc35c, #fff);
+        box-shadow: 0 1px 8px rgba(0,0,0,.5); }
 </style></head><body></body></html>`;
 const ICON = {
+  up: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6 4 4 6-8"/><path d="M14 7h6v6"/></svg>',
   chat: '<svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>',
   clock: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   check: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
@@ -74,6 +90,13 @@ const ICON = {
   chart: '<svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="3" width="4" height="17" rx="1"/></svg>',
 };
 const card = (g) => {
+  if (g.type === "chip")
+    return `<div class="chip ${g.icon ? "" : "plain"} ${g.style || ""}" style="left:${g.pos[0]}px;top:${g.pos[1]}px">` +
+      (g.icon ? `<span class="dot ${g.color || ""}">${ICON[g.icon] || ""}</span>` : "") + `${g.text}</div>`;
+  if (g.type === "step")
+    return `<div class="step" style="left:${g.pos[0]}px;top:${g.pos[1]}px"><small>${g.title}</small><div>${g.text}</div></div>`;
+  if (g.type === "line")
+    return `<div class="line" style="left:${g.pos[0]}px;top:${g.pos[1]}px;width:${g.w}px"></div>`;
   if (g.type === "img")   // capture d'écran (chemin relatif au dossier interview-reels)
     return `<div class="mcard" style="left:${g.pos[0]}px;top:${g.pos[1]}px">${g.title ? `<small>${g.title}</small><hr>` : ""}` +
       `<img src="file://${path.resolve(__dirname, g.src)}" style="display:block;width:${g.w || 760}px;border-radius:26px;` +
