@@ -24,4 +24,4 @@ Phase 1 : leads + mails prêts à envoyer. Phase 2 : dashboard v1. Phase 3 : rap
 
 ## Stockage
 
-Décision en attente. SQLite local est impossible, car Robin n'utilise que la version web et le conteneur s'efface à chaque session. Option recommandée : Supabase.
+Supabase (décidé le 8 octobre 2026), parce que c'est le seul endroit qui survit d'une session web à l'autre. SQLite local est impossible : Robin n'utilise que la version web et le conteneur s'efface à chaque session. Le projet Supabase est encore à confirmer, voir `ETAT.md`.

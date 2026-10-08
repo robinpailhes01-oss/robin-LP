@@ -21,3 +21,10 @@ Deux projets vivent dans ce repo, côte à côte :
 - Travailler sur la prospection ne touche pas au site, et inversement.
 - `dashboard/` est exclu du build du site (`tsconfig.json`) pour qu'un script de prospection ne puisse pas casser la mise en ligne. Ne pas retirer cette exclusion.
 - Tout est écrit en français.
+
+## Mémoire entre les sessions
+
+- L'état de la prospection (où on en est, prochaine étape, ce qu'on attend de Robin) est chargé automatiquement ci-dessous. Le mettre à jour et le pousser à la fin de chaque étape.
+- Garder les CLAUDE.md courts : ils sont relus à chaque session. L'historique va dans `dashboard/BRIEF.md`, qu'on ne lit qu'au besoin.
+
+@dashboard/ETAT.md

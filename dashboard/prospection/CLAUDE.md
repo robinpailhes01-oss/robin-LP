@@ -6,7 +6,7 @@ Rôle : récupérer les leads (Outscraper), préparer les mails, envoyer les lot
 
 - TypeScript exécuté par Node, comme le site : un seul langage dans le repo.
 - Aucun package pour parler aux API : le `fetch` intégré à Node suffit pour Outscraper et Resend.
-- Stockage : voir `../CLAUDE.md` (décision en attente).
+- Stockage : Supabase, voir `../CLAUDE.md`.
 
 ## Règles
 

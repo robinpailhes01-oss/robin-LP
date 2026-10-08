@@ -59,3 +59,6 @@ Hebdo : ce qui a marché, ce qui n'a pas marché, quel segment répond le plus. 
 - **Désinscription** : un lien qui ouvre un mail « STOP » vers Robin. L'adresse part ensuite dans la liste de suppression.
 - **Relance** : une seule, à J+3.
 - **Segment A** : proposition de ne pas collecter avant l'envoi du premier lot B, pour ne pas dépenser de crédits Outscraper sans envoyer. Pas encore de réponse de Robin.
+- **Stockage** : Supabase, validé par Robin. Il pense avoir un projet « Luma », mais le compte connecté ne contient que `harmonie-yacht`. On ne met pas la prospection dans la base de sa société de yachts.
+- **Boîte mail** : Robin dit avoir une adresse sur robinpailhes.fr. Le domaine n'a pourtant aucun enregistrement MX : à vérifier avec un mail de test.
+- **Mémoire entre les sessions** : `dashboard/ETAT.md` est chargé automatiquement par le CLAUDE.md racine et mis à jour à chaque étape.
