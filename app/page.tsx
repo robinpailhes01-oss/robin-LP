@@ -1,27 +1,18 @@
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
-import { ContactProvider } from "@/components/contact/ContactContext";
-import { ContactPanel } from "@/components/contact/ContactPanel";
-import { Hero } from "@/components/sections/Hero";
-import { Partner } from "@/components/sections/Partner";
-import { Expertise, Faq, FinalCta, Logos, Method, Testimonials } from "@/components/sections/Sections";
+import { About, Cases, Contact, Faq, Hero, Manifesto, Problem, Steps, System, Trust } from "@/components/sections/Home";
 
-export default function Page() {
+export default function Home() {
   return (
-    <ContactProvider>
-      <Nav />
-      <main>
-        <Hero />
-        <Logos />
-        <Expertise />
-        <Partner />
-        <Testimonials />
-        <Method />
-        <Faq />
-        <FinalCta />
-      </main>
-      <Footer />
-      <ContactPanel />
-    </ContactProvider>
+    <>
+      <Hero />
+      <Trust />
+      <Problem />
+      <Manifesto />
+      <System />
+      <Steps />
+      <Cases />
+      <About />
+      <Faq />
+      <Contact />
+    </>
   );
 }

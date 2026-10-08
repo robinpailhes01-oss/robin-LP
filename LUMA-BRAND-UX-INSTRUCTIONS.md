@@ -1,5 +1,7 @@
 # LUMA — WEBSITE BRAND & UX INSTRUCTIONS
 
+> **Octobre 2026.** La direction artistique en vigueur est décrite dans `DIRECTION-ARTISTIQUE.md`. Elle remplace la palette, la mascotte et les styles visuels décrits ici.
+
 Instructions exclusives pour la conception du site internet Luma
 
 Version : septembre 2026

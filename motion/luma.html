@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>Luma — vidéo de présentation</title>
+<link rel="stylesheet" href="fonts/fonts.css" />
+<style>
+  :root {
+    --white: #ffffff; --paper: #fcfcfa; --mist: #eaf2f8; --powder: #cadfed;
+    --slate: #71879a; --night: #17263d; --ink: #3f4e62; --muted: #5b6b7e; --line: #dce6ee;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--white); }
+  body { font-family: "Inter", sans-serif; color: var(--night); -webkit-font-smoothing: antialiased; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--white); }
+  .abs { position: absolute; }
+  .scene { position: absolute; inset: 0; visibility: hidden; }
+  .bg { position: absolute; inset: 0; visibility: hidden; }
+  .display { font-family: "Inter Tight", sans-serif; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
+  .tight { font-family: "Inter Tight", sans-serif; }
+  .kicker { font-size: 22px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 18px; }
+  .kicker::before { content: ""; width: 44px; height: 2px; background: var(--slate); }
+  .kicker.center { justify-content: center; }
+  .mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+  .mask > span { display: inline-block; transform: translateY(110%); }
+  .accent { position: relative; display: inline-block; z-index: 0; }
+  .accent .hl { position: absolute; left: -0.04em; right: -0.04em; bottom: 0.1em; height: 0.26em; background: var(--powder); transform-origin: left center; transform: scaleX(0); z-index: -1; }
+  .card { position: absolute; background: #fff; border: 1.5px solid var(--line); border-radius: 26px; box-shadow: 0 30px 60px -42px rgba(23,38,61,.45); }
+  .pill { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--powder); border-radius: 99px; padding: 7px 14px; font-size: 16px; font-weight: 600; color: var(--night); background: #fff; }
+  .check { width: 40px; height: 40px; border-radius: 50%; background: var(--night); color: #fff; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  .tile-logo { height: 92px; padding: 0 20px; border: 1.5px solid var(--line); border-radius: 20px; background: #fff; display: flex; align-items: center; }
+  #chrome { position: absolute; left: 160px; right: 160px; bottom: 56px; display: flex; justify-content: space-between; font-size: 18px; font-weight: 500; opacity: 0; }
+</style>
+<script src="cues.js"></script>
+</head>
+<body>
+<div id="stage">
+  <div class="bg" id="bgA" style="background:var(--mist)"></div>
+  <div class="bg" id="bgB" style="background:var(--mist)"></div>
+  <div class="bg" id="bgC" style="background:var(--mist)"></div>
+  <div class="bg" id="bgN" style="background:var(--night)"></div>
+
+  <!-- S1 · Le constat -->
+  <div class="scene" id="s1">
+    <div class="abs" style="left:0; right:0; top:330px; text-align:center">
+      <div class="kicker center" id="s1k">Dirigeants de PME</div>
+      <h1 class="display" style="font-size:132px; margin-top:44px">
+        <div id="s1l1"></div>
+        <div id="s1l2"></div>
+      </h1>
+    </div>
+  </div>
+
+  <!-- S2 · Le problème -->
+  <div class="scene" id="s2">
+    <div class="abs" id="s2txt" style="left:160px; top:310px; width:820px">
+      <div class="kicker" id="s2k">Au quotidien</div>
+      <h2 class="display" id="s2h" style="font-size:100px; margin-top:34px"></h2>
+      <div id="s2sub" style="display:flex; align-items:center; gap:22px; margin-top:46px; opacity:0">
+        <svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff" stroke="#17263d" stroke-width="3"/><line id="hh" x1="32" y1="32" x2="32" y2="18" stroke="#17263d" stroke-width="4" stroke-linecap="round"/><line id="mh" x1="32" y1="32" x2="32" y2="10" stroke="#71879a" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="32" r="3.5" fill="#17263d"/></svg>
+        <p class="tight" style="font-weight:800; font-size:44px; letter-spacing:-0.02em; white-space:nowrap">Ça prend des heures, chaque jour.</p>
+      </div>
+    </div>
+    <div id="cards"></div>
+  </div>
+
+  <!-- S3 · Luma -->
+  <div class="scene" id="s3">
+    <div class="abs" id="s3logo" style="left:0; right:0; top:330px; text-align:center">
+      <div style="display:inline-flex; align-items:flex-start; position:relative" class="display" id="s3word">
+        <span style="font-size:250px; display:flex" id="s3letters"><span class="mask"><span>L</span></span><span class="mask"><span>u</span></span><span class="mask"><span>m</span></span><span class="mask"><span>a</span></span></span>
+        <svg id="s3star" width="70" height="70" viewBox="0 0 16 16" style="color:var(--slate); margin-left:8px; margin-top:22px"><path d="M8 0c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z" fill="currentColor"/></svg>
+      </div>
+      <div class="kicker center" id="s3tag" style="font-size:28px; margin-top:36px; opacity:0">Agence IA · Montpellier</div>
+    </div>
+    <div class="abs" style="left:0; right:0; top:560px; text-align:center">
+      <h2 class="display" id="s3h" style="font-size:96px"></h2>
+      <p id="s3p" class="tight" style="font-weight:700; font-size:46px; letter-spacing:-0.02em; color:var(--ink); margin-top:28px; opacity:0">qui améliorent et simplifient votre relation client.</p>
+    </div>
+  </div>
+
+  <!-- S4 · Le fonctionnement -->
+  <div class="scene" id="s4">
+    <div class="abs" style="left:0; right:0; top:150px; text-align:center">
+      <div class="kicker center" id="s4k">Comment ça marche</div>
+      <h2 class="display" id="s4h" style="font-size:76px; margin-top:26px"></h2>
+    </div>
+    <svg class="abs" style="left:0;top:0" width="1920" height="1080">
+      <line id="s4base" x1="360" y1="700" x2="1560" y2="700" stroke="#cadfed" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round" opacity="0"/>
+      <line id="s4line" x1="360" y1="700" x2="360" y2="700" stroke="#17263d" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <div id="nodes"></div>
+  </div>
+
+  <!-- S5 · Harmonie Yacht -->
+  <div class="scene" id="s5">
+    <div class="abs" id="s5head" style="left:160px; top:150px; display:flex; align-items:center; gap:26px">
+      <div class="tile-logo"><img src="../public/logos/harmonie-yacht.png" data-src="harmonie" style="height:68px" /></div>
+      <div>
+        <div class="kicker" style="font-size:19px">Réalisation</div>
+        <div class="tight" style="font-weight:800; font-size:40px; letter-spacing:-0.02em; margin-top:8px">Harmonie Yacht</div>
+      </div>
+    </div>
+    <div id="s5a">
+      <div class="abs" style="left:160px; top:320px; width:760px">
+        <h2 class="display" id="s5h" style="font-size:70px"></h2>
+        <div id="s5list" style="margin-top:56px; display:flex; flex-direction:column; gap:26px"></div>
+      </div>
+      <svg class="abs" style="left:0;top:0" width="1920" height="1080" id="s5svg"></svg>
+      <div id="hub"></div>
+    </div>
+    <div id="s5b" style="opacity:0">
+      <div class="abs display" style="left:150px; top:330px; font-size:380px; letter-spacing:-0.05em" id="s5big"><span class="mask"><span>3</span></span><span class="mask"><span>&nbsp;h</span></span></div>
+      <div class="abs" style="left:1000px; top:470px; width:780px">
+        <p class="display" id="s5l1" style="font-size:72px; opacity:0">gagnées par jour.</p>
+        <p class="tight" id="s5l2" style="font-weight:700; font-size:40px; letter-spacing:-0.02em; color:var(--ink); margin-top:26px; line-height:1.2; opacity:0">Sans rien perdre de la qualité de la relation client.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6 · Énergies Concept -->
+  <div class="scene" id="s6">
+    <div class="abs" id="s6head" style="left:160px; top:150px; display:flex; align-items:center; gap:26px">
+      <div class="tile-logo"><img src="../public/logos/energies-concept.png" style="height:62px" /></div>
+      <div>
+        <div class="kicker" style="font-size:19px">Réalisation</div>
+        <div class="tight" style="font-weight:800; font-size:40px; letter-spacing:-0.02em; margin-top:8px">Énergies Concept</div>
+      </div>
+    </div>
+    <div class="abs" style="left:160px; top:320px; width:780px">
+      <h2 class="display" id="s6h" style="font-size:70px"></h2>
+      <div id="s6stat" style="margin-top:70px; opacity:0">
+        <div class="display" style="font-size:150px; letter-spacing:-0.04em">3 à 4 h</div>
+        <div class="tight" style="font-weight:700; font-size:34px; color:var(--ink); margin-top:10px">gagnées chaque jour par l’équipe.</div>
+      </div>
+      <div id="s6ok" style="margin-top:34px; display:flex; align-items:center; gap:16px; opacity:0">
+        <span class="check"><svg width="20" height="20" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.6 2.5L10 3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="tight" style="font-weight:800; font-size:34px; letter-spacing:-0.015em">Des dossiers traités sans erreur.</span>
+      </div>
+    </div>
+    <div class="abs kicker" id="s6gk" style="left:1040px; top:258px; opacity:0">20 espaces commerciaux</div>
+    <div id="grid"></div>
+    <div class="card" id="form" style="left:1110px; top:330px; width:600px; padding:30px 34px; opacity:0">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <div class="tight" style="font-weight:800; font-size:32px; letter-spacing:-0.02em">Bon de commande</div>
+        <span class="pill">Illustration</span>
+      </div>
+      <div style="font-size:19px; color:var(--muted); margin-top:6px">Espace commercial · n° 07</div>
+      <div id="fields" style="margin-top:26px; display:flex; flex-direction:column; gap:14px"></div>
+      <div id="fstatus" style="margin-top:26px; display:inline-flex; align-items:center; gap:10px; background:var(--night); color:#fff; border-radius:99px; padding:12px 22px; font-weight:600; font-size:20px; opacity:0">
+        <svg width="18" height="18" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.6 2.5L10 3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Complet · prêt à signer
+      </div>
+    </div>
+  </div>
+
+  <!-- S7 · Le bénéfice -->
+  <div class="scene" id="s7">
+    <div class="abs" style="left:160px; top:330px">
+      <div class="kicker" style="color:#cadfed" id="s7k">Votre temps</div>
+      <div class="display" style="font-size:114px; color:#fff; margin-top:40px; letter-spacing:-0.03em"><span class="mask"><span id="s7a">Moins de temps perdu.</span></span></div>
+      <div class="display" style="font-size:114px; color:#cadfed; margin-top:6px; letter-spacing:-0.03em"><span class="mask"><span id="s7b">Plus de temps pour l’essentiel.</span></span></div>
+    </div>
+  </div>
+
+  <!-- S8 · Signature -->
+  <div class="scene" id="s8">
+    <div class="abs" style="left:0; right:0; top:250px; display:flex; flex-direction:column; align-items:center; text-align:center">
+      <div class="display" style="display:flex; align-items:flex-start">
+        <span style="font-size:200px; display:flex" id="s8letters"><span class="mask"><span>L</span></span><span class="mask"><span>u</span></span><span class="mask"><span>m</span></span><span class="mask"><span>a</span></span></span>
+        <svg id="s8star" width="56" height="56" viewBox="0 0 16 16" style="color:var(--slate); margin-left:6px; margin-top:18px"><path d="M8 0c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z" fill="currentColor"/></svg>
+      </div>
+      <p id="s8p" class="tight" style="font-weight:700; font-size:46px; letter-spacing:-0.02em; margin-top:30px; white-space:nowrap; opacity:0">Des outils IA personnalisés pour la relation client des PME.</p>
+      <div id="s8f" style="display:flex; align-items:center; gap:18px; margin-top:46px; opacity:0">
+        <div style="width:72px; height:72px; border-radius:50%; overflow:hidden; background:#fff"><img src="../public/images/robin-buste.jpg" style="width:100%; height:100%; object-fit:cover; object-position:50% 30%" /></div>
+        <div style="text-align:left">
+          <div class="tight" style="font-weight:800; font-size:26px">Fondée par Robin Pailhes</div>
+          <div style="font-size:20px; color:var(--ink); margin-top:2px">Agence IA · Montpellier</div>
+        </div>
+      </div>
+      <div id="s8c" style="margin-top:50px; opacity:0"><span style="display:inline-flex; align-items:center; gap:14px; background:var(--night); color:#fff; font-weight:600; font-size:28px; padding:24px 42px; border-radius:99px">Parlons de votre projet <svg width="26" height="26" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </div>
+  </div>
+
+  <div id="chrome"><span id="chL" class="tight" style="font-weight:800; font-size:26px; letter-spacing:-0.04em">Luma</span><span id="chR">Agence IA · Montpellier</span></div>
+</div>
+
+<script>
+const { T, DURATION } = window.CUES;
+const $ = (s) => document.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const E = {
+  out: (t) => 1 - Math.pow(1 - t, 4),
+  expo: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+  io: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+  back: (t) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+  lin: (t) => t,
+};
+const P = (t, s, d, e = E.out) => e(clamp((t - s) / d));
+const L = (a, b, k) => a + (b - a) * k;
+function st(el, { o, x = 0, y = 0, s = 1, r = 0 } = {}) {
+  if (!el) return;
+  if (o !== undefined) el.style.opacity = o;
+  el.style.transform = `translate(${x}px, ${y}px) scale(${s}) rotate(${r}deg)`;
+}
+const rise = (el, t, s, d = 0.7, dist = 18) => st(el, { o: P(t, s, d * 0.8), y: L(dist, 0, P(t, s, d, E.expo)) });
+const vis = (el, on) => { el.style.visibility = on ? "visible" : "hidden"; return on; };
+function words(el, text, accentWord) {
+  el.innerHTML = text.split(" ").map((w) => {
+    const clean = w.replace(/[.,…]/g, "");
+    const inner = clean === accentWord ? `<span class="accent"><span class="hl"></span>${w}</span>` : w;
+    return `<span class="mask"><span>${inner}</span></span>`;
+  }).join(" ");
+}
+function reveal(el, t, start, stagger = 0.07, dur = 0.8) {
+  $$(".mask > span", el).forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, start + i * stagger, dur, E.expo))}%)`; });
+}
+function revealAt(el, t, starts, dur = 0.8) {
+  $$(".mask > span", el).forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, starts[i] ?? starts[starts.length - 1], dur, E.expo))}%)`; });
+}
+const ICON = {
+  wa: (s = 52) => `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#25D366"/><path d="M9.5 23.5l1.1-3.6A8 8 0 1 1 13.5 22.8L9.5 23.5z" fill="#fff"/><path d="M13 12.6c.2-.5.5-.5.8-.5h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.5.6c-.1.2-.2.3 0 .6.5.9 1.6 2 2.9 2.6.3.1.5.1.7-.1l.7-.8c.2-.3.4-.2.6-.1l1.8.9c.3.1.5.2.5.4 0 .3 0 1-.4 1.6-.4.6-1.5 1-2 1-.7 0-1.9-.2-3.7-1.4-2.3-1.6-3.5-3.9-3.6-4.1-.1-.2-.8-1.2-.8-2.3s.6-1.6.8-1.9z" fill="#25D366"/></svg>`,
+  gm: (s = 52) => `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><path d="M5 10.5V23a2 2 0 0 0 2 2h3V13.5L5 10.5z" fill="#4285F4"/><path d="M27 10.5V23a2 2 0 0 1-2 2h-3V13.5l5-3z" fill="#34A853"/><path d="M10 13.5L16 18l6-4.5V9l-6 4.5L10 9v4.5z" fill="#EA4335"/><path d="M5 10.5V9.4c0-1.9 2.1-3 3.6-1.8L10 9v4.5l-5-3z" fill="#C5221F"/><path d="M27 10.5V9.4c0-1.9-2.1-3-3.6-1.8L22 9v4.5l5-3z" fill="#FBBC04"/></svg>`,
+  ph: (s = 52) => `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#eaf2f8"/><path d="M12.2 9.5l1.6 3.4-1.7 1.5a10 10 0 0 0 5.5 5.5l1.5-1.7 3.4 1.6-.6 3c-6.8.2-12.5-5.5-12.3-12.3l2.6-1z" fill="#17263d"/></svg>`,
+  web: (s = 52) => `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#eaf2f8"/><circle cx="16" cy="16" r="8" fill="none" stroke="#17263d" stroke-width="1.8"/><path d="M8 16h16M16 8c2.5 2.4 2.5 13.6 0 16M16 8c-2.5 2.4-2.5 13.6 0 16" fill="none" stroke="#17263d" stroke-width="1.6"/></svg>`,
+  cal: (s = 52) => `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><rect x="4" y="5" width="24" height="23" rx="3" fill="#fff" stroke="#DADCE0" stroke-width="1.5"/><rect x="4" y="5" width="24" height="6" rx="3" fill="#4285F4"/><rect x="4" y="9" width="24" height="2" fill="#4285F4"/><text x="16" y="24" text-anchor="middle" font-size="11" font-weight="700" fill="#1A73E8" font-family="Inter, sans-serif">31</text></svg>`,
+  sun: (s = 52) => `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#eaf2f8"/><circle cx="13" cy="13" r="4.5" fill="#F6B53D"/><path d="M13 5.5v2M13 18.5v2M5.5 13h2M20.5 13h-1.5M7.7 7.7l1.4 1.4M18.3 7.7l-1.4 1.4" stroke="#F6B53D" stroke-width="1.6" stroke-linecap="round"/><path d="M11.5 24h11a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.4 1.5A3.3 3.3 0 0 0 11.5 24z" fill="#fff" stroke="#17263d" stroke-width="1.5"/></svg>`,
+  chk: `<svg width="20" height="20" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.6 2.5L10 3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+};
+
+/* ---------- Construction ---------- */
+words($("#s1l1"), "La relation client,");
+words($("#s1l2"), "c’est le cœur de tout.", "cœur");
+words($("#s2h"), "Messages, appels, devis…");
+words($("#s3h"), "Des outils IA personnalisés");
+words($("#s4h"), "Simple, et sous votre contrôle.");
+words($("#s5h"), "Un agent WhatsApp connecté à tous ses outils.");
+words($("#s6h"), "Une plateforme pour toute l’équipe commerciale.");
+
+const CARDS = [
+  { ic: ICON.wa(), src: "WhatsApp", time: "22:47", txt: "Bonsoir, il vous reste une disponibilité samedi ?", x: 1080, y: 150, r: -3, badge: "Non lu", at: T.B + 0.7 },
+  { ic: ICON.ph(), src: "Téléphone", time: "12:30", txt: "Appel manqué. Rappel demandé.", x: 1300, y: 330, r: 2.5, badge: "Manqué", at: T.B2 + 0.15 },
+  { ic: ICON.gm(), src: "Email", time: "09:12", txt: "Demande de devis pour la rénovation d’un salon.", x: 1050, y: 500, r: -1.5, at: T.B3 + 0.35 },
+  { ic: ICON.web(), src: "Site web", time: "18:05", txt: "Nouvelle demande via le formulaire de contact.", x: 1290, y: 670, r: 3, at: T.B3 + 0.75 },
+  { ic: ICON.wa(), src: "WhatsApp", time: "20:16", txt: "Vous pouvez me rappeler demain ?", x: 1100, y: 830, r: -2.5, badge: "Non lu", at: T.B3 + 1.1 },
+];
+$("#cards").innerHTML = CARDS.map((c, i) => `
+  <div class="card" id="card${i}" style="left:${c.x}px; top:${c.y}px; width:470px; padding:22px 26px; display:flex; gap:18px; opacity:0">
+    <div style="width:52px; height:52px; flex:none">${c.ic}</div>
+    <div style="flex:1"><div style="display:flex; justify-content:space-between; font-size:18px; color:var(--muted); font-weight:500"><b style="color:var(--night); font-weight:600">${c.src}</b><span>${c.time}</span></div><div style="margin-top:6px; font-size:22px; line-height:1.4">${c.txt}</div></div>
+    ${c.badge ? `<span style="position:absolute; top:-10px; right:-10px; background:var(--night); color:#fff; font-size:15px; font-weight:600; border-radius:99px; padding:6px 12px">${c.badge}</span>` : ""}
+  </div>`).join("");
+
+const NODES = [
+  { x: 360, n: "01", lb: "Votre client écrit", at: T.E1, ic: `<svg width="54" height="54" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H9l-5 4V5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>`,
+    mini: `<div style="display:flex; gap:12px; align-items:center"><div style="width:34px">${ICON.wa(34)}</div><div style="font-size:20px; line-height:1.35">Une dispo samedi pour 6 ?</div></div>` },
+  { x: 760, n: "02", lb: "L’agent répond", at: T.E2, ic: `<svg width="48" height="48" viewBox="0 0 16 16"><path d="M8 0c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z" fill="currentColor"/></svg>`,
+    mini: `<div style="background:var(--night); color:#fff; border-radius:18px 18px 6px 18px; padding:12px 16px; font-size:20px; line-height:1.35">Oui, samedi à 10h30. Je vous le réserve ?</div>`, dark: true },
+  { x: 1160, n: "03", lb: "La demande est enregistrée", at: T.E3, ic: `<svg width="54" height="54" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+    mini: `<div style="font-size:18px; color:var(--muted)">Nouvelle demande</div><div class="tight" style="font-weight:700; font-size:22px; margin-top:4px">Samedi · 6 personnes</div><div style="margin-top:10px"><span class="pill" style="font-size:15px; background:var(--mist); border-color:var(--mist)">À valider</span></div>` },
+  { x: 1560, n: "04", lb: "Vous gardez la main", at: T.E4, ic: `<svg width="54" height="54" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    mini: `<div style="display:flex; gap:12px; align-items:center"><span class="check" style="width:34px; height:34px">${ICON.chk}</span><div class="tight" style="font-weight:700; font-size:22px">Validé par vous</div></div>` },
+];
+$("#nodes").innerHTML = NODES.map((n, i) => `
+  <div class="abs" id="mini${i}" style="left:${n.x - 160}px; top:420px; width:320px; ${n.dark ? "" : "background:#fff; border:1.5px solid var(--line); border-radius:22px; padding:18px 20px; box-shadow:0 26px 50px -36px rgba(23,38,61,.45);"} opacity:0">${n.mini}</div>
+  <div class="abs" id="node${i}" style="left:${n.x - 180}px; top:634px; width:360px; text-align:center; opacity:0">
+    <div class="nc" style="width:132px; height:132px; margin:0 auto; border-radius:50%; background:#fff; border:2px solid var(--powder); display:flex; align-items:center; justify-content:center; position:relative">
+      <span class="nf" style="position:absolute; inset:-2px; border-radius:50%; background:var(--night); transform:scale(0)"></span>
+      <span class="ni" style="position:relative; display:flex; color:var(--night)">${n.ic}</span>
+    </div>
+    <div class="tight" style="font-weight:700; font-size:18px; color:var(--slate); margin-top:26px; letter-spacing:.08em">${n.n}</div>
+    <div class="tight" style="font-weight:800; font-size:32px; letter-spacing:-0.02em; margin-top:8px">${n.lb}</div>
+  </div>`).join("");
+
+/* Hub Harmonie Yacht */
+const HC = { x: 1390, y: 610 };
+const TOOLS = [
+  { lb: "Calendrier", ic: ICON.cal(44), x: 1080, y: 370, at: T.Fcal },
+  { lb: "Météo", ic: ICON.sun(44), x: 1700, y: 370, at: T.Fmet },
+  { lb: "Site internet", ic: ICON.web(44), x: 1700, y: 870, at: T.Fsite },
+];
+$("#s5svg").innerHTML = TOOLS.map((tl, i) => `<line id="hl${i}" x1="${HC.x}" y1="${HC.y}" x2="${HC.x}" y2="${HC.y}" stroke="#17263d" stroke-width="3" stroke-linecap="round"/><circle id="hp${i}" r="7" fill="#17263d" opacity="0"/>`).join("");
+$("#hub").innerHTML = `
+  <div class="abs" id="hubc" style="left:${HC.x - 100}px; top:${HC.y - 100}px; width:200px; height:200px; border-radius:50%; background:#fff; border:3px solid var(--night); display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 16px rgba(37,211,102,.08); opacity:0">${ICON.wa(96)}</div>
+  <div class="abs tight" id="hubl" style="left:${HC.x - 150}px; top:${HC.y + 118}px; width:300px; text-align:center; font-weight:800; font-size:28px; letter-spacing:-0.02em; opacity:0">Agent WhatsApp</div>
+  ${TOOLS.map((tl, i) => `<div class="card abs" id="tool${i}" style="left:${tl.x - 135}px; top:${tl.y - 44}px; width:270px; height:88px; display:flex; align-items:center; gap:16px; padding:0 22px; opacity:0">${tl.ic}<span class="tight" style="font-weight:800; font-size:26px; letter-spacing:-0.015em">${tl.lb}</span></div>`).join("")}`;
+const LIST = [
+  { txt: "Qualifie chaque demande", at: T.F2 },
+  { txt: "Propose la meilleure prestation", at: T.F2b },
+  { txt: "Suggère les bonnes options", sub: "pour augmenter le panier moyen", at: T.F2c },
+];
+$("#s5list").innerHTML = LIST.map((it, i) => `<div id="li${i}" style="display:flex; align-items:center; gap:20px; opacity:0"><span class="check">${ICON.chk}</span><div><div class="tight" style="font-weight:800; font-size:34px; letter-spacing:-0.015em">${it.txt}</div>${it.sub ? `<div style="font-size:22px; color:var(--ink); margin-top:4px">${it.sub}</div>` : ""}</div></div>`).join("");
+
+/* Grille Énergies Concept */
+const G = { x: 1040, y: 310, w: 130, h: 112, gap: 16, cols: 5, rows: 4, hi: 6 };
+let gridHtml = "";
+for (let i = 0; i < G.cols * G.rows; i++) {
+  const cx = G.x + (i % G.cols) * (G.w + G.gap), cy = G.y + Math.floor(i / G.cols) * (G.h + G.gap);
+  gridHtml += `<div class="abs" id="gt${i}" style="left:${cx}px; top:${cy}px; width:${G.w}px; height:${G.h}px; background:#fff; border:1.5px solid var(--line); border-radius:18px; padding:16px; opacity:0">
+    <div style="width:34px; height:34px; border-radius:50%; background:var(--powder)"></div>
+    <div style="height:8px; width:70px; border-radius:4px; background:var(--line); margin-top:14px"></div>
+    <div style="height:8px; width:46px; border-radius:4px; background:var(--line); margin-top:8px"></div>
+  </div>`;
+}
+$("#grid").innerHTML = gridHtml;
+const FIELDS = [["Client", "Dossier complet"], ["Offre", "Champs vérifiés"], ["Signature", "Valide"]];
+$("#fields").innerHTML = FIELDS.map(([a, b], i) => `<div id="fd${i}" style="display:flex; justify-content:space-between; align-items:center; border:1.5px solid var(--line); border-radius:16px; padding:16px 18px"><span style="font-size:20px; color:var(--muted)">${a}</span><span style="display:flex; align-items:center; gap:10px; font-weight:600; font-size:20px">${b}<span class="ok" style="width:28px; height:28px; border-radius:50%; background:var(--night); display:inline-flex; align-items:center; justify-content:center; transform:scale(0)">${ICON.chk}</span></span></div>`).join("");
+
+/* ---------- Rendu d’une image ---------- */
+function render(t) {
+  /* Fonds */
+  const a1 = P(t, T.B - 0.35, 0.7, E.io), a2 = P(t, T.C - 0.55, 0.65, E.io);
+  if (vis($("#bgA"), t >= T.B - 0.35 && t < T.C + 0.15)) $("#bgA").style.clipPath = a2 > 0 ? `inset(0 0 ${L(0, 100, a2)}% 0)` : `inset(${L(100, 0, a1)}% 0 0 0)`;
+  const b1 = P(t, T.G1 - 0.5, 0.7, E.io);
+  if (vis($("#bgB"), t >= T.G1 - 0.5 && t < T.H1 + 0.6)) $("#bgB").style.clipPath = `inset(0 0 0 ${L(100, 0, b1)}%)`;
+  const n1 = P(t, T.H1 - 0.55, 0.7, E.io), n2 = P(t, T.I1 - 0.45, 0.8, E.io);
+  if (vis($("#bgN"), t >= T.H1 - 0.55 && t < T.I1 + 0.4)) $("#bgN").style.clipPath = n2 > 0 ? `circle(${L(130, 0, n2)}% at 50% 50%)` : `inset(0 ${L(100, 0, n1)}% 0 0)`;
+  vis($("#bgC"), t >= T.I1 - 0.5);
+
+  /* S1 */
+  if (vis($("#s1"), t < T.B + 0.3)) {
+    rise($("#s1k"), t, 0.35);
+    reveal($("#s1l1"), t, T.A2 - 0.25, 0.08);
+    reveal($("#s1l2"), t, T.A3 - 0.2, 0.08);
+    const hl = $("#s1l2 .hl"); if (hl) hl.style.transform = `scaleX(${P(t, T.A3 + 0.45, 0.8, E.expo)})`;
+    const out = P(t, T.B - 0.45, 0.6, E.io);
+    $("#s1").style.opacity = 1 - out; $("#s1").style.transform = `scale(${L(1, 0.95, out)})`;
+  }
+
+  /* S2 */
+  if (vis($("#s2"), t >= T.B - 0.3 && t < T.C + 0.2)) {
+    rise($("#s2k"), t, T.B + 0.1);
+    revealAt($("#s2h"), t, [T.B + 0.6, T.B2 + 0.05, T.B3 + 0.35]);
+    $("#s2sub").style.opacity = P(t, T.B4 - 0.1, 0.5);
+    $("#s2sub").style.transform = `translateY(${L(20, 0, P(t, T.B4 - 0.1, 0.7, E.expo))}px)`;
+    const spin = Math.max(0, t - (T.B4 - 0.1));
+    $("#mh").setAttribute("transform", `rotate(${spin * 720} 32 32)`);
+    $("#hh").setAttribute("transform", `rotate(${spin * 60} 32 32)`);
+    const ex = P(t, T.C - 0.75, 0.6, E.io);
+    $("#s2txt").style.opacity = 1 - ex; $("#s2txt").style.transform = `translateY(${L(0, -40, ex)}px)`;
+    CARDS.forEach((c, i) => {
+      const k = P(t, c.at, 0.7, E.back);
+      const drift = Math.sin(t * 0.9 + i * 1.7) * 6;
+      const e2 = P(t, T.C - 0.8 + i * 0.04, 0.6, E.io);
+      st($("#card" + i), { o: clamp(k * 1.5) * (1 - e2), x: L(0, 1420 - c.x - 235, e2), y: L(60, 0, k) + drift * (1 - e2) + L(0, 540 - c.y - 60, e2), s: L(0.85, 1, k) * L(1, 0.3, e2), r: c.r * (1 - e2) });
+    });
+  }
+
+  /* S3 */
+  if (vis($("#s3"), t >= T.C - 0.4 && t < T.E1 + 0.1)) {
+    const ks = P(t, T.C - 0.25, 1.0, E.expo);
+    st($("#s3star"), { o: P(t, T.C - 0.25, 0.25), s: ks, r: L(-180, 0, ks) });
+    $$("#s3letters .mask > span").forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, T.C + 0.1 + i * 0.07, 0.9, E.expo))}%)`; });
+    rise($("#s3tag"), t, T.C2);
+    const up = P(t, T.D - 0.15, 0.9, E.io);
+    $("#s3logo").style.transform = `translateY(${L(0, -150, up)}px) scale(${L(1, 0.62, up)})`;
+    $("#s3tag").style.opacity = P(t, T.C2, 0.6);
+    reveal($("#s3h"), t, T.D + 0.1, 0.07);
+    rise($("#s3p"), t, T.D2 - 0.05);
+    const ex = P(t, T.E1 - 0.5, 0.5, E.io);
+    $("#s3").style.opacity = 1 - ex; $("#s3").style.transform = `translateY(${L(0, -30, ex)}px)`;
+  }
+
+  /* S4 */
+  if (vis($("#s4"), t >= T.E1 - 0.45 && t < T.F1 + 0.1)) {
+    rise($("#s4k"), t, T.E1 - 0.35);
+    reveal($("#s4h"), t, T.E1 - 0.25, 0.06);
+    $("#s4base").setAttribute("opacity", P(t, T.E1 - 0.2, 0.5));
+    let lx = 360;
+    NODES.forEach((n, i) => {
+      const el = $("#node" + i);
+      rise(el, t, T.E1 - 0.3 + i * 0.08, 0.7, 26);
+      if (i > 0) lx = L(lx, n.x, P(t, n.at - 0.55, 0.55, E.io));
+      const f = P(t, n.at, 0.45, E.back);
+      el.querySelector(".nf").style.transform = `scale(${f})`;
+      el.querySelector(".ni").style.color = f > 0.5 ? "#fff" : "#17263d";
+      el.querySelector(".nc").style.transform = `scale(${1 + 0.08 * Math.sin(Math.PI * clamp((t - n.at) / 0.45))})`;
+      const m = $("#mini" + i);
+      st(m, { o: P(t, n.at + 0.05, 0.4), y: L(24, 0, P(t, n.at + 0.05, 0.6, E.back)), s: L(0.94, 1, P(t, n.at + 0.05, 0.6, E.back)) });
+    });
+    $("#s4line").setAttribute("x2", Math.max(360, lx));
+    const ex = P(t, T.F1 - 0.45, 0.5, E.io);
+    $("#s4").style.opacity = 1 - ex; $("#s4").style.transform = `translateY(${L(0, -30, ex)}px)`;
+  }
+
+  /* S5 */
+  if (vis($("#s5"), t >= T.F1 - 0.2 && t < T.G1 + 0.3)) {
+    rise($("#s5head"), t, T.F1 - 0.05);
+    reveal($("#s5h"), t, T.F1 + 0.3, 0.06);
+    st($("#hubc"), { o: P(t, T.Fwa, 0.4), s: L(0.6, 1, P(t, T.Fwa, 0.7, E.back)) });
+    rise($("#hubl"), t, T.Fwa + 0.2);
+    TOOLS.forEach((tl, i) => {
+      const k = P(t, tl.at - 0.15, 0.6, E.io);
+      const ln = $("#hl" + i);
+      ln.setAttribute("x2", L(HC.x, tl.x, k)); ln.setAttribute("y2", L(HC.y, tl.y, k));
+      st($("#tool" + i), { o: P(t, tl.at + 0.2, 0.35), s: L(0.85, 1, P(t, tl.at + 0.2, 0.6, E.back)) });
+      const ph = ((t - tl.at - 0.5) * 0.6 + i * 0.33) % 1;
+      const on = t > tl.at + 0.6;
+      const pp = $("#hp" + i);
+      pp.setAttribute("opacity", on ? Math.sin(Math.PI * ph) : 0);
+      pp.setAttribute("cx", L(tl.x, HC.x, ph)); pp.setAttribute("cy", L(tl.y, HC.y, ph));
+    });
+    LIST.forEach((it, i) => rise($("#li" + i), t, it.at - 0.05, 0.6, 22));
+    const sw = P(t, T.F3 - 0.4, 0.55, E.io);
+    $("#s5a").style.opacity = 1 - sw; $("#s5a").style.transform = `translateY(${L(0, -30, sw)}px)`;
+    $("#s5b").style.opacity = sw > 0 ? 1 : 0;
+    $$("#s5big .mask > span").forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, T.F3 - 0.1 + i * 0.1, 0.9, E.expo))}%)`; });
+    rise($("#s5l1"), t, T.F3 + 0.4);
+    rise($("#s5l2"), t, T.F3b);
+    const ex = P(t, T.G1 - 0.6, 0.5, E.io);
+    $("#s5").style.opacity = 1 - ex;
+  }
+
+  /* S6 */
+  if (vis($("#s6"), t >= T.G1 - 0.25 && t < T.H1 + 0.3)) {
+    rise($("#s6head"), t, T.G1);
+    reveal($("#s6h"), t, T.G1 + 0.3, 0.06);
+    rise($("#s6gk"), t, T.G1b - 0.1);
+    const formK = P(t, T.G1c - 0.1, 0.8, E.expo);
+    for (let i = 0; i < G.cols * G.rows; i++) {
+      const el = $("#gt" + i);
+      const k = P(t, T.G1b + i * 0.045, 0.5, E.back);
+      const hiK = i === G.hi ? P(t, T.G1c - 0.5, 0.4) : 0;
+      el.style.borderColor = hiK > 0.5 ? "#17263d" : "";
+      st(el, { o: clamp(k * 1.5) * L(1, 0.35, formK), s: L(0.8, 1, k) * (i === G.hi ? 1 + 0.06 * hiK : 1) });
+    }
+    const fx = G.x + (G.hi % G.cols) * (G.w + G.gap) + G.w / 2 - (1110 + 300);
+    const fy = G.y + Math.floor(G.hi / G.cols) * (G.h + G.gap) + G.h / 2 - (330 + 230);
+    st($("#form"), { o: formK > 0 ? clamp(formK * 2) : 0, x: L(fx, 0, formK), y: L(fy, 0, formK), s: L(0.2, 1, formK) });
+    FIELDS.forEach((_, i) => { $(`#fd${i} .ok`).style.transform = `scale(${P(t, T.G1c + 0.55 + i * 0.4, 0.45, E.back)})`; });
+    st($("#fstatus"), { o: P(t, T.G1c + 1.8, 0.4), y: L(10, 0, P(t, T.G1c + 1.8, 0.6, E.back)) });
+    rise($("#s6stat"), t, T.G2 - 0.05, 0.8, 26);
+    rise($("#s6ok"), t, T.G2b);
+  }
+
+  /* S7 */
+  if (vis($("#s7"), t >= T.H1 - 0.3 && t < T.I1 + 0.4)) {
+    rise($("#s7k"), t, T.H1 - 0.2);
+    $("#s7a").style.transform = `translateY(${L(110, 0, P(t, T.H1 - 0.05, 0.85, E.expo))}%)`;
+    $("#s7b").style.transform = `translateY(${L(110, 0, P(t, T.H2 - 0.05, 0.85, E.expo))}%)`;
+  }
+
+  /* S8 */
+  if (vis($("#s8"), t >= T.I1 - 0.3)) {
+    $$("#s8letters .mask > span").forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, T.I1 - 0.1 + i * 0.07, 0.9, E.expo))}%)`; });
+    const ks = P(t, T.I1 + 0.1, 0.9, E.expo);
+    st($("#s8star"), { o: P(t, T.I1 + 0.1, 0.25), s: ks, r: L(-160, 0, ks) });
+    rise($("#s8p"), t, T.I2);
+    rise($("#s8f"), t, T.I2 + 1.6);
+    st($("#s8c"), { o: P(t, T.I3 - 0.05, 0.4), y: L(16, 0, P(t, T.I3 - 0.05, 0.7, E.back)), s: L(0.94, 1, P(t, T.I3 - 0.05, 0.7, E.back)) });
+  }
+
+  /* Habillage */
+  const on = t >= T.B && t < T.I1 - 0.6;
+  const night = t >= T.H1 - 0.2 && t < T.I1;
+  $("#chrome").style.opacity = on ? P(t, T.B, 0.6) * (1 - P(t, T.I1 - 1.0, 0.4)) : 0;
+  $("#chrome").style.color = night ? "rgba(255,255,255,.75)" : "#5b6b7e";
+  $("#chL").style.color = night ? "#fff" : "#17263d";
+}
+
+window.__ready = (async () => {
+  await Promise.all(["400 20px Inter", "500 20px Inter", "600 20px Inter", '600 20px "Inter Tight"', '700 20px "Inter Tight"', '800 20px "Inter Tight"'].map((f) => document.fonts.load(f)));
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((i) => (i.complete ? 1 : new Promise((r) => (i.onload = i.onerror = r)))));
+  render(0);
+  return true;
+})();
+window.render = render;
+window.DURATION = DURATION;
+if (location.search.includes("play")) {
+  window.__ready.then(() => { const t0 = performance.now(); const loop = () => { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); }; loop(); });
+}
+</script>
+</body>
+</html>

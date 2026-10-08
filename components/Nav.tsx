@@ -1,20 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
-import { Arrow, Button } from "@/components/ui/Button";
+import { Arrow, ButtonLink } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
-import { useContact } from "@/components/contact/ContactContext";
 import { cta, nav } from "@/lib/content";
 
 export function Nav() {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
-  const { openContact } = useContact();
+  const pathname = usePathname();
+  const isActive = (href: string) => !href.startsWith("/#") && (pathname === href || pathname.startsWith(href + "/"));
 
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 16));
+
+  useEffect(() => setMenu(false), [pathname]);
 
   useEffect(() => {
     if (!menu) return;
@@ -32,30 +35,37 @@ export function Nav() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-30 transition-[background-color,box-shadow,backdrop-filter] duration-300 ease-[var(--ease-luma)] ${
-          scrolled || menu ? "bg-white/85 backdrop-blur-md shadow-[0_1px_0_0_var(--color-line)]" : "bg-transparent"
+          scrolled || menu ? "bg-white/90 backdrop-blur-md shadow-[0_1px_0_0_var(--color-line)]" : "bg-transparent"
         }`}
       >
-        <div className="mx-auto max-w-luma px-6 h-[76px] flex items-center justify-between gap-6">
-          <Link href="/" aria-label="Luma, accueil" className="text-[26px]">
-            <Logo />
+        <div className="mx-auto max-w-luma px-5 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between gap-4">
+          <Link href="/" aria-label="Luma, accueil" className="shrink-0">
+            <Logo byline />
           </Link>
 
-          <nav aria-label="Navigation principale" className="hidden md:flex items-center gap-8">
+          <nav aria-label="Navigation principale" className="hidden lg:flex items-center gap-7">
             {nav.map((l) => (
-              <Link key={l.href} href={l.href} className="text-[14px] font-medium text-navy/80 hover:text-navy transition-colors">
+              <Link
+                key={l.href}
+                href={l.href}
+                aria-current={isActive(l.href) ? "page" : undefined}
+                className={`relative py-2 text-[14px] font-medium transition-colors ${
+                  isActive(l.href) ? "text-night after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-night" : "text-ink hover:text-night"
+                }`}
+              >
                 {l.label}
               </Link>
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button onClick={openContact} className="hidden sm:inline-flex h-11 px-5 text-[14px]">
-              {cta.primary}
+            <ButtonLink href="/audit" className="min-h-11 px-4 sm:px-5 text-[14px]">
+              {cta.primaryShort}
               <Arrow />
-            </Button>
+            </ButtonLink>
             <button
               type="button"
-              className="md:hidden size-11 -mr-2 inline-flex items-center justify-center rounded-full text-navy"
+              className="lg:hidden size-11 inline-flex items-center justify-center rounded-full border text-night border-powder bg-white hover:bg-paper"
               aria-expanded={menu}
               aria-controls="mobile-menu"
               aria-label={menu ? "Fermer le menu" : "Ouvrir le menu"}
@@ -77,36 +87,30 @@ export function Nav() {
         {menu && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-20 bg-white pt-28 px-6 md:hidden flex flex-col"
+            className="fixed inset-0 z-20 bg-white pt-24 px-5 sm:px-6 lg:hidden flex flex-col overflow-y-auto pb-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
           >
             <nav aria-label="Navigation mobile" className="flex flex-col">
               {nav.map((l, i) => (
                 <motion.div
                   key={l.href}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.05 + i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.3, delay: 0.03 + i * 0.03, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <Link href={l.href} onClick={() => setMenu(false)} className="block py-4 text-[28px] font-bold tracking-[-0.03em] border-b border-line">
+                  <Link href={l.href} onClick={() => setMenu(false)} aria-current={isActive(l.href) ? "page" : undefined} className="block py-4 font-display text-[26px] font-bold tracking-[-0.03em] text-night border-b border-line">
                     {l.label}
                   </Link>
                 </motion.div>
               ))}
             </nav>
-            <Button
-              onClick={() => {
-                setMenu(false);
-                openContact();
-              }}
-              className="mt-8 w-full"
-            >
+            <ButtonLink href="/audit" onClick={() => setMenu(false)} className="mt-8 w-full">
               {cta.primary}
               <Arrow />
-            </Button>
+            </ButtonLink>
           </motion.div>
         )}
       </AnimatePresence>

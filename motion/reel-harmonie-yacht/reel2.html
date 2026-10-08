@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>Réel Harmonie Yacht · l’outil complet</title>
+<link rel="stylesheet" href="../fonts/fonts.css" />
+<style>
+  :root { --mist:#eaf2f8; --powder:#cadfed; --slate:#71879a; --night:#17263d; --ink:#3f4e62; --muted:#5b6b7e; --line:#dce6ee; --wa:#25d366; --wabg:#efeae2; --wamine:#d9fdd3; --green:#10b981; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fff; }
+  body { font-family: "Inter", sans-serif; color: var(--night); -webkit-font-smoothing: antialiased; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #fff; }
+  .abs { position: absolute; }
+  .scene, .bg { position: absolute; inset: 0; visibility: hidden; }
+  .display { font-family: "Inter Tight", sans-serif; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
+  .tight { font-family: "Inter Tight", sans-serif; }
+  .kicker { font-size: 24px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 16px; }
+  .kicker::before { content: ""; width: 40px; height: 2px; background: var(--slate); }
+  .kicker b { display: inline-flex; width: 40px; height: 40px; border-radius: 50%; background: var(--night); color: #fff; align-items: center; justify-content: center; font-size: 20px; letter-spacing: 0; }
+  .mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .14em; margin-bottom: -.14em; }
+  .mask > span { display: inline-block; transform: translateY(110%); }
+  .card { position: absolute; background: #fff; border: 2px solid var(--line); border-radius: 30px; box-shadow: 0 40px 80px -46px rgba(23,38,61,.55); }
+  .tag { display: inline-flex; align-items: center; gap: 10px; border-radius: 99px; padding: 10px 18px; font-size: 21px; font-weight: 600; white-space: nowrap; }
+  .tag.real { background: var(--night); color: #fff; }
+  .tag.rec { background: #fff; color: var(--night); border: 2px solid var(--powder); }
+  .tag i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+  .chip { display: inline-flex; align-items: center; gap: 12px; background: #fff; border: 2px solid var(--line); border-radius: 99px; padding: 16px 24px; font-family: "Inter Tight"; font-weight: 700; font-size: 29px; box-shadow: 0 24px 50px -36px rgba(23,38,61,.5); white-space: nowrap; }
+  .ok { width: 34px; height: 34px; border-radius: 50%; background: var(--night); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  .phone { position: absolute; border-radius: 60px; background: #0e1726; padding: 14px; box-shadow: 0 60px 120px -60px rgba(23,38,61,.7); }
+  .phone .scr { position: relative; width: 100%; height: 100%; border-radius: 48px; overflow: hidden; background: #f8fafc; }
+  .phone .scr img { position: absolute; left: 0; top: 0; width: 100%; }
+  /* WhatsApp */
+  .wa { background: var(--wabg) !important; }
+  .wahead { position: absolute; left: 0; right: 0; top: 0; height: 140px; background: #fff; display: flex; align-items: flex-end; gap: 14px; padding: 0 22px 18px; border-bottom: 1px solid #e3e3e3; z-index: 2; }
+  .wahead .av { width: 56px; height: 56px; border-radius: 50%; background: #fff; border: 1px solid var(--line); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .wahead .nm { font-weight: 600; font-size: 23px; }
+  .wahead .st { font-size: 16px; color: #667781; margin-top: 2px; }
+  .msgs { position: absolute; left: 0; right: 0; top: 140px; bottom: 92px; overflow: hidden; }
+  .list { position: absolute; left: 0; right: 0; top: 0; padding: 22px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .m { max-width: 84%; padding: 13px 16px 22px; border-radius: 20px; font-size: 21px; line-height: 1.38; position: relative; box-shadow: 0 1px 1px rgba(0,0,0,.08); display: none; }
+  .m .h { position: absolute; right: 12px; bottom: 6px; font-size: 13px; color: #667781; }
+  .m.c { align-self: flex-start; background: #fff; border-top-left-radius: 6px; }
+  .m.a { align-self: flex-end; background: var(--wamine); border-top-right-radius: 6px; }
+  .m b { font-weight: 600; }
+  .wainput { position: absolute; left: 14px; right: 14px; bottom: 14px; height: 64px; background: #fff; border-radius: 40px; display: flex; align-items: center; padding: 0 24px; color: #8696a0; font-size: 20px; }
+  .bar { display: grid; grid-template-columns: 330px 1fr 110px; align-items: center; gap: 20px; }
+  .bar .lb { font-family: "Inter Tight"; font-weight: 700; font-size: 30px; }
+  .bar .tr { height: 34px; border-radius: 17px; background: #eef3f7; overflow: hidden; }
+  .bar .fl { height: 100%; border-radius: 17px; background: var(--night); transform-origin: left; transform: scaleX(0); }
+  .bar .pc { font-family: "Inter Tight"; font-weight: 800; font-size: 34px; text-align: right; letter-spacing: -0.02em; }
+  .ring { position: absolute; width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 50%; border: 4px solid var(--green); opacity: 0; }
+  #cap { position: absolute; left: 60px; right: 140px; top: 1340px; display: flex; justify-content: center; }
+  #cap span { display: inline-block; background: var(--night); color: #fff; font-family: "Inter Tight"; font-weight: 700; font-size: 44px; letter-spacing: -0.015em; line-height: 1.22; padding: 16px 28px; border-radius: 24px; text-align: center; max-width: 880px; box-shadow: 0 20px 40px -24px rgba(23,38,61,.6); }
+  #cap.light span { background: #fff; color: var(--night); }
+</style>
+<script src="cues2.js"></script>
+</head>
+<body>
+<div id="stage">
+  <div class="bg" id="bgN1" style="background:var(--night)"></div>
+  <div class="bg" id="bgM1" style="background:var(--mist)"></div>
+  <div class="bg" id="bgM2" style="background:var(--mist)"></div>
+  <div class="bg" id="bgN2" style="background:var(--night)"></div>
+  <div class="bg" id="bgM3" style="background:var(--mist)"></div>
+
+  <!-- S1 · Accroche -->
+  <div class="scene" id="s1">
+    <div class="abs" style="left:80px; right:140px; top:250px">
+      <div class="tag" id="s1t" style="background:#fff; color:var(--night); font-size:24px; padding:12px 20px; opacity:0">Harmonie Yacht · location de yacht à Carnon</div>
+      <div class="display" id="s1h" style="font-size:92px; color:#fff; margin-top:34px"></div>
+      <div class="display" style="font-size:64px; color:var(--powder); margin-top:24px"><span class="mask"><span id="s1b">3 h gagnées par jour.</span></span></div>
+    </div>
+    <div id="fan"></div>
+  </div>
+
+  <!-- S2 · Marketing -->
+  <div class="scene" id="s2">
+    <div class="abs" style="left:80px; top:230px; width:860px">
+      <div class="kicker" id="s2k"><b>1</b>Le marketing</div>
+      <div class="display" id="s2h" style="font-size:80px; margin-top:24px"></div>
+    </div>
+    <div class="phone" id="s2p" style="left:270px; top:560px; width:540px; height:760px"><div class="scr"><img id="s2img" src="dash/dash-marketing.png" /></div></div>
+    <span class="tag real abs" id="s2tag" style="left:300px; top:500px; opacity:0"><i style="background:var(--wa)"></i>Capture réelle · tableau de bord</span>
+    <div id="bars" class="abs" style="left:80px; top:520px; width:860px; display:flex; flex-direction:column; gap:30px"></div>
+    <div class="abs" id="s2note" style="left:80px; top:1220px; font-size:21px; color:var(--muted); opacity:0">Part des 64 réservations dont le canal est connu</div>
+  </div>
+
+  <!-- S3 · Léa -->
+  <div class="scene" id="s3">
+    <div class="abs" style="left:80px; top:230px; width:860px">
+      <div class="kicker" id="s3k"><b>2</b>L’agent WhatsApp</div>
+      <div class="display" style="font-size:150px; margin-top:20px; display:flex; align-items:center; gap:26px"><span class="mask"><span id="s3n">Léa</span></span>
+        <span id="s3wa" style="opacity:0"><svg width="110" height="110" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#25D366"/><path d="M9.5 23.5l1.1-3.6A8 8 0 1 1 13.5 22.8L9.5 23.5z" fill="#fff"/><path d="M13 12.6c.2-.5.5-.5.8-.5h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.5.6c-.1.2-.2.3 0 .6.5.9 1.6 2 2.9 2.6.3.1.5.1.7-.1l.7-.8c.2-.3.4-.2.6-.1l1.8.9c.3.1.5.2.5.4 0 .3 0 1-.4 1.6-.4.6-1.5 1-2 1-.7 0-1.9-.2-3.7-1.4-2.3-1.6-3.5-3.9-3.6-4.1-.1-.2-.8-1.2-.8-2.3s.6-1.6.8-1.9z" fill="#25D366"/></svg></span>
+      </div>
+    </div>
+    <div class="abs" id="s3card" style="left:60px; top:640px; width:900px; opacity:0">
+      <span class="tag real"><i style="background:var(--wa)"></i>Capture réelle · tableau de bord</span>
+      <div style="margin-top:16px; border-radius:30px; overflow:hidden; box-shadow:0 40px 80px -46px rgba(23,38,61,.55); border:2px solid var(--line)"><img src="dash/dash-lea.png" style="width:100%; display:block" /></div>
+    </div>
+    <div class="chip abs" id="s3c1" style="left:80px; top:1205px; opacity:0">Répond à tout le monde</div>
+    <div class="chip abs" id="s3c2" style="left:560px; top:1205px; opacity:0">À toute heure</div>
+  </div>
+
+  <!-- S4 · Disponibilités et météo -->
+  <div class="scene" id="s4">
+    <div class="abs" style="left:80px; top:220px; width:860px; display:flex; justify-content:space-between; align-items:center">
+      <div class="kicker" id="s4k">Disponibilités et météo</div>
+      <span class="tag rec" id="s4tag"><i style="background:var(--slate)"></i>Échange reconstitué</span>
+    </div>
+    <div class="phone" id="s4p" style="left:300px; top:300px; width:480px; height:960px"><div class="scr wa" id="chatA"></div></div>
+    <div class="card" id="pCal" style="left:56px; top:420px; width:500px; padding:26px; opacity:0">
+      <div style="display:flex; align-items:center; gap:14px">
+        <svg width="44" height="44" viewBox="0 0 32 32"><rect x="4" y="5" width="24" height="23" rx="3" fill="#fff" stroke="#DADCE0" stroke-width="1.5"/><rect x="4" y="5" width="24" height="6" rx="3" fill="#4285F4"/><rect x="4" y="9" width="24" height="2" fill="#4285F4"/><text x="16" y="24" text-anchor="middle" font-size="11" font-weight="700" fill="#1A73E8" font-family="Inter, sans-serif">31</text></svg>
+        <div><div class="tight" style="font-weight:800; font-size:30px">Disponibilités</div><div style="font-size:19px; color:var(--muted)">Samedi</div></div>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px">
+        <div style="display:flex; justify-content:space-between; border-radius:18px; padding:15px 20px; background:#f1f3f5; color:#9aa5b1"><span class="tight" style="font-weight:700; font-size:26px">9 h – 12 h</span><span style="font-size:20px; font-weight:600">Réservé</span></div>
+        <div id="slotA" style="display:flex; justify-content:space-between; border-radius:18px; padding:15px 20px; border:2px solid var(--line)"><span class="tight" style="font-weight:700; font-size:26px">14 h – 17 h</span><span style="font-size:20px; font-weight:600">Libre</span></div>
+        <div id="slotB" style="display:flex; justify-content:space-between; border-radius:18px; padding:15px 20px; border:2px solid var(--line)"><span class="tight" style="font-weight:700; font-size:26px">18 h – 21 h</span><span style="font-size:20px; font-weight:600">Libre</span></div>
+      </div>
+    </div>
+    <div class="card" id="pMet" style="left:520px; top:760px; width:420px; padding:26px; opacity:0">
+      <div style="display:flex; align-items:center; gap:14px">
+        <svg width="48" height="48" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#eaf2f8"/><circle cx="13" cy="13" r="4.5" fill="#F6B53D"/><path d="M13 5.5v2M13 18.5v2M5.5 13h2M7.7 7.7l1.4 1.4M18.3 7.7l-1.4 1.4" stroke="#F6B53D" stroke-width="1.6" stroke-linecap="round"/><path d="M11.5 24h11a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.4 1.5A3.3 3.3 0 0 0 11.5 24z" fill="#fff" stroke="#17263d" stroke-width="1.5"/></svg>
+        <div><div class="tight" style="font-weight:800; font-size:30px">Météo · Carnon</div><div style="font-size:19px; color:var(--muted)">Samedi soir</div></div>
+      </div>
+      <div style="display:flex; gap:12px; margin-top:18px">
+        <div style="flex:1; background:var(--mist); border-radius:18px; padding:14px 16px"><div style="font-size:17px; color:var(--muted)">Vent</div><div class="tight" style="font-weight:800; font-size:28px; margin-top:2px">Faible</div></div>
+        <div style="flex:1; background:var(--mist); border-radius:18px; padding:14px 16px"><div style="font-size:17px; color:var(--muted)">Mer</div><div class="tight" style="font-weight:800; font-size:28px; margin-top:2px">Calme</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5 · Qualification et note -->
+  <div class="scene" id="s5">
+    <div class="abs" style="left:80px; top:220px; width:860px">
+      <div class="kicker" id="s5k"><b>3</b>La qualification</div>
+    </div>
+    <div class="phone" id="s5p" style="left:56px; top:300px; width:520px; height:1000px"><div class="scr"><div id="s5wrap" style="position:absolute; inset:0"><img id="s5img" src="dash/dash-leads.png" /><div id="rings"></div></div></div></div>
+    <span class="tag real abs" id="s5tag" style="left:80px; top:270px; opacity:0"><i style="background:var(--wa)"></i>Capture réelle · prénoms modifiés</span>
+    <div id="qchips"></div>
+  </div>
+
+  <!-- S6 · Fiche client -->
+  <div class="scene" id="s6">
+    <div class="abs" style="left:80px; top:230px; width:860px">
+      <div class="kicker" id="s6k"><b>4</b>La fiche client</div>
+      <div class="display" id="s6h" style="font-size:80px; margin-top:24px"></div>
+    </div>
+    <div class="abs" id="s6card" style="left:90px; top:560px; width:900px; opacity:0">
+      <span class="tag real"><i style="background:var(--wa)"></i>Capture réelle · prénoms modifiés</span>
+      <div style="position:relative; margin-top:16px; border-radius:30px; overflow:hidden; box-shadow:0 40px 80px -46px rgba(23,38,61,.55); border:2px solid var(--line)"><img src="dash/dash-fiche.png" style="width:100%; display:block" /><div id="hiRow" style="position:absolute; left:6px; right:6px; top:168px; height:150px; border:4px solid var(--night); border-radius:20px; opacity:0"></div></div>
+    </div>
+    <div id="fchips"></div>
+  </div>
+
+  <!-- S7 · Relance -->
+  <div class="scene" id="s7">
+    <div class="abs" style="left:80px; top:220px; width:860px; display:flex; justify-content:space-between; align-items:center">
+      <div class="kicker" id="s7k"><b>5</b>La relance</div>
+      <span class="tag rec"><i style="background:var(--slate)"></i>Échange reconstitué</span>
+    </div>
+    <div class="phone" id="s7p" style="left:300px; top:300px; width:480px; height:960px"><div class="scr wa" id="chatB"></div></div>
+    <div class="chip abs" id="s7c1" style="left:40px; top:560px; opacity:0"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#17263d" stroke-width="2"/><path d="M12 7v5l3 2" stroke="#17263d" stroke-width="2" stroke-linecap="round"/></svg>Relance au bon moment</div>
+    <div class="chip abs" id="s7c2" style="left:560px; top:1020px; opacity:0; background:var(--night); color:#fff; border-color:var(--night)"><span class="ok" style="background:#fff"><svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.6 2.5L10 3.5" stroke="#17263d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Réservation confirmée</div>
+  </div>
+
+  <!-- S8 · Tout au même endroit -->
+  <div class="scene" id="s8">
+    <div class="abs" style="left:80px; top:230px; width:860px">
+      <div class="kicker" id="s8k">Un seul outil</div>
+      <div class="display" id="s8h" style="font-size:80px; margin-top:24px"></div>
+    </div>
+    <div id="trio"></div>
+    <span class="tag real abs" id="s8tag" style="left:80px; top:1250px; opacity:0"><i style="background:var(--wa)"></i>Captures réelles · montants floutés</span>
+  </div>
+
+  <!-- S9 · Résultat -->
+  <div class="scene" id="s9">
+    <div class="abs" style="left:80px; right:140px; top:300px">
+      <div class="kicker" style="color:var(--powder)" id="s9k">Résultat</div>
+      <div class="display" style="font-size:250px; color:#fff; margin-top:26px; letter-spacing:-0.05em"><span class="mask"><span id="s9n">162</span></span></div>
+      <div class="tight" id="s9a" style="font-weight:700; font-size:46px; color:var(--powder); margin-top:6px; opacity:0">conversations gérées par Léa</div>
+      <div style="height:2px; background:rgba(255,255,255,.18); margin:50px 0"></div>
+      <div class="display" style="font-size:250px; color:#fff; letter-spacing:-0.05em"><span class="mask"><span>3 h</span></span></div>
+      <div class="tight" id="s9b" style="font-weight:700; font-size:46px; color:var(--powder); margin-top:6px; opacity:0">gagnées chaque jour</div>
+    </div>
+  </div>
+
+  <!-- S10 · Signature standard Luma (référence : motion/signature-reference.jpg) -->
+  <div class="scene" id="s10">
+    <div class="abs" style="left:0; right:100px; top:380px; display:flex; flex-direction:column; align-items:center; text-align:center">
+      <div id="s10f" style="display:flex; align-items:center; gap:22px; opacity:0">
+        <div style="width:112px; height:112px; border-radius:50%; overflow:hidden; background:#fff"><img src="../../public/images/robin-buste.jpg" style="width:100%; height:100%; object-fit:cover; object-position:50% 30%" /></div>
+        <div style="text-align:left"><div class="tight" style="font-weight:800; font-size:42px; letter-spacing:-0.02em">Robin Pailhes</div><div style="font-size:28px; color:var(--ink); margin-top:4px">Fondateur de Luma</div></div>
+      </div>
+      <div class="display" style="display:flex; align-items:flex-start; margin-top:70px">
+        <span style="font-size:250px; display:flex" id="s10w"><span class="mask"><span>L</span></span><span class="mask"><span>u</span></span><span class="mask"><span>m</span></span><span class="mask"><span>a</span></span></span>
+        <svg id="s10s" width="70" height="70" viewBox="0 0 16 16" style="color:var(--slate); margin-left:8px; margin-top:22px"><path d="M8 0c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z" fill="currentColor"/></svg>
+      </div>
+      <p id="s10p" class="tight" style="font-weight:800; font-size:54px; letter-spacing:-0.02em; line-height:1.14; margin-top:44px; max-width:860px; opacity:0">Des outils IA personnalisés pour la relation client des PME.</p>
+      <div class="kicker" id="s10k" style="justify-content:center; margin-top:36px; font-size:26px; opacity:0">Agence IA · Montpellier</div>
+      <div id="s10c" style="margin-top:56px; opacity:0"><span style="display:inline-flex; align-items:center; gap:14px; background:var(--night); color:#fff; font-weight:600; font-size:32px; padding:26px 44px; border-radius:99px">Échangeons sur votre projet <svg width="28" height="28" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </div>
+  </div>
+
+  <div id="cap"><span id="capt" style="opacity:0"></span></div>
+</div>
+
+<script>
+const { T, CAPTIONS, DURATION } = window.CUES;
+const $ = (s) => document.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const E = { out: (t) => 1 - Math.pow(1 - t, 4), expo: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)), io: (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2), back: (t) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); } };
+const P = (t, s, d, e = E.out) => e(clamp((t - s) / d));
+const L = (a, b, k) => a + (b - a) * k;
+function st(el, { o, x = 0, y = 0, s = 1, r = 0 } = {}) { if (!el) return; if (o !== undefined) el.style.opacity = o; el.style.transform = `translate(${x}px, ${y}px) scale(${s}) rotate(${r}deg)`; }
+const pop = (el, t, s, r = 0, dist = 30) => { const k = P(t, s, .6, E.back); st(el, { o: clamp(P(t, s, .25)), y: L(dist, 0, k), s: L(.85, 1, k), r }); };
+const rise = (el, t, s, dist = 20) => st(el, { o: P(t, s, .5), y: L(dist, 0, P(t, s, .7, E.expo)) });
+const vis = (el, on) => { el.style.visibility = on ? "visible" : "hidden"; return on; };
+const fadeOut = (el, t, s, d = .45) => { const o = P(t, s, d, E.io); el.style.opacity = 1 - o; };
+function words(el, text) { el.innerHTML = text.split(" ").map((w) => `<span class="mask"><span>${w}</span></span>`).join(" "); }
+function reveal(el, t, s, stg = .07) { $$(".mask > span", el).forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, s + i * stg, .8, E.expo))}%)`; }); }
+const masks = (sel, t, starts) => $$(sel + " .mask > span").forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, starts[Math.min(i, starts.length - 1)] + (i >= starts.length ? (i - starts.length + 1) * .07 : 0), .85, E.expo))}%)`; });
+const CHK = `<svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.6 2.5L10 3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const LOGO = "../../public/logos/harmonie-yacht.png";
+
+/* Construction */
+words($("#s1h"), "Un seul outil pour toute la relation client.");
+words($("#s2h"), "D’où viennent vos clients.");
+words($("#s6h"), "Remplie par Léa.");
+words($("#s8h"), "Tout au même endroit.");
+
+const FAN = [["dash/dash-leads.png", -9, 120], ["dash/dash-accueil.png", 0, 370], ["dash/dash-marketing.png", 9, 620]];
+$("#fan").innerHTML = FAN.map(([src, r, x], i) => `<div class="phone" id="fan${i}" style="left:${x}px; top:${i === 1 ? 880 : 940}px; width:340px; height:660px; padding:10px; border-radius:44px; opacity:0"><div class="scr" style="border-radius:38px"><img src="${src}" /></div></div>`).join("");
+
+const BARS = [["Bouche-à-oreille", 30, "B4"], ["Instagram", 16, "B5"], ["Google", 6, "B6"], ["TikTok", 6, "B7"], ["WhatsApp", 6, "B8"], ["Autres ou non précisé", 36, "B8"]];
+$("#bars").innerHTML = BARS.map(([lb, v], i) => `<div class="bar" id="bar${i}" style="opacity:0"><div class="lb">${lb}</div><div class="tr"><div class="fl" style="width:${Math.max(6, v / 36 * 100)}%; ${i === 5 ? "background:var(--slate)" : ""}"></div></div><div class="pc"><span id="pc${i}">0</span> %</div></div>`).join("");
+
+function chat(el, msgs) {
+  el.innerHTML = `<div class="wahead"><div class="av"><img src="${LOGO}" style="width:44px" /></div><div><div class="nm">Harmonie Yacht · Léa</div><div class="st">en ligne</div></div></div><div class="msgs"><div class="list">${msgs.map((m, i) => `<div class="m ${m.k}">${m.t}<span class="h">${m.h}</span></div>`).join("")}</div></div><div class="wainput">Message</div>`;
+}
+const CHAT_A = [
+  { k: "c", h: "23:47", at: T.D1 - .2, t: "Bonsoir ! Vous avez une dispo samedi pour une sortie ?" },
+  { k: "a", h: "23:47", at: T.D1 + 1.6, t: "Bonsoir ! Samedi, il reste <b>14 h – 17 h</b> et <b>18 h – 21 h</b>." },
+  { k: "a", h: "23:47", at: T.D2 + .1, t: "Je vous conseille 18 h : mer calme et coucher de soleil à bord." },
+];
+const CHAT_B = [
+  { k: "a", h: "10:02", at: T.G1, t: "Bonjour Lina ! Le samedi 3 octobre est toujours libre pour les 18 ans de votre fils. Je vous le réserve ?" },
+  { k: "c", h: "10:05", at: T.G2 - .1, t: "Oui, on confirme pour 12 !" },
+  { k: "a", h: "10:05", at: T.G2 + 1.0, t: "C’est noté ! Voici le lien pour régler l’acompte en ligne." },
+];
+chat($("#chatA"), CHAT_A); chat($("#chatB"), CHAT_B);
+
+/* Badges de note dans la capture des leads (coordonnées de la capture d’origine) */
+const SC = 492 / 1206 * (1206 / 920);
+const SCORE_Y = [493, 650, 785, 940, 1116, 1293, 1468, 1645, 1800, 1935];
+$("#rings").innerHTML = SCORE_Y.map((y, i) => `<div class="ring" id="rg${i}" style="left:${706 * SC}px; top:${(y - 145) * SC}px"></div>`).join("");
+const QCH = [["Date", "E2", 0], ["Nombre de personnes", "E3", 1], ["Occasion", "E4", 2], ["Une note pour chaque lead", "E5", 3]];
+$("#qchips").innerHTML = QCH.map(([lb], i) => `<div class="chip abs" id="qc${i}" style="left:610px; top:${470 + i * 150}px; opacity:0; ${i === 3 ? "background:var(--night); color:#fff; border-color:var(--night); white-space:normal; width:340px; border-radius:28px" : ""}"><span class="ok" style="${i === 3 ? "background:var(--green)" : ""}">${CHK}</span>${lb}</div>`).join("");
+
+/* Fiche : annotations autour de la ligne de Lina (coordonnées carte 900 px de large) */
+const FCH = [["Anniversaire 18 ans fils", 90, 950, -1.5], ["Sortie privative", 560, 960, 2], ["12 personnes", 140, 1100, 1.5], ["Note 7", 620, 1110, -2]];
+$("#fchips").innerHTML = FCH.map(([lb, x, y], i) => `<div class="chip abs" id="fc${i}" style="left:${x}px; top:${y}px; opacity:0"><span class="ok">${CHK}</span>${lb}</div>`).join("");
+
+const TRIO = [["dash/dash-reservations.png", 0, "Réservations", "H1", 60, -4], ["dash/dash-reservations.png", -1640, "Encaissements", "H2", 395, 0], ["dash/dash-finances.png", -230, "Finances", "H2b", 730, 4]];
+$("#trio").innerHTML = TRIO.map(([src, off, lb], i) => `<div class="abs" id="tr${i}" style="left:${TRIO[i][4]}px; top:520px; width:290px; opacity:0"><div class="phone" style="position:relative; width:290px; height:600px; padding:9px; border-radius:40px"><div class="scr" style="border-radius:32px"><img src="${src}" style="transform:translateY(${off * (272 / 1206)}px)" /></div></div><div class="tight" style="margin-top:22px; text-align:center; font-weight:800; font-size:30px">${lb}</div></div>`).join("");
+
+function runChat(el, msgs, t) {
+  const box = el.querySelector(".msgs").clientHeight, list = el.querySelector(".list");
+  let last = null;
+  $$(".m", el).forEach((m, i) => {
+    const on = t >= msgs[i].at - .02;
+    m.style.display = on ? "block" : "none";
+    if (on) { last = m; const k = P(t, msgs[i].at, .45, E.expo); m.style.opacity = clamp(k * 1.4); m.style.transform = `translateY(${L(16, 0, k)}px) scale(${L(.97, 1, k)})`; m.style.transformOrigin = msgs[i].k === "a" ? "100% 100%" : "0% 100%"; }
+  });
+  const need = last ? last.offsetTop + last.offsetHeight + 24 - box : 0;
+  list.style.transform = `translateY(${-Math.max(0, need)}px)`;
+}
+
+/* Rendu */
+function render(t) {
+  /* Fonds */
+  if (vis($("#bgN1"), t < T.B1 + .3)) $("#bgN1").style.clipPath = `circle(${L(140, 0, P(t, T.B1 - .5, .75, E.io))}% at 50% 40%)`;
+  const m1 = P(t, T.C1 - .55, .7, E.io), m1o = P(t, T.D1 - .5, .65, E.io);
+  if (vis($("#bgM1"), t >= T.C1 - .55 && t < T.D1 + .2)) $("#bgM1").style.clipPath = m1o > 0 ? `inset(0 0 ${L(0, 100, m1o)}% 0)` : `inset(${L(100, 0, m1)}% 0 0 0)`;
+  const m2 = P(t, T.F1 - .55, .7, E.io), m2o = P(t, T.G1 - .5, .65, E.io);
+  if (vis($("#bgM2"), t >= T.F1 - .55 && t < T.G1 + .2)) $("#bgM2").style.clipPath = m2o > 0 ? `inset(0 ${L(0, 100, m2o)}% 0 0)` : `inset(0 0 0 ${L(100, 0, m2)}%)`;
+  const n2 = P(t, T.R1 - .55, .7, E.io), n2o = P(t, T.I1 - .5, .75, E.io);
+  if (vis($("#bgN2"), t >= T.R1 - .55 && t < T.I1 + .3)) $("#bgN2").style.clipPath = n2o > 0 ? `circle(${L(140, 0, n2o)}% at 50% 45%)` : `inset(0 ${L(100, 0, n2)}% 0 0)`;
+  vis($("#bgM3"), t >= T.I1 - .55);
+
+  /* S1 */
+  if (vis($("#s1"), t < T.B1 + .1)) {
+    pop($("#s1t"), t, .1, 0, 16);
+    reveal($("#s1h"), t, T.A2 - .2, .07);
+    $("#s1b").style.transform = `translateY(${L(110, 0, P(t, T.A3, .8, E.expo))}%)`;
+    FAN.forEach(([, r], i) => { const k = P(t, .25 + i * .15, .9, E.expo); st($("#fan" + i), { o: clamp(k * 1.5), y: L(400, 0, k) + Math.sin(t * .8 + i) * 6, r: L(0, r, k) }); });
+    const o = P(t, T.B1 - .5, .45, E.io); $("#s1").style.opacity = 1 - o; $("#s1").style.transform = `scale(${L(1, .95, o)})`;
+  }
+
+  /* S2 */
+  if (vis($("#s2"), t >= T.B1 - .5 && t < T.C1 + .1)) {
+    rise($("#s2k"), t, T.B1 - .3);
+    reveal($("#s2h"), t, T.B2 - .1, .07);
+    const pk = P(t, T.B1 - .3, .8, E.expo), pout = P(t, T.B4 - .35, .5, E.io);
+    st($("#s2p"), { o: clamp(pk * 1.5) * (1 - pout), y: L(160, 0, pk) - 120 * pout, s: L(.92, 1, pk) });
+    $("#s2tag").style.opacity = P(t, T.B2, .4) * (1 - pout);
+    $("#s2img").style.transform = `translateY(${-L(0, 360, P(t, T.B3, 1.6, E.io))}px)`;
+    BARS.forEach(([, v, cue], i) => {
+      const s0 = cue === "B8" ? T.B8 + (i - 4) * .25 : T[cue];
+      rise($("#bar" + i), t, s0 - .1, 24);
+      const k = P(t, s0, 1.0, E.expo);
+      $(`#bar${i} .fl`).style.transform = `scaleX(${k})`;
+      $("#pc" + i).textContent = String(Math.round(v * k));
+    });
+    rise($("#s2note"), t, T.B8 + .6, 10);
+    fadeOut($("#s2"), t, T.C1 - .55);
+  }
+
+  /* S3 */
+  if (vis($("#s3"), t >= T.C1 - .4 && t < T.D1 + .2)) {
+    $("#s3").style.opacity = 1;
+    rise($("#s3k"), t, T.C1 - .2);
+    $("#s3n").style.transform = `translateY(${L(110, 0, P(t, T.C2 - .1, .85, E.expo))}%)`;
+    pop($("#s3wa"), t, T.C3 - .05, 0, 20);
+    const k = P(t, T.C3 + .2, .8, E.expo); st($("#s3card"), { o: clamp(k * 1.5), y: L(80, 0, k) });
+    pop($("#s3c1"), t, T.C4, -2); pop($("#s3c2"), t, T.C5, 2);
+    fadeOut($("#s3"), t, T.D1 - .55);
+  }
+
+  /* S4 */
+  if (vis($("#s4"), t >= T.D1 - .45 && t < T.E1 + .2)) {
+    $("#s4").style.opacity = 1;
+    rise($("#s4k"), t, T.D1 - .35);
+    const pk = P(t, T.D1 - .4, .8, E.expo); st($("#s4p"), { o: clamp(pk * 1.5), y: L(140, 0, pk), x: L(0, 130, P(t, T.D1 + .2, .6, E.io)) - L(0, 270, P(t, T.D1 + 1.3, .6, E.io)) });
+    $("#s4tag").style.opacity = P(t, T.D1 - .2, .4);
+    runChat($("#chatA"), CHAT_A, t);
+    pop($("#pCal"), t, T.D1 + .2, -2);
+    $("#slotB").style.borderColor = t > T.D1 + 1.6 ? "#17263d" : "";
+    pop($("#pMet"), t, T.D1 + 1.3, 2);
+    fadeOut($("#s4"), t, T.E1 - .5);
+  }
+
+  /* S5 */
+  if (vis($("#s5"), t >= T.E1 - .45 && t < T.F1 + .2)) {
+    $("#s5").style.opacity = 1;
+    rise($("#s5k"), t, T.E1 - .35);
+    const pk = P(t, T.E1 - .4, .8, E.expo); st($("#s5p"), { o: clamp(pk * 1.5), y: L(160, 0, pk) });
+    $("#s5tag").style.opacity = P(t, T.E1 + .2, .4);
+    $("#s5wrap").style.transform = `translateY(${-L(0, 140, P(t, T.E1 + .3, 3.5, E.io))}px)`;
+    QCH.forEach(([, cue], i) => pop($("#qc" + i), t, T[cue] - .05, i % 2 ? 1.5 : -1.5));
+    SCORE_Y.forEach((_, i) => { const s0 = T.E5 + .1 + i * .08; const k = P(t, s0, .5, E.back); const el = $("#rg" + i); el.style.opacity = clamp(P(t, s0, .2)) ; el.style.transform = `scale(${L(1.6, 1, k)})`; });
+    fadeOut($("#s5"), t, T.F1 - .55);
+  }
+
+  /* S6 */
+  if (vis($("#s6"), t >= T.F1 - .45 && t < T.G1 + .2)) {
+    $("#s6").style.opacity = 1;
+    rise($("#s6k"), t, T.F1 - .35);
+    reveal($("#s6h"), t, T.F1 + .1, .08);
+    const k = P(t, T.F1 + .3, .8, E.expo); st($("#s6card"), { o: clamp(k * 1.5), y: L(80, 0, k), s: L(.95, 1, k) });
+    $("#hiRow").style.opacity = P(t, T.F1 + 1.2, .4);
+    FCH.forEach((c, i) => pop($("#fc" + i), t, T.F1 + 1.4 + i * .35, c[3]));
+    fadeOut($("#s6"), t, T.G1 - .55);
+  }
+
+  /* S7 */
+  if (vis($("#s7"), t >= T.G1 - .45 && t < T.H1 + .2)) {
+    $("#s7").style.opacity = 1;
+    rise($("#s7k"), t, T.G1 - .35);
+    const pk = P(t, T.G1 - .4, .8, E.expo); st($("#s7p"), { o: clamp(pk * 1.5), y: L(140, 0, pk) });
+    runChat($("#chatB"), CHAT_B, t);
+    pop($("#s7c1"), t, T.G1 + .3, -2);
+    pop($("#s7c2"), t, T.G2 + 1.3, 2);
+    fadeOut($("#s7"), t, T.H1 - .5);
+  }
+
+  /* S8 */
+  if (vis($("#s8"), t >= T.H1 - .45 && t < T.R1 + .2)) {
+    $("#s8").style.opacity = 1;
+    rise($("#s8k"), t, T.H1 - .35);
+    reveal($("#s8h"), t, T.H3 - .1, .07);
+    const starts = [T.H1, T.H2, T.H2 + .75];
+    TRIO.forEach((tr, i) => { const k = P(t, starts[i], .7, E.back); st($("#tr" + i), { o: clamp(P(t, starts[i], .25)), y: L(120, 0, k), r: tr[5] * k }); });
+    $("#s8tag").style.opacity = P(t, T.H2 + 1.2, .4);
+    fadeOut($("#s8"), t, T.R1 - .55);
+  }
+
+  /* S9 */
+  if (vis($("#s9"), t >= T.R1 - .3 && t < T.I1 + .3)) {
+    $("#s9k").style.opacity = P(t, T.R1 - .1, .5);
+    const ms = $$("#s9 .mask > span");
+    ms[0].style.transform = `translateY(${L(110, 0, P(t, T.R2 - .1, .85, E.expo))}%)`;
+    $("#s9n").textContent = String(Math.round(L(0, 162, P(t, T.R2, 1.4, E.out))));
+    rise($("#s9a"), t, T.R2 + .6);
+    ms[1].style.transform = `translateY(${L(110, 0, P(t, T.R3 + .1, .85, E.expo))}%)`;
+    rise($("#s9b"), t, T.R3 + .6);
+  }
+
+  /* S10 · signature */
+  if (vis($("#s10"), t >= T.I1 - .3)) {
+    pop($("#s10f"), t, T.I1 - .1, 0, 20);
+    $$("#s10w .mask > span").forEach((sp, i) => { sp.style.transform = `translateY(${L(110, 0, P(t, T.I2 - .1 + i * .07, .9, E.expo))}%)`; });
+    const ks = P(t, T.I2 + .1, .9, E.expo); st($("#s10s"), { o: P(t, T.I2 + .1, .25), s: ks, r: L(-160, 0, ks) });
+    rise($("#s10p"), t, T.I2 + .55);
+    rise($("#s10k"), t, T.I3, 14);
+    pop($("#s10c"), t, T.I3 + .9, 0, 20);
+  }
+
+  /* Sous-titres incrustés */
+  const c = CAPTIONS.find(([a, b]) => t >= a - .05 && t < b + .25);
+  const capt = $("#capt");
+  $("#cap").classList.toggle("light", (t < T.B1) || (t >= T.R1 - .2 && t < T.I1));
+  if (c) { if (capt.textContent !== c[2]) capt.textContent = c[2]; const k = P(t, c[0] - .05, .25, E.expo); capt.style.opacity = clamp(k * 1.3); capt.style.transform = `translateY(${L(12, 0, k)}px) scale(${L(.96, 1, k)})`; }
+  else capt.style.opacity = 0;
+}
+
+window.__ready = (async () => {
+  await Promise.all(["400 20px Inter", "500 20px Inter", "600 20px Inter", '700 20px "Inter Tight"', '800 20px "Inter Tight"'].map((f) => document.fonts.load(f)));
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((i) => (i.complete ? 1 : new Promise((r) => (i.onload = i.onerror = r)))));
+  render(0);
+  return true;
+})();
+window.render = render; window.DURATION = DURATION;
+if (location.search.includes("play")) window.__ready.then(() => { const t0 = performance.now(); const loop = () => { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); }; loop(); });
+</script>
+</body>
+</html>
