@@ -49,7 +49,9 @@ C = {
     "hook": "Ce que fait <em>vraiment</em> mon agent IA",
     "hook_until": 2.6,
     "graphics": [
-        {"type": "min", "title": "Le tableau de bord", "text": "Toutes les conversations", "at_word": "tableau", "pos": [540, 1135], "dur": 2.6},
+        # capture du vrai tableau de bord (liste des demandes qualifiées)
+        {"type": "img", "title": "Mon tableau de bord", "src": "rushes/tableau-de-bord.png", "w": 640,
+         "at_word": "tableau", "pos": [540, 1450], "dur": 5.6},
         {"type": "min", "title": "L'agent IA", "text": "Relance les indécis", "at_word": "relance", "pos": [540, 1135], "dur": 2.8},
         # le vrai message d'escalade reçu de l'agent (numéro du client flouté)
         {"type": "img", "title": "Le message que je reçois", "src": "rushes/escalade-lea.png", "w": 820,
