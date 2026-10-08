@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* La prospection (dashboard/) vit dans le même repo : ne pas mêler ses classes au CSS du site. */
+@source not "../dashboard";
 
 @theme {
   /* Palette relevée sur la maquette du 19/09 */

@@ -62,3 +62,6 @@ Hebdo : ce qui a marché, ce qui n'a pas marché, quel segment répond le plus. 
 - **Stockage** : Supabase, validé par Robin. Il pense avoir un projet « Luma », mais le compte connecté ne contient que `harmonie-yacht`. On ne met pas la prospection dans la base de sa société de yachts.
 - **Boîte mail** : Robin dit avoir une adresse sur robinpailhes.fr. Le domaine n'a pourtant aucun enregistrement MX : à vérifier avec un mail de test.
 - **Mémoire entre les sessions** : `dashboard/ETAT.md` est chargé automatiquement par le CLAUDE.md racine et mis à jour à chaque étape.
+- **Dashboard lancé avant le premier envoi** : Robin l'a demandé explicitement après avoir été challengé, pour avancer pendant qu'il récupère les clés depuis son ordinateur. Il tourne sur des données de démo tant que Supabase n'est pas branché.
+- **Clés** : Robin pensait les mettre dans Vercel. Ce n'est pas suffisant, car les scripts tournent dans Claude Code : elles vont dans les réglages de l'environnement Claude Code. Vercel ne servira qu'à la mise en ligne du dashboard.
+- **Tables** : préfixées `prospection_` pour cohabiter avec n'importe quel autre projet Supabase.

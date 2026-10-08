@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* Tokens : voir DESIGN.md. Couleurs reprises de la charte du site (app/globals.css à la racine). */
+@theme {
+  --color-accent: #4636f0;
+  --color-accent-strong: #3626d6;
+  --color-accent-tint: #eeebff;
+  --color-accent-track: #dedafd;
+
+  --color-ink: #12102b;
+  --color-ink-2: #4b4f63;
+  --color-muted: #6a6e83;
+  --color-line: #e9ebf3;
+  --color-line-strong: #d6d9e6;
+  --color-surface: #ffffff;
+  --color-surface-2: #f7f8fc;
+
+  /* Variantes A/B : paire validée (contraste, daltonisme) avec le script dataviz. */
+  --color-v1: #4636f0;
+  --color-v1-track: #dedafd;
+  --color-v2: #d97706;
+  --color-v2-track: #fbe6c8;
+
+  /* États réservés : toujours avec un libellé, jamais la couleur seule. */
+  --color-good: #15803d;
+  --color-good-tint: #e6f4ea;
+  --color-bad: #b42318;
+  --color-bad-tint: #fdecea;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --ease-luma: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-surface-2);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Petites capitales de repère, en mono : la voix « carnet de bord » du dashboard. */
+.repere {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.chiffres {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -3,15 +3,15 @@
 Mis à jour le 8 octobre 2026. Mettre à jour à la fin de chaque étape, puis pousser. 15 lignes maximum.
 
 ## Où on en est
-- Phase 1, étape 1 faite : le squelette `dashboard/` (CLAUDE.md, BRIEF.md, .env.example), exclu du build du site.
-- Accès réseau vérifié depuis l'environnement cloud : Outscraper, Resend et Supabase répondent.
+- Squelette `dashboard/` fait. Schéma de la base écrit (`prospection/db/schema.sql`), pas encore appliqué.
+- Dashboard v1 construit en parallèle, à la demande de Robin. Il tourne en démo (données fictives), protégé par mot de passe, testé à 390 px et sur ordinateur.
+- Aucun lead réel, aucun mail envoyé.
 
 ## Prochaine étape
-Étape 2 : créer la base dans Supabase (tables leads, messages, suppression). Montrer le schéma à Robin avant.
+Préparer la Phase 1 sans attendre les clés : fiches des agents lead-scout et mail-writer, skills cold-email et humanizer à montrer avant installation, script Outscraper, script d'envoi en dry-run.
 
 ## En attente de Robin
-- Quel projet Supabase ? Le compte connecté ne contient que `harmonie-yacht`.
-- Boîte mail de robinpailhes.fr : le domaine n'a aucun enregistrement MX, donc les réponses seraient rejetées. Adresse exacte à confirmer.
-- Clés OUTSCRAPER_API_KEY et RESEND_API_KEY à ajouter dans les réglages de l'environnement cloud.
-- Objets testés deux par deux et jugés sur les réponses : d'accord ?
-- Segment A : collecte reportée après le premier lot B ?
+- Projet Supabase (le compte connecté ne contient que `harmonie-yacht`) et validation du schéma.
+- Clés Outscraper, Resend et Supabase dans les réglages de l'environnement Claude Code (pas dans Vercel).
+- Mail de test vers son adresse sur robinpailhes.fr : aucun enregistrement MX trouvé.
+- Objets testés deux par deux et jugés sur les réponses ? Segment A reporté ?
