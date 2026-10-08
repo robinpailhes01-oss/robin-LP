@@ -17,10 +17,11 @@ import numpy as np
 
 DIR = Path(__file__).parent
 R = DIR / "rushes"
-FPS, W, H = 30, 1080, 1920
+FPS = 30
 TONEMAP = ("zscale=t=linear:npl=203,format=gbrpf32le,zscale=p=bt709,tonemap=hable:desat=0,"
            "zscale=t=bt709:m=bt709:r=tv,format=yuv420p")
 C = json.loads(Path(sys.argv[1]).read_text())
+W, H = C.get("size", [1920, 1080])          # les rushs sont en paysage (le téléphone stocke l'image couchée + rotation)
 B = DIR / "build"
 B.mkdir(exist_ok=True)
 WORDS = json.loads((R / "words.json").read_text())
@@ -175,7 +176,7 @@ for g in graphics:
 for g in graphics:
     g["t1"] = g.pop("t1_new")
 spec = {"graphics": graphics, "groups": [[w[0] for w in g] for g in groups], "keys": C.get("keys", []),
-        "sub_y": C.get("sub_y", 1640), "out": str(B)}
+        "sub_y": C.get("sub_y", 960), "size": [W, H], "ui_scale": C.get("ui_scale", 1), "out": str(B)}
 (B / "spec.json").write_text(json.dumps(spec, ensure_ascii=False))
 subprocess.run(["node", str(DIR / "vsl_text.cjs"), str(B / "spec.json")], check=True,
                env={**os.environ, "NODE_PATH": "/opt/node-tools/node_modules"})
@@ -255,7 +256,9 @@ enc = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", 
                         "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart", str(out)],
                        stdin=subprocess.PIPE)
 POP = [1.04, 1.015, 1.0]
-FACE = C.get("face", [540, 900])
+xs = np.linspace(0, 1, W, dtype=np.float32)
+SHADE = (C.get("shade", 0.5) * np.clip(1 - xs / 0.52, 0, 1) ** 1.6)[None, :, None]   # dégradé gauche -> transparent
+FACE = C.get("face", [W // 2, H // 2])
 starts = [p[3] for p in pieces]
 n = 0
 while True:
@@ -287,7 +290,7 @@ while True:
         y0s = int(p * hmax)
         view = im[y0s:y0s + win]
         sw = view.shape[1]
-        cx, cy = 540, g.get("y", 830)
+        cx, cy = g.get("x", W // 2), g.get("y", H // 2)
         sc = 0.92 + 0.08 * ease(dt / 0.45)
         vw, vh = int(sw * sc), int(win * sc)
         v = cv2.resize(view, (vw, vh)); mk = cv2.resize(mask, (vw, vh))[..., None] * k
@@ -302,6 +305,14 @@ while True:
         frame[Y:Y + vh, X:X + vw] = frame[Y:Y + vh, X:X + vw] * (1 - mk) + v * mk
         if g.get("title"):
             blend(frame, layer(B / f"cap_{g['i']:03d}.png"), alpha=k)
+    # voile sombre à gauche quand un élément est affiché (lisibilité sur le mur clair)
+    shade_k = 0.0
+    for g in graphics:
+        if g["type"] != "insert" and g["t0"] <= t < g["t1"]:
+            dt, dur = t - g["t0"], g["t1"] - g["t0"]
+            shade_k = max(shade_k, min(1, dt / 0.35) * min(1, (dur - dt) / 0.35))
+    if shade_k > 0:
+        frame *= 1 - SHADE * shade_k
     # pastilles, chiffres, notifications : fondu + léger glissé vers le haut
     for g in graphics:
         if g["type"] == "insert" or not (g["t0"] <= t < g["t1"]):

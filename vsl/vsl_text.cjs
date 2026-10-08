@@ -8,15 +8,16 @@ const S = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
 const OUT = S.out;
 const F = (f) => "file://" + path.resolve(__dirname, "..", "skills", "reel-kit", "assets", "fonts", f);
 const keys = new Set((S.keys || []).map((k) => k.toLowerCase()));
-const SUB_Y = S.sub_y || 1640;
+const SUB_Y = S.sub_y || 960;
+const [VW, VH] = S.size || [1920, 1080];
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face { font-family: Bold; src: url("${F("inter-tight-800.woff2")}"); font-weight: 800; }
 @font-face { font-family: SerifF; src: url("${F("instrument-serif.woff2")}"); }
-html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
-#sub { position: absolute; left: 70px; right: 70px; top: ${SUB_Y}px; transform: translateY(-50%); text-align: center;
-       font: 800 62px/1.15 Bold; letter-spacing: -0.015em; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,.65), 0 0 2px rgba(0,0,0,.5); }
+html, body { margin: 0; width: ${VW}px; height: ${VH}px; overflow: hidden; background: transparent; }
+#sub { position: absolute; left: 260px; right: 260px; top: ${SUB_Y}px; transform: translateY(-50%); text-align: center;
+       font: 800 56px/1.15 Bold; letter-spacing: -0.015em; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,.65), 0 0 2px rgba(0,0,0,.5); }
 #sub .on { text-decoration: underline; text-decoration-thickness: 5px; text-underline-offset: 11px; text-decoration-color: #ffc35c; }
-#sub .k { font-family: SerifF; font-weight: 400; font-style: italic; font-size: 72px; letter-spacing: 0; color: #ffe2a8; }
+#sub .k { font-family: SerifF; font-weight: 400; font-style: italic; font-size: 66px; letter-spacing: 0; color: #ffe2a8; }
 .chip { position: absolute; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 16px; white-space: nowrap;
         padding: 14px 30px 14px 14px; border-radius: 60px; background: rgba(12,12,20,.62); border: 1.5px solid rgba(255,255,255,.32);
         font: 800 38px/1 Bold; color: #fff; letter-spacing: -0.01em; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
@@ -24,8 +25,7 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
 .chip .dot { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: #25d366; flex: none; }
 .chip .dot.o { background: #ffc35c; } .chip .dot.r { background: #ff6b6b; } .chip .dot.v { background: #7c6cff; } .chip .dot.w { background: #fff; }
 .chip.off { color: rgba(255,255,255,.75); } .chip.off .t { text-decoration: line-through; text-decoration-color: #ff6b6b; text-decoration-thickness: 4px; }
-.chip.gold { background: none; border: none; box-shadow: none; padding: 0; font: italic 400 64px/1 SerifF; color: #ffc35c;
-             text-shadow: 0 2px 16px rgba(0,0,0,.8), 0 0 2px rgba(0,0,0,.6); }
+.chip.gold { padding: 12px 34px 16px; font: italic 400 58px/1 SerifF; color: #ffc35c; }
 .big { position: absolute; transform: translate(-50%, -50%); text-align: center; white-space: nowrap; color: #fff;
        text-shadow: 0 3px 18px rgba(0,0,0,.75); }
 .big small { display: block; font: 800 24px/1 Bold; letter-spacing: .28em; text-transform: uppercase; opacity: .9; }
@@ -38,7 +38,7 @@ html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; backgro
 .kicker { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font: 800 24px/1 Bold; letter-spacing: .34em;
           text-transform: uppercase; color: #fff; text-shadow: 0 1px 10px rgba(0,0,0,.7); }
 .kicker i { display: inline-block; width: 40px; height: 2px; background: #ffc35c; vertical-align: middle; margin: 0 18px; }
-.notif { position: absolute; transform: translate(-50%, -50%); width: 820px; display: flex; gap: 18px; align-items: center;
+.notif { position: absolute; transform: translate(-50%, -50%); width: 680px; display: flex; gap: 18px; align-items: center;
          padding: 18px 22px; border-radius: 30px; background: rgba(245,245,247,.94); color: #111;
          box-shadow: 0 14px 40px rgba(0,0,0,.35); font: 800 31px/1.2 Bold; }
 .notif .app { width: 64px; height: 64px; border-radius: 16px; background: #25d366; display: grid; place-items: center; flex: none; }
@@ -66,7 +66,8 @@ const ICON = {
   bolt: sv('<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', "#fff"),
   grid: sv('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'),
 };
-const P = (g) => `left:${g.pos[0]}px;top:${g.pos[1]}px`;
+const UI = S.ui_scale || 1;   // agrandissement des éléments (vidéo paysage 1920 px)
+const P = (g) => `left:${g.pos[0]}px;top:${g.pos[1]}px;transform:translate(-50%,-50%) scale(${g.scale || UI})`;
 const el = (g) => {
   if (g.type === "chip")
     return `<div class="chip ${g.icon ? "" : "plain"} ${g.style || ""}" style="${P(g)}">` +
@@ -83,7 +84,7 @@ const el = (g) => {
 
 (async () => {
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
+  const page = await browser.newPage({ viewport: { width: VW, height: VH } });
   const f = path.join(OUT, "page.html");
   fs.writeFileSync(f, html);
   await page.goto("file://" + f);   // la page doit être un fichier pour que les polices locales se chargent
@@ -92,7 +93,7 @@ const el = (g) => {
     await page.screenshot({ path: path.join(OUT, name), omitBackground: true });
   };
   for (const g of S.graphics) if (g.type !== "insert") await shot(el(g), `gfx_${String(g.i).padStart(3, "0")}.png`);
-  for (const g of S.graphics) if (g.type === "insert" && g.title) await shot(el({ type: "cap", text: g.title, pos: [540, g.cap_y] }), `cap_${String(g.i).padStart(3, "0")}.png`);
+  for (const g of S.graphics) if (g.type === "insert" && g.title) await shot(el({ type: "cap", text: g.title, pos: [g.x || VW / 2, g.cap_y] }), `cap_${String(g.i).padStart(3, "0")}.png`);
   const clean = (w) => w.toLowerCase().replace(/[.,!?:;«»"…]/g, "");
   for (const [gi, g] of S.groups.entries()) {
     for (let wi = 0; wi < g.length; wi++) {
