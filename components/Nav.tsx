@@ -4,16 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
-import { Arrow, Button } from "@/components/ui/Button";
+import { Arrow, ButtonLink } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
-import { useContact } from "@/components/contact/ContactContext";
 import { cta, nav } from "@/lib/content";
 
 export function Nav() {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
-  const { openContact } = useContact();
   const pathname = usePathname();
   const isActive = (href: string) => !href.startsWith("/#") && (pathname === href || pathname.startsWith(href + "/"));
 
@@ -61,10 +59,10 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button onClick={openContact} className="min-h-11 px-4 sm:px-5 text-[14px]">
+            <ButtonLink href="/audit" className="min-h-11 px-4 sm:px-5 text-[14px]">
               {cta.primaryShort}
               <Arrow />
-            </Button>
+            </ButtonLink>
             <button
               type="button"
               className="lg:hidden size-11 inline-flex items-center justify-center rounded-full border text-night border-powder bg-white hover:bg-paper"
@@ -109,16 +107,10 @@ export function Nav() {
                 </motion.div>
               ))}
             </nav>
-            <Button
-              onClick={() => {
-                setMenu(false);
-                openContact();
-              }}
-              className="mt-8 w-full"
-            >
+            <ButtonLink href="/audit" onClick={() => setMenu(false)} className="mt-8 w-full">
               {cta.primary}
               <Arrow />
-            </Button>
+            </ButtonLink>
           </motion.div>
         )}
       </AnimatePresence>

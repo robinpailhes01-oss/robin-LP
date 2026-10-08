@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { OpenContactButton } from "@/components/contact/OpenContactButton";
+import { Arrow, ButtonLink } from "@/components/ui/Button";
 import { Contact, Faq } from "@/components/sections/Home";
 import { CaseVideo } from "@/components/ui/CaseVideo";
 import { ConversationCard } from "@/components/ui/ConversationCard";
@@ -7,7 +7,7 @@ import { ExampleTag, Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { ToolIcon } from "@/components/ui/ToolIcons";
-import { whatsapp } from "@/lib/content";
+import { cta, whatsapp } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Agent WhatsApp",
@@ -31,7 +31,10 @@ export default function AgentWhatsAppPage() {
             <h1 className="t-h1 mt-6 max-w-[14em]">{p.title}</h1>
             <p className="t-lead mt-6 max-w-[36rem]">{p.text}</p>
             <div className="mt-9 flex flex-col sm:flex-row sm:items-center gap-4">
-              <OpenContactButton />
+              <ButtonLink href="/audit">
+                {cta.primary}
+                <Arrow />
+              </ButtonLink>
               <span className="text-[14px] text-muted">{p.note}</span>
             </div>
           </div>

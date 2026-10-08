@@ -7,7 +7,7 @@
 export const site = {
   title: "Luma · Des outils IA pour simplifier votre relation client, par Robin Pailhes",
   description:
-    "Robin Pailhes crée des outils IA sur mesure pour les PME : moins de tâches répétitives, moins de charges. Démo gratuite de votre futur outil, à Montpellier et à distance.",
+    "Robin Pailhes simplifie et automatise la relation client des PME avec des outils IA sur mesure. Mini-audit gratuit : votre futur outil et vos gains, en 2 minutes.",
 };
 
 export const founder = {
@@ -39,18 +39,22 @@ export const footerNav = [
 
 export const cta = {
   /** Ouvre le panneau de contact (questions courtes pour préparer l’échange). */
-  primary: "Voir mon futur outil IA",
-  primaryShort: "Démo gratuite",
+  primary: "Faire mon mini-audit gratuit",
+  primaryShort: "Mini-audit",
+  reassurance: "Gratuit · Environ 2 minutes · Résultat immédiat",
+  /** Second choix : être rappelé (ouvre l’assistant). */
+  call: "Préférer être rappelé",
 };
 
 export const hero = {
   /** Titre en deux temps : le bénéfice, puis la réassurance. Un seul accent par page. */
-  title: "Vos tâches répétitives, confiées à l’IA.",
+  title: "Je simplifie et automatise votre relation client.",
   second: "Plus de temps. Moins de charges.",
   accent: "Moins de charges",
   badge: "Robin Pailhes · Agence IA à Montpellier",
   text: "J’ai d’abord mis l’IA dans ma propre entreprise, Harmonie Yacht. Je crée maintenant des outils IA sur mesure pour les PME qui veulent se libérer des tâches chronophages.",
-  reassurance: ["Démo gratuite", "Je vous montre votre futur outil et ce qu’il vous ferait gagner", "Sans engagement"],
+  reassurance: ["Gratuit", "Environ 2 minutes", "Résultat immédiat"],
+  video: "Voir la vidéo",
   flowKicker: "Une demande client",
   flow: ["Message reçu", "Besoin compris", "Fiche client à jour", "Devis ou RDV prêt"],
 };
@@ -61,7 +65,10 @@ export const hero = {
  */
 export const vsl = {
   url: "",
-  title: "Comment je crée vos outils IA",
+  kicker: "En vidéo",
+  title: "Comment je simplifie la relation client des PME",
+  text: "Ce que je crée, pour qui, et ce que ça change dans vos journées.",
+  soon: "La vidéo arrive bientôt.",
 };
 
 export const trust = {
@@ -125,10 +132,10 @@ export const steps = {
   second: "Une seule à faire aujourd’hui.",
   items: [
     {
-      label: "Gratuit",
-      title: "La démo de votre outil",
-      text: "Je regarde vos tâches et vos outils, puis je vous montre à quoi ressemblerait votre outil IA, et le temps et les charges qu’il vous ferait économiser.",
-      points: ["Un appel sur votre activité", "Votre futur outil, montré sur votre cas", "Sans engagement"],
+      label: "Gratuit · 2 min",
+      title: "Votre mini-audit",
+      text: "Répondez à quelques questions : vous voyez aussitôt à quoi ressemblerait votre outil IA, et le temps et les charges qu’il vous ferait économiser.",
+      points: ["Environ 2 minutes, sans appel", "Votre futur outil, adapté à vos réponses", "Une estimation de vos gains"],
     },
     {
       label: "Sur mesure",
@@ -394,7 +401,7 @@ export const faq = {
     { q: "Est-ce qu’un agent IA remplace mon équipe ?", a: "Non. Il prend le répétitif, votre équipe garde ce qui demande quelqu’un." },
     { q: "Faut-il s’y connaître en IA ?", a: "Non. Vous connaissez vos clients, c’est ce qui compte. Je m’occupe du reste." },
     { q: "L’IA peut-elle se tromper ?", a: "Oui. Chaque outil est donc testé sur vos cas réels, avec des limites claires : ce qui est sensible vous est transmis." },
-    { q: "En quoi consiste la démo gratuite ?", a: "Un appel où je regarde vos tâches et vos outils, puis je vous montre à quoi ressemblerait votre outil IA et le temps qu’il vous ferait gagner. Sans engagement." },
+    { q: "En quoi consiste le mini-audit ?", a: "Quelques questions sur vos tâches et vos outils. Vous voyez aussitôt à quoi ressemblerait votre outil IA et une estimation du temps et de l’argent qu’il vous ferait gagner. Gratuit, sans appel ni engagement." },
     { q: "Peut-on construire l’outil avec vous ?", a: "Oui. En accompagnement, on le construit ensemble et je forme votre équipe pour qu’elle le fasse évoluer seule." },
     { q: "Comment sont gérées les données ?", a: "Elles restent les vôtres. Je vous montre où elles passent avant la mise en place." },
   ],
@@ -402,7 +409,7 @@ export const faq = {
 
 export const contact = {
   kicker: "Contact",
-  title: "Votre démo gratuite.",
-  text: "Mon assistant vous pose quelques questions, puis je vous rappelle sous 24 h pour vous montrer votre futur outil IA et ce qu’il vous ferait gagner.",
+  title: "Votre mini-audit gratuit.",
+  text: "Environ 2 minutes pour voir à quoi ressemblerait votre outil IA et ce qu’il vous ferait gagner. Vous préférez en parler ? Je vous rappelle sous 24 h.",
   note: "Gratuit et sans engagement.",
 };

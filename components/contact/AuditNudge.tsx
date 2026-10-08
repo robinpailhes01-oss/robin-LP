@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Avatar } from "./ContactPanel";
@@ -9,9 +11,10 @@ import { nudge } from "@/lib/audit";
 
 const KEY = "luma-nudge-seen";
 
-/** Invitation discrète de Robin, quelques secondes après l’arrivée, une fois par session. */
+/** Invitation discrète au mini-audit, quelques secondes après l’arrivée, une fois par session (pas sur la page du mini-audit). */
 export function AuditNudge() {
-  const { open, openContact } = useContact();
+  const { open } = useContact();
+  const onAudit = usePathname() === "/audit";
   const reduced = useReducedMotion();
   const [show, setShow] = useState(false);
 
@@ -38,7 +41,7 @@ export function AuditNudge() {
 
   return (
     <AnimatePresence>
-      {show && !open && (
+      {show && !open && !onAudit && (
         <motion.div
           role="dialog"
           aria-label={nudge.title}
@@ -60,18 +63,10 @@ export function AuditNudge() {
                 <p className="font-display text-[16px] font-bold leading-tight text-night">{nudge.title}</p>
                 <p className="text-[14px] text-ink mt-1.5 leading-[1.5]">{nudge.text}</p>
                 <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      dismiss();
-                      openContact();
-                    }}
-                    aria-haspopup="dialog"
-                    className="group inline-flex items-center gap-2 min-h-11 rounded-full bg-night text-white px-4 text-[14px] font-semibold whitespace-nowrap hover:bg-night-hover transition-colors"
-                  >
+                  <Link href="/audit" onClick={dismiss} className="group inline-flex items-center gap-2 min-h-11 rounded-full bg-night text-white px-4 text-[14px] font-semibold whitespace-nowrap hover:bg-night-hover transition-colors">
                     {nudge.cta}
                     <Arrow />
-                  </button>
+                  </Link>
                   <button type="button" onClick={dismiss} className="min-h-11 px-1 text-[14px] font-medium text-muted hover:text-night whitespace-nowrap">
                     {nudge.dismiss}
                   </button>

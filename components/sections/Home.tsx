@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { OpenContactButton } from "@/components/contact/OpenContactButton";
-import { Arrow, TextLink } from "@/components/ui/Button";
-import { CaseVideo } from "@/components/ui/CaseVideo";
+import { Arrow, ButtonLink, TextLink } from "@/components/ui/Button";
 import { ClientMark } from "@/components/ui/ClientMark";
 import { HeroFlow, ProblemSchema, SystemSchema } from "@/components/ui/Diagrams";
 import { Parallax } from "@/components/ui/Parallax";
@@ -11,7 +10,7 @@ import { FaqList } from "@/components/ui/FaqList";
 import { Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
-import { about, caseStudies, casesIndex, contact, faq, founder, hero, manifesto, method, problem, steps, system, trust, vsl, type CaseStudy } from "@/lib/content";
+import { about, caseStudies, casesIndex, contact, cta, faq, founder, hero, manifesto, method, problem, steps, system, trust, vsl, type CaseStudy } from "@/lib/content";
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -68,18 +67,17 @@ export function Hero() {
             <Accented text={hero.second} accent={hero.accent} />
           </h1>
           <p className="t-lead mx-auto mt-7 max-w-[34rem]">{hero.text}</p>
-          {vsl.url && (
-            <div className="mx-auto mt-10 max-w-[52rem]">
-              <CaseVideo url={vsl.url} title={vsl.title} />
-            </div>
-          )}
           <div className="mt-10 flex flex-col items-center gap-4">
-            <OpenContactButton className="min-h-14 px-7 text-[16px]" />
+            <ButtonLink href="/audit" className="min-h-14 px-7 text-[16px]">
+              {cta.primary}
+              <Arrow />
+            </ButtonLink>
             <p className="text-[14px] text-muted">{hero.reassurance.join(" · ")}</p>
+            {vsl.url && <TextLink href="/video">{hero.video}</TextLink>}
           </div>
         </div>
         </Parallax>
-        {!vsl.url && <HeroFlow />}
+        <HeroFlow />
       </div>
     </section>
   );
@@ -193,7 +191,10 @@ export function Steps() {
                   )}
                   {dark && (
                     <div className="mt-8 lg:mt-auto lg:pt-8">
-                      <OpenContactButton variant="onDark" />
+                      <ButtonLink href="/audit" variant="onDark">
+                        {cta.primary}
+                        <Arrow />
+                      </ButtonLink>
                     </div>
                   )}
                 </article>
@@ -354,7 +355,11 @@ export function Contact() {
               <h2 className="t-h2 mt-5">{contact.title}</h2>
               <p className="t-lead mt-5 max-w-[36rem]">{contact.text}</p>
               <div className="mt-9 flex flex-col sm:flex-row sm:items-center gap-4">
-                <OpenContactButton />
+                <ButtonLink href="/audit">
+                  {cta.primary}
+                  <Arrow />
+                </ButtonLink>
+                <OpenContactButton variant="secondary" label={cta.call} />
                 <span className="text-[14px] text-muted">{contact.note}</span>
               </div>
             </div>

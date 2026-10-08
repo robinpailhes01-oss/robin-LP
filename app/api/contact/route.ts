@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 /**
- * Réception des demandes du site : formulaire d’audit (kind "audit") et mini-audit (kind "mini-audit").
+ * Réception des demandes du site : ancien formulaire (kind "audit"), assistant et mini-audit (kind "mini-audit"),
+ * demande de rappel depuis le résultat du mini-audit (kind "rappel").
  * Destination : CONTACT_WEBHOOK_URL si défini (email, CRM, WhatsApp via un relais),
  * sinon journalisation serveur. À brancher une fois la destination choisie.
  */
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
   const kind = clean(body.kind) || "audit";
   let payload: Record<string, unknown>;
 
-  if (kind === "mini-audit") {
+  if (kind !== "audit") {
     const raw = body.answers;
     const answers: Record<string, string[]> = {};
     if (raw && typeof raw === "object") {

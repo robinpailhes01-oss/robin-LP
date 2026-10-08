@@ -64,9 +64,9 @@ export type Answers = Partial<Record<Question["key"] | "need" | "who", string[]>
 /** Pop-up d’invitation, quelques secondes après l’arrivée sur le site. */
 export const nudge = {
   delaySeconds: 5,
-  title: "Bonjour, je suis l’assistant de Robin.",
-  text: "Vous vous demandez ce que l’IA pourrait simplifier dans votre relation client ? Quelques questions, puis Robin vous rappelle sous 24 h.",
-  cta: "Préparer ma démo gratuite",
+  title: "Votre mini-audit gratuit",
+  text: "Environ 2 minutes pour voir à quoi ressemblerait votre outil IA et ce qu’il vous ferait gagner.",
+  cta: "Faire mon mini-audit",
   dismiss: "Plus tard",
 };
 
