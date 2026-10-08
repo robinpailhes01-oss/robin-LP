@@ -2,8 +2,8 @@ import { STATUT_LABEL } from "@/lib/labels";
 import type { Statut } from "@/lib/types";
 
 const STYLE: Record<Statut, { fond: string; point: string; texte: string }> = {
-  nouveau: { fond: "bg-surface-2 ring-1 ring-inset ring-line", point: "bg-line-strong", texte: "text-ink-2" },
-  contacte: { fond: "bg-surface ring-1 ring-inset ring-line-strong", point: "bg-ink", texte: "text-ink" },
+  nouveau: { fond: "ring-1 ring-inset ring-line", point: "bg-line-strong", texte: "text-muted" },
+  contacte: { fond: "bg-surface-2 ring-1 ring-inset ring-line", point: "bg-ink-2", texte: "text-ink-2" },
   repondu: { fond: "bg-accent-tint", point: "bg-accent", texte: "text-accent-strong" },
   rdv: { fond: "bg-good-tint", point: "bg-good", texte: "text-good" },
   refus: { fond: "bg-bad-tint", point: "bg-bad", texte: "text-bad" },

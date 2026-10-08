@@ -24,7 +24,7 @@ export default async function VueEnsemble() {
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_100%_at_90%_0%,rgba(99,80,255,0.55),transparent_65%),radial-gradient(50%_80%_at_0%_100%,rgba(31,27,73,0.9),transparent_70%)]"
         />
-        <div className="grid gap-8 p-5 sm:p-8 lg:grid-cols-12 lg:items-end lg:gap-10 lg:p-10">
+        <div className="grid gap-6 p-5 sm:gap-8 sm:p-8 lg:grid-cols-12 lg:items-end lg:gap-10 lg:p-10">
           <div className="lg:col-span-5">
             <p className="repere !text-white/55">Mis à jour à {fmtHeure(new Date())}</p>
             <h1 className="mt-5 text-[14px] font-medium text-white/75">Taux de réponse</h1>
@@ -54,7 +54,7 @@ export default async function VueEnsemble() {
             )}
           </div>
 
-          <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10 ring-1 ring-inset ring-white/10 lg:col-span-7 lg:grid-cols-4">
+          <dl className="grid grid-cols-4 gap-x-3 border-t border-white/10 pt-5 lg:col-span-7 lg:gap-x-0 lg:border-t-0 lg:pt-0">
             <Kpi label="Leads" valeur={t.leads} />
             <Kpi label="Contactés" valeur={t.contactes} note={s.relances ? pluriel(s.relances, "relance") : undefined} />
             <Kpi label="Réponses" valeur={t.reponses} />
@@ -83,7 +83,7 @@ export default async function VueEnsemble() {
 
         <section className="lg:col-span-7">
           <TitreSection>Par segment</TitreSection>
-          <div className="divide-y divide-line border-y border-line">
+          <div className="divide-y divide-line rounded-xl border border-line bg-surface px-4 sm:px-5">
             {(Object.keys(SEGMENTS) as Segment[]).map((seg) => (
               <LigneSegment key={seg} segment={seg} bloc={s.segments[seg]} />
             ))}
@@ -126,12 +126,12 @@ export default async function VueEnsemble() {
 
 function Kpi({ label, valeur, note, accent = false }: { label: string; valeur: number; note?: string; accent?: boolean }) {
   return (
-    <div className="bg-band/80 px-4 py-4 backdrop-blur-sm sm:px-5 sm:py-5">
-      <dt className="text-[13px] text-white/60">{label}</dt>
-      <dd className={`mt-1.5 text-[30px] font-semibold leading-none tracking-[-0.03em] ${accent ? "text-accent-clair" : "text-white"}`}>
+    <div className="min-w-0 lg:border-l lg:border-white/10 lg:py-1 lg:pl-6">
+      <dt className="truncate text-[12px] text-white/60 lg:text-[13px]">{label}</dt>
+      <dd className={`mt-1 text-[24px] font-semibold leading-none tracking-[-0.03em] lg:mt-1.5 lg:text-[32px] ${accent ? "text-accent-clair" : "text-white"}`}>
         {fmtNb(valeur)}
       </dd>
-      {note && <dd className="mt-1.5 text-[12px] text-white/55">{note}</dd>}
+      {note && <dd className="mt-1 truncate text-[11px] text-white/55 lg:text-[12px]">{note}</dd>}
     </div>
   );
 }

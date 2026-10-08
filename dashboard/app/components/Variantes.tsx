@@ -1,12 +1,12 @@
-import { fmtNb, fmtPct } from "@/lib/format";
+import { fmtNb } from "@/lib/format";
 import { SEUIL_PREUVE } from "@/lib/labels";
 import type { Stats } from "@/lib/stats";
 import type { Variante } from "@/lib/types";
 import { Reglette } from "./Reglette";
 
-const COULEUR: Record<Variante, { trait: string; piste: string }> = {
-  "1": { trait: "bg-v1", piste: "bg-v1-track" },
-  "2": { trait: "bg-v2", piste: "bg-v2-track" },
+const COULEUR: Record<Variante, { trait: string; piste: string; texte: string }> = {
+  "1": { trait: "bg-v1", piste: "bg-v1-track", texte: "text-v1" },
+  "2": { trait: "bg-v2", piste: "bg-v2-track", texte: "text-v2" },
 };
 
 // Élément signature : le « compteur de preuve ». Tant qu'une variante n'a pas 100 envois,
@@ -30,8 +30,15 @@ export function Variantes({ variantes }: { variantes: Stats["variantes"] }) {
               <p className="mt-1 text-[12px] leading-5 text-muted sm:line-clamp-2 sm:min-h-[2.5rem]">
                 {b.objet ? `« ${b.objet} »` : "Pas encore d'envoi"}
               </p>
-              <p className="mt-3 text-[34px] font-semibold leading-none tracking-[-0.03em] text-ink sm:text-[40px]">
-                {fmtPct(b.taux)}
+              <p className="mt-3 flex items-start text-[34px] font-semibold leading-none tracking-[-0.03em] text-ink sm:text-[40px]">
+                {b.taux === null ? (
+                  "—"
+                ) : (
+                  <>
+                    {Math.round(b.taux * 100)}
+                    <span className={`ml-0.5 mt-[0.1em] text-[0.5em] font-medium tracking-normal ${COULEUR[v].texte}`}>%</span>
+                  </>
+                )}
               </p>
               <p className="chiffres mt-1.5 text-[12px] text-ink-2">
                 {fmtNb(b.reponses)} rép. / {fmtNb(b.contactes)} envois

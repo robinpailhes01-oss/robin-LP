@@ -1,7 +1,7 @@
 import { fmtNb, fmtPct } from "@/lib/format";
 import type { Bloc } from "@/lib/stats";
 
-// Une seule teinte : on compare des quantités qui décroissent, pas des catégories.
+// Une seule teinte (l'encre) : on compare des quantités qui décroissent. Le violet ne marque que l'arrivée, le RDV.
 export function Entonnoir({ bloc }: { bloc: Bloc }) {
   const etapes = [
     { label: "Leads", valeur: bloc.leads, base: null as string | null },
@@ -21,8 +21,8 @@ export function Entonnoir({ bloc }: { bloc: Bloc }) {
           <li key={e.label} className="grid grid-cols-[6.5rem_1fr] items-center gap-x-4 py-3 sm:grid-cols-[8rem_1fr_9rem]">
             <span className="text-[14px] text-ink-2">{e.label}</span>
             <div className="flex items-center gap-3">
-              <div className="h-2.5 flex-1 rounded-full bg-surface-2" aria-hidden>
-                <div className="pousse h-full rounded-full bg-accent" style={{ width: `${largeur}%`, animationDelay: `${i * 90}ms` }} />
+              <div className="h-2 flex-1 rounded-full bg-line" aria-hidden>
+                <div className={`pousse h-full rounded-full ${i === etapes.length - 1 ? "bg-accent" : "bg-ink"}`} style={{ width: `${largeur}%`, animationDelay: `${i * 90}ms` }} />
               </div>
               <span className="chiffres w-12 text-right text-[17px] font-semibold tracking-[-0.01em] text-ink">{fmtNb(e.valeur)}</span>
             </div>

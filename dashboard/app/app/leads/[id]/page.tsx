@@ -140,9 +140,9 @@ function Contact({ lead: l }: { lead: Lead }) {
 
 function Champ({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-[6.5rem_1fr] gap-3 px-4 py-3 sm:px-5">
-      <dt className="text-muted">{label}</dt>
-      <dd className="min-w-0 text-ink">{children}</dd>
+    <div className="grid gap-0.5 px-4 py-3 sm:grid-cols-[6.5rem_1fr] sm:gap-3 sm:px-5">
+      <dt className="text-[12px] text-muted sm:text-[14px]">{label}</dt>
+      <dd className="min-w-0 text-[15px] text-ink sm:text-[14px]">{children}</dd>
     </div>
   );
 }

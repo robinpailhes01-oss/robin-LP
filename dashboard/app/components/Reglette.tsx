@@ -5,11 +5,11 @@ export function Reglette({ valeur, max, trait, piste }: { valeur: number; max: n
   const crans = 20;
   const parCran = max / crans;
   return (
-    <div className="flex gap-[3px]" aria-hidden>
+    <div className="flex h-3.5 items-end gap-[3px]" aria-hidden>
       {Array.from({ length: crans }, (_, i) => {
         const rempli = Math.max(0, Math.min(1, (valeur - i * parCran) / parCran));
         return (
-          <span key={i} className={`relative h-2.5 flex-1 overflow-hidden rounded-[2px] ${piste}`}>
+          <span key={i} className={`relative ${(i + 1) % 5 === 0 ? "h-3.5" : "h-2.5"} flex-1 overflow-hidden rounded-[1.5px] ${piste}`}>
             {rempli > 0 && (
               <span
                 className={`pousse absolute inset-y-0 left-0 ${trait}`}
