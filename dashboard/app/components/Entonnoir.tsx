@@ -22,9 +22,9 @@ export function Entonnoir({ bloc }: { bloc: Bloc }) {
             <span className="text-[14px] text-ink-2">{e.label}</span>
             <div className="flex items-center gap-3">
               <div className="h-2.5 flex-1 rounded-full bg-surface-2" aria-hidden>
-                <div className="h-full rounded-full bg-accent" style={{ width: `${largeur}%` }} />
+                <div className="pousse h-full rounded-full bg-accent" style={{ width: `${largeur}%`, animationDelay: `${i * 90}ms` }} />
               </div>
-              <span className="chiffres w-10 text-right text-[15px] font-semibold text-ink">{fmtNb(e.valeur)}</span>
+              <span className="chiffres w-12 text-right text-[17px] font-semibold tracking-[-0.01em] text-ink">{fmtNb(e.valeur)}</span>
             </div>
             <span className="chiffres col-start-2 mt-1 text-[12px] text-muted sm:col-start-3 sm:mt-0 sm:text-right">
               {e.base ? (conversion === null ? "—" : `${fmtPct(conversion)} ${e.base}`) : "collectés"}

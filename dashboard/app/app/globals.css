@@ -15,6 +15,11 @@
   --color-surface: #ffffff;
   --color-surface-2: #f7f8fc;
 
+  /* Bandeau sombre, repris du site (section partenaire). */
+  --color-band: #14162a;
+  --color-band-2: #1f1b49;
+  --color-accent-clair: #aaa5ff; /* violet lisible sur le bandeau sombre */
+
   /* Variantes A/B : paire validée (contraste, daltonisme) avec le script dataviz. */
   --color-v1: #4636f0;
   --color-v1-track: #dedafd;
@@ -73,6 +78,15 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Les barres se remplissent une fois au chargement : seule animation des données, en transform uniquement. */
+@keyframes pousse {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.pousse {
+  transform-origin: left center;
+  animation: pousse 900ms var(--ease-luma) both;
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

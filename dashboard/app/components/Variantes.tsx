@@ -2,6 +2,7 @@ import { fmtNb, fmtPct } from "@/lib/format";
 import { SEUIL_PREUVE } from "@/lib/labels";
 import type { Stats } from "@/lib/stats";
 import type { Variante } from "@/lib/types";
+import { Reglette } from "./Reglette";
 
 const COULEUR: Record<Variante, { trait: string; piste: string }> = {
   "1": { trait: "bg-v1", piste: "bg-v1-track" },
@@ -20,8 +21,7 @@ export function Variantes({ variantes }: { variantes: Stats["variantes"] }) {
       <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line">
         {(["1", "2"] as Variante[]).map((v) => {
           const b = variantes[v];
-          const progression = Math.min(b.contactes / SEUIL_PREUVE, 1);
-          return (
+                    return (
             <div key={v} className="flex flex-col bg-surface p-4 sm:p-5">
               <p className="flex items-center gap-2 text-[13px] font-medium text-ink">
                 <span className={`size-2.5 rounded-[3px] ${COULEUR[v].trait}`} aria-hidden />
@@ -37,7 +37,7 @@ export function Variantes({ variantes }: { variantes: Stats["variantes"] }) {
                 {fmtNb(b.reponses)} rép. / {fmtNb(b.contactes)} envois
               </p>
               <div
-                className={`mt-4 h-1.5 rounded-full ${COULEUR[v].piste}`}
+                className="mt-4"
                 role="meter"
                 aria-valuemin={0}
                 aria-valuemax={SEUIL_PREUVE}
@@ -48,7 +48,7 @@ export function Variantes({ variantes }: { variantes: Stats["variantes"] }) {
                     : `Variante ${v} : ${b.contactes} envois sur les ${SEUIL_PREUVE} nécessaires pour conclure`
                 }
               >
-                <div className={`h-full rounded-full ${COULEUR[v].trait}`} style={{ width: `${progression * 100}%` }} />
+                <Reglette valeur={b.contactes} max={SEUIL_PREUVE} trait={COULEUR[v].trait} piste={COULEUR[v].piste} />
               </div>
               <p className="repere chiffres mt-2 !tracking-[0.04em]">
                 {Math.min(b.contactes, SEUIL_PREUVE)}/{SEUIL_PREUVE} envois

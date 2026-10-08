@@ -18,46 +18,52 @@ export default async function VueEnsemble() {
 
   return (
     <Cadre actif="apercu">
-      <p className="repere">Mis à jour à {fmtHeure(new Date())}</p>
-
-      {/* Le chiffre qui compte : les réponses (brief : métrique principale). */}
-      <section className="mt-3 grid gap-8 lg:grid-cols-12 lg:items-end">
-        <div className="lg:col-span-5">
-          <h1 className="text-[14px] font-medium text-ink-2">Taux de réponse</h1>
-          {t.contactes === 0 ? (
-            <>
-              <p className="mt-1 text-[64px] font-semibold leading-none tracking-[-0.045em] text-line-strong sm:text-[88px]">—</p>
-              <p className="mt-3 max-w-[30ch] text-[15px] leading-6 text-ink-2">
-                Aucun mail envoyé pour l&apos;instant. Le taux s&apos;affichera après le premier lot.
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="mt-1 text-[64px] font-semibold leading-none tracking-[-0.045em] text-ink sm:text-[88px]">
-                {fmtPct(t.taux)}
-              </p>
-              <p className="mt-3 text-[15px] leading-6 text-ink-2">
-                {pluriel(t.reponses, "réponse")} sur {pluriel(t.contactes, "lead contacté", "leads contactés")}
-              </p>
-              {(s.variantes["1"].contactes < SEUIL_PREUVE || s.variantes["2"].contactes < SEUIL_PREUVE) && (
-                <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1 text-[12px] text-ink-2 ring-1 ring-inset ring-line">
-                  <span className="size-1.5 rounded-full bg-v2" aria-hidden />
-                  Tendance : moins de {SEUIL_PREUVE} envois par variante
+      {/* Le chiffre qui compte : les réponses (brief : métrique principale), sur le bandeau sombre du site. */}
+      <section className="relative isolate overflow-hidden rounded-2xl bg-band text-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_100%_at_90%_0%,rgba(99,80,255,0.55),transparent_65%),radial-gradient(50%_80%_at_0%_100%,rgba(31,27,73,0.9),transparent_70%)]"
+        />
+        <div className="grid gap-8 p-5 sm:p-8 lg:grid-cols-12 lg:items-end lg:gap-10 lg:p-10">
+          <div className="lg:col-span-5">
+            <p className="repere !text-white/55">Mis à jour à {fmtHeure(new Date())}</p>
+            <h1 className="mt-5 text-[14px] font-medium text-white/75">Taux de réponse</h1>
+            {t.contactes === 0 || t.taux === null ? (
+              <>
+                <p className="mt-1 text-[80px] font-semibold leading-[0.9] tracking-[-0.05em] text-white/25 sm:text-[112px]">—</p>
+                <p className="mt-4 max-w-[30ch] text-[15px] leading-6 text-white/75">
+                  Aucun mail envoyé pour l&apos;instant. Le taux s&apos;affichera après le premier lot.
                 </p>
-              )}
-            </>
-          )}
-        </div>
+              </>
+            ) : (
+              <>
+                <p className="mt-1 flex items-start text-[80px] font-semibold leading-[0.9] tracking-[-0.05em] sm:text-[112px]">
+                  {Math.round(t.taux * 100)}
+                  <span className="ml-2 mt-[0.12em] text-[0.42em] font-medium tracking-[-0.02em] text-accent-clair">%</span>
+                </p>
+                <p className="mt-4 text-[15px] leading-6 text-white/75">
+                  {pluriel(t.reponses, "réponse")} sur {pluriel(t.contactes, "lead contacté", "leads contactés")}
+                </p>
+                {(s.variantes["1"].contactes < SEUIL_PREUVE || s.variantes["2"].contactes < SEUIL_PREUVE) && (
+                  <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/[0.08] px-3 py-1 text-[12px] text-white/80 ring-1 ring-inset ring-white/15">
+                    <span className="size-1.5 rounded-full bg-v2" aria-hidden />
+                    Tendance : moins de {SEUIL_PREUVE} envois par variante
+                  </p>
+                )}
+              </>
+            )}
+          </div>
 
-        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line lg:col-span-7 lg:grid-cols-4">
-          <Kpi label="Leads" valeur={t.leads} />
-          <Kpi label="Contactés" valeur={t.contactes} note={s.relances ? pluriel(s.relances, "relance") : undefined} />
-          <Kpi label="Réponses" valeur={t.reponses} />
-          <Kpi label="RDV" valeur={t.rdv} accent />
-        </dl>
+          <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10 ring-1 ring-inset ring-white/10 lg:col-span-7 lg:grid-cols-4">
+            <Kpi label="Leads" valeur={t.leads} />
+            <Kpi label="Contactés" valeur={t.contactes} note={s.relances ? pluriel(s.relances, "relance") : undefined} />
+            <Kpi label="Réponses" valeur={t.reponses} />
+            <Kpi label="RDV" valeur={t.rdv} accent />
+          </dl>
+        </div>
       </section>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-10">
+      <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-14">
         <section className="lg:col-span-7">
           <TitreSection aside="tous segments">Du lead au rendez-vous</TitreSection>
           <div className="rounded-xl border border-line bg-surface px-4 sm:px-5">
@@ -77,7 +83,7 @@ export default async function VueEnsemble() {
 
         <section className="lg:col-span-7">
           <TitreSection>Par segment</TitreSection>
-          <div className="divide-y divide-line rounded-xl border border-line bg-surface">
+          <div className="divide-y divide-line border-y border-line">
             {(Object.keys(SEGMENTS) as Segment[]).map((seg) => (
               <LigneSegment key={seg} segment={seg} bloc={s.segments[seg]} />
             ))}
@@ -120,12 +126,12 @@ export default async function VueEnsemble() {
 
 function Kpi({ label, valeur, note, accent = false }: { label: string; valeur: number; note?: string; accent?: boolean }) {
   return (
-    <div className="bg-surface px-4 py-4 sm:px-5">
-      <dt className="text-[13px] text-muted">{label}</dt>
-      <dd className={`mt-1 text-[28px] font-semibold leading-none tracking-[-0.03em] ${accent ? "text-accent" : "text-ink"}`}>
+    <div className="bg-band/80 px-4 py-4 backdrop-blur-sm sm:px-5 sm:py-5">
+      <dt className="text-[13px] text-white/60">{label}</dt>
+      <dd className={`mt-1.5 text-[30px] font-semibold leading-none tracking-[-0.03em] ${accent ? "text-accent-clair" : "text-white"}`}>
         {fmtNb(valeur)}
       </dd>
-      {note && <dd className="mt-1.5 text-[12px] text-muted">{note}</dd>}
+      {note && <dd className="mt-1.5 text-[12px] text-white/55">{note}</dd>}
     </div>
   );
 }
@@ -133,7 +139,7 @@ function Kpi({ label, valeur, note, accent = false }: { label: string; valeur: n
 function LigneSegment({ segment, bloc }: { segment: Segment; bloc: Bloc }) {
   const enAttente = segment === "pme" && bloc.contactes === 0;
   return (
-    <div className="px-4 py-4 sm:px-5">
+    <div className="py-4">
       <div className="flex items-baseline justify-between gap-3">
         <p className="text-[14px] font-medium text-ink">{SEGMENTS[segment].court}</p>
         <p className="text-[12px] text-muted">{enAttente ? "Collecte seule, envoi sur ton go" : fmtPct(bloc.taux) + " de réponse"}</p>

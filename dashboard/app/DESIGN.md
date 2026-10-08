@@ -12,10 +12,11 @@ La rigueur typographique de Linear croisée avec un carnet de bord : les repère
 - **États** : `good` #166534 (RDV), `bad` #B42318 (refus). Toujours accompagnés d'un libellé, jamais la couleur seule.
 - **Type** : Geist Sans (la police de la marque) + Geist Mono pour les données. Grands chiffres en chiffres proportionnels, colonnes en `tabular-nums`.
 - **Espacement** : base 4 px. **Rayons** : 12 px pour les blocs, 8 px pour les champs et boutons, pilule pour les badges et le CTA. **Ombres** : aucune, uniquement des filets de 1 px.
-- **Mouvement** : seulement les transitions de couleur au survol. Rien d'animé sur les données.
+- **Bandeau** : le chiffre héros vit sur le bandeau sombre du site (`band` #14162A, halo violet en dégradé radial), avec `accent-clair` #AAA5FF pour le violet lisible sur fond sombre.
+- **Mouvement** : les barres de l'entonnoir et la réglette se remplissent une fois au chargement (transform seulement, coupé si « réduire les animations »). Rien d'autre ne bouge.
 
 ## Élément signature
-Le **compteur de preuve** : sous chaque variante, une jauge qui se remplit jusqu'à 100 envois. Tant qu'elle n'est pas pleine, le verdict reste une « tendance ». Il rend visible la règle d'honnêteté statistique du brief.
+Le **compteur de preuve** : sous chaque variante, une réglette de 20 crans (5 envois par cran) qui se remplit jusqu'à 100 envois, comme les relevés d'un carnet de bord. Le même langage de crans sert au score des leads (10 crans). Tant qu'elle n'est pas pleine, le verdict reste une « tendance ». Il rend visible la règle d'honnêteté statistique du brief.
 
 ## Un seul chiffre héros par écran
 Sur la vue d'ensemble, c'est le taux de réponse, parce que c'est la métrique principale du brief.

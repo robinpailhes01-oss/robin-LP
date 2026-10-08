@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BadgeStatut } from "@/components/BadgeStatut";
 import { Cadre } from "@/components/Cadre";
 import { Filtres } from "@/components/Filtres";
+import { Crans } from "@/components/Reglette";
 import { listerEnvois, listerLeads } from "@/lib/db";
 import { fmtJour, fmtNb, pluriel } from "@/lib/format";
 import { SEGMENTS, STATUTS, STATUT_LABEL } from "@/lib/labels";
@@ -76,11 +77,11 @@ export default async function PageLeads({ searchParams }: { searchParams: Promis
         </Vide>
       ) : (
         <div className="mt-4 overflow-hidden rounded-xl border border-line bg-surface">
-          <div className="repere hidden grid-cols-[minmax(0,2.2fr)_minmax(0,1.4fr)_minmax(0,1fr)_4rem_6.5rem_6.5rem] gap-4 border-b border-line bg-surface-2 px-5 py-2.5 md:grid">
+          <div className="repere hidden grid-cols-[minmax(0,2.2fr)_minmax(0,1.4fr)_minmax(0,1fr)_6rem_6.5rem_6.5rem] gap-4 border-b border-line bg-surface-2 px-5 py-2.5 md:grid">
             <span>Nom</span>
             <span>Activité</span>
             <span>Zone</span>
-            <span className="text-right">Score</span>
+            <span>Score</span>
             <span>Dernier envoi</span>
             <span>Statut</span>
           </div>
@@ -109,19 +110,19 @@ function LigneLead({ lead: l, contacte }: { lead: Lead; contacte?: string }) {
           </span>
           <span className="flex flex-col items-end gap-1">
             <BadgeStatut statut={l.statut} />
-            <Score score={l.score} />
+            <Crans score={l.score} />
           </span>
         </span>
         {/* Bureau : tableau. */}
-        <span className="hidden grid-cols-[minmax(0,2.2fr)_minmax(0,1.4fr)_minmax(0,1fr)_4rem_6.5rem_6.5rem] items-center gap-4 md:grid">
+        <span className="hidden grid-cols-[minmax(0,2.2fr)_minmax(0,1.4fr)_minmax(0,1fr)_6rem_6.5rem_6.5rem] items-center gap-4 md:grid">
           <span className="min-w-0">
             <span className="block truncate text-[14px] font-medium text-ink">{l.nom}</span>
             <span className="block text-[12px] text-muted">{SEGMENTS[l.segment].court}</span>
           </span>
           <span className="truncate text-[14px] text-ink-2">{l.activite}</span>
           <span className="truncate text-[14px] text-ink-2">{l.zone}</span>
-          <span className="text-right">
-            <Score score={l.score} />
+          <span>
+            <Crans score={l.score} />
           </span>
           <span className="chiffres text-[13px] text-muted">{contacte ? fmtJour(contacte) : "—"}</span>
           <span>
@@ -130,15 +131,6 @@ function LigneLead({ lead: l, contacte }: { lead: Lead; contacte?: string }) {
         </span>
       </Link>
     </li>
-  );
-}
-
-function Score({ score }: { score: number | null }) {
-  if (score === null) return <span className="chiffres text-[12px] text-muted">—</span>;
-  return (
-    <span className="chiffres font-mono text-[12px] text-ink-2">
-      <span className="font-semibold text-ink">{score}</span>/10
-    </span>
   );
 }
 
