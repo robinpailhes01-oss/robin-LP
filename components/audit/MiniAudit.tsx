@@ -3,7 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Arrow, Button } from "@/components/ui/Button";
-import { AUTOMATION_SHARE, buildResult, formatEuros, miniAudit, type AuditAnswers } from "@/lib/miniAudit";
+import { buildResult, formatEuros, miniAudit, type AuditAnswers } from "@/lib/miniAudit";
+import { ResultVisual } from "./ResultVisual";
 
 /**
  * Mini-audit en libre-service : une question par écran, puis les coordonnées, puis le résultat.
@@ -34,6 +35,7 @@ export function MiniAudit() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<AuditAnswers>({});
   const [picked, setPicked] = useState<string[]>([]);
+  const [detail, setDetail] = useState("");
   const [contact, setContact] = useState({ name: "", company: "", email: "", phone: "" });
   const [invalid, setInvalid] = useState(false);
   const [lead, setLead] = useState<Status>("idle");
@@ -56,12 +58,16 @@ export function MiniAudit() {
   }, [step, phase]);
 
   useEffect(() => {
-    if (phase === "questions") setPicked(answers[q.key] ?? []);
+    if (phase === "questions") {
+      setPicked(answers[q.key] ?? []);
+      setDetail(answers.toolsDetail?.[0] ?? "");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, phase]);
 
   function commit(values: string[]) {
-    setAnswers((a) => ({ ...a, [q.key]: values }));
+    const extra = q.detail ? { toolsDetail: detail.trim() ? [detail.trim().slice(0, 200)] : [] } : {};
+    setAnswers((a) => ({ ...a, [q.key]: values, ...extra }));
     if (step + 1 < Q.length) setStep(step + 1);
     else setPhase("contact");
   }
@@ -76,22 +82,24 @@ export function MiniAudit() {
     if (step > 0) setStep(step - 1);
   }
 
-  async function submitLead() {
+  /** Coordonnées, réponses et estimation : envoyées avec le lead puis avec la demande de rappel. */
+  function leadAnswers() {
     const r = buildResult(answers);
+    return {
+      ...answers,
+      name: [contact.name.trim()],
+      company: contact.company.trim() ? [contact.company.trim()] : [],
+      email: [contact.email.trim()],
+      phone: contact.phone.trim() ? [contact.phone.trim()] : [],
+      estimate: [`${r.hoursWeek} h par semaine`, `${formatEuros(r.eurosMonth)} € par mois`],
+      source: ["mini-audit"],
+    };
+  }
+
+  async function submitLead() {
     setLead("sending");
     try {
-      await send({
-        kind: "mini-audit",
-        contact: contact.email.trim() || contact.phone.trim(),
-        answers: {
-          ...answers,
-          who: [`${contact.name.trim()}${contact.company.trim() ? `, ${contact.company.trim()}` : ""}`],
-          email: [contact.email.trim()],
-          phone: contact.phone.trim() ? [contact.phone.trim()] : [],
-          estimate: [`${r.hoursWeek} h par semaine`, `${formatEuros(r.eurosMonth)} € par mois`],
-          source: ["mini-audit"],
-        },
-      });
+      await send({ kind: "mini-audit", contact: contact.email.trim() || contact.phone.trim(), answers: leadAnswers() });
       setLead("sent");
     } catch {
       setLead("error");
@@ -112,7 +120,7 @@ export function MiniAudit() {
   async function askCallback() {
     setCallback("sending");
     try {
-      await send({ kind: "rappel", contact: contact.phone.trim() || contact.email.trim(), answers: { who: [`${contact.name.trim()}, ${contact.company.trim()}`], source: ["mini-audit"], request: ["Rappel pour voir la maquette"] } });
+      await send({ kind: "rappel", contact: contact.phone.trim() || contact.email.trim(), answers: leadAnswers() });
       setCallback("sent");
     } catch {
       setCallback("error");
@@ -121,6 +129,7 @@ export function MiniAudit() {
 
   function restart() {
     setAnswers({});
+    setDetail("");
     setStep(0);
     setPhase("questions");
     setLead("idle");
@@ -183,6 +192,19 @@ export function MiniAudit() {
                 );
               })}
             </ul>
+            {q.detail && (
+              <label className="mt-6 flex flex-col gap-2 text-[14px] font-semibold text-night">
+                {q.detail.label}
+                <input
+                  type="text"
+                  value={detail}
+                  maxLength={200}
+                  placeholder={q.detail.placeholder}
+                  onChange={(e) => setDetail(e.target.value)}
+                  className="h-12 rounded-xl border border-powder bg-white px-4 text-[16px] font-normal text-night placeholder:text-muted focus:border-night focus:outline-none focus-visible:outline-2 focus-visible:outline-night"
+                />
+              </label>
+            )}
             {q.multiple && (
               <div className="mt-8">
                 <Button onClick={() => picked.length && commit(picked)} disabled={picked.length === 0}>
@@ -244,62 +266,7 @@ export function MiniAudit() {
               {miniAudit.result.toolTitle(contact.company.trim())}
             </h2>
 
-            <article className="mt-8 overflow-hidden rounded-[24px] border border-line bg-white">
-              <header className="flex flex-wrap items-center gap-2 bg-night px-6 py-4 text-white">
-                <span className="mr-1 text-[13px] font-semibold text-powder">{miniAudit.result.connected}</span>
-                {result.connected.length ? (
-                  result.connected.map((c) => (
-                    <span key={c} className="rounded-full bg-white/10 px-3 py-1 text-[13px] font-semibold">
-                      {c}
-                    </span>
-                  ))
-                ) : (
-                  <span className="rounded-full bg-white/10 px-3 py-1 text-[13px] font-semibold">Vos outils actuels</span>
-                )}
-              </header>
-              <div className="p-6">
-                <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted">{miniAudit.result.modulesTitle}</p>
-                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                  {result.modules.map((m) => (
-                    <li key={m.title} className="rounded-2xl bg-paper p-4">
-                      <p className="flex items-center gap-2 text-[15px] font-semibold text-night">
-                        <Check className="text-night" />
-                        {m.title}
-                      </p>
-                      <p className="mt-1.5 text-[14px] leading-[1.5] text-ink">{m.text}</p>
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-5 text-[14px] font-medium text-night">{miniAudit.result.validate}</p>
-              </div>
-            </article>
-
-            <div className="mt-6 rounded-[24px] bg-mist p-6">
-              <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted">{miniAudit.result.gainsTitle}</p>
-              <dl className="mt-4 grid gap-4 sm:grid-cols-2">
-                <div>
-                  <dt className="sr-only">Temps gagné</dt>
-                  <dd className="font-display text-[44px] font-extrabold leading-none tracking-[-0.02em] text-night">
-                    ≈ {result.hoursWeek}&nbsp;h <span className="text-[16px] font-semibold tracking-normal text-ink">{miniAudit.result.perWeek}</span>
-                  </dd>
-                </div>
-                <div>
-                  <dt className="sr-only">Charges économisées</dt>
-                  <dd className="font-display text-[44px] font-extrabold leading-none tracking-[-0.02em] text-night">
-                    ≈{" "}
-                    {formatEuros(result.eurosMonth)
-                      .split("\u00a0")
-                      .map((g, i) => (
-                        <span key={i} className={i ? "ml-[0.3em]" : ""}>
-                          {g}
-                        </span>
-                      ))}
-                    &nbsp;€ <span className="text-[16px] font-semibold tracking-normal text-ink">{miniAudit.result.perMonth}</span>
-                  </dd>
-                </div>
-              </dl>
-              <p className="mt-4 text-[13px] leading-[1.5] text-muted">{miniAudit.result.note(AUTOMATION_SHARE)}</p>
-            </div>
+            <ResultVisual result={result} />
 
             {lead === "error" && (
               <p role="alert" className="mt-6 flex flex-wrap items-center gap-3 text-[14px] text-night">

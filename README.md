@@ -19,7 +19,13 @@ Puis ouvrir http://localhost:3000.
 
 Copier `.env.example` en `.env.local`.
 
-- `CONTACT_WEBHOOK_URL` : destination des demandes du panneau « Assistant de Robin » (POST JSON `{ kind: "mini-audit", contact, answers, receivedAt, source }`). `contact` est le téléphone ou l’email, `answers.who` le prénom et l’entreprise. Si vide, la demande est journalisée côté serveur.
+Les demandes du site arrivent sur `/api/contact` : `mini-audit` (coordonnées en fin de mini-audit, avec réponses et estimation), `rappel` (bouton « Être rappelé par Robin » du résultat) et `assistant` (panneau « Assistant de Robin »). Chaque destination est active si ses variables sont renseignées :
+
+- `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` : une ligne par demande dans la table `leads`. Créer la table avec `supabase/migrations/20261008000000_leads.sql` (RLS activé, aucune politique : seule la clé service, côté serveur, peut écrire et lire). Ne jamais exposer la clé service en `NEXT_PUBLIC_`.
+- `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` : notification instantanée à chaque demande, les rappels en tête et les échéances « Dès que possible » signalées.
+- `CONTACT_WEBHOOK_URL` : relais libre facultatif (POST JSON).
+
+Sans aucune destination, la demande est journalisée côté serveur. Si toutes les destinations configurées échouent, l’API répond 502 et le visiteur peut réessayer.
 
 ## Périmètre actuel
 

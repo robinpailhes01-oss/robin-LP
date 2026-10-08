@@ -163,7 +163,7 @@ export function ContactPanel() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind: "mini-audit", contact, answers }),
+        body: JSON.stringify({ kind: "assistant", contact, answers: { ...answers, source: ["assistant"] } }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setTyping(false);

@@ -67,7 +67,7 @@ const PATHS = {
 };
 
 /** Icône d’un canal : marque pour WhatsApp et email, pictogramme sobre pour le reste. */
-function ChannelIcon({ name, size = 24 }: { name: string; size?: number }) {
+export function ChannelIcon({ name, size = 24 }: { name: string; size?: number }) {
   if (name === "WhatsApp" || name === "Gmail") return <ToolIcon name={name} size={size} />;
   const p = PATHS[name as keyof typeof PATHS];
   const tone = name === "instagram" ? "text-[#C13584]" : "text-night";

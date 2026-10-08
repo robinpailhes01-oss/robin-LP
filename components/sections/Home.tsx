@@ -10,7 +10,7 @@ import { FaqList } from "@/components/ui/FaqList";
 import { Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
-import { about, caseStudies, casesIndex, contact, cta, faq, founder, hero, manifesto, method, problem, steps, system, trust, vsl, type CaseStudy } from "@/lib/content";
+import { about, caseStudies, casesIndex, contact, cta, faq, founder, guarantee, hero, manifesto, method, problem, steps, system, trust, vsl, type CaseStudy } from "@/lib/content";
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -110,6 +110,15 @@ export function Trust() {
             </li>
           ))}
         </ul>
+        <p className="mt-8 flex justify-center">
+          <span className="inline-flex items-center gap-2 rounded-full bg-mist px-4 py-2 text-[14px] font-semibold text-night">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+            Tous nos outils&nbsp;: {guarantee.short.charAt(0).toLowerCase() + guarantee.short.slice(1)}
+          </span>
+        </p>
       </div>
     </section>
   );

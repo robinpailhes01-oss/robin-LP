@@ -59,6 +59,12 @@ export const hero = {
   flow: ["Message reçu", "Besoin compris", "Fiche client à jour", "Devis ou RDV prêt"],
 };
 
+/** Garantie affichée sur le site. Conditions précises à écrire dans les CGV. */
+export const guarantee = {
+  short: "Satisfait ou remboursé pendant 7 jours",
+  text: "Vous avez 7 jours après la mise en service pour tester votre outil. S’il ne vous convient pas, vous êtes remboursé.",
+};
+
 /**
  * VSL de l’accueil. Coller ici l’adresse YouTube, Vimeo ou d’un fichier .mp4.
  * Vide : la vidéo n’apparaît pas et le parcours animé d’une demande la remplace.
@@ -150,7 +156,7 @@ export const steps = {
       label: "Résultat",
       title: "Vous gagnez du temps",
       text: "L’outil prend en charge les tâches répétitives. Je suis les résultats et j’ajuste. Vous vous concentrez sur la croissance de votre entreprise.",
-      points: ["Moins de tâches répétitives", "Moins de charges", "Un seul interlocuteur, du début au suivi"],
+      points: ["Moins de tâches répétitives", "Moins de charges", "Satisfait ou remboursé pendant 7 jours"],
     },
   ] as { label: string; title: string; text: string; points?: string[]; options?: { name: string; text: string }[] }[],
 };
@@ -196,7 +202,7 @@ export const methodPage = {
 
 /** Agent WhatsApp : aperçu sur l’accueil, page complète sur /agent-whatsapp. */
 export const whatsapp = {
-  guarantee: "Satisfait ou remboursé",
+  guarantee: "Satisfait ou remboursé pendant 7 jours",
   page: {
     kicker: "Agent WhatsApp",
     title: "Un agent qui répond à vos clients sur WhatsApp.",
@@ -274,8 +280,8 @@ export const whatsapp = {
       { name: "Je le connecte", text: "À votre numéro WhatsApp et à vos outils." },
       { name: "On teste, puis il répond", text: "Vous voyez tout et reprenez la main à tout moment." },
     ],
-    guaranteeTitle: "Satisfait ou remboursé",
-    guaranteeText: "Si l’agent ne vous convient pas, vous êtes remboursé. Conditions fixées ensemble avant tout engagement.",
+    guaranteeTitle: "Satisfait ou remboursé pendant 7 jours",
+    guaranteeText: "Vous avez 7 jours après la mise en service pour tester l’agent. S’il ne vous convient pas, vous êtes remboursé.",
     faqTitle: "Vos questions sur l’agent",
     faq: [
       { q: "Mes clients sauront-ils qu’ils parlent à un agent ?", a: "C’est vous qui décidez de la façon dont il se présente. Dans tous les cas, il répond avec votre ton et passe la main dès que nécessaire." },
@@ -402,6 +408,7 @@ export const faq = {
     { q: "Faut-il s’y connaître en IA ?", a: "Non. Vous connaissez vos clients, c’est ce qui compte. Je m’occupe du reste." },
     { q: "L’IA peut-elle se tromper ?", a: "Oui. Chaque outil est donc testé sur vos cas réels, avec des limites claires : ce qui est sensible vous est transmis." },
     { q: "En quoi consiste le mini-audit ?", a: "Quelques questions sur vos tâches et vos outils. Vous voyez aussitôt à quoi ressemblerait votre outil IA et une estimation du temps et de l’argent qu’il vous ferait gagner. Gratuit, sans appel ni engagement." },
+    { q: "Et si l’outil ne me convient pas ?", a: "Vous avez 7 jours après la mise en service pour le tester. S’il ne vous convient pas, vous êtes remboursé." },
     { q: "Peut-on construire l’outil avec vous ?", a: "Oui. En accompagnement, on le construit ensemble et je forme votre équipe pour qu’elle le fasse évoluer seule." },
     { q: "Comment sont gérées les données ?", a: "Elles restent les vôtres. Je vous montre où elles passent avant la mise en place." },
   ],
