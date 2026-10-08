@@ -39,16 +39,19 @@ body { font-family: "Geist", system-ui, sans-serif; -webkit-font-smoothing: anti
 .chap.on .num { color: var(--violet); opacity: 1; }
 .chap .lab { display: inline-block; overflow: hidden; }
 
-/* hook */
-#hookPme { left: 50%; top: 250px; padding: 14px 28px; border-radius: 999px; font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
-#hookT1 { left: 0; width: 1080px; top: 330px; text-align: center; font-size: 104px; font-weight: 820; letter-spacing: -0.05em; line-height: 1; }
-#hookT1 .n { color: var(--violet-lt); }
-#hookT2 { left: 0; width: 1080px; top: 432px; text-align: center; font-size: 150px; line-height: 1; color: var(--warm); }
+/* hook — version épurée : une seule couleur (blanc), contraste par la typographie */
+#hookPme { left: 50%; top: 262px; display: flex; align-items: center; gap: 22px; font-size: 24px; font-weight: 600; letter-spacing: 0.42em;
+  text-transform: uppercase; white-space: nowrap; color: rgba(255,255,255,0.82); text-shadow: 0 1px 12px rgba(0,0,0,0.45); }
+#hookPme i { display: block; width: 46px; height: 1.5px; background: rgba(255,255,255,0.6); }
+#hookT1 { left: 0; width: 1080px; top: 322px; text-align: center; font-size: 92px; font-weight: 560; letter-spacing: -0.035em; line-height: 1;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.35); }
+#hookT2 { left: 0; width: 1080px; top: 420px; text-align: center; font-size: 142px; line-height: 1; color: #fff; text-shadow: 0 2px 28px rgba(0,0,0,0.35); }
 .hw { display: inline-block; }
-.hchip { top: 640px; height: 92px; padding: 0 34px 0 14px; border-radius: 999px; display: flex; align-items: center; gap: 16px; font-size: 40px; font-weight: 750; white-space: nowrap; }
-.hchip .ic { width: 66px; height: 66px; background: var(--violet); }
-#chipT { left: 130px; } #chipA { left: 560px; }
-#hookShade { position: absolute; left: 0; top: 0; width: 1080px; height: 900px; background: linear-gradient(180deg, rgba(10,8,24,0.75), rgba(10,8,24,0)); pointer-events: none; }
+#hookRule { left: 50%; top: 598px; width: 120px; height: 1.5px; margin-left: -60px; background: rgba(255,255,255,0.7); transform-origin: 50% 50%; }
+#hookSub { left: 0; width: 1080px; top: 626px; display: flex; justify-content: center; align-items: center; gap: 28px; font-size: 46px; font-weight: 500;
+  letter-spacing: 0.01em; color: rgba(255,255,255,0.92); text-shadow: 0 1px 14px rgba(0,0,0,0.5); white-space: nowrap; }
+#hookSub .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.7); }
+#hookShade { position: absolute; left: 0; top: 0; width: 1080px; height: 960px; background: linear-gradient(180deg, rgba(8,8,10,0.72) 0%, rgba(8,8,10,0.45) 45%, rgba(8,8,10,0) 100%); pointer-events: none; }
 
 /* points : zone du haut */
 .zone { position: absolute; left: 0; top: 0; width: 1080px; height: 640px; }
@@ -123,11 +126,11 @@ body { font-family: "Geist", system-ui, sans-serif; -webkit-font-smoothing: anti
   <div id="hookShade"></div>
 
   <!-- hook -->
-  <div class="abs glass" id="hookPme">Pour les PME</div>
+  <div class="abs" id="hookPme"><i></i>Pour les PME<i></i></div>
   <div class="abs" id="hookT1"><span class="hw n">3</span> <span class="hw">choses</span> <span class="hw">à</span> <span class="hw">confier</span></div>
   <div class="abs serif" id="hookT2"><span class="hw">à</span> <span class="hw">l'IA.</span></div>
-  <div class="abs glass hchip" id="chipT"><div class="ic"></div>Du temps</div>
-  <div class="abs glass hchip" id="chipA"><div class="ic"></div>De l'argent</div>
+  <div class="abs" id="hookRule"></div>
+  <div class="abs" id="hookSub"><span id="subT">Du temps</span><span class="dot" id="subDot"></span><span id="subA">De l'argent</span></div>
 
   <!-- chapitres -->
   <div class="abs" id="chapters"></div>
@@ -202,7 +205,7 @@ const SPARK = (c) => `<svg viewBox="0 0 100 100"><path fill="${c}" d="M50 0C52 3
 const FR = (sec) => `build/frames/${String(Math.max(1, Math.min(C.frames, Math.round(sec * 30)))).padStart(5, "0")}.jpg`;
 
 /* ---------- construction ---------- */
-$("#chipT .ic").innerHTML = LI(P.clock); $("#chipA .ic").innerHTML = LI(P.euro);
+
 $("#comment .ic").innerHTML = LI(P.chat); $("#dm .h .ic").innerHTML = SPARK("#fff");
 $("#agency .ic").innerHTML = LI(P.building); $("#aiCore .c").innerHTML = SPARK("#fff");
 
@@ -307,7 +310,7 @@ async function render(t) {
   $("#hookShade").style.opacity = inHook ? 1 - prog(t, PT.hook[1] - 0.2, PT.hook[1] + 0.2) : (t > PT.cta[0] ? 0.8 : 0);
 
   /* hook */
-  ["#hookPme", "#hookT1", "#hookT2", "#chipT", "#chipA"].forEach((id) => show($(id), inHook));
+  ["#hookPme", "#hookT1", "#hookT2", "#hookRule", "#hookSub"].forEach((id) => show($(id), inHook));
   if (inHook) {
     const out = PT.hook[1] - 0.25;
     reveal($("#hookPme"), t, 0.0, 0.5, 20, "translateX(-50%)"); hide($("#hookPme"), t, out);
@@ -315,8 +318,13 @@ async function render(t) {
     const hw = [...document.querySelectorAll("#hookT1 .hw, #hookT2 .hw")];
     const at = [t3 - 0.05, WD("choses") - 0.05, WD("choses") + 0.1, WD("choses") + 0.22, WD("grâce") - 0.1, WD("grâce") + 0.05];
     hw.forEach((el, i) => { reveal(el, t, Math.min(at[i], 0.2 + i * 0.12), 0.5, 30); hide(el, t, out); });
-    $("#hookT1 .n").style.transform += ` scale(${1 + 0.25 * Math.exp(-Math.max(0, t - t3) * 6) * (t > t3 ? 1 : 0)})`;
-    [["#chipT", WD("temps")], ["#chipA", WD("argent")]].forEach(([id, a]) => { reveal($(id), t, a - 0.08, 0.45, 30); hide($(id), t, out); });
+    // filet qui se dessine sous le titre, puis « Du temps · De l'argent » au rythme de la voix
+    const rp = E.out(prog(t, WD("choses") + 0.35, WD("choses") + 1.05));
+    $("#hookRule").style.opacity = rp; $("#hookRule").style.transform = `scaleX(${rp})`; hide($("#hookRule"), t, out);
+    $("#hookSub").style.opacity = 1; hide($("#hookSub"), t, out);
+    reveal($("#subT"), t, WD("temps") - 0.08, 0.5, 14);
+    reveal($("#subDot"), t, WD("argent") - 0.2, 0.4, 0);
+    reveal($("#subA"), t, WD("argent") - 0.08, 0.5, 14);
   }
 
   /* chapitres */
