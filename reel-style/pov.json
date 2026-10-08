@@ -15,5 +15,6 @@
  "dim": 0.28,
  "grade": "curves=all='0/0 0.3/0.23 0.6/0.48 1/0.8',eq=saturation=0.9:contrast=1.04,colorbalance=rs=0.05:gs=0.01:bs=-0.04:rm=0.03:bh=-0.02,vignette=a=PI/4.2:x0=w*0.55:y0=h*0.55",
  "shade": 0.5,
- "shade_y": 600
+ "shade_y": 600,
+ "end_card": false
 }

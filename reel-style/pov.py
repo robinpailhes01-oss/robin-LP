@@ -65,7 +65,9 @@ for n in range(N):
     f = np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(np.float32) / 255
     f *= 1 - SHADE
     blend(f, title)
-    if cut <= t < cut + black:
+    if not C.get("end_card", True):
+        pass                                            # pas de carte de fin : la vidéo continue telle quelle
+    elif cut <= t < cut + black:
         f[:] = 0
     elif t >= cut + black:
         f *= C["dim"]                                   # plan et titre assombris, comme la référence
