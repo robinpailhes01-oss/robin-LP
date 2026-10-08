@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { OpenContactButton } from "@/components/contact/OpenContactButton";
 import { Arrow, ButtonLink, TextLink } from "@/components/ui/Button";
+import { CaseCard } from "@/components/cases/CaseCards";
 import { ClientMark } from "@/components/ui/ClientMark";
 import { HeroFlow, ProblemSchema, SystemSchema } from "@/components/ui/Diagrams";
 import { Parallax } from "@/components/ui/Parallax";
@@ -10,7 +11,7 @@ import { FaqList } from "@/components/ui/FaqList";
 import { Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
-import { about, caseStudies, casesIndex, contact, cta, faq, founder, guarantee, hero, manifesto, method, problem, steps, system, trust, vsl, type CaseStudy } from "@/lib/content";
+import { about, caseStudies, casesIndex, contact, cta, faq, founder, guarantee, hero, manifesto, method, problem, steps, system, trust, vsl } from "@/lib/content";
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -297,40 +298,28 @@ export function Method({ withLink = true, tone = "mist" as "mist" | "white" }: {
   );
 }
 
-/* 6. Réalisations : uniquement des cas réels, avec leurs vrais logos. */
-export function CaseList({ items = caseStudies.items, compact = false }: { items?: CaseStudy[]; compact?: boolean }) {
+/* 6. Réalisations : uniquement des cas réels, chacun avec le visuel de son outil et sa page. */
+export function Cases() {
   return (
-    <ul className="border-t border-line">
-      {items.map((c) => (
-        <li key={c.slug} className="border-b border-line">
-          <Link
-            href={`/cas-clients/${c.slug}`}
-            className="group grid md:grid-cols-12 gap-5 md:gap-8 items-center py-8 md:py-10 -mx-3 px-3 md:-mx-5 md:px-5 rounded-2xl hover:bg-paper transition-colors duration-200"
-          >
-            <div className="md:col-span-4 flex items-center gap-4">
-              <ClientMark c={c} size="md" />
-              <div>
-                <p className="font-display text-[19px] font-bold tracking-[-0.015em] text-night">{c.client}</p>
-                <p className="text-[14px] text-muted">{c.sector}</p>
-              </div>
-            </div>
-            {!compact && <p className="md:col-span-5 text-[17px] leading-[1.5] text-ink">{c.summary}</p>}
-            <div className={`${compact ? "md:col-start-9 md:col-span-4" : "md:col-span-3"} flex items-end justify-between gap-4`}>
-              {c.stats[0] && (
-                <p>
-                  <span className="block font-display text-[30px] font-extrabold tracking-[-0.02em] leading-none text-night whitespace-nowrap">{c.stats[0].value}</span>
-                  <span className="block mt-1.5 text-[13px] leading-[1.4] text-muted max-w-[200px]">{c.stats[0].label}</span>
-                </p>
-              )}
-              <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-powder text-night group-hover:bg-night group-hover:text-white group-hover:border-night transition-colors duration-200">
-                <Arrow />
-                <span className="sr-only">{casesIndex.read} {c.client}</span>
-              </span>
-            </div>
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <Section id="realisations" tone="paper">
+      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <Reveal>
+          <Kicker>{caseStudies.kicker}</Kicker>
+          <h2 className="t-h2 mt-5 max-w-[16ch]">{caseStudies.title}</h2>
+          <p className="t-lead mt-5 max-w-[36rem]">{caseStudies.text}</p>
+        </Reveal>
+        <TextLink href="/cas-clients">{caseStudies.all}</TextLink>
+      </div>
+      <ul className="mt-12 grid gap-5 md:mt-14 lg:grid-cols-3">
+        {caseStudies.items.map((c, i) => (
+          <li key={c.slug}>
+            <Reveal delay={i * 0.06} className="h-full">
+              <CaseCard c={c} />
+            </Reveal>
+          </li>
+        ))}
+      </ul>
+    </Section>
   );
 }
 

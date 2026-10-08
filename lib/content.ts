@@ -297,7 +297,12 @@ export const casesIndex = {
   kicker: "Réalisations",
   title: "Des projets menés avec de vraies entreprises.",
   text: "Le point de départ, la solution, le résultat constaté.",
-  read: "Lire la réalisation",
+  read: "Voir la réalisation",
+  need: "Le point de départ",
+  built: "Ce qui a été construit",
+  result: "Le résultat",
+  tools: "Connecté à",
+  quote: "Ce qu’en dit le client",
   nextCase: "Réalisation suivante",
   prevCase: "Réalisation précédente",
   back: "Toutes les réalisations",
@@ -327,11 +332,14 @@ export type CaseStudy = {
   need: string;
   built: { title: string; text: string }[];
   outcomes: string[];
+  /** Témoignage réel et autorisé uniquement (nom, fonction). Vide = le bloc n’est pas affiché. */
+  testimonial?: { quote: string; author: string; role: string };
 };
 
 export const caseStudies = {
   kicker: "Réalisations",
-  title: "Des résultats concrets.",
+  title: "Des outils déjà en service.",
+  text: "Trois entreprises, trois besoins, trois outils sur mesure. Chaque réalisation a sa page : le point de départ, ce qui a été construit, le résultat.",
   all: "Voir toutes les réalisations",
   items: [
     {

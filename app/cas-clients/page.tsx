@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { CaseList, Contact } from "@/components/sections/Home";
+import { CaseFeature } from "@/components/cases/CaseCards";
+import { Contact } from "@/components/sections/Home";
 import { Kicker } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
-import { casesIndex } from "@/lib/content";
+import { caseStudies, casesIndex } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Réalisations",
@@ -17,9 +18,15 @@ export default function CasesPage() {
           <Kicker>{casesIndex.kicker}</Kicker>
           <h1 className="t-h1 mt-6 max-w-[14em]">{casesIndex.title}</h1>
           <p className="t-lead mt-6 max-w-[36rem]">{casesIndex.text}</p>
-          <Reveal className="mt-14 md:mt-16">
-            <CaseList />
-          </Reveal>
+          <ul className="mt-16 flex flex-col gap-20 md:mt-20 md:gap-28">
+            {caseStudies.items.map((c, i) => (
+              <li key={c.slug}>
+                <Reveal>
+                  <CaseFeature c={c} flip={i % 2 === 1} />
+                </Reveal>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
       <Contact />
