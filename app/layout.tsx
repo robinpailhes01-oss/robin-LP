@@ -1,10 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
-import { ContactProvider } from "@/components/contact/ContactContext";
-import { ContactPanel } from "@/components/contact/ContactPanel";
-import { AuditNudge } from "@/components/contact/AuditNudge";
 import { site } from "@/lib/content";
 import "./globals.css";
 
@@ -41,13 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#contenu" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-night focus:px-4 focus:py-2 focus:text-white">
           Aller au contenu
         </a>
-        <ContactProvider>
-          <Nav />
-          <main id="contenu">{children}</main>
-          <Footer />
-          <ContactPanel />
-          <AuditNudge />
-        </ContactProvider>
+        {children}
       </body>
     </html>
   );
