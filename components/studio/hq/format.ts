@@ -29,10 +29,5 @@ export function parisIsoDate(date: Date) {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
 }
 
-/** Espaces insécables de la typographie française dans un texte venu des données (« : », « ? », « % »…). */
-export function typo(s: string) {
-  return s
-    .replace(/ ([:;?!%»])/g, `${NBSP}$1`)
-    .replace(/« /g, `«${NBSP}`)
-    .replace(/(\d) (?=h\b|€|%|j\b)/g, `$1${NBSP}`);
-}
+/** Espaces insécables de la typographie française : une seule version pour tout le studio (agent/format.ts). */
+export { typo } from "@/components/studio/agent/format";

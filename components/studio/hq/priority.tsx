@@ -12,7 +12,7 @@ export type AlmaPriority = {
   /** Texte brut : il est saisi lettre à lettre (TypeText). */
   headline: string;
   detail?: ReactNode;
-  /** Marche à suivre détaillée, repliée sous « Comment brancher » (mise en route). */
+  /** Marche à suivre détaillée, sous « Comment brancher » dans le module Branchement, ouverte d’emblée (mise en route). */
   howTo?: ReactNode;
 };
 
@@ -38,13 +38,13 @@ function Code({ children }: { children: ReactNode }) {
  * Les comptes portent sur toutes les demandes des 7 derniers jours, sans regarder leur statut :
  * on dit « reçues », jamais « en attente ». (Plus tard : compter seulement status = "nouveau".)
  */
-export function almaPriority(stats: Pick<StudioStats, "connected" | "error" | "rappelsWeek" | "auditsWeek">): AlmaPriority {
+export function almaPriority(stats: Pick<StudioStats, "connected" | "error" | "leadsWeek" | "rappelsWeek" | "auditsWeek">): AlmaPriority {
   if (!stats.connected) {
     return {
       tone: "setup",
       label: "Mise en route",
       headline: "Les demandes du site ne sont pas encore branchées.",
-      detail: `Première étape${NBSP}: connecter Supabase dans Vercel.`,
+      detail: `Pour les brancher${NBSP}: connecter Supabase dans Vercel.`,
       howTo: (
         <>
           Dans Vercel, ajoute <Code>SUPABASE_URL</Code> et <Code>SUPABASE_SERVICE_ROLE_KEY</Code> aux variables d’environnement du projet, puis redéploie. La
@@ -84,7 +84,7 @@ export function almaPriority(stats: Pick<StudioStats, "connected" | "error" | "r
           tone: "focus",
           label: "Audit reçu",
           headline: `1${NBSP}audit reçu sur 7${NBSP}jours${NBSP}: appelle ce dirigeant en premier.`,
-          detail: "Nina préparera les fiches d’appel une fois entraînée. Pour l’instant, la demande t’attend plus bas, dans les demandes entrantes.",
+          detail: "Nina préparera les fiches d’appel une fois entraînée. En attendant, c’est toi qui appelles.",
         }
       : {
           tone: "focus",
@@ -92,6 +92,18 @@ export function almaPriority(stats: Pick<StudioStats, "connected" | "error" | "r
           headline: `${audits}${NBSP}audits reçus sur 7${NBSP}jours${NBSP}: appelle d’abord les plus urgents.`,
           detail: `Commence par les échéances «${NBSP}Dès que possible${NBSP}». Nina préparera les fiches d’appel une fois entraînée.`,
         };
+  }
+  // Autres demandes (messages de l’assistant, demandes de l’ancien formulaire) : jamais « aucune demande » s’il y en a.
+  const leads = stats.leadsWeek ?? 0;
+  if (leads > 0) {
+    return {
+      tone: "focus",
+      label: leads > 1 ? "Demandes reçues" : "Demande reçue",
+      headline: `${count(leads, "demande")} ${plural(leads, "reçue", "reçues")} sur 7${NBSP}jours${NBSP}: ${leads > 1 ? "lis-les" : "lis-la"} dans les demandes entrantes.`,
+      // Pas de « t’attendent » : les comptes ignorent le statut (voir plus haut). Ici, toutes les demandes de la fenêtre sont de ce type,
+      // donc les plus récentes sont bien celles listées dans les demandes entrantes.
+      detail: `Messages de l’assistant du site ou demandes de l’ancien formulaire${NBSP}: les plus récentes sont listées plus bas, dans les demandes entrantes.`,
+    };
   }
   return {
     tone: "calm",

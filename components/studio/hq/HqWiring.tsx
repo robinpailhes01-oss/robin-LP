@@ -14,7 +14,7 @@ const NBSP = " ";
  * valeur réelle n’est lisible (Supabase pas branché, ou lecture en échec). Un seul module au lieu de quatre tuiles vides
  * et d’un grand panneau vide : pas d’effet « squelette de chargement ».
  *
- * À gauche : la prise en orbite (le seul anneau d’orbite de l’écran), l’état, et la marche à suivre repliée
+ * À gauche : la prise en orbite (le seul anneau d’orbite de l’écran), l’état, et la marche à suivre, ouverte d’emblée (repliable)
  * (almaPriority().howTo, la même que celle annoncée par la carte d’Alma). À droite : les quatre indicateurs
  * en lignes fines séparées par des filets (libellé, « 7 j », trait fin « — », raison), sans encadré.
  * Composant serveur ; aucune donnée de demande n’est lue ni rendue ici.
@@ -70,11 +70,11 @@ export function HqWiring({ stats }: { stats: StudioStats }) {
           <p className="studio-body mt-3 max-w-[46ch]">
             {failed
               ? "Supabase est configuré, mais la lecture des demandes a échoué. Les indicateurs et les demandes reviendront dès qu’elle réussira."
-              : "Les demandes du site et les indicateurs de la semaine apparaîtront ici dès que Supabase sera connecté."}
+              : `Les demandes du site et les indicateurs des 7${NBSP}derniers jours apparaîtront ici dès que Supabase sera connecté.`}
           </p>
 
           {p.howTo ? (
-            <details className="group/how mt-4 w-full max-w-[60ch]">
+            <details open className="group/how mt-4 w-full max-w-[60ch]">
               <summary className="-mx-3 inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-full px-3 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-white/[0.06] motion-reduce:transition-none [&::-webkit-details-marker]:hidden">
                 Comment brancher
                 <ChevronDownIcon className="size-4 text-[#CADFED] transition-transform duration-300 group-open/how:rotate-180 motion-reduce:transition-none" />

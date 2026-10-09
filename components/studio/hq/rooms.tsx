@@ -82,7 +82,7 @@ function SoloOffice({ agent, glow }: { agent: Agent; glow: string }) {
     <div className="relative mt-5 grid gap-4 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_minmax(0,1fr)] md:items-start md:gap-8 xl:grid-cols-1 xl:gap-0">
       <Link
         href={`/studio/agents/${agent.id}`}
-        aria-label={`${agent.name}, ${agent.role}, ${status.toLowerCase()} : ouvrir sa fiche`}
+        aria-label={`${agent.name}, ${agent.role}, ${status.toLowerCase()} : ouvrir sa fiche`}
         className="group/desk relative z-[2] -m-2 flex min-h-11 items-center gap-3.5 rounded-[18px] p-2 transition-colors duration-300 hover:bg-white/[0.045] motion-reduce:transition-none"
       >
         <AgentAvatar agent={{ name: agent.name, avatar: agent.avatar }} size={56} ring={glow} decorative />
@@ -218,7 +218,7 @@ export function OpenRoom({ department, delay }: { department: Department; delay:
 }
 
 /* ------------------------------------------------------------------ */
-/* Pièce à ouvrir : verre très dépoli et assombri, cadenas, postes prévus */
+/* Pièce à ouvrir : verre assombri (sans flou d’arrière-plan), cadenas, postes prévus */
 /* ------------------------------------------------------------------ */
 
 /** Pièce à ouvrir en carte (dès 768 px ; sur mobile, ClosedRoomsCompact la remplace). */
@@ -233,7 +233,7 @@ export function ClosedRoom({ department, delay }: { department: Department; dela
       delay={delay}
       y={24}
       duration={0.85}
-      className="group/room studio-glass relative isolate hidden flex-col rounded-[28px] border-white/[0.07] bg-[rgb(5_12_26/0.62)] p-4 shadow-none backdrop-blur-2xl transition-[border-color,background-color] duration-300 pointer-fine:has-[[data-room-link]:hover]:border-white/[0.16] pointer-fine:has-[[data-room-link]:hover]:bg-[rgb(8_17_34/0.6)] motion-reduce:transition-none sm:p-5 md:flex"
+      className="group/room studio-glass relative isolate hidden flex-col rounded-[28px] border-white/[0.07] bg-[rgb(5_12_26/0.62)] p-4 shadow-none backdrop-filter-none transition-[border-color,background-color] duration-300 pointer-fine:has-[[data-room-link]:hover]:border-white/[0.16] pointer-fine:has-[[data-room-link]:hover]:bg-[rgb(8_17_34/0.6)] motion-reduce:transition-none sm:p-5 md:flex"
     >
       {/* Hachures très fines (pièce fermée) et lueur froide (bleu électrique très doux : une teinte sourde ferait une tache grise). */}
       <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
@@ -285,7 +285,7 @@ export function ClosedRoomsCompact({ rooms }: { rooms: Department[] }) {
       trigger="inView"
       y={18}
       aria-labelledby="pieces-a-ouvrir"
-      className="relative isolate overflow-hidden rounded-[24px] border border-white/[0.07] bg-[rgb(5_12_26/0.62)] backdrop-blur-2xl md:hidden"
+      className="relative isolate overflow-hidden rounded-[24px] border border-white/[0.07] bg-[rgb(5_12_26/0.62)] md:hidden"
     >
       <span aria-hidden className="pointer-events-none absolute inset-0 [background-image:repeating-linear-gradient(135deg,rgb(255_255_255/0.028)_0_1px,transparent_1px_12px)]" />
       <h3 id="pieces-a-ouvrir" className="studio-kicker relative flex items-center gap-2 px-4 pb-1.5 pt-4">

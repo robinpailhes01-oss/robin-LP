@@ -18,6 +18,8 @@ export const metadata: Metadata = { title: "QG" };
 export default async function StudioHome() {
   const now = Date.now();
   const stats = await getStudioStats(now);
+  // Demandes réellement lues (même règle que HqActivity) : seule condition pour animer le rail de l’entrée.
+  const live = stats.connected && !stats.error;
 
   return (
     <div className="pb-6 sm:pt-4">
@@ -26,7 +28,7 @@ export default async function StudioHome() {
         <AlmaCommand stats={stats} />
       </div>
       <div className="mt-20 sm:mt-28 lg:mt-32">
-        <AgencyFloor />
+        <AgencyFloor live={live} />
       </div>
       {/* Pas de grand vide ici : le rail de l’entrée (fin d’AgencyFloor) descend jusqu’au titre « Activité ». */}
       <div className="mt-3">

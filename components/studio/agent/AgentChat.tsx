@@ -4,7 +4,7 @@ import { FadeIn } from "@/components/studio/fx/FadeIn";
 import { LiveDot } from "@/components/studio/fx/LiveDot";
 import { TypeText } from "@/components/studio/fx/TypeText";
 import { deptGlow } from "@/components/studio/fx/tokens";
-import type { Agent } from "@/lib/studio/agents";
+import { statusLabel, type Agent } from "@/lib/studio/agents";
 import { glow, typo } from "./format";
 import { Lock, Send } from "./icons";
 
@@ -29,17 +29,17 @@ export function AgentChat({ agent }: { agent: Agent }) {
       <div className="studio-glass studio-glass--solid relative flex flex-1 flex-col overflow-hidden rounded-[28px]">
         <header className="relative flex items-center justify-between gap-3 border-b border-white/[0.08] px-5 py-4 sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
-            <span className="relative flex shrink-0">
-              <AgentAvatar agent={agent} size={44} ring={accent} decorative />
-              <span className="absolute -bottom-0.5 -right-0.5 flex rounded-full bg-[#0A1324] p-[3px]">
-                <LiveDot status={agent.status} size={8} />
-              </span>
-            </span>
+            <AgentAvatar agent={agent} size={44} ring={accent} decorative />
             <div className="min-w-0">
               <h2 id="discussion-titre" className="font-display text-[18px] font-bold leading-[1.2] tracking-[-0.015em] text-white">
                 Discussion avec {agent.name}
               </h2>
-              <p className="truncate text-[13px] text-white/65">{agent.role}</p>
+              <p className="text-[13px] text-white/65 text-pretty">{agent.role}</p>
+              {/* Statut écrit en toutes lettres (pas de pastille de présence sur l’avatar : l’agent ne tourne pas encore). */}
+              <p className="mt-1 flex items-center gap-1.5 text-[12px] font-semibold text-white/70">
+                <LiveDot status={agent.status} size={6} />
+                {statusLabel[agent.status]}
+              </p>
             </div>
           </div>
           <span className="studio-chip shrink-0">
@@ -83,7 +83,7 @@ export function AgentChat({ agent }: { agent: Agent }) {
               type="text"
               disabled
               aria-describedby={noteId}
-              placeholder="Disponible à l’étape 2"
+              placeholder="Disponible à l’étape 2"
               className="min-h-11 min-w-0 flex-1 cursor-not-allowed bg-transparent text-[16px] text-white outline-none placeholder:text-white/60"
             />
             <span aria-hidden className="flex size-10 shrink-0 items-center justify-center rounded-full border border-dashed border-white/15 text-white/45">
@@ -92,7 +92,7 @@ export function AgentChat({ agent }: { agent: Agent }) {
           </div>
           <p id={noteId} className="mt-3 flex items-start gap-2 text-[13px] leading-[1.45] text-white/65">
             <Lock size={14} className="mt-px" />
-            La discussion arrive à l’étape 2 (branchement à Claude).
+            La discussion arrive à l’étape&nbsp;2 (branchement à Claude).
           </p>
         </div>
       </div>

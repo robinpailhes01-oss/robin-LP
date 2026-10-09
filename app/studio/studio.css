@@ -5,7 +5,7 @@
  * Les noms d’animation sont préfixés « studio- » pour ne croiser aucune animation de globals.css.
  *
  * Règles de mouvement :
- *  - seuls transform et opacity sont animés en boucle (le flou de la transition de page ne dure qu’une fois 0,55 s, desktop) ;
+ *  - seuls transform et opacity sont animés, jamais un filtre (transition de page comprise) ;
  *  - l’état sans animation est toujours l’état final : couper les animations ne cache jamais rien ;
  *  - prefers-reduced-motion: reduce coupe tout (fin de fichier) ; les survols qui bougent sont réservés aux pointeurs fins ;
  *  - budget de mouvement ambiant par écran : l’aurore, une bordure conique, un seul grand portrait qui flotte,
@@ -15,7 +15,8 @@
  *  - mouvement signature (une fois, à l’entrée) : grands titres mot à mot (6 bis), bustes qui montent de sous leur ligne (12 bis),
  *    cartes personnages dont le portrait se pose puis reçoit un seul balayage de lumière (12 ter, 14 bis).
  *
- * Contrastes sur le fond #060B16 : --s-ink 18:1, --s-text 9:1, --s-muted 6:1 (AA petit texte), --s-faint 3:1 (décor seulement).
+ * Contrastes sur l’aplat #060B16 : --s-ink 18:1, --s-text 9:1, --s-muted 6:1 (AA petit texte), --s-faint 3:1 (décor seulement).
+ * Sur les halos des départements, le fond monte jusqu’à rgb(57 92 153) : les sur-titres (.studio-kicker) passent donc à blanc bleuté 80 %.
  */
 
 /*
@@ -31,11 +32,21 @@
   color: #ffffff;
 }
 
-/* Le contour de focus global est bleu nuit : invisible ici. Bleu poudré, bien détaché du fond. */
+/* Le contour de focus global est bleu nuit : invisible ici. Bleu poudré, bien détaché du fond.
+   La règle globale pose aussi border-radius: 6px hors couche : revert-layer rend aux pilules et aux cartes
+   le rayon de leurs couches (rounded-full, .studio-btn, inherit de .studio-character-hit). */
 .studio :focus-visible {
   outline: 2px solid var(--s-focus);
   outline-offset: 3px;
+  border-radius: revert-layer;
 }
+
+/* Bustes liés (en-têtes) : le contour suit l’arche, et le buste focalisé passe devant ses voisins. */
+.studio a.studio-bust:focus-visible {
+  border-radius: 9999px 9999px 0 0;
+  outline-offset: 4px;
+}
+.studio .studio-bust-slot:has(a.studio-bust:focus-visible) { z-index: 3; }
 
 /* Compatibilité : classes typographiques du site (globals.css) réutilisées par d’anciens composants. */
 .studio .t-display,
@@ -152,7 +163,8 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--s-muted);
+  /* Plus clair que --s-muted : les sur-titres sont souvent posés sur les halos des départements (fond jusqu’à rgb(57 92 153)). */
+  color: rgb(226 234 245 / 0.8);
 }
 .studio .studio-lead {
   font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
@@ -182,7 +194,8 @@
   font-weight: 300;
   font-size: 0.7em;
   letter-spacing: 0;
-  color: rgb(255 255 255 / 0.3);
+  /* 0,55 : AA (4,5:1) même sur le verre posé sur un halo ; c’est le seul signe visible d’une valeur absente. */
+  color: rgb(255 255 255 / 0.55);
 }
 /* Titre en dégradé blanc → poudré (un seul par écran, sur le titre principal). */
 .studio .studio-gradient-text {
@@ -231,6 +244,9 @@
     linear-gradient(180deg, rgb(202 223 237 / 0.06), rgb(202 223 237 / 0) 40%),
     radial-gradient(120% 90% at 12% 0%, rgb(156 195 255 / 0.06), rgb(156 195 255 / 0) 60%),
     var(--s-raised);
+  /* Fond opaque à 86 % : le flou de l’arrière-plan ne se verrait pas, il ne coûterait que du calcul à chaque image. */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 /* Pointillés : ce qui n’existe pas encore (département fermé, poste prévu) ou n’est pas branché (indicateur éteint). */
 .studio .studio-glass--dashed {
@@ -507,23 +523,18 @@
     transform: none;
   }
 }
+/* Un seul jeu d’images clés pour toutes les largeurs : le nom de l’animation ne change jamais, donc franchir 768 px
+   (téléphone qu’on tourne, fenêtre redimensionnée) ne rejoue pas l’entrée. La montée et la durée passent par des variables. */
 @keyframes studio-page-in {
   from {
     opacity: 0;
-    transform: translate3d(0, 12px, 0);
-    filter: blur(8px);
-  }
-}
-@keyframes studio-page-in-lite {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 8px, 0);
+    transform: translate3d(0, var(--page-y, 8px), 0);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Transition de page : « backwards », pour qu’aucun transform ni filtre ne reste une fois l’entrée finie. */
-  .studio .studio-page { animation: studio-page-in-lite 0.45s var(--s-ease) backwards; }
+  /* Transition de page : « backwards », pour qu’aucun transform ne reste une fois l’entrée finie. */
+  .studio .studio-page { animation: studio-page-in var(--page-dur, 0.45s) var(--s-ease) backwards; }
 
   /* À l’affichage (sans JavaScript) */
   .studio .studio-rise {
@@ -556,8 +567,9 @@
     animation-delay: calc(var(--rise-delay, 0s) + var(--i, 0) * var(--rise-step, 70ms));
   }
 }
+/* Desktop : montée un peu plus haute et plus longue. Changer ces variables ne relance pas une animation finie. */
 @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
-  .studio .studio-page { animation: studio-page-in 0.55s var(--s-ease) backwards; }
+  .studio .studio-page { --page-y: 12px; --page-dur: 0.55s; }
 }
 
 /* Rang de chaque enfant d’une cascade (au-delà de 20, même délai que le 20e). */
@@ -916,6 +928,17 @@
   0% { opacity: 0; transform: scale(0.85); }
   5% { opacity: 1; transform: scale(1); }
   24%, 100% { opacity: 0; transform: scale(1.22); }
+}
+/* Rail pas encore en service (FlowStage paused : rien n’est lu) : la ligne seule, en pointillés atténués, sans lumière. */
+.studio .studio-flow[data-idle] .studio-flow-comet,
+.studio .studio-flow[data-idle] .studio-flow-flash { display: none; }
+.studio .studio-flow[data-idle][data-axis="y"] .studio-flow-line {
+  background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--flow, #4c8dff) 45%, transparent) 0 3px, transparent 3px 8px)
+    center / 1px 100% no-repeat;
+}
+.studio .studio-flow[data-idle][data-axis="x"] .studio-flow-line {
+  background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--flow, #4c8dff) 45%, transparent) 0 3px, transparent 3px 8px)
+    center / 100% 1px no-repeat;
 }
 @media (prefers-reduced-motion: no-preference) {
   .studio .studio-flow[data-run] .studio-flow-comet { animation: studio-flow-travel var(--flow-dur, 4s) linear infinite; }
@@ -1352,7 +1375,6 @@
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .studio a.studio-bust:hover { transform: translate3d(0, -4px, 0); }
 }
-.studio a.studio-bust:focus-visible { outline-offset: 4px; }
 
 /* Entrée des bustes : chacun monte de 30 % depuis sous sa ligne (le pied du buste, découpé par clip-path), en cascade.
    La découpe ne retient que le bas : le survol (montée de 4 px) et le halo restent libres au-dessus. */
@@ -1523,4 +1545,6 @@
   }
   .studio .studio-beam-runner,
   .studio .studio-flow-comet { display: none; }
+  /* Le rail des schémas de flux apparaît sans fondu. */
+  .studio .studio-flow-track { transition: none; }
 }

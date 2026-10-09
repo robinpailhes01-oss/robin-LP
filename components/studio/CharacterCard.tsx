@@ -13,6 +13,7 @@ import { LiveDot } from "@/components/studio/fx/LiveDot";
  *
  * Entrée (mouvement signature, à l’arrivée dans l’écran) : la carte apparaît, le portrait se pose dans sa scène
  * (scale 1,08 et 16 px plus bas → 1 et 0), puis un seul balayage de lumière ; en cascade avec --ci (rang posé par la grille parente).
+ * Carte priority (portrait principal au-dessus de la ligne de flottaison) : pas d’entrée, visible dès la première image.
  * Survol (souris seulement) : halo qui suit le curseur, inclinaison 3D, et sous-couches en parallaxe :
  * le portrait glisse à l’opposé de l’inclinaison (6 px) et s’approche (1,06), le prénom suit le curseur (3 px),
  * le liseré du haut s’avive. Tactile ou mouvement réduit : carte immobile.
@@ -104,7 +105,7 @@ export function CharacterCard({
       color={`color-mix(in srgb, ${accent} 16%, transparent)`}
       rim={`color-mix(in srgb, ${accent} 75%, white)`}
       tilt={size === "sm" ? 4 : 6}
-      reveal
+      reveal={!priority}
     >
       <span aria-hidden className="studio-character-glow" />
       <span aria-hidden className="studio-character-edge" />

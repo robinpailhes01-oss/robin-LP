@@ -88,9 +88,9 @@ export function AlmaCommand({ stats }: { stats: StudioStats }) {
               <h2 id="priorite-jour" className="studio-kicker text-[#CADFED]">
                 Priorité du jour
               </h2>
-              {/* Le seul point qui pulse sur l’écran : c’est l’information vivante du jour. */}
+              {/* Le seul point qui peut pulser sur l’écran, et seulement quand les demandes du site sont vraiment lues (ni en mise en route, ni en erreur). */}
               <span className="studio-chip">
-                <LiveDot tone={PRIORITY_TONE[p.tone]} size={6} pulse />
+                <LiveDot tone={PRIORITY_TONE[p.tone]} size={6} pulse={stats.connected && !stats.error} />
                 {p.label}
               </span>
             </div>
@@ -121,7 +121,7 @@ export function AlmaCommand({ stats }: { stats: StudioStats }) {
               {/* Verrouillé : mène à la discussion de la fiche, qui explique l’étape 2. */}
               <Link
                 href={`/studio/agents/${alma.id}#discussion`}
-                aria-label={`Discuter avec ${alma.name}, étape 2 : verrouillé pour l’instant`}
+                aria-label={`Discuter avec ${alma.name}, étape 2 : verrouillé pour l’instant`}
                 className="studio-btn studio-btn--ghost border-dashed text-white/80"
               >
                 <LockIcon className="size-4 text-[#CADFED]" />
@@ -153,8 +153,8 @@ export function AlmaCommand({ stats }: { stats: StudioStats }) {
 
               {/* Mention d’honnêteté : toujours visible. */}
               <p className="mt-6 max-w-[72ch] text-[13px] leading-[1.6] text-white/62">
-                Point calculé par des règles simples à partir des demandes du site{"\u00a0"}: {alma.name} n’est pas encore entraînée. La discussion arrive à l’étape
-                2 (branchement à Claude).
+                Point calculé par des règles simples à partir des demandes du site{"\u00a0"}: {alma.name} n’est pas encore entraînée. La discussion arrive à l’étape&nbsp;2
+                (branchement à Claude).
               </p>
             </div>
           </div>

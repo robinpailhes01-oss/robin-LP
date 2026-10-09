@@ -12,6 +12,7 @@ import type { LeadRow, StudioStats } from "@/lib/studio/data";
 import { de, glow } from "@/components/studio/agent/format";
 import { EmptyState, SectionHeading } from "@/components/studio/agent/kit";
 import { Alert, ArrowRight, Database, Globe, Inbox, Phone, Sparkle } from "@/components/studio/agent/icons";
+import { LEAD_NO_NAME, leadKindLabel } from "@/components/studio/leadKinds";
 
 /**
  * « La file de Nina » : les dernières demandes du site, lues dans Supabase côté serveur (composant serveur).
@@ -19,15 +20,10 @@ import { Alert, ArrowRight, Database, Globe, Inbox, Phone, Sparkle } from "@/com
  * Aucune donnée de demande n’est passée en props à un composant client : les rangées sont rendues ici.
  */
 
-/** Libellés des types connus. `kind` vient du formulaire public : lu uniquement via Object.hasOwn, jamais affiché brut. */
-const KIND: Record<string, string> = {
-  "mini-audit": "Mini-audit",
-  rappel: "Rappel demandé",
-  assistant: "Message de l’assistant",
-  audit: "Demande d’audit",
-};
+/* Noms des types de demandes : leadKinds.ts (les mêmes qu’au QG). Les icônes restent ici, rangées sous les mêmes clés. */
 
 const URGENT = "Dès que possible";
+const NBSP = " ";
 const AMBER = TONE_COLOR.warn;
 
 function kindIcon(kind: string): ReactNode {
@@ -40,7 +36,7 @@ function kindIcon(kind: string): ReactNode {
 function Row({ lead, accent }: { lead: LeadRow; accent: string }) {
   const urgent = lead.timing === URGENT;
   const callback = lead.kind === "rappel";
-  const who = lead.company?.trim() || lead.name?.trim() || "Sans nom";
+  const who = lead.company?.trim() || lead.name?.trim() || LEAD_NO_NAME;
   return (
     <li className="studio-glass studio-glass--subtle grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3.5 gap-y-2 rounded-[14px] px-3.5 py-3.5 sm:px-4">
       <span
@@ -67,7 +63,7 @@ function Row({ lead, accent }: { lead: LeadRow; accent: string }) {
               : { borderColor: "rgb(255 255 255 / 0.1)", background: "rgb(255 255 255 / 0.04)", color: "rgb(226 234 245 / 0.8)" }
           }
         >
-          {Object.hasOwn(KIND, lead.kind) ? KIND[lead.kind] : "Autre demande"}
+          {leadKindLabel(lead.kind)}
         </span>
         {urgent ? (
           <span
@@ -97,7 +93,7 @@ export function NinaQueue({ stats, owner, accent }: { stats: StudioStats; owner?
       <FadeIn trigger="inView">
         <SectionHeading
           id="file-titre"
-          kicker="Demandes du site · 7 derniers jours"
+          kicker="Demandes du site · 7 derniers jours"
           title={`La file ${de(name)}`}
           accent={accent}
           action={
@@ -122,7 +118,7 @@ export function NinaQueue({ stats, owner, accent }: { stats: StudioStats; owner?
       <GlassCard variant="raised" pad="none" radius="xl" className="mt-8 overflow-hidden">
         <span aria-hidden className="studio-halo absolute -right-24 -top-32 size-96 opacity-60" style={{ "--halo": accent } as CSSProperties} />
         <div className="relative p-4 sm:p-6 lg:p-8">
-          {/* En-tête du panneau : le total réel de la semaine, seulement s’il a vraiment été lu. */}
+          {/* En-tête du panneau : le total réel des 7 derniers jours, seulement s’il a vraiment été lu. */}
           <div className="flex flex-wrap items-center justify-between gap-4 px-1 pb-5 sm:pb-6">
             <p className="flex items-center gap-2.5 text-[14px] font-medium text-white/75">
               <LiveDot tone={total !== null ? "ok" : stats.error ? "error" : "idle"} pulse={total !== null} size={7} />
@@ -146,11 +142,12 @@ export function NinaQueue({ stats, owner, accent }: { stats: StudioStats; owner?
               </EmptyState>
             ) : stats.error ? (
               <EmptyState icon={<Alert size={20} />} title="Lecture impossible pour l’instant">
-                Supabase est configuré mais n’a pas répondu. Recharge la page dans un moment.
+                Supabase est configuré, mais la lecture a échoué. Vérifie la clé et la table{" "}
+                <code className="rounded-md border border-white/10 bg-white/[0.07] px-1.5 py-0.5 font-mono text-[0.86em] text-white">leads</code>, puis recharge la page.
               </EmptyState>
             ) : rows.length === 0 ? (
-              <EmptyState icon={<Inbox size={20} />} title="Aucune demande cette semaine">
-                Rien n’est arrivé du site sur les 7 derniers jours.
+              <EmptyState icon={<Inbox size={20} />} title={`Aucune demande sur 7${NBSP}jours`}>
+                Rien n’est arrivé du site sur les 7&nbsp;derniers jours.
               </EmptyState>
             ) : (
               <>

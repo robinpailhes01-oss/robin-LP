@@ -34,7 +34,13 @@ export function AgentTraining({ agent, department }: { agent: Agent; department:
                   <span
                     aria-hidden
                     className="studio-num flex size-8 shrink-0 items-center justify-center rounded-full border font-display text-[13px] font-bold"
-                    style={{ color: accent, borderColor: glow(accent, 45), background: glow(accent, 10), boxShadow: `0 0 18px -6px ${accent}` }}
+                    style={{
+                      // Chiffre éclairci (45 % de l’accent, le reste en blanc) : en bleu électrique pur sur sa teinte, il passait sous AA.
+                      color: `color-mix(in srgb, ${accent} 45%, white)`,
+                      borderColor: glow(accent, 45),
+                      background: glow(accent, 10),
+                      boxShadow: `0 0 18px -6px ${accent}`,
+                    }}
                   >
                     {i + 1}
                   </span>
@@ -77,7 +83,7 @@ export function AgentTraining({ agent, department }: { agent: Agent; department:
               Journal d’entraînement
             </h3>
             <EmptyState icon={<Book size={20} />} title="Aucune séance pour l’instant." className="mt-6">
-              À l’étape 2, chaque correction que tu feras ici affinera son travail.
+              À l’étape&nbsp;2, chaque correction que tu feras ici affinera son travail.
             </EmptyState>
           </div>
         </div>

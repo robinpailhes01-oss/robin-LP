@@ -5,6 +5,7 @@ import { Stagger } from "@/components/studio/fx/FadeIn";
 import { LiveDot } from "@/components/studio/fx/LiveDot";
 import { OrbitRing } from "@/components/studio/fx/OrbitRing";
 import { DEPT_GLOW, GLACIER, POWDER } from "@/components/studio/fx/tokens";
+import { LEAD_NO_NAME, leadKindLabel } from "@/components/studio/leadKinds";
 import { InboxIcon } from "./icons";
 import { count, typo } from "./format";
 
@@ -17,16 +18,20 @@ const SHOWN = 5;
 const URGENT = "Dès que possible";
 const NBSP = " ";
 
-/** Types connus. `kind` vient du formulaire public : lu uniquement via Object.hasOwn (pas de clé héritée comme « constructor »). */
-const KINDS: Record<string, { label: string; color: string }> = {
-  "mini-audit": { label: "Audit", color: DEPT_GLOW.prospection },
-  rappel: { label: "Rappel", color: "#F5C27A" },
-  assistant: { label: "Assistant", color: GLACIER },
+/**
+ * Couleur de chaque type connu (les noms viennent de leadKinds.ts, communs au QG et à la file de Nina).
+ * `kind` vient du formulaire public : lu uniquement via Object.hasOwn (pas de clé héritée comme « constructor »).
+ */
+const KIND_COLOR: Record<string, string> = {
+  "mini-audit": DEPT_GLOW.prospection,
+  rappel: "#F5C27A",
+  assistant: GLACIER,
+  audit: DEPT_GLOW.prospection,
 };
-const OTHER = { label: "Autre", color: POWDER };
 
 function kindOf(kind: string) {
-  return typeof kind === "string" && Object.hasOwn(KINDS, kind) ? KINDS[kind] : OTHER;
+  const color = typeof kind === "string" && Object.hasOwn(KIND_COLOR, kind) ? KIND_COLOR[kind] : POWDER;
+  return { label: leadKindLabel(kind), color };
 }
 
 function KindPill({ kind }: { kind: string }) {
@@ -108,7 +113,7 @@ function LeadItem({ lead, now }: { lead: LeadRow; now: number }) {
       </span>
 
       <div className="min-w-0 self-center [grid-area:1/2]">
-        <p className="font-semibold leading-[1.35] text-white [overflow-wrap:anywhere]">{lead.name?.trim() || "Nom non renseigné"}</p>
+        <p className="font-semibold leading-[1.35] text-white [overflow-wrap:anywhere]">{lead.name?.trim() || LEAD_NO_NAME}</p>
         {lead.company?.trim() && <p className="mt-0.5 text-[13px] leading-[1.4] text-white/62 [overflow-wrap:anywhere]">{lead.company}</p>}
       </div>
 
@@ -130,7 +135,7 @@ function LeadItem({ lead, now }: { lead: LeadRow; now: number }) {
           {typo(estimate.join(" · "))}
         </p>
       ) : (
-        <p className="hidden text-[13px] text-white/45 lg:block lg:[grid-area:1/4]">Sans estimation</p>
+        <p className="hidden text-[13px] text-white/62 lg:block lg:[grid-area:1/4]">Sans estimation</p>
       )}
 
       <p className="studio-num self-start whitespace-nowrap pt-0.5 text-right text-[13px] text-white/62 [grid-area:1/3] lg:self-center lg:pt-0 lg:[grid-area:1/5]">

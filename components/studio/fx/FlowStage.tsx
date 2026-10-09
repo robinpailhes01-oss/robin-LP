@@ -12,6 +12,7 @@ import { useEffect, useRef, useState, type CSSProperties, type HTMLAttributes, t
  * leur centre est mesuré dans la page (offsetLeft/offsetTop : les transforms des entrées n’y comptent pas),
  * donc le rail tombe juste en rangée (grand écran) comme en colonne (mobile), et suit les redimensionnements.
  * La comète ne tourne que quand le schéma est à l’écran. Mouvement réduit : le rail seul, immobile.
+ * paused : rail pas encore en service (aucune donnée lue) → la ligne seule, en pointillés atténués, sans comète ni éclat.
  * Décoratif : le sens du flux est porté par la liste ordonnée et le texte de chaque étape.
  */
 
@@ -25,6 +26,11 @@ type Props = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
   segment?: number;
   /** Longueur de la traîne en px. */
   tail?: number;
+  /**
+   * Rail pas encore en service (ex. : demandes du site pas encore lues dans Supabase) : le rail reste visible
+   * (data-ready), en pointillés atténués (data-idle), mais ni comète ni éclat ne le parcourent.
+   */
+  paused?: boolean;
   children: ReactNode;
 };
 
@@ -50,7 +56,7 @@ function rectCenterIn(el: HTMLElement, root: HTMLElement) {
   return { x: r.left - o.left + r.width / 2, y: r.top - o.top + r.height / 2 };
 }
 
-export function FlowStage({ color, segment = 1.1, tail, className = "", style, children, ...rest }: Props) {
+export function FlowStage({ color, segment = 1.1, tail, paused = false, className = "", style, children, ...rest }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.25 });
   const reduce = useReducedMotion();
@@ -100,11 +106,19 @@ export function FlowStage({ color, segment = 1.1, tail, className = "", style, c
     return () => ro.disconnect();
   }, [segment]);
 
-  const run = ready && inView && !reduce;
+  const run = ready && inView && !reduce && !paused;
   const vars = { "--flow": color, ...(tail ? { "--flow-tail": `${tail}px` } : null), ...style } as CSSProperties;
 
   return (
-    <div {...rest} ref={ref} className={`studio-flow ${className}`} style={vars} data-ready={ready ? "" : undefined} data-run={run ? "" : undefined}>
+    <div
+      {...rest}
+      ref={ref}
+      className={`studio-flow ${className}`}
+      style={vars}
+      data-ready={ready ? "" : undefined}
+      data-run={run ? "" : undefined}
+      data-idle={paused ? "" : undefined}
+    >
       {/* Le rail d’abord : tout ce qui suit (nœuds, textes) passe au-dessus. */}
       <span aria-hidden className="studio-flow-track">
         <span className="studio-flow-line" />

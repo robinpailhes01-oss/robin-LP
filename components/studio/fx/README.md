@@ -9,19 +9,20 @@ rien ne peut toucher le site public.
 - **Couches CSS** : les classes `.studio-*` sont dans `@layer components`. Une classe Tailwind posée sur le même
   élément (`p-6`, `bg-…`, `absolute`, `rounded-…`) l’emporte toujours. Hors couche : sélection, focus, compatibilité `.t-*`
   et la coupure des animations en mouvement réduit.
-- **Mouvement** : seuls `transform` et `opacity` sont animés en boucle. L’état sans animation est toujours l’état final.
+- **Mouvement** : seuls `transform` et `opacity` sont animés, jamais un filtre (transition de page comprise). L’état sans animation est toujours l’état final.
   Sous `prefers-reduced-motion: reduce`, tout s’arrête (CSS `animation: none !important` + JavaScript qui affiche l’état final).
   Les effets de survol qui bougent sont réservés aux pointeurs fins (`(hover: hover) and (pointer: fine)`).
 - **Budget de mouvement ambiant, par écran** : l’aurore, une bordure conique, **un seul** grand portrait qui flotte
-  (fiche agent ou carte d’Alma), **un seul** point qui pulse (le point « vivant » : la priorité d’Alma, une donnée lue en direct),
-  au plus un anneau d’orbite, et les comètes des schémas de flux (seulement à l’écran). Petits avatars, points « À entraîner »
+  (fiche agent ou carte d’Alma), **un seul** point qui pulse (le point « vivant » : la priorité d’Alma, seulement quand les demandes
+  du site sont vraiment lues ; immobile en mise en route ou en erreur), au plus un anneau d’orbite, et les comètes des schémas
+  de flux (seulement à l’écran ; aucune sur un rail qui représente des données pas encore branchées : `FlowStage paused`). Petits avatars, points « À entraîner »
   et cartes personnages restent immobiles : la richesse se gagne au survol (parallaxe de `SpotlightLayer`).
 - **Rayons concentriques** : grande scène 32 px → pièce / panneau 28 → carte dans une pièce 20 → encadré 14 → puces pleines
   (`--s-radius-xl`, `--s-radius-lg`, `--s-radius`, `--s-radius-sm`). Éviter plus de deux épaisseurs de verre empilées.
 - **Verre teinté** : fond bleu poudré `rgb(202 223 237 / 0.045)` + reflet `0.06` + dégradé radial glacier très faible
   (jamais de blanc pur : sans halo derrière, il vire au gris neutre).
 - **Mobile** : aurore immobile (deux halos), pas de halo flou sous `GlowBorder`, pas d’inclinaison ni de reflet au toucher,
-  transition de page sans flou.
+  transition de page plus courte (même animation, montée et durée en variables : tourner le téléphone ne la rejoue pas).
 - **Serveur par défaut** : `Aurora`, `GlassCard`, `GlowBorder`, `LiveDot`, `OrbitRing` sont des composants serveur sans JavaScript.
   `SpotlightCard` (+ `SpotlightLayer`), `FlowStage` (+ `FlowNode`), `Beam`, `CountUp`, `FadeIn`, `Stagger`, `TypeText`, `DocumentTone`
   sont clients ; leurs `children` restent rendus côté serveur.
@@ -130,6 +131,7 @@ Les nœuds sont des `FlowNode` posés n’importe où dans les enfants (rendus c
 | `color` | couleur du rail et de la comète | — |
 | `segment` | secondes de trajet entre deux nœuds voisins | `1.1` |
 | `tail` | longueur de la traîne (px) | `140` horizontal, `110` vertical |
+| `paused` | rail pas encore en service : ligne en pointillés atténués, ni comète ni éclat | `false` |
 
 ```tsx
 <FlowStage color={DEPT_GLOW.prospection} className="grid gap-y-8 xl:grid-cols-4">
@@ -142,7 +144,7 @@ Les nœuds sont des `FlowNode` posés n’importe où dans les enfants (rendus c
 </FlowStage>
 ```
 
-La comète ne tourne que quand le schéma est à l’écran. Mouvement réduit : le rail seul. Décoratif : l’ordre est dit par le texte.
+La comète ne tourne que quand le schéma est à l’écran (et pas en `paused`). Mouvement réduit : le rail seul, sans fondu. Décoratif : l’ordre est dit par le texte.
 
 ## `GlowBorder` (serveur)
 
@@ -215,7 +217,7 @@ Monte de 0 à la valeur à l’entrée dans l’écran (une fois), chiffres tabu
 ```
 
 La valeur finale est toujours dans le HTML (sr-only). Le chiffre visible attend le départ ; filet CSS s’il ne démarre pas (1,8 s).
-Mouvement réduit : valeur finale immédiate. Valeur absente : `.studio-null` (Inter 300, 70 % de la taille, sans interlettrage, blanc 30 %),
+Mouvement réduit : valeur finale immédiate. Valeur absente : `.studio-null` (Inter 300, 70 % de la taille, sans interlettrage, blanc 55 %, AA même sur le verre posé sur un halo),
 et la tuile prend un état éteint assumé (pointillés `studio-glass--dashed`, pas de filet de couleur, prise débranchée à côté du libellé).
 
 ## `FadeIn` et `Stagger` (client)
@@ -368,5 +370,5 @@ Rangée de portraits en buste qui se chevauchent (découpes verticales fondues v
 
 ### Transition de page
 
-`app/studio/(prive)/template.tsx` : fondu + montée + flou qui se dissipe (desktop), clé sur le chemin pour rejouer d’une fiche à l’autre.
-CSS seulement, `backwards` (aucun transform ni filtre ne reste). Mouvement réduit : coupée.
+`app/studio/(prive)/template.tsx` : fondu + légère montée (8 px et 0,45 s sur mobile, 12 px et 0,55 s dès 768 px, en variables d’une seule
+animation), clé sur le chemin pour rejouer d’une fiche à l’autre. CSS seulement, `backwards` (aucun transform ne reste). Mouvement réduit : coupée.

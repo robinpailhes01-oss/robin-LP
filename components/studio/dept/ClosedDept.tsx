@@ -20,8 +20,9 @@ export function ClosedDept({ department }: { department: Department }) {
 
   return (
     <section aria-labelledby="ferme-titre" className="mt-14 sm:mt-20" style={{ "--accent": accent } as CSSProperties}>
-      {/* Verre assombri (comme les pièces à ouvrir du QG) : le verre courant, sur ce grand aplat sans contenu coloré, virait au gris ardoise. */}
-      <div className="studio-glass relative overflow-hidden rounded-[28px] bg-[rgb(5_12_26/0.6)] px-5 py-12 backdrop-blur-2xl sm:rounded-[32px] sm:px-10 sm:py-16">
+      {/* Verre assombri (comme les pièces à ouvrir du QG) : le verre courant, sur ce grand aplat sans contenu coloré, virait au gris ardoise.
+          Sans flou d’arrière-plan : sous ce fond dense, il ne se voyait pas et se recalculait à chaque image de l’aurore. */}
+      <div className="studio-glass relative overflow-hidden rounded-[28px] bg-[rgb(5_12_26/0.6)] px-5 py-12 backdrop-filter-none sm:rounded-[32px] sm:px-10 sm:py-16">
         {/* Décor : trame de points qui s’efface en cercle, lumière froide très douce. */}
         <span
           aria-hidden

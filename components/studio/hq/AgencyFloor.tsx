@@ -8,14 +8,15 @@ import { ArrowDownIcon, DoorIcon } from "./icons";
  * « L’agence » : le plan d’étage, cœur visuel du QG. Un bento de pièces en verre posé sur un sol tramé.
  * Le sol n’a ni cadre ni fond (une seule épaisseur de verre en moins) : seulement une trame de points qui s’efface vers les bords.
  * Pièces ouvertes : verre clair, liseré lumineux du département, cartes personnages (prospection) ou bureau compact (direction).
- * Pièces à ouvrir : verre très dépoli et assombri, cadenas, postes prévus ; sur mobile, en lignes compactes dans un seul bloc.
+ * Pièces à ouvrir : verre assombri (sans flou d’arrière-plan), cadenas, postes prévus ; sur mobile, en lignes compactes dans un seul bloc.
  *
  * Grille : 1 colonne (mobile), 3 colonnes (md), 4 colonnes égales en xl (voir PLACEMENT dans rooms.tsx).
  * Sous le plan, l’entrée de l’agence : un rail vertical (FlowStage, axe y) descend jusqu’au titre « Activité » juste dessous,
- * avec la pastille « Entrée des demandes du site » posée dessus ; une comète le parcourt quand il est à l’écran
- * (le parcours porte → demandes). Mouvement réduit : le rail seul, immobile.
+ * avec la pastille « Entrée des demandes du site » posée dessus. Une comète ne le parcourt (porte → demandes) que si
+ * les demandes sont réellement lues dans Supabase (live) et que le rail est à l’écran ; sinon le rail est immobile,
+ * en pointillés : aucune arrivée de demande n’est suggérée. Mouvement réduit : le rail seul, immobile.
  */
-export function AgencyFloor() {
+export function AgencyFloor({ live }: { live: boolean }) {
   const floor = floorDepartments();
   const closed = floor.filter((d) => !d.open);
 
@@ -47,7 +48,7 @@ export function AgencyFloor() {
       </div>
 
       {/* L’entrée de l’agence : c’est par là qu’arrivent les demandes du site. Le rail descend jusqu’au titre « Activité ». */}
-      <FlowStage color={DEPT_GLOW.prospection} segment={1.6} tail={64} className="mx-auto mt-3 flex w-fit flex-col items-center sm:-mt-1 lg:-mt-2">
+      <FlowStage color={DEPT_GLOW.prospection} segment={1.6} tail={64} paused={!live} className="mx-auto mt-3 flex w-fit flex-col items-center sm:-mt-1 lg:-mt-2">
         <FlowNode>
           <span aria-hidden className="block size-2 rounded-full bg-[#4C8DFF] shadow-[0_0_10px_#4C8DFF]" />
         </FlowNode>

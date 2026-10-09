@@ -55,7 +55,8 @@ export function SpotlightCard({
   reveal?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const phase = useReveal(ref, { enabled: reveal, amount: 0.25 });
+  // Révélée dès ses premiers pixels à l’écran : une carte haute (500 à 730 px) en partie visible ne reste jamais vide.
+  const phase = useReveal(ref, { enabled: reveal, amount: "some", margin: "0px" });
   const reduce = useReducedMotion();
   const fine = useFinePointer();
   const on = fine && !reduce;

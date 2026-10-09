@@ -45,7 +45,7 @@ export function StudioNav({ agentDept, className = "" }: { agentDept: Record<str
                 key={l.href}
                 href={l.href}
                 aria-current={on ? (path === l.href ? "page" : "true") : undefined}
-                className={`relative inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-2.5 text-[13px] font-medium transition-colors duration-200 sm:px-4 sm:text-[14px] ${
+                className={`relative inline-flex min-h-11 min-w-11 items-center justify-center whitespace-nowrap rounded-full px-2.5 text-[13px] font-medium transition-colors duration-200 sm:px-4 sm:text-[14px] ${
                   on ? "text-white" : "text-white/65 hover:text-white"
                 }`}
               >
