@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { LeadRow, StudioStats } from "@/lib/studio/data";
 import { Panel, PanelTitle, shortDate } from "@/components/studio/ui";
 import { AlertIcon, InboxIcon } from "./icons";
-import { count } from "./format";
+import { count, typo } from "./format";
 
 /**
  * « Demandes entrantes » : les 5 dernières demandes du site (7 derniers jours).
@@ -12,6 +12,7 @@ import { count } from "./format";
 const SHOWN = 5;
 const URGENT = "Dès que possible";
 
+/** Types connus. `kind` vient du formulaire public : lu uniquement via Object.hasOwn (pas de clé héritée comme « constructor »). */
 const kinds: Record<string, { label: string; dot: string }> = {
   "mini-audit": { label: "Audit", dot: "#3B6E9E" },
   rappel: { label: "Rappel", dot: "#17263D" },
@@ -19,7 +20,7 @@ const kinds: Record<string, { label: string; dot: string }> = {
 };
 
 function KindPill({ kind }: { kind: string }) {
-  const k = kinds[kind] ?? { label: "Autre", dot: "#CADFED" };
+  const k = Object.hasOwn(kinds, kind) ? kinds[kind] : { label: "Autre", dot: "#CADFED" };
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1 text-[12px] font-semibold text-ink">
       <span aria-hidden className="size-1.5 rounded-full" style={{ background: k.dot }} />
@@ -68,7 +69,7 @@ function LeadItem({ lead, now }: { lead: LeadRow; now: number }) {
       {estimate.length > 0 ? (
         <p className="text-[13px] leading-[1.45] text-ink [grid-area:3/1/4/-1] lg:[grid-area:1/3]">
           <span className="text-muted lg:sr-only">Estimation&nbsp;: </span>
-          {estimate.join(" · ")}
+          {typo(estimate.join(" · "))}
         </p>
       ) : (
         <p className="hidden text-[13px] text-muted lg:block lg:[grid-area:1/3]">Sans estimation</p>
@@ -88,7 +89,7 @@ export function IncomingLeads({ stats, now }: { stats: StudioStats; now: number 
   const more = total - leads.length;
 
   return (
-    <div id="demandes" className="scroll-mt-24">
+    <div id="demandes" className="scroll-mt-32 sm:scroll-mt-24">
       <Panel>
         <PanelTitle
           kicker="Accueil"

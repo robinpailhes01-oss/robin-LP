@@ -17,6 +17,8 @@ import { NextResponse } from "next/server";
 
 type Answers = Record<string, string[]>;
 
+const KINDS = new Set(["audit", "mini-audit", "rappel", "assistant"]);
+
 export async function POST(req: Request) {
   let body: Record<string, unknown>;
   try {
@@ -29,6 +31,8 @@ export async function POST(req: Request) {
   if (!contact) return NextResponse.json({ ok: false, error: "missing_contact" }, { status: 400 });
 
   const kind = clean(body.kind) || "audit";
+  // Types connus uniquement : la valeur est relue telle quelle par le studio.
+  if (!KINDS.has(kind)) return NextResponse.json({ ok: false, error: "invalid_kind" }, { status: 400 });
   let answers: Answers = {};
 
   if (kind !== "audit") {

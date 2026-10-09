@@ -41,7 +41,7 @@ export default async function AgentPage({ params }: { params: Promise<Params> })
       <AgentFacts agent={agent} department={department} stats={stats} />
       <AgentTraining agent={agent} department={department} />
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
+      <div className="mt-8 grid grid-cols-1 gap-8 *:min-w-0 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
         <AgentChat agent={agent} />
         <AgentColleagues agent={agent} />
       </div>

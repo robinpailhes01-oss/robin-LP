@@ -3,10 +3,11 @@ import { AgentAvatar } from "@/components/studio/AgentAvatar";
 import { DeptBadge, StatusPill } from "@/components/studio/ui";
 import type { Agent, Department } from "@/lib/studio/agents";
 import { tint, typo } from "./format";
+import { Lock } from "./icons";
 
 /** Fil d’Ariane : QG / département / agent. */
 export function AgentBreadcrumb({ agent, department }: { agent: Agent; department: Department }) {
-  const link = "inline-flex min-h-11 items-center rounded-full px-2.5 font-medium text-muted hover:bg-mist hover:text-night motion-safe:transition-colors";
+  const link = "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full px-2.5 font-medium text-muted hover:bg-mist hover:text-night motion-safe:transition-colors";
   return (
     <nav aria-label="Fil d’Ariane" className="-ml-2.5">
       <ol className="flex flex-wrap items-center gap-x-0.5 text-[14px]">
@@ -46,7 +47,7 @@ export function AgentHero({ agent, department }: { agent: Agent; department: Dep
 
       <div className="relative grid items-center gap-8 md:grid-cols-[auto_minmax(0,1fr)] md:gap-12">
         <div className="flex">
-          <span className="flex rounded-full bg-white p-2.5 sm:p-3" style={{ boxShadow: `0 0 0 1px ${tint(a, 20)}, 0 18px 40px -28px rgba(23,38,61,0.45)` }}>
+          <span aria-hidden className="flex rounded-full bg-white p-2.5 sm:p-3" style={{ boxShadow: `0 0 0 1px ${tint(a, 20)}, 0 18px 40px -28px rgba(23,38,61,0.45)` }}>
             <span className="flex md:hidden">
               <AgentAvatar agent={agent} size={140} animated />
             </span>
@@ -78,11 +79,15 @@ export function AgentHero({ agent, department }: { agent: Agent; department: Dep
             ))}
           </ul>
 
+          {/* Même libellé que sur le QG : la discussion est annoncée, verrouillée jusqu’à l’étape 2. */}
           <a
             href="#discussion"
-            className="mt-7 inline-flex min-h-11 items-center gap-2 rounded-full border border-powder bg-white px-5 text-[14px] font-semibold text-night hover:bg-mist motion-safe:transition-colors"
+            aria-label={`Discuter avec ${agent.name}, disponible à l’étape 2`}
+            className="mt-7 inline-flex min-h-11 flex-wrap items-center gap-2.5 rounded-full border border-line bg-white/85 px-5 text-[14px] font-semibold text-night hover:bg-white motion-safe:transition-colors"
           >
-            Aller à la discussion
+            <Lock size={15} className="text-muted" />
+            Discuter avec {agent.name}
+            <span className="shrink-0 rounded-full bg-mist px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">Étape 2</span>
           </a>
         </div>
       </div>

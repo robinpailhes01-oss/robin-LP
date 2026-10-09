@@ -29,6 +29,14 @@ export function ArrowDownIcon({ className = "size-4" }: IconProps) {
   );
 }
 
+export function ChevronDownIcon({ className = "size-4" }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
 export function LockIcon({ className = "size-4" }: IconProps) {
   return (
     <svg {...base} className={className}>

@@ -2,6 +2,7 @@
  * Accès au studio privé : un seul mot de passe (STUDIO_PASSWORD), un cookie de session signé.
  * Cookie = « expiration.signature » ; la signature HMAC-SHA256 dépend du mot de passe,
  * donc changer STUDIO_PASSWORD (ou STUDIO_SECRET) déconnecte toutes les sessions.
+ * Un mot de passe de moins de 16 caractères est refusé : ni connexion, ni nouvelle session, et les sessions existantes cessent de marcher.
  * Web Crypto uniquement : utilisable dans proxy.ts, les routes et les pages serveur.
  */
 
@@ -10,8 +11,18 @@ export const SESSION_DAYS = 30;
 
 const enc = new TextEncoder();
 
+/** Longueur minimale de STUDIO_PASSWORD : en dessous, le studio refuse toute connexion et toute session. */
+export const STUDIO_MIN_PASSWORD = 16;
+
+/** « absent » : pas de mot de passe ; « court » : moins de STUDIO_MIN_PASSWORD caractères ; « ok » : utilisable. */
+export function studioPasswordState(): "absent" | "court" | "ok" {
+  const pw = process.env.STUDIO_PASSWORD ?? "";
+  if (!pw) return "absent";
+  return pw.length >= STUDIO_MIN_PASSWORD ? "ok" : "court";
+}
+
 export function studioConfigured() {
-  return Boolean(process.env.STUDIO_PASSWORD);
+  return studioPasswordState() === "ok";
 }
 
 async function hmac(key: string, message: string) {
@@ -35,20 +46,21 @@ function secret() {
 
 export async function checkPassword(candidate: string) {
   const { pw, key } = secret();
-  if (!pw) return false;
+  if (!studioConfigured()) return false;
   const [a, b] = await Promise.all([hmac(key, `pw:${candidate}`), hmac(key, `pw:${pw}`)]);
   return safeEqual(a, b);
 }
 
 export async function createSession(now = Date.now()) {
   const { pw, key } = secret();
+  if (!studioConfigured()) throw new Error("Studio non configuré : STUDIO_PASSWORD absent ou trop court.");
   const exp = Math.floor(now / 1000) + SESSION_DAYS * 86400;
   return `${exp}.${await hmac(key, `session:${exp}:${pw}`)}`;
 }
 
 export async function verifySession(value: string | undefined, now = Date.now()) {
   const { pw, key } = secret();
-  if (!pw || !value) return false;
+  if (!studioConfigured() || !value) return false;
   const [expRaw, sig] = value.split(".");
   const exp = Number(expRaw);
   if (!Number.isInteger(exp) || !sig || exp * 1000 < now) return false;

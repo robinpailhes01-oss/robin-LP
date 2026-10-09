@@ -29,6 +29,14 @@ Les demandes du site arrivent sur `/api/contact` : `mini-audit` (coordonnées en
 
 Sans aucune destination, la demande est journalisée côté serveur. Si toutes les destinations configurées échouent, l’API répond 502 et le visiteur peut réessayer.
 
+## Studio privé (/studio)
+
+Le QG de l’agence : départements, agents présentés comme des personnages (Alma, Léo, Inès, Hugo, Nina), point du jour et demandes du site. Jamais indexé, protégé par un mot de passe.
+
+- `STUDIO_PASSWORD` : 16 caractères minimum (en dessous, le studio refuse toute connexion). `STUDIO_SECRET` est facultatif.
+- Contenu des agents : `lib/studio/agents.ts`. Données réelles : `lib/studio/data.ts` (table `leads` de Supabase, lue côté serveur).
+- Étape 1 : interface. La discussion avec les agents et leur entraînement persistant arrivent à l’étape 2 (clé Anthropic + tables Supabase).
+
 ## Périmètre actuel
 
 - Accueil : hero, besoins, exemple de fonctionnement, à propos, accompagnement, réalisations, FAQ, contact.

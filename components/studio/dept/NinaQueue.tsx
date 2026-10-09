@@ -3,13 +3,14 @@ import { AgentAvatar } from "@/components/studio/AgentAvatar";
 import { Panel, PanelTitle, shortDate } from "@/components/studio/ui";
 import type { Agent } from "@/lib/studio/agents";
 import type { LeadRow, StudioStats } from "@/lib/studio/data";
-import { tint } from "@/components/studio/agent/format";
+import { de, tint } from "@/components/studio/agent/format";
 
 /**
  * « La file de Nina » : les dernières demandes du site, lues dans Supabase côté serveur.
  * On n’affiche que le type, l’entreprise (ou le prénom), l’échéance et la date : ni email, ni téléphone.
  */
 
+/** Libellés des types connus. `kind` vient du formulaire public : lu uniquement via Object.hasOwn, jamais affiché brut. */
 const KIND: Record<string, string> = {
   "mini-audit": "Mini-audit",
   rappel: "Rappel demandé",
@@ -43,7 +44,7 @@ function Row({ lead, accent }: { lead: LeadRow; accent: string }) {
           className={`inline-flex items-center rounded-full px-2.5 py-1 text-[12px] font-semibold ${callback ? "text-night" : "bg-mist text-ink"}`}
           style={callback ? { background: tint(accent, 14) } : undefined}
         >
-          {KIND[lead.kind] ?? lead.kind}
+          {Object.hasOwn(KIND, lead.kind) ? KIND[lead.kind] : "Autre demande"}
         </span>
         {urgent ? (
           <span className="inline-flex items-center gap-1.5 rounded-full bg-night px-2.5 py-1 text-[12px] font-semibold text-white">
@@ -69,14 +70,14 @@ export function NinaQueue({ stats, owner, accent }: { stats: StudioStats; owner?
     <Panel>
       <PanelTitle
         kicker="Demandes du site · 7 derniers jours"
-        title={`La file de ${name}`}
+        title={`La file ${de(name)}`}
         action={
           owner ? (
             <Link href={`/studio/agents/${owner.id}`} className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-line py-1 pl-1 pr-4 text-[14px] font-semibold text-night hover:bg-mist motion-safe:transition-colors">
               <span aria-hidden className="flex">
                 <AgentAvatar agent={owner} size={34} />
               </span>
-              Fiche de {name}
+              Fiche {de(name)}
             </Link>
           ) : null
         }

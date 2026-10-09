@@ -185,7 +185,7 @@ function OrderFormVisual({ size }: { size: Size }) {
             <motion.div {...step(3.2)} className="rounded-xl border border-line px-2.5 py-1.5">
               <span className="block text-[9px] font-semibold uppercase tracking-[0.08em] text-muted">Signature du client</span>
               <svg width="120" height="30" viewBox="0 0 120 30" fill="none" className="text-night">
-                <path d="M4 22c8-14 14-16 16-8s-6 10 2 4 10-14 14-6 2 10 10 2 8-8 12-2 10 2 16-4 12 0 18 2 22-2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                <path d="M4 22c8-14 14-16 16-8s-6 10 2 4 10-14 14-6 2 10 10 2 8-8 12-2 10 2 16-4 12 0 18 2 22-2 26 0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
               </svg>
             </motion.div>
           </div>

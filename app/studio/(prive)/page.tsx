@@ -10,7 +10,10 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { title: "QG" };
 
-/** Le QG du studio : le point d’Alma, les indicateurs réels, le plan de l’agence et les demandes entrantes. */
+/**
+ * Le QG du studio, dans cet ordre : l’en-tête, la priorité du jour, le plan de l’agence (le cœur de la page,
+ * placé le plus haut possible), puis un bloc « activité » : les indicateurs réels et les demandes entrantes.
+ */
 export default async function StudioHome() {
   const now = Date.now();
   const stats = await getStudioStats(now);
@@ -18,14 +21,16 @@ export default async function StudioHome() {
   return (
     <>
       <HqHeader now={now} />
-      <div className="mt-8 space-y-4 sm:mt-10">
+      <div className="mt-8">
         <AlmaBrief stats={stats} />
-        <HqKpis stats={stats} />
-      </div>
-      <div className="mt-14 sm:mt-16">
-        <AgencyFloor />
       </div>
       <div className="mt-12 sm:mt-14">
+        <AgencyFloor />
+      </div>
+      <div className="mt-12">
+        <HqKpis stats={stats} />
+      </div>
+      <div className="mt-4">
         <IncomingLeads stats={stats} now={now} />
       </div>
     </>

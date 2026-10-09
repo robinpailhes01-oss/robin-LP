@@ -22,6 +22,14 @@ export function tint(accent: string, percent: number) {
   return `color-mix(in srgb, ${accent} ${percent}%, white)`;
 }
 
+/**
+ * « de Léo », « d’Inès », « d’Alma » : élision devant une voyelle.
+ * Pas d’élision devant « h » (h aspiré possible) : « de Hugo » reste correct.
+ */
+export function de(name: string) {
+  return /^[aeiouyàâäéèêëîïôöùûüœ]/i.test(name) ? `d’${name}` : `de ${name}`;
+}
+
 /** « Léo, Inès, Hugo et Nina ». */
 export function listFr(items: string[]) {
   if (items.length <= 1) return items.join("");

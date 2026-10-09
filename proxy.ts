@@ -1,10 +1,13 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { STUDIO_COOKIE, verifySession } from "@/lib/studio/auth";
 
-/** Studio privé : toute page /studio (sauf la connexion) et toute route /api/studio (sauf login) exige la session. */
+/**
+ * Studio privé : toute page /studio (sauf la connexion) et toute route /api/studio (sauf login et logout) exige la session.
+ * La déconnexion reste accessible sans session valide : elle efface un cookie périmé et renvoie vers la connexion.
+ */
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (pathname === "/studio/connexion" || pathname === "/api/studio/login") return NextResponse.next();
+  if (pathname === "/studio/connexion" || pathname === "/api/studio/login" || pathname === "/api/studio/logout") return NextResponse.next();
   if (await verifySession(req.cookies.get(STUDIO_COOKIE)?.value)) return NextResponse.next();
   if (pathname.startsWith("/api/")) return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   const url = req.nextUrl.clone();

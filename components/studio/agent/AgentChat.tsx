@@ -10,7 +10,7 @@ import { Lock, Send } from "./icons";
 export function AgentChat({ agent }: { agent: Agent }) {
   const noteId = `discussion-note-${agent.id}`;
   return (
-    <section id="discussion" aria-labelledby="discussion-titre" className="scroll-mt-24 overflow-hidden rounded-[24px] border border-line bg-white">
+    <section id="discussion" aria-labelledby="discussion-titre" className="scroll-mt-32 overflow-hidden sm:scroll-mt-24 rounded-[24px] border border-line bg-white">
       <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-4 sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
           <span aria-hidden className="flex">

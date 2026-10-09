@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { AgentAvatar } from "@/components/studio/AgentAvatar";
 import { Panel, PanelTitle } from "@/components/studio/ui";
 import { agents, agentsOf, departments, type Agent, type Department } from "@/lib/studio/agents";
-import { listFr, plural, tint, typo } from "@/components/studio/agent/format";
+import { de, listFr, plural, tint, typo } from "@/components/studio/agent/format";
 import { ArrowRight, Calendar, Chevron, Clock, Globe, Phone } from "@/components/studio/agent/icons";
 
 /**
@@ -24,7 +24,7 @@ function AgentNode({ agent, accent }: { agent: Agent; accent: string }) {
   return (
     <Link
       href={`/studio/agents/${agent.id}`}
-      aria-label={`Fiche de ${agent.name}`}
+      aria-label={`Fiche ${de(agent.name)}`}
       className="flex rounded-full motion-safe:transition-transform motion-safe:duration-200 hover:-translate-y-0.5"
       style={{ boxShadow: `0 0 0 4px #fff, 0 0 0 5px ${tint(accent, 40)}` }}
     >
@@ -140,7 +140,7 @@ export function DirectionFlow({ department, manager }: { department: Department;
       <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] lg:gap-12">
         <div>
           <p className="t-kicker">Rituels</p>
-          <h3 className="mt-1 font-display text-[18px] font-bold tracking-[-0.015em] text-night">Les rendez-vous de {manager.name}</h3>
+          <h3 className="mt-1 font-display text-[18px] font-bold tracking-[-0.015em] text-night">Les rendez-vous {de(manager.name)}</h3>
           <ol className="mt-6 grid gap-3">
             {rituals.map((r) => (
               <li key={r.key} className="flex gap-4 rounded-[20px] border border-line p-4 sm:p-5">
@@ -167,7 +167,7 @@ export function DirectionFlow({ department, manager }: { department: Department;
           <div className="mt-6 flex items-center gap-3">
             <Link
               href={`/studio/agents/${manager.id}`}
-              aria-label={`Fiche de ${manager.name}`}
+              aria-label={`Fiche ${de(manager.name)}`}
               className="flex rounded-full"
               style={{ boxShadow: `0 0 0 4px #fff, 0 0 0 5px ${tint(a, 30)}` }}
             >
@@ -184,7 +184,7 @@ export function DirectionFlow({ department, manager }: { department: Department;
               const last = i === others.length - 1;
               const sub = d.open
                 ? team.length > 0
-                  ? `Lit les résultats de ${listFr(team.map((t) => t.name))} et fixe la priorité.`
+                  ? `Lit les résultats ${de(listFr(team.map((t) => t.name)))} et fixe la priorité.`
                   : "Ouvert, sans agent pour l’instant."
                 : `Pas encore ouvert · ${plural(d.plannedRoles?.length ?? 0, "poste prévu", "postes prévus")}`;
               return (

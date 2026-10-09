@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AgentAvatar, PlannedAvatar } from "@/components/studio/AgentAvatar";
 import { DeptBadge } from "@/components/studio/ui";
 import { statusLabel, type Agent, type Department } from "@/lib/studio/agents";
-import { plural, typo } from "@/components/studio/agent/format";
+import { de, plural, typo } from "@/components/studio/agent/format";
 
 /** En-tête d’une page département : retour au QG, badge, titre, description et l’équipe en rangée. */
 export function DeptHeader({ department, team }: { department: Department; team: Agent[] }) {
@@ -40,7 +40,7 @@ export function DeptHeader({ department, team }: { department: Department; team:
                 <li key={a.id} className="relative flex rounded-full ring-4 ring-paper hover:z-10">
                   <Link
                     href={`/studio/agents/${a.id}`}
-                    aria-label={`Fiche de ${a.name}`}
+                    aria-label={`Fiche ${de(a.name)}`}
                     className="flex rounded-full motion-safe:transition-transform motion-safe:duration-200 hover:-translate-y-0.5"
                   >
                     <AgentAvatar agent={a} size={52} />

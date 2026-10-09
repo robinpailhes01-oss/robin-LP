@@ -21,7 +21,7 @@ export function AgentColleagues({ agent }: { agent: Agent }) {
     <section className="rounded-[24px] border border-line bg-white p-5 sm:p-6">
       <PanelTitle kicker="Équipe" title="Travaille avec" />
       {isManager && <p className="mt-1 text-[14px] text-muted">Coordonne toute l’équipe, département par département.</p>}
-      <ul className="mt-4 grid gap-1">
+      <ul className="mt-4 grid grid-cols-1 gap-1 *:min-w-0">
         {people.map(({ agent: p, note }) => (
           <li key={p.id}>
             <Link
@@ -33,8 +33,9 @@ export function AgentColleagues({ agent }: { agent: Agent }) {
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[15px] font-semibold text-night">{p.name}</span>
-                <span className="block truncate text-[13px] text-muted">
-                  {p.role} · {note}
+                {/* Deux blocs en ligne : à l’étroit, le retour se fait au séparateur, sans couper ni tronquer. */}
+                <span className="block text-[13px] leading-[1.4] text-muted">
+                  <span className="inline-block">{p.role}&nbsp;·</span> <span className="inline-block">{note}</span>
                 </span>
               </span>
               <ArrowRight size={16} className="text-muted motion-safe:transition-transform group-hover:translate-x-0.5" />

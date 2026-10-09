@@ -63,9 +63,10 @@ export default async function DepartmentPage({ params }: { params: Promise<Param
             <h2 id="equipe-titre" className="mt-1 font-display text-[24px] font-bold tracking-[-0.02em] text-night">
               L’équipe
             </h2>
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {/* Agent seul (Direction) : une carte large plutôt qu’une demi-grille vide. */}
+            <div className={team.length === 1 ? "mt-5" : "mt-5 grid gap-4 sm:grid-cols-2"}>
               {team.map((a) => (
-                <AgentCard key={a.id} agent={a} department={department} stats={stats} />
+                <AgentCard key={a.id} agent={a} department={department} stats={stats} wide={team.length === 1} />
               ))}
             </div>
           </section>
