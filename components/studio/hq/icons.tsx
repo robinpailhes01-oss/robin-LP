@@ -21,6 +21,14 @@ export function ArrowRightIcon({ className = "size-4" }: IconProps) {
   );
 }
 
+export function ArrowUpRightIcon({ className = "size-4" }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M7 17 17 7M9 7h8v8" />
+    </svg>
+  );
+}
+
 export function ArrowDownIcon({ className = "size-4" }: IconProps) {
   return (
     <svg {...base} className={className}>
@@ -77,6 +85,67 @@ export function AlertIcon({ className = "size-5" }: IconProps) {
     <svg {...base} className={className}>
       <path d="M12 4 21 19.5H3L12 4Z" />
       <path d="M12 10v4M12 17h.01" />
+    </svg>
+  );
+}
+
+export function PlugIcon({ className = "size-5" }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M9 3v4M15 3v4M7 7h10v3.5a5 5 0 0 1-10 0V7ZM12 15.5V21" />
+    </svg>
+  );
+}
+
+export function GlobeIcon({ className = "size-4" }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5S9.6 5.9 12 3.5Z" />
+    </svg>
+  );
+}
+
+export function PhoneIcon({ className = "size-4" }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M6.6 4h2.6l1.4 4-2 1.3a10.5 10.5 0 0 0 6.1 6.1l1.3-2 4 1.4v2.6A1.6 1.6 0 0 1 18.4 19 14.4 14.4 0 0 1 5 5.6 1.6 1.6 0 0 1 6.6 4Z" />
+    </svg>
+  );
+}
+
+export function CalendarIcon({ className = "size-4" }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <rect x="4" y="5.5" width="16" height="14.5" rx="2.5" />
+      <path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" />
+    </svg>
+  );
+}
+
+export function ClockIcon({ className = "size-4" }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </svg>
+  );
+}
+
+export function TargetIcon({ className = "size-4" }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="4.5" />
+      <path d="M12 12h.01" strokeWidth={2.6} />
+    </svg>
+  );
+}
+
+export function ChevronRightIcon({ className = "size-4" }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="m9 6 6 6-6 6" />
     </svg>
   );
 }

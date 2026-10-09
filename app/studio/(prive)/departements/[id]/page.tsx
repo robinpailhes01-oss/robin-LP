@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { AgentCard } from "@/components/studio/dept/AgentCard";
 import { ClosedDept } from "@/components/studio/dept/ClosedDept";
 import { DeptHeader } from "@/components/studio/dept/DeptHeader";
 import { NinaQueue } from "@/components/studio/dept/NinaQueue";
+import { TeamSection } from "@/components/studio/dept/TeamSection";
 import { DirectionFlow, GenericFlow, ProspectionFlow } from "@/components/studio/dept/TeamFlow";
-import { plural } from "@/components/studio/agent/format";
+import { deptGlow } from "@/components/studio/fx/tokens";
 import { agents, agentsOf, departments, manager } from "@/lib/studio/agents";
 import { getStudioStats } from "@/lib/studio/data";
 
-/** Page d’un département : son organisation, son équipe et, pour la prospection, la file des demandes. */
+/**
+ * Page d’un département : en-tête lumineux (l’équipe en bustes), son équipe en cartes personnages juste dessous,
+ * puis son organisation en schémas de flux et, pour la prospection, la file des demandes du site.
+ * Département fermé : une pièce sobre avec les postes prévus.
+ */
 
 export const dynamic = "force-dynamic";
 
@@ -48,7 +52,10 @@ export default async function DepartmentPage({ params }: { params: Promise<Param
     <>
       <DeptHeader department={department} team={team} />
 
-      <div className="mt-10 grid gap-10">
+      {/* Les personnages d’abord, juste sous l’en-tête ; puis l’organisation, puis la file des demandes. */}
+      <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-20 sm:mt-16 sm:gap-28">
+        <TeamSection department={department} team={team} stats={stats} />
+
         {department.id === "prospection" ? (
           <ProspectionFlow department={department} />
         ) : department.id === "direction" ? (
@@ -57,22 +64,7 @@ export default async function DepartmentPage({ params }: { params: Promise<Param
           <GenericFlow department={department} team={team} />
         )}
 
-        {team.length > 0 && (
-          <section aria-labelledby="equipe-titre">
-            <p className="t-kicker">{plural(team.length, "agent", "agents")}</p>
-            <h2 id="equipe-titre" className="mt-1 font-display text-[24px] font-bold tracking-[-0.02em] text-night">
-              L’équipe
-            </h2>
-            {/* Agent seul (Direction) : une carte large plutôt qu’une demi-grille vide. */}
-            <div className={team.length === 1 ? "mt-5" : "mt-5 grid gap-4 sm:grid-cols-2"}>
-              {team.map((a) => (
-                <AgentCard key={a.id} agent={a} department={department} stats={stats} wide={team.length === 1} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {department.id === "prospection" && <NinaQueue stats={stats} owner={nina} accent={department.accent} />}
+        {nina && <NinaQueue stats={stats} owner={nina} accent={deptGlow(department.id)} />}
       </div>
     </>
   );

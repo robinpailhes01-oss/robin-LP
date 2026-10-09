@@ -1,0 +1,1526 @@
+/*
+ * Studio Luma : thème sombre « centre de commande ».
+ * Importé seulement par app/studio/layout.tsx. Chaque sélecteur porte la classe .studio (posée sur le conteneur
+ * racine du studio) : rien ne peut s’appliquer au site public, même si cette feuille reste chargée après une navigation.
+ * Les noms d’animation sont préfixés « studio- » pour ne croiser aucune animation de globals.css.
+ *
+ * Règles de mouvement :
+ *  - seuls transform et opacity sont animés en boucle (le flou de la transition de page ne dure qu’une fois 0,55 s, desktop) ;
+ *  - l’état sans animation est toujours l’état final : couper les animations ne cache jamais rien ;
+ *  - prefers-reduced-motion: reduce coupe tout (fin de fichier) ; les survols qui bougent sont réservés aux pointeurs fins ;
+ *  - budget de mouvement ambiant par écran : l’aurore, une bordure conique, un seul grand portrait qui flotte,
+ *    un seul point qui pulse (le point « vivant »), au plus un anneau d’orbite, et les comètes des schémas de flux
+ *    (à l’écran seulement). Les petits avatars, les points « À entraîner » et les cartes personnages restent immobiles :
+ *    la richesse se gagne au survol (parallaxe), pas en boucle ;
+ *  - mouvement signature (une fois, à l’entrée) : grands titres mot à mot (6 bis), bustes qui montent de sous leur ligne (12 bis),
+ *    cartes personnages dont le portrait se pose puis reçoit un seul balayage de lumière (12 ter, 14 bis).
+ *
+ * Contrastes sur le fond #060B16 : --s-ink 18:1, --s-text 9:1, --s-muted 6:1 (AA petit texte), --s-faint 3:1 (décor seulement).
+ */
+
+/*
+ * Ordre des couches identique à celui de Tailwind (globals.css) : les classes du studio vivent dans « components »,
+ * donc une classe utilitaire Tailwind posée sur le même élément (bg-…, p-…, absolute…) l’emporte toujours.
+ * Restent hors couche, pour battre les règles globales du site : sélection, contour de focus, compatibilité .t-*,
+ * et la coupure des animations en mouvement réduit.
+ */
+@layer theme, base, components, utilities;
+
+.studio ::selection {
+  background: rgb(76 141 255 / 0.38);
+  color: #ffffff;
+}
+
+/* Le contour de focus global est bleu nuit : invisible ici. Bleu poudré, bien détaché du fond. */
+.studio :focus-visible {
+  outline: 2px solid var(--s-focus);
+  outline-offset: 3px;
+}
+
+/* Compatibilité : classes typographiques du site (globals.css) réutilisées par d’anciens composants. */
+.studio .t-display,
+.studio .t-h1,
+.studio .t-h2,
+.studio .t-h3 {
+  color: var(--s-ink);
+}
+.studio .t-lead,
+.studio .t-body {
+  color: var(--s-text);
+}
+.studio .t-kicker {
+  color: var(--s-muted);
+}
+
+/* Lien qui couvre une carte : contour de focus à l’intérieur des coins arrondis. */
+.studio .studio-character-hit:focus-visible {
+  outline: 2px solid var(--s-focus);
+  outline-offset: -3px;
+}
+
+@layer components {
+
+/* ------------------------------------------------------------------
+   1. Jetons et conteneur racine
+   ------------------------------------------------------------------ */
+
+.studio {
+  --s-bg: #060b16;
+  --s-bg-2: #0a1324;
+  --s-ink: #f4f7fb;
+  --s-text: rgb(226 234 245 / 0.74);
+  --s-muted: rgb(226 234 245 / 0.62);
+  --s-faint: rgb(226 234 245 / 0.38);
+  --s-line: rgb(255 255 255 / 0.09);
+  --s-line-strong: rgb(255 255 255 / 0.15);
+  /* Verre teinté bleu poudré (jamais blanc pur : sans halo derrière, le blanc 4 % vire au gris neutre). */
+  --s-glass: rgb(202 223 237 / 0.045);
+  /* « raised » à peine plus dense que le verre courant : plus haut, il paraissait gris à côté de ses voisins. */
+  --s-glass-strong: rgb(202 223 237 / 0.05);
+  --s-glass-sheen: rgb(202 223 237 / 0.06);
+  --s-raised: rgb(11 19 36 / 0.86);
+  --s-prospection: #4c8dff;
+  --s-direction: #9cc3ff;
+  --s-powder: #cadfed;
+  --s-ok: #5ee0a0;
+  --s-warn: #f5c27a;
+  --s-danger: #ff8f8f;
+  --s-focus: #cadfed;
+  --s-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --s-ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  /*
+   * Échelle de rayons concentriques (rayon intérieur ≈ rayon extérieur − marge) :
+   * grande scène 32 → pièce / panneau 28 → carte dans une pièce 20 → encadré 14 → puces pleines.
+   */
+  --s-radius-xl: 32px;
+  --s-radius-lg: 28px;
+  --s-radius: 20px;
+  --s-radius-sm: 14px;
+  --s-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 24px 60px -32px rgb(0 0 0 / 0.75);
+
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  background: var(--s-bg);
+  color: var(--s-text);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ------------------------------------------------------------------
+   2. Typographie
+   ------------------------------------------------------------------ */
+
+.studio .studio-display,
+.studio .studio-h1,
+.studio .studio-h2,
+.studio .studio-h3 {
+  font-family: var(--font-display);
+  color: var(--s-ink);
+  hyphens: manual;
+  overflow-wrap: normal;
+  text-wrap: balance;
+}
+.studio .studio-display {
+  font-size: clamp(3rem, 1.5rem + 6.4vw, 6.75rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-weight: 800;
+}
+.studio .studio-h1 {
+  font-size: clamp(2.25rem, 1.35rem + 3.8vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  font-weight: 800;
+}
+.studio .studio-h2 {
+  font-size: clamp(1.625rem, 1.2rem + 1.9vw, 2.625rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+}
+.studio .studio-h3 {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+.studio .studio-kicker {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--s-muted);
+}
+.studio .studio-lead {
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--s-text);
+  text-wrap: pretty;
+}
+.studio .studio-body {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--s-text);
+  text-wrap: pretty;
+}
+.studio .studio-ink { color: var(--s-ink); }
+.studio .studio-text { color: var(--s-text); }
+.studio .studio-muted { color: var(--s-muted); }
+.studio .studio-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+/*
+ * Valeur absente (« — », CountUp sans valeur) : trait fin et discret, jamais un pavé gris qu’on prendrait
+ * pour un squelette de chargement. Inter (variable, graisse 300 disponible), sans interlettrage négatif, 70 % de la taille.
+ */
+.studio .studio-null {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 0.7em;
+  letter-spacing: 0;
+  color: rgb(255 255 255 / 0.3);
+}
+/* Titre en dégradé blanc → poudré (un seul par écran, sur le titre principal). */
+.studio .studio-gradient-text {
+  background: linear-gradient(180deg, #ffffff 20%, #cadfed 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ------------------------------------------------------------------
+   3. Surfaces de verre
+   ------------------------------------------------------------------ */
+
+/* Sous chaque surface, un dégradé radial très faible de bleu glacier : le verre reste froid même sans halo derrière. */
+.studio .studio-glass {
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--s-glass-sheen), rgb(202 223 237 / 0) 42%),
+    radial-gradient(120% 90% at 12% 0%, rgb(156 195 255 / 0.07), rgb(156 195 255 / 0) 60%),
+    var(--s-glass);
+  border: 1px solid var(--s-line);
+  box-shadow: var(--s-shadow);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+.studio .studio-glass--raised {
+  background:
+    linear-gradient(180deg, rgb(202 223 237 / 0.05), rgb(202 223 237 / 0) 45%),
+    radial-gradient(120% 90% at 12% 0%, rgb(156 195 255 / 0.09), rgb(156 195 255 / 0) 62%),
+    var(--s-glass-strong);
+  border-color: rgb(255 255 255 / 0.12);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.07) inset,
+    0 30px 80px -36px rgb(0 0 0 / 0.85),
+    0 0 0 1px rgb(255 255 255 / 0.02);
+}
+.studio .studio-glass--subtle {
+  background: rgb(202 223 237 / 0.03);
+  border-color: rgb(255 255 255 / 0.065);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.studio .studio-glass--solid {
+  background:
+    linear-gradient(180deg, rgb(202 223 237 / 0.06), rgb(202 223 237 / 0) 40%),
+    radial-gradient(120% 90% at 12% 0%, rgb(156 195 255 / 0.06), rgb(156 195 255 / 0) 60%),
+    var(--s-raised);
+}
+/* Pointillés : ce qui n’existe pas encore (département fermé, poste prévu) ou n’est pas branché (indicateur éteint). */
+.studio .studio-glass--dashed {
+  background: rgb(202 223 237 / 0.018);
+  border: 1.5px dashed rgb(202 223 237 / 0.22);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* Lueur colorée sous la carte (couleur du département dans --glow). */
+.studio .studio-glass--glow {
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.06) inset,
+    0 30px 80px -40px color-mix(in srgb, var(--glow, #4c8dff) 55%, transparent),
+    0 24px 60px -32px rgb(0 0 0 / 0.7);
+}
+
+/* Survol : légère montée, seulement avec une souris et sans préférence de mouvement réduit. */
+.studio .studio-lift {
+  transition:
+    transform 0.45s var(--s-ease),
+    border-color 0.3s var(--s-ease),
+    background-color 0.3s var(--s-ease),
+    box-shadow 0.45s var(--s-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .studio .studio-lift:hover {
+    border-color: rgb(255 255 255 / 0.16);
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .studio .studio-lift:hover {
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+/* Petit texte de verre : pastilles, puces. */
+.studio .studio-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--s-line);
+  background: rgb(255 255 255 / 0.05);
+  padding: 0.25rem 0.7rem;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--s-text);
+}
+
+/* Trame de points (sols, panneaux) et halo coloré (couleur dans --halo). */
+.studio .studio-dots {
+  background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1.4px);
+  background-size: 18px 18px;
+}
+.studio .studio-halo {
+  pointer-events: none;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--halo, #4c8dff) 42%, transparent), transparent);
+}
+
+/* Filet lumineux horizontal (séparateurs). */
+.studio .studio-rule {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.14) 20%, rgb(255 255 255 / 0.14) 80%, transparent);
+}
+
+/* ------------------------------------------------------------------
+   4. Boutons
+   ------------------------------------------------------------------ */
+
+.studio .studio-btn {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition:
+    background-color 0.25s var(--s-ease),
+    border-color 0.25s var(--s-ease),
+    color 0.25s var(--s-ease),
+    box-shadow 0.35s var(--s-ease),
+    transform 0.35s var(--s-ease);
+}
+.studio .studio-btn--primary {
+  background: #f4f7fb;
+  color: #0a1324;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.4) inset, 0 10px 30px -12px rgb(156 195 255 / 0.55);
+}
+.studio .studio-btn--ghost {
+  border: 1px solid var(--s-line-strong);
+  background: rgb(255 255 255 / 0.04);
+  color: var(--s-ink);
+}
+.studio .studio-btn--quiet {
+  color: var(--s-text);
+}
+@media (hover: hover) and (pointer: fine) {
+  .studio .studio-btn--primary:hover {
+    background: #ffffff;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.6) inset, 0 14px 40px -12px rgb(156 195 255 / 0.75);
+  }
+  .studio .studio-btn--ghost:hover {
+    border-color: rgb(255 255 255 / 0.26);
+    background: rgb(255 255 255 / 0.08);
+  }
+  .studio .studio-btn--quiet:hover {
+    background: rgb(255 255 255 / 0.06);
+    color: var(--s-ink);
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .studio .studio-btn--primary:hover {
+    transform: translate3d(0, -1px, 0);
+  }
+}
+
+/* Champ de formulaire sombre. */
+.studio .studio-input {
+  height: 3rem;
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  background: rgb(255 255 255 / 0.045);
+  padding: 0 1rem;
+  font-size: 1rem;
+  color: var(--s-ink);
+  transition: border-color 0.2s var(--s-ease), background-color 0.2s var(--s-ease), box-shadow 0.2s var(--s-ease);
+}
+/* Focus : le contour bleu poudré commun du studio (hors couche), plus une bordure qui s’éclaire. */
+.studio .studio-input:focus {
+  border-color: rgb(202 223 237 / 0.7);
+  background: rgb(255 255 255 / 0.07);
+}
+.studio .studio-input[aria-invalid="true"] {
+  border-color: rgb(255 143 143 / 0.7);
+}
+/* Remplissage automatique (gestionnaire de mots de passe) : garder le champ sombre et le texte clair. */
+.studio .studio-input:-webkit-autofill,
+.studio .studio-input:-webkit-autofill:hover,
+.studio .studio-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f4f7fb;
+  caret-color: #f4f7fb;
+  box-shadow: 0 0 0 1000px #111a2c inset;
+  transition: background-color 9999s ease-out 0s;
+}
+
+/* ------------------------------------------------------------------
+   5. Fond d’aurore (components/studio/fx/Aurora.tsx)
+   ------------------------------------------------------------------ */
+
+.studio .studio-aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 70% at 50% -10%, #0c1830 0%, rgb(10 19 36 / 0) 60%),
+    linear-gradient(180deg, var(--s-bg-2) 0%, var(--s-bg) 55%);
+}
+.studio .studio-aurora-blob {
+  position: absolute;
+  width: 62vmax;
+  height: 62vmax;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, var(--blob), transparent 72%);
+  opacity: var(--blob-o, 1);
+}
+.studio .studio-aurora-blob--a {
+  --blob: rgb(76 141 255 / 0.2);
+  left: -18vmax;
+  top: -24vmax;
+}
+.studio .studio-aurora-blob--b {
+  --blob: rgb(156 195 255 / 0.13);
+  right: -22vmax;
+  top: -10vmax;
+}
+.studio .studio-aurora-blob--c {
+  --blob: rgb(202 223 237 / 0.07);
+  left: 18vmax;
+  bottom: -38vmax;
+}
+.studio .studio-aurora-blob--d {
+  --blob: rgb(64 92 210 / 0.12);
+  left: 30%;
+  top: 20%;
+  width: 46vmax;
+  height: 46vmax;
+}
+/* Variante « focus » (connexion) : la lumière se resserre au centre. */
+.studio .studio-aurora[data-variant="focus"] .studio-aurora-blob--a { left: -8vmax; top: -20vmax; }
+.studio .studio-aurora[data-variant="focus"] .studio-aurora-blob--b { right: -12vmax; top: 6vmax; }
+.studio .studio-aurora[data-variant="focus"] .studio-aurora-blob--d { left: 22%; top: 8%; --blob: rgb(76 141 255 / 0.16); }
+
+.studio .studio-aurora-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.032) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center top;
+  -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 0%, #000 15%, transparent 72%);
+  mask-image: radial-gradient(ellipse 85% 65% at 50% 0%, #000 15%, transparent 72%);
+}
+.studio .studio-aurora-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+.studio .studio-aurora-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(130% 100% at 50% 30%, transparent 55%, rgb(3 6 13 / 0.55) 100%);
+}
+
+@keyframes studio-drift-a {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(9vmax, 6vmax, 0) scale(1.08); }
+  100% { transform: translate3d(3vmax, 12vmax, 0) scale(0.96); }
+}
+@keyframes studio-drift-b {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-10vmax, 8vmax, 0) scale(1.1); }
+  100% { transform: translate3d(-4vmax, -3vmax, 0) scale(0.95); }
+}
+@keyframes studio-drift-c {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-12vmax, -8vmax, 0) scale(1.12); }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+  .studio .studio-aurora-blob { will-change: transform; }
+  .studio .studio-aurora-blob--a { animation: studio-drift-a 46s var(--s-ease-io) infinite alternate; }
+  .studio .studio-aurora-blob--b { animation: studio-drift-b 58s var(--s-ease-io) infinite alternate; }
+  .studio .studio-aurora-blob--c { animation: studio-drift-c 64s var(--s-ease-io) infinite alternate; }
+  .studio .studio-aurora-blob--d { animation: studio-drift-b 72s var(--s-ease-io) -20s infinite alternate-reverse; }
+}
+/* Mobile : deux halos immobiles, pas de quatrième couche. Le verre reste fluide au défilement. */
+@media (max-width: 767px) {
+  .studio .studio-aurora-blob--d { display: none; }
+  .studio .studio-aurora-grid { background-size: 44px 44px; opacity: 0.8; }
+}
+
+/* ------------------------------------------------------------------
+   6. Entrées (FadeIn, Stagger) et transition de page (template.tsx)
+   ------------------------------------------------------------------ */
+
+@keyframes studio-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--rise-y, 14px), 0);
+  }
+}
+@keyframes studio-fade {
+  from { opacity: 0; }
+}
+/* Filet de sécurité : si le JavaScript ne démarre jamais, le contenu en attente apparaît quand même. */
+@keyframes studio-unhide {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes studio-page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+    filter: blur(8px);
+  }
+}
+@keyframes studio-page-in-lite {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Transition de page : « backwards », pour qu’aucun transform ni filtre ne reste une fois l’entrée finie. */
+  .studio .studio-page { animation: studio-page-in-lite 0.45s var(--s-ease) backwards; }
+
+  /* À l’affichage (sans JavaScript) */
+  .studio .studio-rise {
+    animation: studio-rise var(--rise-dur, 0.7s) var(--s-ease) backwards;
+    animation-delay: var(--rise-delay, 0s);
+  }
+  .studio .studio-stagger > * {
+    animation: studio-rise var(--rise-dur, 0.7s) var(--s-ease) backwards;
+    animation-delay: calc(var(--rise-delay, 0s) + var(--i, 0) * var(--rise-step, 70ms));
+  }
+
+  /* À l’entrée dans l’écran : data-inview = pending (rendu serveur) → armed (JS prêt) → in (visible) | shown (sans animation) */
+  .studio .studio-rise-iv[data-inview="pending"],
+  .studio .studio-rise-iv[data-inview="armed"],
+  .studio .studio-stagger-iv[data-inview="pending"] > *,
+  .studio .studio-stagger-iv[data-inview="armed"] > * {
+    opacity: 0;
+    transform: translate3d(0, var(--rise-y, 14px), 0);
+  }
+  .studio .studio-rise-iv[data-inview="pending"],
+  .studio .studio-stagger-iv[data-inview="pending"] > * {
+    animation: studio-unhide 0.01s linear 1.8s forwards;
+  }
+  .studio .studio-rise-iv[data-inview="in"] {
+    animation: studio-rise var(--rise-dur, 0.7s) var(--s-ease) backwards;
+    animation-delay: var(--rise-delay, 0s);
+  }
+  .studio .studio-stagger-iv[data-inview="in"] > * {
+    animation: studio-rise var(--rise-dur, 0.7s) var(--s-ease) backwards;
+    animation-delay: calc(var(--rise-delay, 0s) + var(--i, 0) * var(--rise-step, 70ms));
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+  .studio .studio-page { animation: studio-page-in 0.55s var(--s-ease) backwards; }
+}
+
+/* Rang de chaque enfant d’une cascade (au-delà de 20, même délai que le 20e). */
+.studio .studio-stagger > :nth-child(2), .studio .studio-stagger-iv > :nth-child(2) { --i: 1; }
+.studio .studio-stagger > :nth-child(3), .studio .studio-stagger-iv > :nth-child(3) { --i: 2; }
+.studio .studio-stagger > :nth-child(4), .studio .studio-stagger-iv > :nth-child(4) { --i: 3; }
+.studio .studio-stagger > :nth-child(5), .studio .studio-stagger-iv > :nth-child(5) { --i: 4; }
+.studio .studio-stagger > :nth-child(6), .studio .studio-stagger-iv > :nth-child(6) { --i: 5; }
+.studio .studio-stagger > :nth-child(7), .studio .studio-stagger-iv > :nth-child(7) { --i: 6; }
+.studio .studio-stagger > :nth-child(8), .studio .studio-stagger-iv > :nth-child(8) { --i: 7; }
+.studio .studio-stagger > :nth-child(9), .studio .studio-stagger-iv > :nth-child(9) { --i: 8; }
+.studio .studio-stagger > :nth-child(10), .studio .studio-stagger-iv > :nth-child(10) { --i: 9; }
+.studio .studio-stagger > :nth-child(11), .studio .studio-stagger-iv > :nth-child(11) { --i: 10; }
+.studio .studio-stagger > :nth-child(12), .studio .studio-stagger-iv > :nth-child(12) { --i: 11; }
+.studio .studio-stagger > :nth-child(13), .studio .studio-stagger-iv > :nth-child(13) { --i: 12; }
+.studio .studio-stagger > :nth-child(14), .studio .studio-stagger-iv > :nth-child(14) { --i: 13; }
+.studio .studio-stagger > :nth-child(15), .studio .studio-stagger-iv > :nth-child(15) { --i: 14; }
+.studio .studio-stagger > :nth-child(16), .studio .studio-stagger-iv > :nth-child(16) { --i: 15; }
+.studio .studio-stagger > :nth-child(17), .studio .studio-stagger-iv > :nth-child(17) { --i: 16; }
+.studio .studio-stagger > :nth-child(18), .studio .studio-stagger-iv > :nth-child(18) { --i: 17; }
+.studio .studio-stagger > :nth-child(19), .studio .studio-stagger-iv > :nth-child(19) { --i: 18; }
+.studio .studio-stagger > :nth-child(n + 20), .studio .studio-stagger-iv > :nth-child(n + 20) { --i: 19; }
+
+/* ------------------------------------------------------------------
+   6 bis. Mouvement signature : titres mot à mot (SplitTitle)
+   ------------------------------------------------------------------
+   Chaque mot monte de sous sa ligne, dans un masque de la hauteur de la ligne (cascade de --word-step).
+   Masque et mot portent les mêmes marges intérieures, annulées par des marges négatives : la mise en page est celle
+   du texte seul (vertical-align: top), jambages et accents restent dans la zone visible, le dégradé du mot les couvre.
+   Sans animation (mouvement réduit) : le titre est là d’emblée. */
+
+.studio .studio-word-mask,
+.studio .studio-word {
+  display: inline-block;
+  padding: 0.08em 0.05em 0.2em;
+  margin: -0.08em -0.05em -0.2em;
+}
+.studio .studio-word-mask {
+  overflow: hidden;
+  vertical-align: top;
+}
+@keyframes studio-word-up {
+  from { transform: translate3d(0, 102%, 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-word {
+    animation: studio-word-up 0.95s var(--s-ease) backwards;
+    animation-delay: calc(var(--word-delay, 0.1s) + var(--w, 0) * var(--word-step, 60ms));
+  }
+}
+
+/* ------------------------------------------------------------------
+   7. Compteur (CountUp) et saisie progressive (TypeText)
+   ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-count[data-inview="pending"] .studio-count-value,
+  .studio .studio-count[data-inview="armed"] .studio-count-value {
+    opacity: 0;
+  }
+  .studio .studio-count[data-inview="pending"] .studio-count-value {
+    animation: studio-unhide 0.01s linear 1.8s forwards;
+  }
+  .studio .studio-type[data-inview="pending"] .studio-type-rest,
+  .studio .studio-type[data-inview="armed"] .studio-type-rest,
+  .studio .studio-type[data-inview="in"]:not([data-done]) .studio-type-rest {
+    opacity: 0;
+  }
+  .studio .studio-type[data-inview="pending"] .studio-type-rest {
+    animation: studio-unhide 0.01s linear 2.2s forwards;
+  }
+}
+
+.studio .studio-type-caret {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: 1em;
+  vertical-align: -0.12em;
+}
+.studio .studio-type-caret::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--caret, #9cc3ff);
+  box-shadow: 0 0 10px var(--caret, #9cc3ff);
+}
+.studio .studio-type[data-done] .studio-type-caret,
+.studio .studio-type[data-inview="pending"] .studio-type-caret,
+.studio .studio-type[data-inview="shown"] .studio-type-caret {
+  display: none;
+}
+@keyframes studio-caret {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-type-caret::after { animation: studio-caret 1.05s steps(1, end) infinite; }
+}
+
+/* ------------------------------------------------------------------
+   8. Point de statut (LiveDot)
+   ------------------------------------------------------------------ */
+
+.studio .studio-dot {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--dot-size, 8px);
+  height: var(--dot-size, 8px);
+  border-radius: 9999px;
+  background: var(--dot, #9cc3ff);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dot, #9cc3ff) 16%, transparent), 0 0 12px color-mix(in srgb, var(--dot, #9cc3ff) 70%, transparent);
+}
+.studio .studio-dot[data-flat] {
+  box-shadow: none;
+}
+.studio .studio-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--dot, #9cc3ff);
+  opacity: 0;
+}
+/* L’onde ne s’active que sur demande (pulse) : un seul point « vivant » par écran (la priorité d’Alma au QG). */
+@keyframes studio-pulse {
+  0% { transform: scale(1); opacity: 0.55; }
+  70%, 100% { transform: scale(3.2); opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-dot[data-pulse]::after { animation: studio-pulse var(--dot-speed, 2.4s) cubic-bezier(0.22, 0.61, 0.36, 1) infinite; }
+}
+
+/* ------------------------------------------------------------------
+   9. Faisceau (Beam)
+   ------------------------------------------------------------------ */
+
+.studio .studio-beam {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  overflow: hidden;
+  pointer-events: none;
+}
+.studio .studio-beam[data-orientation="horizontal"] {
+  height: 14px;
+  min-width: 1.5rem;
+}
+.studio .studio-beam[data-orientation="vertical"] {
+  width: 14px;
+  min-height: var(--beam-len, 2.5rem);
+  align-self: center;
+}
+.studio .studio-beam-track {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.studio .studio-beam-runner {
+  position: absolute;
+  inset: 0;
+  transform: translate3d(-100%, 0, 0);
+  animation: studio-beam-x var(--beam-dur, 3.2s) var(--s-ease-io) var(--beam-delay, 0s) infinite;
+  animation-play-state: paused;
+}
+.studio .studio-beam[data-run] .studio-beam-runner { animation-play-state: running; }
+.studio .studio-beam[data-reverse] .studio-beam-runner { animation-direction: reverse; }
+.studio .studio-beam-comet {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: min(42%, 110px);
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, var(--beam, #4c8dff) 70%, #ffffff);
+  box-shadow: 0 0 10px 1px color-mix(in srgb, var(--beam, #4c8dff) 70%, transparent);
+}
+.studio .studio-beam[data-reverse] .studio-beam-comet {
+  background: linear-gradient(270deg, transparent, var(--beam, #4c8dff) 70%, #ffffff);
+  right: auto;
+  left: 0;
+}
+.studio .studio-beam[data-orientation="vertical"] .studio-beam-runner {
+  transform: translate3d(0, -100%, 0);
+  animation-name: studio-beam-y;
+}
+.studio .studio-beam[data-orientation="vertical"] .studio-beam-comet {
+  right: auto;
+  left: 50%;
+  top: auto;
+  bottom: 0;
+  width: 2px;
+  height: min(42%, 72px);
+  margin: 0 0 0 -1px;
+  background: linear-gradient(180deg, transparent, var(--beam, #4c8dff) 70%, #ffffff);
+}
+.studio .studio-beam[data-orientation="vertical"][data-reverse] .studio-beam-comet {
+  bottom: auto;
+  top: 0;
+  background: linear-gradient(0deg, transparent, var(--beam, #4c8dff) 70%, #ffffff);
+}
+.studio .studio-beam[data-reverse] .studio-beam-runner { transform: translate3d(100%, 0, 0); }
+.studio .studio-beam[data-orientation="vertical"][data-reverse] .studio-beam-runner { transform: translate3d(0, 100%, 0); }
+
+@keyframes studio-beam-x {
+  from { transform: translate3d(-100%, 0, 0); }
+  to { transform: translate3d(100%, 0, 0); }
+}
+@keyframes studio-beam-y {
+  from { transform: translate3d(0, -100%, 0); }
+  to { transform: translate3d(0, 100%, 0); }
+}
+/* Lien inactif (poste pas encore pourvu) ou mouvement réduit : la ligne seule, sans lumière qui circule. */
+.studio .studio-beam[data-idle] .studio-beam-runner { display: none; }
+
+/* ------------------------------------------------------------------
+   9 bis. Rail de flux (FlowStage) : un seul rail continu, une seule comète
+   ------------------------------------------------------------------
+   FlowStage (client) mesure le centre des nœuds [data-flow-node] et pose sur .studio-flow :
+   --flow-x0 / --flow-y0 (départ), --flow-dx / --flow-dy (longueur, l’autre axe vaut 0), data-axis (x | y),
+   --flow-dur (un cycle), et sur chaque nœud --flash-delay (moment où la comète l’atteint).
+   La comète parcourt le rail en entier pendant 70 % du cycle (linéaire), puis s’éteint ;
+   chaque nœud atteint reçoit un bref éclat de son anneau (opacity + scale du halo seulement).
+   Mouvement réduit : le rail reste, sans comète ni éclat. */
+
+.studio .studio-flow {
+  position: relative;
+}
+.studio .studio-flow-track {
+  position: absolute;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s var(--s-ease);
+}
+.studio .studio-flow[data-ready] .studio-flow-track { opacity: 1; }
+.studio .studio-flow[data-axis="x"] .studio-flow-track {
+  left: var(--flow-x0, 0px);
+  top: calc(var(--flow-y0, 0px) - 8px);
+  width: var(--flow-dx, 0px);
+  height: 16px;
+}
+.studio .studio-flow[data-axis="y"] .studio-flow-track {
+  left: calc(var(--flow-x0, 0px) - 8px);
+  top: var(--flow-y0, 0px);
+  width: 16px;
+  height: var(--flow-dy, 0px);
+}
+.studio .studio-flow-line {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--flow, #4c8dff) 55%, transparent),
+      color-mix(in srgb, var(--flow, #4c8dff) 30%, transparent) 50%,
+      color-mix(in srgb, var(--flow, #4c8dff) 55%, transparent)
+    )
+    center / 100% 1px no-repeat;
+}
+.studio .studio-flow[data-axis="y"] .studio-flow-line {
+  background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--flow, #4c8dff) 55%, transparent),
+      color-mix(in srgb, var(--flow, #4c8dff) 30%, transparent) 50%,
+      color-mix(in srgb, var(--flow, #4c8dff) 55%, transparent)
+    )
+    center / 1px 100% no-repeat;
+}
+.studio .studio-flow-comet {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.studio .studio-flow[data-axis="y"] .studio-flow-comet {
+  left: 50%;
+  top: 0;
+}
+/* Traîne (coupée au début du rail par la piste) et tête lumineuse. */
+.studio .studio-flow-comet::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -1px;
+  width: var(--flow-tail, 140px);
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--flow, #4c8dff) 85%, transparent) 70%, #ffffff);
+  box-shadow: 0 0 12px 1px color-mix(in srgb, var(--flow, #4c8dff) 60%, transparent);
+}
+.studio .studio-flow[data-axis="y"] .studio-flow-comet::before {
+  right: auto;
+  top: auto;
+  left: -1px;
+  bottom: 0;
+  width: 2px;
+  height: var(--flow-tail, 110px);
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--flow, #4c8dff) 85%, transparent) 70%, #ffffff);
+}
+.studio .studio-flow-comet::after {
+  content: "";
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 0 10px 3px color-mix(in srgb, var(--flow, #4c8dff) 80%, transparent);
+}
+/* Nœud : posé au-dessus du rail ; son éclat est un halo et un anneau, invisibles au repos. */
+.studio .studio-flow-node {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-shrink: 0;
+  justify-self: start;
+  border-radius: 9999px;
+}
+.studio .studio-flow-flash {
+  position: absolute;
+  inset: -40%;
+  z-index: -1;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--flow, #4c8dff) 50%, transparent), transparent);
+}
+.studio .studio-flow-flash::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: inherit;
+  border: 1.5px solid color-mix(in srgb, var(--flow, #4c8dff) 75%, white);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--flow, #4c8dff) 70%, transparent);
+}
+@keyframes studio-flow-travel {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  5% { opacity: 1; }
+  70% { transform: translate3d(var(--flow-dx, 0px), var(--flow-dy, 0px), 0); opacity: 1; }
+  76%, 100% { transform: translate3d(var(--flow-dx, 0px), var(--flow-dy, 0px), 0); opacity: 0; }
+}
+@keyframes studio-flow-flash {
+  0% { opacity: 0; transform: scale(0.85); }
+  5% { opacity: 1; transform: scale(1); }
+  24%, 100% { opacity: 0; transform: scale(1.22); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-flow[data-run] .studio-flow-comet { animation: studio-flow-travel var(--flow-dur, 4s) linear infinite; }
+  .studio .studio-flow[data-run] .studio-flow-flash { animation: studio-flow-flash var(--flow-dur, 4s) ease-out var(--flash-delay, 0s) infinite; }
+}
+
+/* ------------------------------------------------------------------
+   10. Bordure en dégradé conique (GlowBorder)
+   ------------------------------------------------------------------ */
+
+.studio .studio-glowborder {
+  position: relative;
+  border-radius: var(--gb-radius, 28px);
+}
+.studio .studio-glowborder-body {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  border-radius: inherit;
+}
+.studio .studio-glowborder-ring,
+.studio .studio-glowborder-bloom {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.studio .studio-glowborder-ring {
+  z-index: 2;
+  overflow: hidden;
+  container-type: size;
+  padding: var(--gb-w, 1px);
+  background: rgb(255 255 255 / 0.08);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+/* Halo statique derrière la carte (dessiné une fois, jamais réanimé) : la lumière déborde doucement. */
+.studio .studio-glowborder-bloom {
+  z-index: 0;
+  inset: -2px;
+  overflow: visible;
+  opacity: var(--gb-bloom, 0.55);
+  background:
+    radial-gradient(55% 60% at 12% 0%, color-mix(in srgb, var(--gb-a, #4c8dff) 55%, transparent), transparent 70%),
+    radial-gradient(50% 55% at 92% 100%, color-mix(in srgb, var(--gb-b, #cadfed) 30%, transparent), transparent 70%);
+  filter: blur(26px);
+}
+/* Grand carré en dégradé conique, 1,5 × le plus grand côté de la carte (cqmax) : il couvre la carte en tournant. */
+.studio .studio-glowborder-spin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 300%;
+  width: 150cqmax;
+  height: auto;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%) rotate(var(--gb-start, 0deg));
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 150deg,
+    color-mix(in srgb, var(--gb-a, #4c8dff) 70%, transparent) 230deg,
+    var(--gb-b, #cadfed) 290deg,
+    var(--gb-a, #4c8dff) 320deg,
+    transparent 360deg
+  );
+}
+@keyframes studio-spin {
+  from { transform: translate(-50%, -50%) rotate(var(--gb-start, 0deg)); }
+  to { transform: translate(-50%, -50%) rotate(calc(var(--gb-start, 0deg) + 360deg)); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-glowborder-ring .studio-glowborder-spin { animation: studio-spin var(--gb-dur, 7s) linear infinite; }
+}
+/* Mobile : pas de halo flou, la bordure seule. */
+@media (max-width: 767px) {
+  .studio .studio-glowborder-bloom { display: none; }
+}
+
+/* ------------------------------------------------------------------
+   11. Anneaux d’orbite (OrbitRing)
+   ------------------------------------------------------------------ */
+
+.studio .studio-orbit {
+  position: absolute;
+  inset: var(--orbit-inset, -14%);
+  pointer-events: none;
+}
+.studio .studio-orbit-ring {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--orbit, #9cc3ff) 26%, transparent);
+}
+.studio .studio-orbit-ring:nth-child(1) { inset: 0; }
+.studio .studio-orbit-ring:nth-child(2) {
+  inset: -9%;
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--orbit, #9cc3ff) 18%, transparent);
+}
+.studio .studio-orbit-ring:nth-child(3) {
+  inset: -18%;
+  border-color: color-mix(in srgb, var(--orbit, #9cc3ff) 10%, transparent);
+}
+/* Satellite : petit point lumineux posé sur l’anneau. */
+.studio .studio-orbit-ring > i {
+  position: absolute;
+  left: 50%;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 9999px;
+  background: var(--orbit, #9cc3ff);
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--orbit, #9cc3ff) 65%, transparent);
+}
+/* Second satellite à 9 h, pas à 6 h : immobile (mouvement réduit) ou au départ de la rotation, il ne doit pas
+   se poser sur le texte placé sous le portrait (prénom d’Alma au QG, badges de la fiche sur mobile). */
+.studio .studio-orbit-ring:nth-child(2) > i {
+  top: 50%;
+  left: -2px;
+  width: 4px;
+  height: 4px;
+  margin-top: -2px;
+  margin-left: 0;
+  opacity: 0.8;
+}
+.studio .studio-orbit-ring:nth-child(3) > i { display: none; }
+@keyframes studio-orbit {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-orbit-ring:nth-child(1) { animation: studio-orbit calc(var(--orbit-speed, 1) * 38s) linear infinite; }
+  .studio .studio-orbit-ring:nth-child(2) { animation: studio-orbit calc(var(--orbit-speed, 1) * 64s) linear infinite reverse; }
+  .studio .studio-orbit-ring:nth-child(3) { animation: studio-orbit calc(var(--orbit-speed, 1) * 90s) linear infinite; }
+}
+
+/* ------------------------------------------------------------------
+   12. Personnages (AgentAvatar, PlannedAvatar, CharacterCard)
+   ------------------------------------------------------------------ */
+
+.studio .studio-avatar {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  border-radius: 9999px;
+}
+.studio .studio-avatar-halo {
+  position: absolute;
+  inset: -18%;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--ring, #9cc3ff) 34%, transparent), transparent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+.studio .studio-avatar-disc {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 50% 30%, #1b2c48, #101c2e 70%);
+  /* Anneau fin décollé du portrait (2 px de nuit, puis 1 px de lumière), et halo doux. */
+  box-shadow:
+    0 0 0 2px rgb(6 11 22 / 0.92),
+    0 0 0 3px color-mix(in srgb, var(--ring, #9cc3ff) 70%, transparent),
+    0 0 22px -2px color-mix(in srgb, var(--ring, #9cc3ff) 50%, transparent);
+}
+.studio .studio-avatar-img {
+  object-fit: cover;
+  transform: scale(var(--zoom, 1.35));
+  transform-origin: 50% 30%;
+}
+.studio .studio-avatar-initial {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--s-ink);
+}
+.studio .studio-avatar--planned .studio-avatar-disc {
+  background: rgb(255 255 255 / 0.035);
+  box-shadow: none;
+  border: 1.5px dashed rgb(202 223 237 / 0.32);
+}
+
+@keyframes studio-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, var(--float-y, -4px), 0); }
+}
+@keyframes studio-breathe {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-float { animation: studio-float var(--float-dur, 7s) ease-in-out var(--float-delay, 0s) infinite; }
+  .studio .studio-breathe { animation: studio-breathe var(--breathe-dur, 5.5s) ease-in-out var(--float-delay, 0s) infinite; }
+}
+
+/* Carte « sélection de personnage » */
+.studio .studio-character {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--card-r, var(--s-radius-lg));
+  border: 1px solid var(--s-line);
+  background:
+    linear-gradient(180deg, rgb(202 223 237 / 0.05), rgb(202 223 237 / 0) 30%),
+    radial-gradient(120% 70% at 50% 100%, rgb(156 195 255 / 0.05), rgb(156 195 255 / 0) 70%),
+    rgb(12 20 37 / 0.8);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 30px 70px -40px rgb(0 0 0 / 0.9);
+  transition: border-color 0.35s var(--s-ease), box-shadow 0.5s var(--s-ease);
+}
+.studio .studio-character-stage {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, #000 58%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 58%, transparent 100%);
+}
+/*
+ * Couche du portrait : un peu plus grande que la scène, pour que la parallaxe du survol (décalage de 6 px
+ * à l’opposé de l’inclinaison, zoom 1,06, ressorts motion dans SpotlightLayer) ne découvre jamais un bord.
+ * Pas de flottement ici : il est réservé aux grands portraits (fiche agent, carte d’Alma).
+ */
+.studio .studio-character-zoom {
+  position: absolute;
+  inset: -10px;
+}
+.studio .studio-character-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(70% 55% at 50% 22%, color-mix(in srgb, var(--accent, #4c8dff) 30%, transparent), transparent 70%),
+    linear-gradient(180deg, transparent 50%, color-mix(in srgb, var(--accent, #4c8dff) 14%, transparent));
+  opacity: 0.85;
+  transition: opacity 0.5s var(--s-ease);
+}
+.studio .studio-character-glow {
+  position: absolute;
+  left: 50%;
+  top: -30%;
+  width: 120%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent, #4c8dff) 30%, transparent), transparent);
+  opacity: 0.6;
+  transition: opacity 0.5s var(--s-ease);
+}
+.studio .studio-character-edge {
+  position: absolute;
+  inset-inline: 18%;
+  top: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent, #4c8dff) 90%, white), transparent);
+  opacity: 0.55;
+  transition: opacity 0.4s var(--s-ease), inset 0.5s var(--s-ease), box-shadow 0.4s var(--s-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .studio .studio-character:hover {
+    border-color: color-mix(in srgb, var(--accent, #4c8dff) 38%, rgb(255 255 255 / 0.1));
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.06) inset,
+      0 40px 90px -40px color-mix(in srgb, var(--accent, #4c8dff) 55%, transparent);
+  }
+  .studio .studio-character:hover .studio-character-glow { opacity: 1; }
+  .studio .studio-character:hover .studio-character-tint { opacity: 1; }
+  /* Liseré du haut : plus vif et plus large au survol. */
+  .studio .studio-character:hover .studio-character-edge {
+    opacity: 1;
+    inset-inline: 8%;
+    box-shadow: 0 0 14px 1px color-mix(in srgb, var(--accent, #4c8dff) 80%, transparent);
+  }
+}
+/* Lien qui couvre toute la carte (au-dessus du contenu, sous les liens de « extra »). */
+.studio .studio-character-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+}
+
+/* ------------------------------------------------------------------
+   12 bis. Portraits découpés (fiche agent, carte d’Alma) et bustes (en-têtes)
+   ------------------------------------------------------------------
+   Les portraits 3D sont carrés, sur fond bleu nuit #101C2E opaque : un halo posé derrière ne se verrait pas.
+   La lumière du département est donc posée par-dessus en mode « screen », en anneau autour de la tête
+   (le visage reste net), et l’image se fond dans la carte par un masque dégradé. */
+
+.studio .studio-cut {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+/* Couche de l’image : déborde un peu en bas pour que le flottement ne découvre jamais le bord. */
+.studio .studio-cut-layer {
+  position: absolute;
+  inset: 0 0 -12px;
+}
+.studio .studio-cut-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 48% 38% at var(--head-x, 50%) var(--head-y, 30%), transparent 44%, color-mix(in srgb, var(--accent, #9cc3ff) 34%, transparent) 70%, transparent 100%),
+    radial-gradient(90% 55% at var(--head-x, 50%) 0%, color-mix(in srgb, var(--accent, #9cc3ff) 20%, transparent), transparent 70%),
+    linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--accent, #9cc3ff) 12%, transparent));
+}
+/* Fondu vers le bas seulement. */
+.studio .studio-cut--b {
+  -webkit-mask-image: linear-gradient(180deg, #000 52%, transparent 98%);
+  mask-image: linear-gradient(180deg, #000 52%, transparent 98%);
+}
+/* Fiche agent : vers le bas sur mobile (portrait en haut de la carte), vers la droite et le bas dès 768 px. */
+.studio .studio-cut--hero {
+  -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 97%);
+  mask-image: linear-gradient(180deg, #000 50%, transparent 97%);
+}
+/* Carte d’Alma : bandeau sur mobile (fondu à gauche, côté texte, et en bas), colonne verticale dès 1024 px. */
+.studio .studio-cut--alma {
+  -webkit-mask-image: linear-gradient(270deg, #000 52%, transparent 100%), linear-gradient(180deg, #000 52%, transparent 98%);
+  mask-image: linear-gradient(270deg, #000 52%, transparent 100%), linear-gradient(180deg, #000 52%, transparent 98%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+@media (min-width: 768px) {
+  .studio .studio-cut--hero {
+    -webkit-mask-image: linear-gradient(90deg, #000 56%, transparent 99%), linear-gradient(180deg, #000 64%, transparent 99%);
+    mask-image: linear-gradient(90deg, #000 56%, transparent 99%), linear-gradient(180deg, #000 64%, transparent 99%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+}
+@media (min-width: 1024px) {
+  .studio .studio-cut--alma {
+    -webkit-mask-image: linear-gradient(90deg, #000 58%, transparent 100%), linear-gradient(180deg, #000 58%, transparent 99%);
+    mask-image: linear-gradient(90deg, #000 58%, transparent 100%), linear-gradient(180deg, #000 58%, transparent 99%);
+  }
+}
+/* Liseré lumineux vertical, au bord gauche d’une scène. */
+.studio .studio-edge-v {
+  position: absolute;
+  left: 0;
+  top: 8%;
+  bottom: 8%;
+  width: 1px;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent, #9cc3ff) 90%, white) 45%, transparent);
+  box-shadow: 0 0 14px 1px color-mix(in srgb, var(--accent, #9cc3ff) 55%, transparent);
+}
+
+/* Bustes : découpes verticales arrondies en haut, qui se chevauchent avec des décalages en hauteur. */
+.studio .studio-busts {
+  --bust-h: 150px;
+  --bust-drop: 14px;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding-bottom: var(--bust-drop);
+}
+.studio .studio-busts--sm { --bust-h: 104px; --bust-drop: 10px; }
+@media (min-width: 640px) {
+  .studio .studio-busts--sm { --bust-h: 118px; }
+}
+@media (min-width: 1024px) {
+  .studio .studio-busts--lg { --bust-h: 220px; --bust-drop: 22px; }
+  .studio .studio-busts--sm { --bust-h: 136px; --bust-drop: 12px; }
+}
+.studio .studio-bust-slot {
+  position: relative;
+  flex: none;
+  z-index: 2;
+}
+.studio .studio-bust-slot + .studio-bust-slot { margin-left: calc(var(--bust-h) * -0.2); }
+/* Un buste sur deux, un peu plus bas et derrière ses voisins. */
+.studio .studio-bust-slot:nth-child(even) {
+  z-index: 1;
+  top: var(--bust-drop);
+}
+.studio .studio-bust {
+  position: relative;
+  display: block;
+  width: calc(var(--bust-h) * 0.7);
+  height: var(--bust-h);
+  border-radius: 9999px 9999px 0 0;
+  transition: transform 0.45s var(--s-ease);
+}
+.studio .studio-bust-frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #101c2e;
+  border: 1px solid color-mix(in srgb, var(--accent, #9cc3ff) 42%, transparent);
+  border-bottom: 0;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14);
+  -webkit-mask-image: linear-gradient(180deg, #000 58%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 58%, transparent 100%);
+  transition: border-color 0.35s var(--s-ease);
+}
+.studio .studio-bust-name {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 9%;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #ffffff;
+  text-shadow: 0 1px 12px rgb(6 11 22 / 0.95), 0 0 2px rgb(6 11 22 / 0.8);
+}
+/* Poste prévu : capsule en pointillés et silhouette, sans visage. */
+.studio .studio-bust--planned .studio-bust-frame {
+  background: rgb(202 223 237 / 0.035);
+  border: 1.5px dashed rgb(202 223 237 / 0.3);
+  border-bottom: 0;
+  box-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .studio a.studio-bust:hover .studio-bust-frame { border-color: color-mix(in srgb, var(--accent, #9cc3ff) 80%, white); }
+  .studio .studio-bust-slot:has(a.studio-bust:hover) { z-index: 3; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .studio a.studio-bust:hover { transform: translate3d(0, -4px, 0); }
+}
+.studio a.studio-bust:focus-visible { outline-offset: 4px; }
+
+/* Entrée des bustes : chacun monte de 30 % depuis sous sa ligne (le pied du buste, découpé par clip-path), en cascade.
+   La découpe ne retient que le bas : le survol (montée de 4 px) et le halo restent libres au-dessus. */
+.studio .studio-bust-slot { clip-path: inset(-60px -60px 0 -60px); }
+.studio .studio-bust-slot:nth-child(2) { --bi: 1; }
+.studio .studio-bust-slot:nth-child(3) { --bi: 2; }
+.studio .studio-bust-slot:nth-child(4) { --bi: 3; }
+.studio .studio-bust-slot:nth-child(5) { --bi: 4; }
+.studio .studio-bust-slot:nth-child(n + 6) { --bi: 5; }
+@keyframes studio-bust-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 30%, 0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-bust {
+    animation: studio-bust-up 0.9s var(--s-ease) backwards;
+    animation-delay: calc(var(--bust-delay, 0.2s) + var(--bi, 0) * 80ms);
+  }
+}
+
+/* ------------------------------------------------------------------
+   12 ter. Mouvement signature : entrée des cartes personnages
+   ------------------------------------------------------------------
+   À l’arrivée dans l’écran (data-inview posé par SpotlightCard reveal) : la carte apparaît (opacité seule, sans montée),
+   le portrait se pose dans sa scène (scale 1,08 et 16 px plus bas → 1 et 0), puis un seul balayage de lumière
+   (studio-shimmer--once, section 14 bis). Cascade : --ci, le rang de la carte dans sa rangée.
+   Même cycle que FadeIn (pending → armed → in | shown) et même filet : sans JavaScript, tout apparaît au bout de 1,8 s. */
+
+.studio .studio-character-portrait {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+@keyframes studio-portrait-in {
+  from { transform: scale(1.08) translate3d(0, 16px, 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-character[data-inview="pending"],
+  .studio .studio-character[data-inview="armed"] {
+    opacity: 0;
+  }
+  .studio .studio-character[data-inview="pending"] .studio-character-portrait,
+  .studio .studio-character[data-inview="armed"] .studio-character-portrait {
+    transform: scale(1.08) translate3d(0, 16px, 0);
+  }
+  .studio .studio-character[data-inview="pending"],
+  .studio .studio-character[data-inview="pending"] .studio-character-portrait {
+    animation: studio-unhide 0.01s linear 1.8s forwards;
+  }
+  .studio .studio-character[data-inview="in"] {
+    animation: studio-fade 0.6s var(--s-ease) backwards;
+    animation-delay: calc(var(--ci, 0) * 90ms);
+  }
+  .studio .studio-character[data-inview="in"] .studio-character-portrait {
+    animation: studio-portrait-in 1.3s var(--s-ease) backwards;
+    animation-delay: calc(var(--ci, 0) * 90ms);
+  }
+}
+
+/* ------------------------------------------------------------------
+   13. Lumière qui suit le curseur (SpotlightCard)
+   ------------------------------------------------------------------ */
+
+.studio .studio-spot {
+  position: relative;
+}
+.studio .studio-spot-light,
+.studio .studio-spot-rim {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s var(--s-ease);
+}
+.studio .studio-spot-rim {
+  padding: 1px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.studio .studio-spot-blob {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--spot-size, 420px);
+  height: var(--spot-size, 420px);
+  margin: calc(var(--spot-size, 420px) / -2) 0 0 calc(var(--spot-size, 420px) / -2);
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, var(--spot, rgb(202 223 237 / 0.13)), transparent);
+}
+.studio .studio-spot-rim .studio-spot-blob {
+  background: radial-gradient(closest-side, var(--spot-rim, rgb(202 223 237 / 0.7)), transparent);
+}
+.studio .studio-spot[data-spot]:hover > .studio-spot-light,
+.studio .studio-spot[data-spot]:hover > .studio-spot-rim {
+  opacity: 1;
+}
+
+/* Écrans tactiles : aucun reflet (l’inclinaison est déjà coupée côté JavaScript). */
+@media (hover: none), (pointer: coarse) {
+  .studio .studio-spot-light,
+  .studio .studio-spot-rim { display: none; }
+}
+
+/* ------------------------------------------------------------------
+   14. Miroitement (un reflet qui balaie un élément, de temps en temps)
+   ------------------------------------------------------------------ */
+
+.studio .studio-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.studio .studio-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 30%, rgb(255 255 255 / 0.16) 50%, transparent 70%);
+  transform: translate3d(-110%, 0, 0);
+}
+@keyframes studio-shimmer {
+  0% { transform: translate3d(-110%, 0, 0); }
+  55%, 100% { transform: translate3d(110%, 0, 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-shimmer::after { animation: studio-shimmer var(--shimmer-dur, 5s) var(--s-ease-io) var(--shimmer-delay, 1.2s) infinite; }
+}
+
+/* 14 bis. Balayage unique (cartes personnages) : pas de boucle ; il ne passe qu’une fois, après la pose du portrait. */
+@media (prefers-reduced-motion: no-preference) {
+  .studio .studio-shimmer--once::after { animation: none; }
+  .studio .studio-character[data-inview="in"] .studio-shimmer--once::after {
+    animation: studio-shimmer 1.9s var(--s-ease-io) calc(0.45s + var(--ci, 0) * 90ms) 1 both;
+  }
+}
+
+/* ------------------------------------------------------------------
+   15. Préférences d’accessibilité
+   ------------------------------------------------------------------ */
+
+/* Transparence réduite : surfaces pleines, sans flou. */
+@media (prefers-reduced-transparency: reduce) {
+  .studio .studio-glass,
+  .studio .studio-glass--raised { background: #0f1a2c; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .studio .studio-character { background: #0f1829; }
+}
+
+/* Contraste renforcé : filets plus visibles. */
+@media (prefers-contrast: more) {
+  .studio { --s-line: rgb(255 255 255 / 0.28); --s-text: rgb(240 244 250 / 0.9); --s-muted: rgb(240 244 250 / 0.8); }
+}
+
+} /* fin @layer components */
+
+/* Mouvement réduit : tout s’arrête, l’état final est affiché immédiatement. */
+@media (prefers-reduced-motion: reduce) {
+  .studio,
+  .studio *,
+  .studio *::before,
+  .studio *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+  .studio .studio-beam-runner,
+  .studio .studio-flow-comet { display: none; }
+}

@@ -9,7 +9,10 @@ import { AgentTraining } from "@/components/studio/agent/AgentTraining";
 import { agents, departmentOf } from "@/lib/studio/agents";
 import { getStudioStats } from "@/lib/studio/data";
 
-/** Fiche personnage d’un agent : présentation, fiche de poste, entraînement, discussion (verrouillée), équipe. */
+/**
+ * Fiche personnage d’un agent, comme un écran de profil : scène avec portrait géant, fiche de poste en panneaux de verre,
+ * entraînement, discussion (verrouillée jusqu’à l’étape 2), collègues et navigation vers l’agent précédent ou suivant.
+ */
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +44,7 @@ export default async function AgentPage({ params }: { params: Promise<Params> })
       <AgentFacts agent={agent} department={department} stats={stats} />
       <AgentTraining agent={agent} department={department} />
 
-      <div className="mt-8 grid grid-cols-1 gap-8 *:min-w-0 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
+      <div className="mt-16 grid grid-cols-1 gap-12 *:min-w-0 sm:mt-24 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-stretch lg:gap-8">
         <AgentChat agent={agent} />
         <AgentColleagues agent={agent} />
       </div>

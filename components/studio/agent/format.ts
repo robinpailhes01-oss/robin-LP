@@ -14,12 +14,22 @@ export function typo(text: string) {
     .replace(/ ([:;?!%»])/g, `${NB}$1`)
     .replace(/« /g, `«${NB}`)
     .replace(/(\d) h\b/g, `$1${NB}h`)
-    .replace(/(\d h) (\d{2})\b/g, `$1${NB}$2`);
+    .replace(/(\d h) (\d{2})\b/g, `$1${NB}$2`);
 }
 
-/** Teinte très claire dérivée de l’accent d’un département (pourcentage d’accent mélangé au blanc). */
+/** Teinte très claire dérivée d’un accent (mélange avec du blanc). Gardé pour compatibilité. */
 export function tint(accent: string, percent: number) {
   return `color-mix(in srgb, ${accent} ${percent}%, white)`;
+}
+
+/** Lueur sur fond nuit : la couleur mélangée à du transparent (pourcentage de couleur). */
+export function glow(color: string, percent: number) {
+  return `color-mix(in srgb, ${color} ${percent}%, transparent)`;
+}
+
+/** « Chaque matin à 7 h 30. » → « Chaque matin à 7 h 30 » (pour une pastille ou un sous-titre). */
+export function noDot(text: string) {
+  return text.replace(/\.$/, "");
 }
 
 /**
@@ -48,10 +58,10 @@ export type KpiView = { label: string; value: number | null; hint: string };
  */
 export function agentKpi(agent: Pick<Agent, "name" | "kpi">, stats: StudioStats | null): KpiView {
   const { label, source } = agent.kpi;
-  if (!source) return { label, value: null, hint: `Branché quand ${agent.name} aura fini son entraînement.` };
-  if (!stats || !stats.connected) return { label, value: null, hint: "Supabase pas encore connecté." };
-  if (stats.error) return { label, value: null, hint: "Lecture Supabase impossible pour l’instant." };
+  if (!source) return { label, value: null, hint: `Compteur branché quand ${agent.name} aura fini son entraînement.` };
+  if (!stats || !stats.connected) return { label, value: null, hint: "Compteur branché dès que Supabase sera connecté." };
+  if (stats.error) return { label, value: null, hint: `Compteur indisponible${NB}: lecture Supabase impossible pour l’instant.` };
   const value = source === "leads-week" ? stats.leadsWeek : source === "audits-week" ? stats.auditsWeek : stats.rappelsWeek;
-  if (value === null) return { label, value: null, hint: "Supabase pas encore connecté." };
+  if (value === null) return { label, value: null, hint: "Compteur branché dès que Supabase sera connecté." };
   return { label, value, hint: "Lu en direct dans Supabase, sur les 7 derniers jours." };
 }

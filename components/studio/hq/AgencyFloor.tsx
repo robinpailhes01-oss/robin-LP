@@ -1,190 +1,70 @@
-import Link from "next/link";
-import { agentsOf, departments, type Department, type DepartmentId } from "@/lib/studio/agents";
-import { PlannedAvatar } from "@/components/studio/AgentAvatar";
-import { Workstation } from "./Workstation";
-import { ArrowDownIcon, ArrowRightIcon, DoorIcon, LockIcon } from "./icons";
-import { count, typo } from "./format";
+import { FadeIn } from "@/components/studio/fx/FadeIn";
+import { FlowNode, FlowStage } from "@/components/studio/fx/FlowStage";
+import { DEPT_GLOW } from "@/components/studio/fx/tokens";
+import { ClosedRoom, ClosedRoomsCompact, OpenRoom, floorDepartments } from "./rooms";
+import { ArrowDownIcon, DoorIcon } from "./icons";
 
 /**
- * Plan d’étage de l’agence, vu de dessus. Le sol est une trame de points, chaque pièce est un département.
- * Desktop (xl et plus, trois colonnes égales) : les pièces ouvertes en haut (Direction, puis Prospection
- * sur deux colonnes), les pièces à ouvrir alignées en bas.
- * Tablette et petit portable (md à xl) : deux colonnes, Prospection sur toute la largeur. Mobile : les pièces s’empilent.
+ * « L’agence » : le plan d’étage, cœur visuel du QG. Un bento de pièces en verre posé sur un sol tramé.
+ * Le sol n’a ni cadre ni fond (une seule épaisseur de verre en moins) : seulement une trame de points qui s’efface vers les bords.
+ * Pièces ouvertes : verre clair, liseré lumineux du département, cartes personnages (prospection) ou bureau compact (direction).
+ * Pièces à ouvrir : verre très dépoli et assombri, cadenas, postes prévus ; sur mobile, en lignes compactes dans un seul bloc.
+ *
+ * Grille : 1 colonne (mobile), 3 colonnes (md), 4 colonnes égales en xl (voir PLACEMENT dans rooms.tsx).
+ * Sous le plan, l’entrée de l’agence : un rail vertical (FlowStage, axe y) descend jusqu’au titre « Activité » juste dessous,
+ * avec la pastille « Entrée des demandes du site » posée dessus ; une comète le parcourt quand il est à l’écran
+ * (le parcours porte → demandes). Mouvement réduit : le rail seul, immobile.
  */
-const placement: Record<DepartmentId, string> = {
-  direction: "md:[grid-area:1/1]",
-  contenu: "md:[grid-area:1/2] xl:[grid-area:2/1]",
-  prospection: "md:[grid-area:2/1/3/-1] xl:[grid-area:1/2/2/4]",
-  clients: "md:[grid-area:3/1] xl:[grid-area:2/2]",
-  production: "md:[grid-area:3/2] xl:[grid-area:2/3]",
-};
-
-function roomNumber(d: Department) {
-  return `Pièce ${String(departments.indexOf(d) + 1).padStart(2, "0")}`;
-}
-
-function OpenRoom({ department, delay }: { department: Department; delay: number }) {
-  const team = agentsOf(department.id);
-  const solo = team.length === 1 ? team[0] : null;
-  const titleId = `piece-${department.id}`;
-
-  return (
-    <li
-      className={`hero-in group/room relative flex flex-col rounded-[26px] border border-line bg-white p-4 shadow-[0_1px_2px_rgba(23,38,61,0.04)] transition-[box-shadow,border-color] duration-200 ease-luma has-[[data-room-link]:hover]:border-powder has-[[data-room-link]:hover]:shadow-[0_20px_44px_-26px_rgba(23,38,61,0.38)] motion-reduce:transition-none sm:p-5 ${placement[department.id]}`}
-      style={{ animationDelay: `${delay}ms` }}
-    >
-      {/* Liseré d’accent du département, en haut de la pièce */}
-      <span aria-hidden className="absolute inset-x-6 top-0 h-[3px] rounded-b-full" style={{ background: department.accent }} />
-
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">{roomNumber(department)}</p>
-          <h3 id={titleId} className="mt-1 font-display text-[18px] font-bold leading-tight tracking-[-0.015em] text-night">
-            {/* Lien étiré : toute la pièce mène au département ; les postes, au-dessus, mènent aux fiches. */}
-            <Link
-              href={`/studio/departements/${department.id}`}
-              data-room-link
-              className="after:absolute after:inset-0 after:rounded-[25px] focus-visible:outline-none! focus-visible:after:[outline:2px_solid_var(--color-night)] focus-visible:after:[outline-offset:3px]"
-            >
-              {department.name}
-            </Link>
-          </h3>
-          <p className="mt-1 text-[13px] text-muted">{count(team.length, "agent")}</p>
-        </div>
-        <span
-          aria-hidden
-          className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-line text-night transition-colors duration-200 group-has-[[data-room-link]:hover]/room:border-night group-has-[[data-room-link]:hover]/room:bg-night group-has-[[data-room-link]:hover]/room:text-white motion-reduce:transition-none"
-        >
-          <ArrowRightIcon />
-        </span>
-      </div>
-
-      {/* Seul dans son bureau : sa présentation en une phrase. Une équipe : la mission de la pièce. */}
-      {solo ? (
-        <p className="mt-3 text-[14px] leading-[1.5] text-ink text-pretty">«&nbsp;{typo(solo.tagline)}&nbsp;»</p>
-      ) : (
-        <p className="mt-3 text-[13px] leading-[1.5] text-muted text-pretty">{typo(department.description)}</p>
-      )}
-
-      {team.length > 0 ? (
-        <ul className={`mt-5 grid gap-3 ${solo ? "grid-cols-1" : "grid-cols-2 md:grid-cols-4"}`}>
-          {team.map((a) => (
-            <li key={a.id}>
-              <Workstation agent={{ id: a.id, name: a.name, role: a.role, status: a.status, avatar: a.avatar }} accent={department.accent} />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="mt-5 rounded-[18px] border border-dashed border-line p-4 text-[13px] text-muted">Aucun poste pourvu pour l’instant.</p>
-      )}
-    </li>
-  );
-}
-
-function ClosedRoom({ department, delay }: { department: Department; delay: number }) {
-  const titleId = `piece-${department.id}`;
-  return (
-    <li
-      className={`hero-in relative flex flex-col rounded-[26px] border-2 border-dashed border-powder bg-white/45 p-4 transition-colors duration-200 ease-luma has-[[data-room-link]:hover]:border-slate has-[[data-room-link]:hover]:bg-white/70 motion-reduce:transition-none sm:p-5 ${placement[department.id]}`}
-      style={{ animationDelay: `${delay}ms` }}
-    >
-      <div className="flex items-start gap-3">
-        <span aria-hidden className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-mist text-slate">
-          <LockIcon />
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2">
-            <p className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">{roomNumber(department)}</p>
-            <span className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-0.5 text-[12px] font-semibold text-muted">À ouvrir</span>
-          </div>
-          <h3 id={titleId} className="mt-1 font-display text-[17px] font-bold leading-tight tracking-[-0.015em] text-ink text-balance">
-            {/* Lien étiré, discret : la page du département existe et présente les postes prévus. */}
-            <Link
-              href={`/studio/departements/${department.id}`}
-              data-room-link
-              className="after:absolute after:inset-0 after:rounded-[25px] focus-visible:outline-none! focus-visible:after:[outline:2px_solid_var(--color-night)] focus-visible:after:[outline-offset:3px]"
-            >
-              {department.name}
-              <span className="sr-only"> (pas encore ouvert)</span>
-            </Link>
-          </h3>
-        </div>
-      </div>
-
-      <p className="mt-3 text-[13px] leading-[1.5] text-muted text-pretty">{typo(department.description)}</p>
-
-      {department.plannedRoles && department.plannedRoles.length > 0 && (
-        <div className="mt-4">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">Postes prévus</p>
-          <ul className="mt-2.5 space-y-2.5">
-            {department.plannedRoles.map((role) => (
-              <li key={role} className="flex items-center gap-3">
-                <PlannedAvatar size={36} />
-                <span className="text-[13px] font-medium leading-[1.35] text-ink">{role}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </li>
-  );
-}
-
-function Legend() {
-  return (
-    <ul className="flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-muted" aria-label="Légende du plan">
-      <li className="flex items-center gap-2">
-        <span aria-hidden className="size-3.5 rounded-[5px] border border-line bg-white shadow-[0_1px_2px_rgba(23,38,61,0.08)]" />
-        Pièce ouverte
-      </li>
-      <li className="flex items-center gap-2">
-        <span aria-hidden className="size-3.5 rounded-[5px] border-[1.5px] border-dashed border-powder" />
-        À ouvrir
-      </li>
-    </ul>
-  );
-}
-
-/** « L’agence » : le cœur visuel du QG. */
 export function AgencyFloor() {
+  const floor = floorDepartments();
+  const closed = floor.filter((d) => !d.open);
+
   return (
     <section aria-labelledby="agence-titre">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="min-w-0">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted">Plan de l’agence</p>
-          <h2 id="agence-titre" className="mt-1 font-display text-[28px] font-extrabold leading-[1.05] tracking-[-0.03em] text-night sm:text-[34px]">
-            L’agence
-          </h2>
-          <p className="mt-2 max-w-[56ch] text-[15px] leading-[1.55] text-ink text-pretty">
-            Ouvre une pièce pour voir un département, ou un poste pour la fiche d’un agent.
-          </p>
-        </div>
-        <Legend />
-      </div>
+      <FadeIn trigger="inView" y={18} className="min-w-0">
+        <p className="studio-kicker flex items-center gap-3">
+          <span aria-hidden className="h-px w-8 bg-linear-to-r from-transparent to-[#4C8DFF]" />
+          Plan de l’agence
+        </p>
+        <h2 id="agence-titre" className="studio-h2 mt-4">
+          L’agence
+        </h2>
+        <p className="studio-body mt-3 max-w-[60ch]">Ouvre une pièce pour voir un département, ou un poste pour la fiche d’un agent. Les pièces verrouillées ouvriront plus tard.</p>
+      </FadeIn>
 
-      {/* Le sol : bleu très clair et fine trame de points */}
-      <div
-        className="mt-5 rounded-[30px] border border-line bg-mist/50 p-3 sm:p-4 lg:p-5"
-        style={{ backgroundImage: "radial-gradient(rgb(113 135 154 / 0.24) 1px, transparent 1.3px)", backgroundSize: "16px 16px" }}
-      >
-        <ul className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {departments.map((d, i) =>
-            d.open ? <OpenRoom key={d.id} department={d} delay={180 + i * 60} /> : <ClosedRoom key={d.id} department={d} delay={180 + i * 60} />,
+      {/* Le sol : trame de points seule, qui déborde un peu dans la gouttière (les pièces restent alignées sur le titre). */}
+      <div className="relative mt-7 rounded-[32px] sm:-mx-4 sm:mt-8 sm:p-4 lg:-mx-5 lg:p-5">
+        <span
+          aria-hidden
+          className="studio-dots pointer-events-none absolute inset-0 rounded-[inherit] [mask-image:radial-gradient(ellipse_at_50%_30%,#000_20%,transparent_80%)]"
+        />
+        <ul className="relative grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4">
+          {floor.map((d, idx) =>
+            d.open ? <OpenRoom key={d.id} department={d} delay={idx * 0.06} /> : <ClosedRoom key={d.id} department={d} delay={(idx - 1) * 0.06} />,
           )}
+          <ClosedRoomsCompact rooms={closed} />
         </ul>
-
-        {/* L’entrée de l’agence : c’est par là qu’arrivent les demandes du site. */}
-        <div className="mt-3 flex justify-center sm:mt-4">
-          <a
-            href="#demandes"
-            className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-line bg-white px-4 text-[13px] font-medium text-ink transition-colors duration-200 hover:border-powder hover:text-night focus-visible:rounded-full! motion-reduce:transition-none"
-          >
-            <DoorIcon className="size-4 text-slate" />
-            <span>Entrée des demandes du site</span>
-            <ArrowDownIcon className="size-4 text-slate" />
-          </a>
-        </div>
       </div>
+
+      {/* L’entrée de l’agence : c’est par là qu’arrivent les demandes du site. Le rail descend jusqu’au titre « Activité ». */}
+      <FlowStage color={DEPT_GLOW.prospection} segment={1.6} tail={64} className="mx-auto mt-3 flex w-fit flex-col items-center sm:-mt-1 lg:-mt-2">
+        <FlowNode>
+          <span aria-hidden className="block size-2 rounded-full bg-[#4C8DFF] shadow-[0_0_10px_#4C8DFF]" />
+        </FlowNode>
+        <span aria-hidden className="block h-5 sm:h-6" />
+        <a
+          href="#demandes"
+          className="group/door relative z-[1] inline-flex min-h-11 items-center gap-2.5 rounded-full border border-white/12 bg-[#08101F] px-4 text-[13px] font-medium text-white/80 shadow-[0_0_0_6px_rgb(6_11_22/0.9),0_10px_30px_-12px_rgb(76_141_255/0.5)] transition-colors duration-300 hover:border-white/25 hover:text-white motion-reduce:transition-none"
+        >
+          <DoorIcon className="size-4 text-[#CADFED]" />
+          <span>Entrée des demandes du site</span>
+          <ArrowDownIcon className="size-4 text-[#CADFED] transition-transform duration-300 motion-safe:group-hover/door:translate-y-0.5 motion-reduce:transition-none" />
+        </a>
+        <span aria-hidden className="block h-10 sm:h-12 lg:h-14" />
+        <FlowNode>
+          <span aria-hidden className="block size-2 rounded-full bg-[#CADFED] shadow-[0_0_10px_#9CC3FF]" />
+        </FlowNode>
+      </FlowStage>
     </section>
   );
 }
