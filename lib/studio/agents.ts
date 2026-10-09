@@ -7,13 +7,15 @@
 export type DepartmentId = "direction" | "prospection" | "contenu" | "clients" | "production";
 export type AgentStatus = "a-entrainer" | "pret" | "actif";
 
-/** Personnage dessiné en code (components/studio/AgentAvatar.tsx). */
+/** Personnage : portrait 3D (portrait) et repères de couleur, utilisés par components/studio/AgentAvatar.tsx. */
 export type AvatarSpec = {
   skin: string;
   hair: "court" | "boucles" | "chignon" | "long" | "rase" | "meche";
   hairColor: string;
   accessory?: "lunettes" | "casque" | "stylo" | "carnet" | "badge";
   outfit: string;
+  /** Portrait 3D du personnage (public/images/agents). */
+  portrait: string;
 };
 
 /** Source réelle d’un indicateur ; null = pas encore branché, l’interface affiche « — ». */
@@ -122,7 +124,7 @@ export const agents: Agent[] = [
     },
     status: "a-entrainer",
     kpi: { label: "Demandes sur 7 jours", source: "leads-week" },
-    avatar: { skin: "#E8BFA0", hair: "chignon", hairColor: "#2B2118", accessory: "carnet", outfit: "#17263D" },
+    avatar: { skin: "#E8BFA0", hair: "chignon", hairColor: "#2B2118", accessory: "carnet", outfit: "#17263D", portrait: "/images/agents/alma.webp" },
   },
   {
     id: "leo",
@@ -145,7 +147,7 @@ export const agents: Agent[] = [
     },
     status: "a-entrainer",
     kpi: { label: "Leads trouvés sur 7 jours", source: null },
-    avatar: { skin: "#F3D9C6", hair: "meche", hairColor: "#6B4A2E", accessory: "lunettes", outfit: "#3B6E9E" },
+    avatar: { skin: "#F3D9C6", hair: "meche", hairColor: "#6B4A2E", accessory: "lunettes", outfit: "#3B6E9E", portrait: "/images/agents/leo.webp" },
   },
   {
     id: "ines",
@@ -168,7 +170,7 @@ export const agents: Agent[] = [
     },
     status: "a-entrainer",
     kpi: { label: "Brouillons préparés sur 7 jours", source: null },
-    avatar: { skin: "#C98E6B", hair: "long", hairColor: "#1F1A17", accessory: "stylo", outfit: "#3B6E9E" },
+    avatar: { skin: "#C98E6B", hair: "long", hairColor: "#1F1A17", accessory: "stylo", outfit: "#3B6E9E", portrait: "/images/agents/ines.webp" },
   },
   {
     id: "hugo",
@@ -191,7 +193,7 @@ export const agents: Agent[] = [
     },
     status: "a-entrainer",
     kpi: { label: "Relances sur 7 jours", source: null },
-    avatar: { skin: "#8D5A3E", hair: "rase", hairColor: "#141210", accessory: "casque", outfit: "#3B6E9E" },
+    avatar: { skin: "#8D5A3E", hair: "rase", hairColor: "#141210", accessory: "casque", outfit: "#3B6E9E", portrait: "/images/agents/hugo.webp" },
   },
   {
     id: "nina",
@@ -214,7 +216,7 @@ export const agents: Agent[] = [
     },
     status: "a-entrainer",
     kpi: { label: "Audits reçus sur 7 jours", source: "audits-week" },
-    avatar: { skin: "#F6E1D3", hair: "boucles", hairColor: "#9C5B2E", accessory: "badge", outfit: "#3B6E9E" },
+    avatar: { skin: "#F6E1D3", hair: "boucles", hairColor: "#9C5B2E", accessory: "badge", outfit: "#3B6E9E", portrait: "/images/agents/nina.webp" },
   },
 ];
 
